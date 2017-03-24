@@ -11,12 +11,6 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        WebView webview = new WebView(this);
-        WebSettings webSettings = webview.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webview.setWebViewClient(new WebViewClient());
-        webview.loadUrl("https://dev.coach.plus/app/register");
-        setContentView(webview);
+        setContentView(R.layout.activity_register);
     }
 }
