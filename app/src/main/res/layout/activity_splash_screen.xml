@@ -9,38 +9,40 @@
     tools:context="com.mathandoro.coachplus.SplashScreen">
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/loginButton"
         android:layout_width="310dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="23dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:text="Sign In"
-        android:textSize="19dp"
-        android:textColor="#ffffff"
-        android:textAllCaps="false"
         android:background="@drawable/round_button"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:onClick="login"
+        android:text="Sign In"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="19dp"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintHorizontal_bias="0.494"
-        android:layout_marginBottom="23dp"
-        app:layout_constraintBottom_toTopOf="@+id/button" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/registerButton"
         android:layout_width="311dp"
         android:layout_height="50dp"
         android:layout_marginBottom="45dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/round_button"
-        android:textAllCaps="false"
+        android:onClick="register"
         android:text="Sign Up"
+        android:textAllCaps="false"
         android:textColor="#ffffff"
         android:textSize="19dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         tools:layout_editor_absoluteY="563dp" />
 
     <TextView
