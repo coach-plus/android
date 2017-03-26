@@ -45,18 +45,16 @@
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_editor_absoluteY="563dp" />
 
-    <TextView
-        android:id="@+id/logo"
-        android:layout_width="171dp"
-        android:layout_height="60dp"
-        android:text="Coach +"
-        android:textSize="42dp"
-        android:textAlignment="center"
-        android:textColor="#ffffff"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="@dimen/logo_width"
+        android:layout_height="@dimen/logo_height"
+        android:src="@drawable/logo_white"
         android:layout_marginRight="8dp"
         app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="55dp" />
+        android:layout_marginTop="16dp" />
+
 </android.support.constraint.ConstraintLayout>

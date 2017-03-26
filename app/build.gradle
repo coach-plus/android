@@ -22,7 +22,7 @@ android {
             applicationId "com.mathandoro.coachplus.dev"
             buildConfigField "String", "BASE_URL", '"https://dev.coach.plus/api/"'
         }
-        prod{
+        prod {
             applicationId "com.mathandoro.coachplus"
             buildConfigField "String", "BASE_URL", '"https://coach.plus/api/"'
         }

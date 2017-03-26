@@ -1,12 +1,12 @@
 package com.mathandoro.coachplus;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.models.ApiResponse;
 
 import java.util.List;
 
@@ -14,9 +14,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EmailVerificationActivity extends AppCompatActivity implements Callback<Object> {
+public class EmailVerificationActivity extends AppCompatActivity implements Callback<ApiResponse<Object>> {
 
-    private Call<Object> verifyEmailCall;
+    private Call<ApiResponse<Object>> verifyEmailCall;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
     }
 
     @Override
-    public void onResponse(Call<Object> call, Response<Object> response) {
+    public void onResponse(Call<ApiResponse<Object>> call, Response<ApiResponse<Object>> response) {
         if(call == this.verifyEmailCall){
             if(response.code() == 200) {
                 Intent intent = new Intent(this, MainActivity.class);
@@ -49,7 +49,7 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
     }
 
     @Override
-    public void onFailure(Call<Object> call, Throwable t) {
+    public void onFailure(Call<ApiResponse<Object>> call, Throwable t) {
         Log.d("coach", t.toString());
         // todo show API failures in UI (e.g. email already used)
     }

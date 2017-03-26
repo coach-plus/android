@@ -1,10 +1,13 @@
 package com.mathandoro.coachplus.api;
 
+import com.mathandoro.coachplus.models.ApiResponse;
+import com.mathandoro.coachplus.models.LoginResponse;
+import com.mathandoro.coachplus.models.LoginUser;
 import com.mathandoro.coachplus.models.RegisterUser;
+import com.mathandoro.coachplus.models.RegistrationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -15,10 +18,11 @@ import retrofit2.http.Path;
 public interface UserService {
 
     @POST("users/register")
-    Call<Object> registerUser(@Body RegisterUser registerUser);
+    Call<ApiResponse<RegistrationResponse>> registerUser(@Body RegisterUser registerUser);
+
+    @POST("users/login")
+    Call<ApiResponse<LoginResponse>> loginUser(@Body LoginUser loginUser);
 
     @POST("users/verification/{token}")
-    Call<Object> verifyEmail(@Path("token") String token);
+    Call<ApiResponse<Object>> verifyEmail(@Path("token") String token);
 }
-
-

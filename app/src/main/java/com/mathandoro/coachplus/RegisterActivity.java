@@ -9,14 +9,16 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.models.ApiResponse;
 import com.mathandoro.coachplus.models.RegisterUser;
+import com.mathandoro.coachplus.models.RegistrationResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RegisterActivity extends AppCompatActivity implements Callback<Object> {
+public class RegisterActivity extends AppCompatActivity implements Callback<ApiResponse<RegistrationResponse>> {
 
 
     EditText firstnameEditText;
@@ -24,11 +26,19 @@ public class RegisterActivity extends AppCompatActivity implements Callback<Obje
     EditText emailEditText;
     EditText passwordEditText;
     EditText passwordRepeatEditText;
+    Settings settings;
+
+    String firstname;
+    String lastname;
+    String email;
+    String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        this.settings = new Settings(this);
 
         firstnameEditText = ((EditText)findViewById(R.id.firstnameEditText));
         lastnameEditText = ((EditText)findViewById(R.id.lastnameEditText));
@@ -38,10 +48,10 @@ public class RegisterActivity extends AppCompatActivity implements Callback<Obje
     }
 
     public void registerUser(View view){
-        String firstname = firstnameEditText.getText().toString();
-        String lastname = lastnameEditText.getText().toString();
-        String email = emailEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
+        firstname = firstnameEditText.getText().toString();
+        lastname = lastnameEditText.getText().toString();
+        email = emailEditText.getText().toString();
+        password = passwordEditText.getText().toString();
         String repeatPassword = passwordRepeatEditText.getText().toString();
 
         if(TextUtils.isEmpty(firstname)){
@@ -64,7 +74,7 @@ public class RegisterActivity extends AppCompatActivity implements Callback<Obje
             return;
         }
 
-        Call<Object> registerUserCall = ApiClient.instance().userService.registerUser(new RegisterUser(firstname, lastname, email, password));
+        Call<ApiResponse<RegistrationResponse>> registerUserCall = ApiClient.instance().userService.registerUser(new RegisterUser(firstname, lastname, email, password));
         registerUserCall.enqueue(this);
     }
 
@@ -77,8 +87,14 @@ public class RegisterActivity extends AppCompatActivity implements Callback<Obje
     }
 
     @Override
-    public void onResponse(Call<Object> call, Response<Object> response) {
-        if(response.code() == 201){
+    public void onResponse(Call<ApiResponse<RegistrationResponse>> call, Response<ApiResponse<RegistrationResponse>> response) {
+        if(response.code() == 201 && response.body().success){
+            this.settings.setToken(response.body().content.token);
+            this.settings.setFirstname(this.firstname);
+            this.settings.setLastname(this.lastname);
+            this.settings.setEmail(this.email);
+            this.settings.setPassword(this.password);
+
             Intent intent = new Intent(this, EmailVerificationActivity.class);
             startActivity(intent);
             finish();
@@ -86,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity implements Callback<Obje
     }
 
     @Override
-    public void onFailure(Call<Object> call, Throwable t) {
+    public void onFailure(Call<ApiResponse<RegistrationResponse>> call, Throwable t) {
         Log.d("coach", "error registering user");
     }
 }
