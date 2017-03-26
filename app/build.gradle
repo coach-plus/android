@@ -17,6 +17,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        dev {
+            applicationId "com.mathandoro.coachplus.dev"
+            buildConfigField "String", "BASE_URL", '"https://dev.coach.plus/api/"'
+        }
+        prod{
+            applicationId "com.mathandoro.coachplus"
+            buildConfigField "String", "BASE_URL", '"https://coach.plus/api/"'
+        }
+    }
 }
 
 dependencies {
@@ -27,5 +37,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     testCompile 'junit:junit:4.12'
 }
