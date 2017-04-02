@@ -17,6 +17,7 @@ import java.util.List;
 
 
 public class MyMembershipsAdapter extends RecyclerView.Adapter<MyMembershipsAdapter.ViewHolder> {
+    private final MainActivity mainActivity;
     private List<Membership> memberships;
 
     final int TEAM_ITEM = 0;
@@ -25,17 +26,20 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<MyMembershipsAdap
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView teamNameTextView;
+        public View containerView;
 
         public ViewHolder(View view) {
             super(view);
+            containerView = view;
             teamNameTextView = (TextView)view.findViewById(R.id.team_item_team_name);
         }
     }
 
     // todo additional view holders for create team, logout etc.
 
-    public MyMembershipsAdapter() {
-        memberships = new ArrayList<>();
+    public MyMembershipsAdapter(MainActivity mainActivity) {
+        this.memberships = new ArrayList<>();
+        this.mainActivity = mainActivity;
     }
 
     public void setMemberships(List<Membership> memberships){
@@ -58,8 +62,15 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<MyMembershipsAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.teamNameTextView.setText(memberships.get(position).getTeam().getName());
+        holder.containerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.switchTeamContext(memberships.get(position));
+            }
+        });
+
     }
 
     @Override
