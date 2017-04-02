@@ -1,41 +1,76 @@
 package com.mathandoro.coachplus.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by dominik on 31.03.17.
  */
 
-public class Membership {
-    protected String role;
-    protected Team team;
-    protected User user;
+public class Membership implements Parcelable {
+        protected String role;
+        protected Team team;
+        protected String user;
 
-    public Membership(String role, Team team, User user) {
-        this.role = role;
-        this.team = team;
-        this.user = user;
-    }
+        public Membership(String role, Team team, String user) {
+                this.role = role;
+                this.team = team;
+                this.user = user;
+        }
 
-    public String getRole() {
-        return role;
-    }
+        protected Membership(Parcel in) {
+                role = in.readString();
+                team = in.readParcelable(Team.class.getClassLoader());
+                user = in.readString();
+        }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
 
-    public Team getTeam() {
-        return team;
-    }
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(role);
+                dest.writeParcelable(team, flags);
+                dest.writeString(user);
+        }
 
-    public void setTeam(Team team) {
-        this.team = team;
-    }
+        @Override
+        public int describeContents() {
+                return 0;
+        }
 
-    public User getUser() {
-        return user;
-    }
+        public static final Creator<Membership> CREATOR = new Creator<Membership>() {
+                @Override
+                public Membership createFromParcel(Parcel in) {
+                        return new Membership(in);
+                }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+                @Override
+                public Membership[] newArray(int size) {
+                        return new Membership[size];
+                }
+        };
+
+        public String getRole() {
+                return role;
+        }
+
+        public void setRole(String role) {
+                this.role = role;
+        }
+
+        public Team getTeam() {
+                return team;
+        }
+
+        public void setTeam(Team team) {
+                this.team = team;
+        }
+
+        public String getUser() {
+                return user;
+        }
+
+        public void setUser(String user) {
+                this.user = user;
+        }
+
 }

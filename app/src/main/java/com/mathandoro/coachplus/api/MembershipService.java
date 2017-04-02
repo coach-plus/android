@@ -1,7 +1,6 @@
 package com.mathandoro.coachplus.api;
 
 import com.mathandoro.coachplus.models.ApiResponse;
-import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.MyMembershipsResponse;
 
 import retrofit2.Call;

@@ -1,7 +1,6 @@
 package com.mathandoro.coachplus.api;
 
 import com.mathandoro.coachplus.BuildConfig;
-import com.mathandoro.coachplus.models.Membership;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

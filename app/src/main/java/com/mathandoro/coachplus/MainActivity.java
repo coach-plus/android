@@ -1,13 +1,11 @@
 package com.mathandoro.coachplus;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,22 +16,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.models.ApiResponse;
-import com.mathandoro.coachplus.models.MyMembership;
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.MyMembershipsResponse;
 
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Callback<ApiResponse<MyMembershipsResponse>> {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     Settings settings;
     private Call<ApiResponse<MyMembershipsResponse>> myMemberships;
-    private MyMembership[] memberships;
+    private Membership[] memberships;
     private MyMembershipsAdapter myMembershipsAdapter;
 
     private RecyclerView mRecyclerView;
@@ -69,8 +64,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadMemberships(){
-        this.myMemberships = ApiClient.instance().membershipService.getMyMemberships(this.settings.getToken());
-        this.myMemberships.enqueue(this);
+     //   this.myMemberships = ApiClient.instance().membershipService.getMyMemberships(this.settings.getToken());
+      //  this.myMemberships.enqueue(this);
     }
 
     private void loadMembershipsRecyclerView(){
@@ -146,18 +141,4 @@ public class MainActivity extends AppCompatActivity
         finish();
     }
 
-    @Override
-    public void onResponse(Call<ApiResponse<MyMembershipsResponse>> call, Response<ApiResponse<MyMembershipsResponse>> response) {
-        if(call == this.myMemberships){
-            if(response.code() == 200){
-                this.memberships = response.body().content.getMemberships();
-                this.myMembershipsAdapter.setMemberships(this.memberships);
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(Call<ApiResponse<MyMembershipsResponse>> call, Throwable t) {
-        Log.d("coach", "error");
-    }
 }

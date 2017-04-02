@@ -1,17 +1,20 @@
 package com.mathandoro.coachplus.models;
 
-public class MyMembershipsResponse {
-    protected MyMembership[] memberships;
+import java.util.List;
 
-    public MyMembershipsResponse(MyMembership[] memberships) {
+public class MyMembershipsResponse {
+
+    protected List<Membership> memberships;
+
+    public MyMembershipsResponse(List<Membership> memberships) {
         this.memberships = memberships;
     }
 
-    public MyMembership[] getMemberships() {
+    public List<Membership> getMemberships() {
         return memberships;
     }
 
-    public void setMemberships(MyMembership[] memberships) {
+    public void setMemberships(List<Membership> memberships) {
         this.memberships = memberships;
     }
 }
