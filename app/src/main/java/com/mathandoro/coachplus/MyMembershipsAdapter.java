@@ -8,13 +8,16 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.models.Membership;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by dominik on 31.03.17.
  */
 
 
 public class MyMembershipsAdapter extends RecyclerView.Adapter<MyMembershipsAdapter.ViewHolder> {
-    private Membership[] memberships;
+    private List<Membership> memberships;
 
     final int TEAM_ITEM = 0;
     final int CREATE_TEAM_ITEM = 1;
@@ -32,10 +35,10 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<MyMembershipsAdap
     // todo additional view holders for create team, logout etc.
 
     public MyMembershipsAdapter() {
-        memberships = new Membership[0];
+        memberships = new ArrayList<>();
     }
 
-    public void setMemberships(Membership[] memberships){
+    public void setMemberships(List<Membership> memberships){
         this.memberships = memberships;
         this.notifyDataSetChanged();
     }
@@ -56,11 +59,11 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<MyMembershipsAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.teamNameTextView.setText(memberships[position].getTeam().getName());
+        holder.teamNameTextView.setText(memberships.get(position).getTeam().getName());
     }
 
     @Override
     public int getItemCount() {
-        return memberships.length;
+        return memberships.size();
     }
 }

@@ -29,23 +29,7 @@ public class SplashScreen extends AppCompatActivity {
         this.settings = new Settings(this);
 
         if(settings.getToken() != null){
-        //    this.navigateToMainActivity();
-        }
-        DataLayer dataLayer = DataLayer.getInstance(this);
-        Cache cache = new Cache(this);
-        List<Membership> membershipList = new ArrayList<>();
-        List<Membership> loadedMembershipList;
-        Team team = new Team("123.1231", "teamname", false);
-        membershipList.add(new Membership("admin", team, "user"));
-        membershipList.add(new Membership("admin2", team, "user2"));
-
-        try {
-            cache.saveList(membershipList, "test", CacheContext.DEFAULT());
-            Log.d("cache", "saving successful");
-            loadedMembershipList = cache.readList("test", CacheContext.DEFAULT(), Membership.class);
-            Log.d("cache", "loading successful");
-        } catch (IOException e) {
-            e.printStackTrace();
+            this.navigateToMainActivity();
         }
     }
 

@@ -16,23 +16,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.mathandoro.coachplus.models.ApiResponse;
+import com.mathandoro.coachplus.data.DataLayer;
+import com.mathandoro.coachplus.data.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
-import com.mathandoro.coachplus.models.MyMembershipsResponse;
 
-
-import retrofit2.Call;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Settings settings;
-    private Call<ApiResponse<MyMembershipsResponse>> myMemberships;
-    private Membership[] memberships;
     private MyMembershipsAdapter myMembershipsAdapter;
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
+    DataLayer dataLayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity
         this.settings = new Settings(this);
         setContentView(R.layout.activity_main);
 
-
+        dataLayer = DataLayer.getInstance(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -64,8 +62,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadMemberships(){
-     //   this.myMemberships = ApiClient.instance().membershipService.getMyMemberships(this.settings.getToken());
-      //  this.myMemberships.enqueue(this);
+        this.dataLayer.getMyMemberships(new DataLayerCallback<List<Membership>>() {
+            @Override
+            public void dataChanged(List<Membership> data) {
+                myMembershipsAdapter.setMemberships(data);
+            }
+
+            @Override
+            public void error() {
+            }
+        });
     }
 
     private void loadMembershipsRecyclerView(){
@@ -140,5 +146,4 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
         finish();
     }
-
 }
