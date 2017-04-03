@@ -15,6 +15,7 @@ public class ApiClient {
     protected String baseUrl;
     public UserService userService;
     public MembershipService membershipService;
+    public TeamService teamService;
 
     private static ApiClient instance;
 
@@ -24,6 +25,7 @@ public class ApiClient {
         this.retrofit = new Retrofit.Builder().baseUrl(this.baseUrl).addConverterFactory(GsonConverterFactory.create()).build();
         this.userService = retrofit.create(UserService.class);
         this.membershipService = retrofit.create(MembershipService.class);
+        this.teamService = retrofit.create(TeamService.class);
     }
 
     public static ApiClient instance(){

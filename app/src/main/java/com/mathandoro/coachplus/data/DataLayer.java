@@ -9,6 +9,8 @@ import com.mathandoro.coachplus.models.ApiResponse;
 import com.mathandoro.coachplus.models.MyMembershipsResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Team;
+import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.models.TeamMembersResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -80,6 +82,46 @@ public class DataLayer {
 
             @Override
             public void onFailure(Call<ApiResponse<MyMembershipsResponse>> call, Throwable t) {
+                callback.error();
+            }
+        });
+    }
+
+    public void getTeamMembers(Team team, final DataLayerCallback<List<TeamMember>> callback){
+        final String TEAM_MEMBERS = "teamMembers";
+        final Team finalTeam = team;
+
+        if(this.cache.exists(TEAM_MEMBERS, CacheContext.TEAM(team))){
+            try {
+                List<TeamMember> teamMembers = cache.readList(TEAM_MEMBERS, CacheContext.TEAM(team), TeamMember.class);
+                if(callback != null){
+                    callback.dataChanged(teamMembers);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(this.offlineMode){
+            return;
+        }
+        ApiClient.instance().teamService.getTeamMembers(settings.getToken(), team.get_id()).enqueue(new Callback<ApiResponse<TeamMembersResponse>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<TeamMembersResponse>> call, Response<ApiResponse<TeamMembersResponse>> response) {
+                if(response.code() == 200){
+                    if(callback != null){
+                        List<TeamMember> members = response.body().content.getMembers();
+                        callback.dataChanged(members);
+                        try {
+                            cache.saveList(members, TEAM_MEMBERS, CacheContext.TEAM(finalTeam));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<TeamMembersResponse>> call, Throwable t) {
                 callback.error();
             }
         });

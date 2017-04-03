@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
     Settings settings;
     private MyMembershipsAdapter myMembershipsAdapter;
-
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     DataLayer dataLayer;
@@ -91,23 +90,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -120,13 +112,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchTeamContext(Membership membership) {
-        TeamFeedFragment teamFeedFragment = TeamFeedFragment.newInstance(membership.getTeam().getName());
-
+        TeamFeedFragment teamFeedFragment = TeamFeedFragment.newInstance(membership.getTeam());
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_activity_fragment_container, teamFeedFragment)
                 .commit();
-
         drawer.closeDrawer(GravityCompat.START);
     }
 }

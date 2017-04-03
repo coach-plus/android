@@ -1,12 +1,16 @@
 package com.mathandoro.coachplus;
 
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.models.ReducedUser;
+import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.models.User;
 
 import java.util.ArrayList;
@@ -18,7 +22,7 @@ import java.util.List;
 
 public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final MainActivity mainActivity;
-    private List<User> members;
+    private List<TeamMember> members;
     private List<Event> events;
 
     final int UPCOMING_EVENTS_HEADER = 0;
@@ -52,13 +56,16 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     class TeamMembersItemViewHolder extends RecyclerView.ViewHolder {
+        TextView name;
+        TextView role;
+        ImageView icon;
         public TeamMembersItemViewHolder(View view) {
             super(view);
+            name = (TextView)view.findViewById(R.id.team_feed_member_name);
+            role = (TextView)view.findViewById(R.id.team_feed_member_role);
+            icon = (ImageView)view.findViewById(R.id.team_feed_member_icon);
         }
     }
-
-
-
 
 
     public TeamFeedAdapter(MainActivity mainActivity) {
@@ -67,7 +74,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.mainActivity = mainActivity;
     }
 
-    public void setMembers(List<User> members){
+    public void setMembers(List<TeamMember> members){
         this.members = members;
         this.notifyDataSetChanged();
     }
@@ -111,7 +118,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 viewHolder = new TeamMembersHeaderViewHolder(view);
                 break;
             case MEMBERS_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.navigation_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_feed_member_item, parent, false);
                 viewHolder = new TeamMembersItemViewHolder(view);
         }
         return viewHolder;
@@ -127,6 +134,9 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             case MEMBERS_ITEM:
                 TeamMembersItemViewHolder memberViewHolder = (TeamMembersItemViewHolder)holder;
+                TeamMember teamMember = getMember(position);
+                memberViewHolder.name.setText(teamMember.getUser().getFirstname() + " " + teamMember.getUser().getLastname());
+                memberViewHolder.role.setText(teamMember.getRole());
                 break;
         }
     }
@@ -135,7 +145,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return this.events.get(position -1);
     }
 
-    protected User getMember(int position){
+    protected TeamMember getMember(int position){
         return this.members.get(position - 2 - events.size());
     }
 
