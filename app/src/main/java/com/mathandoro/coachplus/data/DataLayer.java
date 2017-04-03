@@ -87,11 +87,11 @@ public class DataLayer {
         });
     }
 
-    public void getTeamMembers(Team team, final DataLayerCallback<List<TeamMember>> callback){
+    public void getTeamMembers(Team team, boolean useCache, final DataLayerCallback<List<TeamMember>> callback){
         final String TEAM_MEMBERS = "teamMembers";
         final Team finalTeam = team;
 
-        if(this.cache.exists(TEAM_MEMBERS, CacheContext.TEAM(team))){
+        if(this.cache.exists(TEAM_MEMBERS, CacheContext.TEAM(team)) && useCache){
             try {
                 List<TeamMember> teamMembers = cache.readList(TEAM_MEMBERS, CacheContext.TEAM(team), TeamMember.class);
                 if(callback != null){

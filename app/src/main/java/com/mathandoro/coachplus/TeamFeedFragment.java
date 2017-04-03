@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,16 +20,29 @@ import com.mathandoro.coachplus.models.TeamMember;
 import java.util.List;
 
 
-public class TeamFeedFragment extends Fragment {
+public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_TEAM = "TEAM";
-
     private Team team;
-
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private TeamFeedAdapter teamFeedAdapter;
     protected DataLayer dataLayer;
+    protected SwipeRefreshLayout swipeRefreshLayout;
+
+    protected DataLayerCallback<List<TeamMember>> loadTeamMembersCallback = new DataLayerCallback<List<TeamMember>>() {
+        @Override
+        public void dataChanged(List<TeamMember> members) {
+            teamFeedAdapter.setMembers(members);
+            swipeRefreshLayout.setRefreshing(false);
+
+        }
+
+        @Override
+        public void error() {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    };
 
     public TeamFeedFragment() {
         // Required empty public constructor
@@ -63,6 +77,9 @@ public class TeamFeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(team.getName());
 
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.team_feed);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -70,38 +87,18 @@ public class TeamFeedFragment extends Fragment {
         mRecyclerView.setAdapter(teamFeedAdapter);
 
         // load data
-        dataLayer.getTeamMembers(team, new DataLayerCallback<List<TeamMember>>() {
-            @Override
-            public void dataChanged(List<TeamMember> members) {
-                teamFeedAdapter.setMembers(members);
-            }
-
-            @Override
-            public void error() {
-
-            }
-        });
+        dataLayer.getTeamMembers(team, true, loadTeamMembersCallback);
     }
-
-
-
-    /*
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-    */
 
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onRefresh() {
+        dataLayer.getTeamMembers(team, false, loadTeamMembersCallback);
     }
 
     public interface OnFragmentInteractionListener {

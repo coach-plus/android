@@ -1,6 +1,5 @@
 package com.mathandoro.coachplus;
 
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mathandoro.coachplus.models.Event;
-import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.models.TeamMember;
-import com.mathandoro.coachplus.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
