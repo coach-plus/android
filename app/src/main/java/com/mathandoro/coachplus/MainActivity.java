@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import com.mathandoro.coachplus.data.DataLayer;
 import com.mathandoro.coachplus.data.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.models.Team;
 
 import java.util.List;
 
@@ -27,11 +28,14 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayoutManager mLinearLayoutManager;
     DataLayer dataLayer;
     private DrawerLayout drawer;
+    private boolean initalMembershipsLoaded;
+    protected List<Membership> memberships;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.initalMembershipsLoaded = false;
         this.settings = new Settings(this);
         setContentView(R.layout.activity_main);
 
@@ -45,13 +49,6 @@ public class MainActivity extends AppCompatActivity {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NoTeamsFragment noTeamsFragment = NoTeamsFragment.newInstance();
-
-        getSupportFragmentManager()
-            .beginTransaction()
-            .add(R.id.main_activity_fragment_container, noTeamsFragment)
-            .commit();
-
         this.loadMembershipsRecyclerView();
         this.loadMemberships();
     }
@@ -60,7 +57,12 @@ public class MainActivity extends AppCompatActivity {
         this.dataLayer.getMyMemberships(new DataLayerCallback<List<Membership>>() {
             @Override
             public void dataChanged(List<Membership> data) {
+                memberships = data;
                 myMembershipsAdapter.setMemberships(data);
+                if (!initalMembershipsLoaded) {
+                    initalMembershipsLoaded = true;
+                    loadActiveTeam();
+                }
             }
 
             @Override
@@ -68,6 +70,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void loadActiveTeam(){
+        String activeTeamId = this.settings.getActiveTeamId();
+        if(activeTeamId != null) {
+            for (Membership m : memberships) {
+                if (m.getTeam().get_id().equals(activeTeamId)){
+                    this.switchTeamContext(m);
+                    return;
+                }
+            }
+        }
+        NoTeamsFragment noTeamsFragment = NoTeamsFragment.newInstance();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_activity_fragment_container, noTeamsFragment)
+                .commit();
+    }
+
 
     private void loadMembershipsRecyclerView(){
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -112,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchTeamContext(Membership membership) {
+        this.settings.setActiveTeamId(membership.getTeam().get_id());
         TeamFeedFragment teamFeedFragment = TeamFeedFragment.newInstance(membership.getTeam());
         getSupportFragmentManager()
                 .beginTransaction()

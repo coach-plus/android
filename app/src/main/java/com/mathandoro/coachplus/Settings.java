@@ -16,6 +16,7 @@ public class Settings {
     protected String PASSWORD = "PASSWORD";
     protected String FIRSTNAME = "FIRSTNAME";
     protected String LASTNAME = "LASTNAME";
+    protected String ACTIVE_TEAM_ID = "ACTIVE_TEAM_ID";
 
     protected SharedPreferences preferences;
 
@@ -72,6 +73,14 @@ public class Settings {
 
     public void setLastname(String lastname) {
         this.setString(LASTNAME, lastname);
+    }
+
+    public void setActiveTeamId(String teamId){
+        this.setString(ACTIVE_TEAM_ID, teamId);
+    }
+
+    public String getActiveTeamId(){
+        return this.getString(ACTIVE_TEAM_ID);
     }
 
     public void reset() {

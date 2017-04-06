@@ -3,18 +3,7 @@ package com.mathandoro.coachplus;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-
-import com.mathandoro.coachplus.data.Cache;
-import com.mathandoro.coachplus.data.CacheContext;
-import com.mathandoro.coachplus.data.DataLayer;
-import com.mathandoro.coachplus.models.Team;
-import com.mathandoro.coachplus.models.Membership;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class SplashScreen extends AppCompatActivity {
