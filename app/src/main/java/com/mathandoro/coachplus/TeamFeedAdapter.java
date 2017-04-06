@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,8 +29,11 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     final int MEMBERS_ITEM = 3;
 
     class UpcomingEventsHeaderViewHolder extends RecyclerView.ViewHolder {
+        Button seeAllEventsButton;
+
         public UpcomingEventsHeaderViewHolder(View view) {
             super(view);
+            seeAllEventsButton = (Button)view.findViewById(R.id.team_feed_upcoming_events_header_see_all_events_button);
         }
     }
 
@@ -124,6 +128,16 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         switch (holder.getItemViewType()) {
+            case UPCOMING_EVENTS_HEADER:
+                UpcomingEventsHeaderViewHolder upcomingEventsHeaderViewHolder = (UpcomingEventsHeaderViewHolder) holder;
+                upcomingEventsHeaderViewHolder.seeAllEventsButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mainActivity.navigateToAllEvents();
+                    }
+                });
+                break;
+
             case UPCOMING_EVENTS_ITEM:
                 UpcomingEventsItemViewHolder eventItemViewHolder = (UpcomingEventsItemViewHolder)holder;
                 Event event = getEvent(position);

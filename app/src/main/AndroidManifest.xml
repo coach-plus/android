@@ -38,7 +38,11 @@
                 <data android:host="dev.coach.plus" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
+        <activity
+            android:name=".EventsActivity"
+            android:label="@string/title_activity_events"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
