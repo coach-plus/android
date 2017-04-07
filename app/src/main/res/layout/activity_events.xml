@@ -45,6 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/abc_btn_radio_to_on_mtrl_015" />
+        app:src="@mipmap/ic_today_white_48dp" />
 
 </android.support.design.widget.CoordinatorLayout>
