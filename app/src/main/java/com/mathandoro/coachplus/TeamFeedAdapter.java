@@ -20,6 +20,7 @@ import java.util.List;
 
 public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final MainActivity mainActivity;
+    private final TeamFeedFragment teamFeedFragment;
     private List<TeamMember> members;
     private List<Event> events;
 
@@ -69,9 +70,10 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    public TeamFeedAdapter(MainActivity mainActivity) {
+    public TeamFeedAdapter(MainActivity mainActivity, TeamFeedFragment teamFeedFragment) {
         this.members = new ArrayList<>();
         this.events = new ArrayList<>();
+        this.teamFeedFragment = teamFeedFragment;
         this.mainActivity = mainActivity;
     }
 
@@ -133,7 +135,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 upcomingEventsHeaderViewHolder.seeAllEventsButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mainActivity.navigateToAllEvents();
+                        teamFeedFragment.navigateToAllEvents();
                     }
                 });
                 break;

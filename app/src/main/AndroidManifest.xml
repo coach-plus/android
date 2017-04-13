@@ -43,7 +43,7 @@
             android:name=".EventsActivity"
             android:label="@string/title_activity_events"
             android:theme="@style/AppTheme" />
-        <activity android:name=".dev.CreateEventActivity"></activity>
+        <activity android:name=".CreateEventActivity"></activity>
     </application>
 
 </manifest>

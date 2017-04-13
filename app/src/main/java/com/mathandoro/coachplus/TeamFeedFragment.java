@@ -1,5 +1,6 @@
 package com.mathandoro.coachplus;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -83,7 +84,7 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         mRecyclerView = (RecyclerView) view.findViewById(R.id.team_feed);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        teamFeedAdapter = new TeamFeedAdapter((MainActivity)getActivity());
+        teamFeedAdapter = new TeamFeedAdapter((MainActivity)getActivity(), this);
         mRecyclerView.setAdapter(teamFeedAdapter);
 
         // load data
@@ -104,5 +105,11 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void navigateToAllEvents() {
+        Intent intent = new Intent(getActivity(), EventsActivity.class);
+        intent.putExtra("team", team);
+        startActivity(intent);
     }
 }

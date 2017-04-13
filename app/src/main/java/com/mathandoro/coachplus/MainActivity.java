@@ -140,9 +140,4 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         drawer.closeDrawer(GravityCompat.START);
     }
-
-    public void navigateToAllEvents() {
-        Intent intent = new Intent(this, EventsActivity.class);
-        startActivity(intent);
-    }
 }

@@ -21,18 +21,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.dev.CreateEventActivity;
+import com.mathandoro.coachplus.CreateEventActivity;
+import com.mathandoro.coachplus.models.Team;
 
 public class EventsActivity extends AppCompatActivity {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    private Team team;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
+
+        team = getIntent().getExtras().getParcelable("team");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,8 +53,9 @@ public class EventsActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Intent intent = new Intent(EventsActivity.this, CreateEventActivity.class);
-                startActivity(intent);
+            Intent intent = new Intent(EventsActivity.this, CreateEventActivity.class);
+            intent.putExtra("team", team);
+            startActivity(intent);
             }
         });
 

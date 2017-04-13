@@ -3,6 +3,7 @@ package com.mathandoro.coachplus.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -25,6 +26,8 @@ public class Event implements Parcelable {
     protected Event(Parcel in) {
         name = in.readString();
         description = in.readString();
+        start = (Date)in.readValue(Date.class.getClassLoader());
+        end = (Date)in.readValue(Date.class.getClassLoader());
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
@@ -80,5 +83,7 @@ public class Event implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(description);
+        dest.writeValue(start);
+        dest.writeValue(end);
     }
 }

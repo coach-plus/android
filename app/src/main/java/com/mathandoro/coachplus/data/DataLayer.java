@@ -6,6 +6,8 @@ import android.util.Log;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.models.ApiResponse;
+import com.mathandoro.coachplus.models.CreateEventResponse;
+import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.MyMembershipsResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Team;
@@ -121,6 +123,34 @@ public class DataLayer {
 
             @Override
             public void onFailure(Call<ApiResponse<TeamMembersResponse>> call, Throwable t) {
+                callback.error();
+            }
+        });
+    }
+
+    public void createEvent(Team team, Event event, final DataLayerCallback<Event> callback){
+        final String CREATE_EVENT = "createEvent";
+
+        if(this.offlineMode){
+            return;
+        }
+        ApiClient.instance().teamService.createEvent(settings.getToken(), team.get_id(), event).enqueue(new Callback<ApiResponse<CreateEventResponse>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<CreateEventResponse>> call, Response<ApiResponse<CreateEventResponse>> response) {
+                if(response.code() == 201){
+                    if(callback != null){
+                        callback.dataChanged(response.body().content.getEvent());
+                    }
+                }
+                else{
+                    if(callback != null){
+                        callback.error();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<CreateEventResponse>> call, Throwable t) {
                 callback.error();
             }
         });
