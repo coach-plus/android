@@ -8,6 +8,7 @@ import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.models.ApiResponse;
 import com.mathandoro.coachplus.models.CreateEventResponse;
 import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.models.EventsResponse;
 import com.mathandoro.coachplus.models.MyMembershipsResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Team;
@@ -31,6 +32,8 @@ public class DataLayer {
     protected boolean offlineMode = false;
     protected Settings settings;
     final String MY_MEMBERSHIPS = "myMemberships";
+    final String EVENTS = "events";
+
 
 
     private DataLayer(Context context){
@@ -155,4 +158,48 @@ public class DataLayer {
             }
         });
     }
+
+    public void getEvents(final Team team, boolean useCache, final DataLayerCallback<List<Event>> callback){
+        if(this.cache.exists(EVENTS, CacheContext.TEAM(team)) && useCache){
+            try {
+                List<Event> events = cache.readList(EVENTS, CacheContext.TEAM(team), Event.class);
+                if(callback != null){
+                    callback.dataChanged(events);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(this.offlineMode){
+            return;
+        }
+        ApiClient.instance().teamService.getEventsOfTeam(settings.getToken(), team.get_id()).enqueue(new Callback<ApiResponse<EventsResponse>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<EventsResponse>> call, Response<ApiResponse<EventsResponse>> response) {
+                if(response.code() == 200){
+                    if(callback != null){
+                        List<Event> events = response.body().content.getEvents();
+                        callback.dataChanged(events);
+                        try {
+                            cache.saveList(events, EVENTS, CacheContext.TEAM(team));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                else {
+                    if(callback != null){
+                        callback.error();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<EventsResponse>> call, Throwable t) {
+                callback.error();
+            }
+        });
+    }
+
+
 }

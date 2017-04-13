@@ -3,6 +3,7 @@ package com.mathandoro.coachplus.api;
 import com.mathandoro.coachplus.models.ApiResponse;
 import com.mathandoro.coachplus.models.CreateEventResponse;
 import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.models.EventsResponse;
 import com.mathandoro.coachplus.models.TeamMembersResponse;
 
 import retrofit2.Call;
@@ -20,6 +21,9 @@ public interface TeamService {
 
     @GET("teams/{teamId}/members")
     Call<ApiResponse<TeamMembersResponse>> getTeamMembers(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
+
+    @GET("teams/{teamId}/events")
+    Call<ApiResponse<EventsResponse>> getEventsOfTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
 
     @POST("teams/{teamId}/events")
     Call<ApiResponse<CreateEventResponse>> createEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Body Event event);
