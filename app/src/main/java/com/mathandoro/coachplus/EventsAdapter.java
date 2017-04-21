@@ -1,5 +1,6 @@
 package com.mathandoro.coachplus;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,9 +74,15 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (holder.getItemViewType()) {
             case EVENT_ITEM:
                 EventItemViewHolder eventItemViewHolder = (EventItemViewHolder)holder;
-                Event event = getEvent(position);
+                final Event event = getEvent(position);
                 eventItemViewHolder.title.setText(event.getName());
                 eventItemViewHolder.time.setText(event.getStart().toString());
+                eventItemViewHolder.itemContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        eventListFragment.navigateToEventDetail(event);
+                    }
+                });
                 break;
         }
     }
