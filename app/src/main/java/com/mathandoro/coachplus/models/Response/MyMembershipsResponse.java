@@ -1,4 +1,6 @@
-package com.mathandoro.coachplus.models;
+package com.mathandoro.coachplus.models.Response;
+
+import com.mathandoro.coachplus.models.Membership;
 
 import java.util.List;
 

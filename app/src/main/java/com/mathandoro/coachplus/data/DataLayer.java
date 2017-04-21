@@ -1,22 +1,20 @@
 package com.mathandoro.coachplus.data;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.models.ApiResponse;
-import com.mathandoro.coachplus.models.CreateEventResponse;
+import com.mathandoro.coachplus.models.Response.ApiResponse;
+import com.mathandoro.coachplus.models.Response.CreateEventResponse;
 import com.mathandoro.coachplus.models.Event;
-import com.mathandoro.coachplus.models.EventsResponse;
-import com.mathandoro.coachplus.models.MyMembershipsResponse;
+import com.mathandoro.coachplus.models.Response.EventsResponse;
+import com.mathandoro.coachplus.models.Response.MyMembershipsResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
-import com.mathandoro.coachplus.models.TeamMembersResponse;
+import com.mathandoro.coachplus.models.Response.TeamMembersResponse;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;

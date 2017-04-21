@@ -1,10 +1,11 @@
 package com.mathandoro.coachplus.api;
 
-import com.mathandoro.coachplus.models.ApiResponse;
-import com.mathandoro.coachplus.models.CreateEventResponse;
+import com.mathandoro.coachplus.models.Response.ApiResponse;
+import com.mathandoro.coachplus.models.Response.CreateEventResponse;
 import com.mathandoro.coachplus.models.Event;
-import com.mathandoro.coachplus.models.EventsResponse;
-import com.mathandoro.coachplus.models.TeamMembersResponse;
+import com.mathandoro.coachplus.models.Response.EventsResponse;
+import com.mathandoro.coachplus.models.Response.InvitationResponse;
+import com.mathandoro.coachplus.models.Response.TeamMembersResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,4 +28,7 @@ public interface TeamService {
 
     @POST("teams/{teamId}/events")
     Call<ApiResponse<CreateEventResponse>> createEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Body Event event);
+
+    @POST("teams/{teamId}/invite")
+    Call<ApiResponse<InvitationResponse>> createInvitationUrl(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
 }

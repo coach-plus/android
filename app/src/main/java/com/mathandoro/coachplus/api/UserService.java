@@ -1,10 +1,10 @@
 package com.mathandoro.coachplus.api;
 
-import com.mathandoro.coachplus.models.ApiResponse;
-import com.mathandoro.coachplus.models.LoginResponse;
+import com.mathandoro.coachplus.models.Response.ApiResponse;
+import com.mathandoro.coachplus.models.Response.LoginResponse;
 import com.mathandoro.coachplus.models.LoginUser;
 import com.mathandoro.coachplus.models.RegisterUser;
-import com.mathandoro.coachplus.models.RegistrationResponse;
+import com.mathandoro.coachplus.models.Response.RegistrationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

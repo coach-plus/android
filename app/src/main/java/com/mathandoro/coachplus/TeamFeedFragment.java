@@ -1,5 +1,6 @@
 package com.mathandoro.coachplus;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,17 +16,25 @@ import android.view.ViewGroup;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.data.DataLayer;
 import com.mathandoro.coachplus.data.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.models.Response.ApiResponse;
+import com.mathandoro.coachplus.models.Response.InvitationResponse;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_TEAM = "MEMBERSHIP";
+    private Settings settings;
     // private Team team;
     private Membership membership;
     private OnFragmentInteractionListener mListener;
@@ -67,6 +76,8 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.settings = new Settings(this.getActivity());
+
         dataLayer = DataLayer.getInstance(this.getActivity());
         if (getArguments() != null) {
             membership = getArguments().getParcelable(ARG_TEAM);
@@ -150,12 +161,31 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     void inviteToTeam(){
+        final ProgressDialog dialog = ProgressDialog.show(this.getActivity(), "",
+                "Creating invitation link...", true);
+        dialog.show();
+
+        Call<ApiResponse<InvitationResponse>> invitationUrl = ApiClient.instance().teamService.createInvitationUrl(settings.getToken(), membership.getTeam().get_id());
+        invitationUrl.enqueue(new Callback<ApiResponse<InvitationResponse>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<InvitationResponse>> call, Response<ApiResponse<InvitationResponse>> response) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "hey, join " +  membership.getTeam().getName() +  " on coach+  "  + response.body().content.getUrl());
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "Invite new team members"));
+                dialog.hide();
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<InvitationResponse>> call, Throwable t) {
+                // todo show error (snackbar?)
+                dialog.hide();
+            }
+        });
+
         closeActionMenu();
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "join team http://coach.plus");
-        sendIntent.setType("text/plain");
-        startActivity(Intent.createChooser(sendIntent, "Invite new team members"));
+
     }
 
     void createEvent(){
