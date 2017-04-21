@@ -21,37 +21,43 @@
     <!-- TODO: Update blank fragment layout -->
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/right_labels"
+        android:id="@+id/team_feed_floating_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        fab:fab_addButtonColorNormal="#ffffff"
-        fab:fab_addButtonColorPressed="#ffffff"
-        fab:fab_addButtonPlusIconColor="#ffeeff"
+        fab:fab_addButtonColorNormal="@color/colorPrimary"
+        fab:fab_addButtonColorPressed="@color/colorPrimaryLight"
+        fab:fab_addButtonPlusIconColor="#ffffff"
         fab:fab_addButtonSize="normal"
         android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
-        fab:fab_labelStyle="@style/Base.DialogWindowTitle.AppCompat"
+        fab:fab_labelStyle="@style/menu_labels_style"
         fab:fab_labelsPosition="left">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/team_feed_invite_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="#ffffff"
+            fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_title="invite"
+            fab:fab_icon="@drawable/ic_person_add_white_48dp"
+            fab:backgroundTintMode="multiply"
+            fab:backgroundTint="#c4000000"
             fab:fab_size="mini"
-            fab:fab_colorPressed="#ffffff"/>
+            fab:fab_colorPressed="@color/colorPrimaryLight"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/team_feed_add_event_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="#ffffff"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_icon="@drawable/ic_today_white_48dp"
             fab:fab_size="mini"
             fab:fab_title="add event"
-            fab:fab_colorPressed="#ffffff"/>
+            fab:fab_colorPressed="@color/colorPrimaryLight"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

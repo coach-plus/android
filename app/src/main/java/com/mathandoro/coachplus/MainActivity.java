@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void switchTeamContext(Membership membership) {
         this.settings.setActiveTeamId(membership.getTeam().get_id());
-        TeamFeedFragment teamFeedFragment = TeamFeedFragment.newInstance(membership.getTeam());
+        TeamFeedFragment teamFeedFragment = TeamFeedFragment.newInstance(membership);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_activity_fragment_container, teamFeedFragment)
