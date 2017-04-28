@@ -16,11 +16,11 @@ import android.view.MenuItem;
 import com.mathandoro.coachplus.data.DataLayer;
 import com.mathandoro.coachplus.data.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
-import com.mathandoro.coachplus.models.Team;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener {
 
     Settings settings;
     private MyMembershipsAdapter myMembershipsAdapter;
@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private boolean initalMembershipsLoaded;
     protected List<Membership> memberships;
+
+    static int CREATE_TEAM_REQUEST = 1;
 
 
     @Override
@@ -59,6 +61,12 @@ public class MainActivity extends AppCompatActivity {
             public void dataChanged(List<Membership> data) {
                 memberships = data;
                 myMembershipsAdapter.setMemberships(data);
+                String activeTeamId = settings.getActiveTeamId();
+                if(memberships.size() > 0 && activeTeamId == null){
+                    switchTeamContext(memberships.get(0));
+                    initalMembershipsLoaded = true;
+                    return;
+                }
                 if (!initalMembershipsLoaded) {
                     initalMembershipsLoaded = true;
                     loadActiveTeam();
@@ -81,13 +89,25 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        NoTeamsFragment noTeamsFragment = NoTeamsFragment.newInstance();
+        NoTeamsFragment noTeamsFragment = NoTeamsFragment.newInstance(this);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_activity_fragment_container, noTeamsFragment)
                 .commit();
     }
 
+    public void navigateToCreateTeamActivity(){
+        Intent createTeamIntent = new Intent(this, RegisterTeamActivity.class);
+        startActivityForResult(createTeamIntent, CREATE_TEAM_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == CREATE_TEAM_REQUEST && resultCode == RESULT_OK){
+           this.loadMemberships();
+        }
+    }
 
     private void loadMembershipsRecyclerView(){
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -139,5 +159,11 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.main_activity_fragment_container, teamFeedFragment)
                 .commit();
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public void onRegisterTeamButtonPressed() {
+        drawer.closeDrawer(GravityCompat.START);
+        this.navigateToCreateTeamActivity();
     }
 }

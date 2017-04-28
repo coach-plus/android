@@ -69,6 +69,7 @@
                 <data android:pathPattern="/app/teams/.*/join/.*" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegisterTeamActivity"></activity>
     </application>
 
 </manifest>
