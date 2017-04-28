@@ -29,6 +29,12 @@ public interface TeamService {
     @POST("teams/{teamId}/events")
     Call<ApiResponse<CreateEventResponse>> createEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Body Event event);
 
+    @POST("teams/private/join/{token}")
+    Call<ApiResponse<Object>> joinPrivateTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("token") String token);
+
+    @POST("teams/public/join/{teamId}")
+    Call<ApiResponse<Object>> joinPublicTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
+
     @POST("teams/{teamId}/invite")
     Call<ApiResponse<InvitationResponse>> createInvitationUrl(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
 }

@@ -36,6 +36,7 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:host="dev.coach.plus" />
+                <data android:pathPattern="/app/verification/.*" />
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
@@ -54,7 +55,20 @@
         <activity
             android:name=".EventDetailActivity"
             android:label="@string/title_activity_event_detail"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".JoinTeamActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="dev.coach.plus" />
+                <data android:pathPattern="/app/teams/.*/join/.*" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
