@@ -19,5 +19,5 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_8909454dee1d_key -iv $encrypted_8909454dee1d_iv
   -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
-- gem install fastlane --no-ri --no-rdoc --no-document
+- sudo gem install fastlane -NV
 script: fastlane beta
