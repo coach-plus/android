@@ -11,5 +11,7 @@
 
 # keys
 mathandoro.jks
-fastlane/google_key.json
+google_key.json
 keystore.properties
+secrets.tar
+
