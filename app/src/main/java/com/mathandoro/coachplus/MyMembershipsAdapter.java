@@ -16,22 +16,30 @@ import java.util.List;
  */
 
 
-public class MyMembershipsAdapter extends RecyclerView.Adapter<MyMembershipsAdapter.ViewHolder> {
+public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final MainActivity mainActivity;
     private List<Membership> memberships;
 
     final int TEAM_ITEM = 0;
     final int CREATE_TEAM_ITEM = 1;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
+    public static class TeamViewHolder extends RecyclerView.ViewHolder {
         public TextView teamNameTextView;
         public View containerView;
 
-        public ViewHolder(View view) {
+        public TeamViewHolder(View view) {
             super(view);
             containerView = view;
             teamNameTextView = (TextView)view.findViewById(R.id.team_item_team_name);
+        }
+    }
+
+    public static class RegisterTeamViewHolder extends RecyclerView.ViewHolder {
+        public View containerView;
+
+        public RegisterTeamViewHolder(View view) {
+            super(view);
+            containerView = view;
         }
     }
 
@@ -49,32 +57,62 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<MyMembershipsAdap
 
     @Override
     public int getItemViewType(int position) {
-        return TEAM_ITEM;
+        if(position < this.memberships.size()){
+            return TEAM_ITEM;
+        }
+        return CREATE_TEAM_ITEM;
     }
 
     @Override
-    public MyMembershipsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                               int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.navigation_item, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
+        RecyclerView.ViewHolder viewHolder = null;
+        View view = null;
+        switch(viewType){
+            case CREATE_TEAM_ITEM:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.register_team_item, parent, false);
+                viewHolder = new RegisterTeamViewHolder(view);
+                break;
+            case TEAM_ITEM:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.navigation_item, parent, false);
+                viewHolder = new TeamViewHolder(view);
+                break;
+        }
+
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.teamNameTextView.setText(memberships.get(position).getTeam().getName());
-        holder.containerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainActivity.switchTeamContext(memberships.get(position));
-            }
-        });
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        switch (holder.getItemViewType()) {
+            case CREATE_TEAM_ITEM:
+                RegisterTeamViewHolder registerTeamViewHolder = (RegisterTeamViewHolder) holder;
+                registerTeamViewHolder.containerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mainActivity.navigateToCreateTeamActivity();
+                    }
+                });
+                break;
 
+            case TEAM_ITEM:
+                TeamViewHolder teamViewHolder = (TeamViewHolder)holder;
+                teamViewHolder.teamNameTextView.setText(memberships.get(position).getTeam().getName());
+                teamViewHolder.containerView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mainActivity.switchTeamContext(memberships.get(position));
+                    }
+                });
+        }
     }
+
+
 
     @Override
     public int getItemCount() {
-        return memberships.size();
+        return memberships.size() + 1;
     }
 }

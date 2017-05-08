@@ -11,7 +11,7 @@
     android:weightSum="1">
 
     <ImageView
-        android:id="@+id/team_item_team_icon"
+        android:id="@+id/event_detail_attendance_item_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginRight="10dp"
@@ -24,21 +24,21 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/team_item_team_name"
+            android:id="@+id/event_detail_attendance_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:textColor="#211d1d"
-            android:text="Team Awesome"
+            android:text="Vorname Nachname"
             android:textSize="14dp" />
 
         <TextView
-            android:id="@+id/team_item_team_description"
+            android:id="@+id/event_detail_attendance_item_role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:layout_marginLeft="0dp"
-            android:text="Description"
+            android:text="Rolle"
             android:textSize="10dp" />
     </LinearLayout>
 

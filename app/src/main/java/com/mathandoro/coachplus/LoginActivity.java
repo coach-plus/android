@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.models.ApiResponse;
-import com.mathandoro.coachplus.models.LoginResponse;
+import com.mathandoro.coachplus.models.Response.ApiResponse;
+import com.mathandoro.coachplus.models.Response.LoginResponse;
 import com.mathandoro.coachplus.models.LoginUser;
 
 import retrofit2.Call;

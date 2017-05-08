@@ -1,6 +1,7 @@
 package com.mathandoro.coachplus;
 
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -100,6 +101,13 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onRefresh() {
         dataLayer.getEvents(team, false, loadEventsCallback);
+    }
+
+    void navigateToEventDetail(Event event){
+        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+        intent.putExtra("team", team);
+        intent.putExtra("event", event);
+        startActivity(intent);
     }
 
 

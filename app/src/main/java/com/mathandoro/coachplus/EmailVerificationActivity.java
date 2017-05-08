@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.models.ApiResponse;
+import com.mathandoro.coachplus.models.Response.ApiResponse;
 
 import java.util.List;
 

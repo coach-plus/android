@@ -9,9 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.models.ApiResponse;
+import com.mathandoro.coachplus.models.Response.ApiResponse;
 import com.mathandoro.coachplus.models.RegisterUser;
-import com.mathandoro.coachplus.models.RegistrationResponse;
+import com.mathandoro.coachplus.models.Response.RegistrationResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
