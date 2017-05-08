@@ -17,7 +17,6 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements Callback<ApiResponse<LoginResponse>> {
 
-
     EditText emailEditText;
     EditText passwordEditText;
     Settings settings;
