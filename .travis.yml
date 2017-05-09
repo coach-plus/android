@@ -26,10 +26,11 @@ before_install:
 - rvm install 2.1
 - gem install fastlane
 - echo y | $ANDROID_HOMEtools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+- fastlane build_beta
 deploy:
 - provider: script
   skip_cleanup: true
-  script: fastlane beta
+  script: fastlane upload_beta
   on:
     branch: master
     tags: true
