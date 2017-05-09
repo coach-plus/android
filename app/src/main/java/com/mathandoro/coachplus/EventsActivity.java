@@ -24,8 +24,6 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.CreateEventActivity;
 import com.mathandoro.coachplus.models.Team;
 
 public class EventsActivity extends AppCompatActivity {
@@ -42,10 +40,16 @@ public class EventsActivity extends AppCompatActivity {
 
         team = getIntent().getExtras().getParcelable("team");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.events_toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setLogo(R.drawable.logo_white);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Events");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.

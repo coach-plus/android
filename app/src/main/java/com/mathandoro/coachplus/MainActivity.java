@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+
 import com.mathandoro.coachplus.data.DataLayer;
 import com.mathandoro.coachplus.data.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.logo);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setLogo(R.drawable.logo_white);
+
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -150,12 +153,17 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_userprofile) {
+            this.navigateToUserProfileActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    public void navigateToUserProfileActivity(){
+        Intent createTeamIntent = new Intent(this, UserProfileActivity.class);
+        startActivity(createTeamIntent);
+    }
 
     public void logout(View view){
         this.settings.reset();
