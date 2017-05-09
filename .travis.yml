@@ -19,7 +19,8 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_8909454dee1d_key -iv $encrypted_8909454dee1d_iv
   -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
-- sudo apt-get install ruby
-- sudo apt-get install rubygems
+- gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+- \curl -sSL https://get.rvm.io | bash -s stable
+- rvm install 2.1
 - sudo gem install fastlane
 script: fastlane beta
