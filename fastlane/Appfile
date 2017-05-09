@@ -8,4 +8,3 @@
 # apple_id "apple@fastlane.tools" # Your Apple ID
 
 json_key_file "./google_key.json"
-package_name "com.mathandoro.coachplus.dev"
