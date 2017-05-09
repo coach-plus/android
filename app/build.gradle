@@ -41,6 +41,10 @@ android {
             applicationId "com.mathandoro.coachplus.dev"
             buildConfigField "String", "BASE_URL", '"https://dev.coach.plus/api/"'
         }
+        beta {
+            applicationId "com.mathandoro.coachplus.beta"
+            buildConfigField "String", "BASE_URL", '"https://dev.coach.plus/api/"'
+        }
         prod {
             applicationId "com.mathandoro.coachplus"
             buildConfigField "String", "BASE_URL", '"https://coach.plus/api/"'
