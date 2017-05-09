@@ -13,13 +13,12 @@ default_platform :android
 # Fastfile actions accept additional configuration, but
 # don't worry, fastlane will prompt you for required
 # info which you can add here later
-lane :beta do
-  # build the release variant
+lane :build_beta do
   gradle(task: "assemble", build_type: "Release", flavor: "dev")
+end
 
-  # upload to Google Play
+lane :upload_beta do
   supply(track: "beta", apk: "app/build/outputs/apk/app-dev-release.apk")
-
   # slack(
   #   slack_url: "https://hooks.slack.com/services/IDS"
   # )

@@ -1,6 +1,10 @@
 language: android
+jdk:
+  - oraclejdk8
 android:
   components:
+  - tools
+  - platform-tools
   - build-tools-25.0.2
   - android-22
   - extra-google-google_play_services
@@ -19,5 +23,14 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_8909454dee1d_key -iv $encrypted_8909454dee1d_iv
   -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
-- sudo gem install fastlane -NV
-script: fastlane beta
+- rvm install 2.1
+- gem install fastlane
+- echo y | $ANDROID_HOMEtools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+- fastlane build_beta
+deploy:
+- provider: script
+  skip_cleanup: true
+  script: fastlane upload_beta
+  on:
+    branch: master
+    tags: true
