@@ -11,6 +11,9 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    lintOptions {
+        abortOnError false
+    }
     signingConfigs {
         config {
             keyAlias keystoreProperties['keyAlias']
@@ -25,8 +28,8 @@ android {
         applicationId "com.mathandoro.coachplus"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
