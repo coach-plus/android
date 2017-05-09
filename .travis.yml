@@ -20,5 +20,6 @@ before_install:
   -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
 - sudo apt-get install ruby
+- sudo apt-get install rubygems
 - sudo gem install fastlane -NV
 script: fastlane beta
