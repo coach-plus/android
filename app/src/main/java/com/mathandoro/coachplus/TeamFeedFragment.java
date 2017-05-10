@@ -94,7 +94,7 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(membership.getTeam().getName());
+        //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(membership.getTeam().getName());
 
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);

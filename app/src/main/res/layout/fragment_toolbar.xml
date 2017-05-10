@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/lib/com.mathandoro.coachplus"
+    xmlns:app2="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:background="?attr/colorPrimary"
+        app2:layout_constraintRight_toRightOf="parent"
+        app2:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginLeft="8dp"
+        app2:layout_constraintLeft_toLeftOf="parent" />
+
+    <ImageView
+        android:id="@+id/toolbar_logo"
+        android:layout_width="180dp"
+        android:layout_height="56dp"
+        android:layout_marginRight="8dp"
+        app2:layout_constraintRight_toRightOf="@+id/toolbar"
+        android:src="@drawable/logo_white"
+        app2:layout_constraintTop_toTopOf="@+id/toolbar"
+        android:layout_marginTop="0dp"
+        app2:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        android:layout_marginBottom="0dp"
+        app2:layout_constraintVertical_bias="0.0"
+        android:layout_marginLeft="8dp"
+        app2:layout_constraintLeft_toLeftOf="@+id/toolbar" />
+
+    <ImageView
+        android:id="@+id/toolbar_left_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_dehaze_white_24dp"
+        app2:layout_constraintBottom_toBottomOf="@+id/toolbar_logo"
+        app2:layout_constraintLeft_toLeftOf="parent"
+        app2:layout_constraintTop_toTopOf="@+id/toolbar_logo" />
+
+</android.support.constraint.ConstraintLayout>

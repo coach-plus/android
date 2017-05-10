@@ -7,24 +7,23 @@ import android.view.View;
 
 import com.mathandoro.coachplus.R;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
+
+    protected ToolbarFragment toolbarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.user_profile_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setLogo(R.drawable.logo_white);
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_toolbar);
+        toolbarFragment.setListener(this);
+        toolbarFragment.showBackButton();
 
+    }
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+    @Override
+    public void onLeftIconPressed() {
+        finish();
     }
 }
