@@ -1,4 +1,4 @@
-git p# More documentation about how to customize your build
+# More documentation about how to customize your build
 # can be found here:
 # https://docs.fastlane.tools
 fastlane_version "1.109.0"
