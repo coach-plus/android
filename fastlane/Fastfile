@@ -15,11 +15,11 @@ default_platform :android
 # info which you can add here later
 
 lane :build_beta do
-  gradle(task: "assemble", build_type: "Release", flavor: "dev")
+  gradle(task: "assemble", build_type: "Release", flavor: "beta")
 end
 
 lane :upload_beta do
-  supply(track: "beta", package_name: "com.mathandoro.coachplus.beta", apk: "app/build/outputs/apk/app-dev-release.apk")
+  supply(track: "beta", package_name: "com.mathandoro.coachplus.beta", apk: "app/build/outputs/apk/app-beta-release.apk")
   # slack(
   #   slack_url: "https://hooks.slack.com/services/IDS"
   # )
