@@ -22,7 +22,7 @@ import com.mathandoro.coachplus.models.Membership;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener {
+public class MainActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener, ToolbarFragment.ToolbarFragmentListener {
 
     Settings settings;
     private MyMembershipsAdapter myMembershipsAdapter;
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     private DrawerLayout drawer;
     private boolean initalMembershipsLoaded;
     protected List<Membership> memberships;
+    protected ToolbarFragment toolbarFragment;
 
     static int CREATE_TEAM_REQUEST = 1;
 
@@ -44,28 +45,10 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
         setContentView(R.layout.activity_main);
 
         dataLayer = DataLayer.getInstance(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.logo);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.logo_white);
 
-
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_toolbar);
+        toolbarFragment.setListener(this);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar,  R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-
-        // custom drawer icon
-        toggle.setDrawerIndicatorEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.circle);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.openDrawer(Gravity.START);
-            }
-        });
-
-        toggle.syncState();
 
         this.loadMembershipsRecyclerView();
         this.loadMemberships();
@@ -186,5 +169,10 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     public void onRegisterTeamButtonPressed() {
         drawer.closeDrawer(GravityCompat.START);
         this.navigateToCreateTeamActivity();
+    }
+
+    @Override
+    public void onLeftIconPressed() {
+        drawer.openDrawer(Gravity.START);
     }
 }

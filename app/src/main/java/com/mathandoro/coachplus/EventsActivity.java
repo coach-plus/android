@@ -26,12 +26,13 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.models.Team;
 
-public class EventsActivity extends AppCompatActivity {
+public class EventsActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private Team team;
+    private ToolbarFragment toolbarFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +41,10 @@ public class EventsActivity extends AppCompatActivity {
 
         team = getIntent().getExtras().getParcelable("team");
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.events_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setLogo(R.drawable.logo_white);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_toolbar);
+        toolbarFragment.setListener(this);
+        toolbarFragment.showBackButton();
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
@@ -69,14 +64,7 @@ public class EventsActivity extends AppCompatActivity {
             }
         });
 
-        AppBarLayout appBarLayout = (AppBarLayout)findViewById(R.id.appbar);
-        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-       appBarLayout.setOnDragListener(new View.OnDragListener() {
-           @Override
-           public boolean onDrag(View view, DragEvent dragEvent) {
-               return false;
-           }
-       });
+
 
     }
 
@@ -101,6 +89,11 @@ public class EventsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLeftIconPressed() {
+        finish();
     }
 
 

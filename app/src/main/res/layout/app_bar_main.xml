@@ -1,32 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/lib/com.mathandoro.coachplus"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.mathandoro.coachplus.MainActivity">
 
-    <android.support.design.widget.AppBarLayout
+
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/lib/com.mathandoro.coachplus"
+        xmlns:app2="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <fragment
+        class="com.mathandoro.coachplus.ToolbarFragment"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
+        app2:layout_constraintLeft_toLeftOf="parent"
+        app2:layout_constraintRight_toRightOf="parent"
+        app2:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        android:id="@+id/fragment_toolbar"
+        tools:layout="@layout/fragment_toolbar"
+        ></fragment>
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/main_activity_fragment_container"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app2:layout_constraintBottom_toBottomOf="parent"
+        app2:layout_constraintHorizontal_bias="0.0"
+        app2:layout_constraintLeft_toLeftOf="parent"
+        app2:layout_constraintRight_toRightOf="parent"
+        app2:layout_constraintVertical_bias="0.0"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginTop="0dp"
+        app2:layout_constraintTop_toBottomOf="@+id/fragment_toolbar">
+
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>
 
 
 
-</android.support.design.widget.CoordinatorLayout>
