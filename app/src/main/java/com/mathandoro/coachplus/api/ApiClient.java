@@ -21,7 +21,7 @@ public class ApiClient {
 
 
     private ApiClient(){
-        this.baseUrl = BuildConfig.BASE_URL;
+        this.baseUrl = BuildConfig.BASE_URL + "/api/";
         this.retrofit = new Retrofit.Builder().baseUrl(this.baseUrl).addConverterFactory(GsonConverterFactory.create()).build();
         this.userService = retrofit.create(UserService.class);
         this.membershipService = retrofit.create(MembershipService.class);

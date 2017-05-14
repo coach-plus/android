@@ -11,6 +11,7 @@ public class Team implements Parcelable{
     protected String _id;
     protected String name;
     protected boolean isPublic;
+    protected String image;
 
     public Team(String _id, String name, boolean isPublic) {
         this._id = _id;
@@ -21,6 +22,7 @@ public class Team implements Parcelable{
     protected Team(Parcel in) {
         _id = in.readString();
         name = in.readString();
+        image = in.readString();
         isPublic = in.readByte() != 0;
     }
 
@@ -60,6 +62,14 @@ public class Team implements Parcelable{
         isPublic = aPublic;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -69,6 +79,7 @@ public class Team implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(_id);
         dest.writeString(name);
+        dest.writeString(image);
         dest.writeByte((byte) (isPublic ? 1 : 0));
     }
 }

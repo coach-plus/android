@@ -1,6 +1,7 @@
 package com.mathandoro.coachplus;
 
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.mathandoro.coachplus.helpers.CircleTransform;
+import com.mathandoro.coachplus.models.Team;
+import com.squareup.picasso.Picasso;
 
 
 public class ToolbarFragment extends Fragment {
@@ -28,6 +33,18 @@ public class ToolbarFragment extends Fragment {
 
     public void showBackButton(){
         this.leftIcon.setImageResource(R.drawable.ic_arrow_back_white_24dp);
+    }
+
+    public void setTeam(Team team){
+        if(team.getImage() == null){
+            leftIcon.setImageResource(R.drawable.ic_dehaze_white_24dp);
+            return;
+        }
+        Picasso.with(leftIcon.getContext())
+                .load(BuildConfig.BASE_URL+ "/uploads/" + team.getImage())
+                .placeholder(R.drawable.ic_dehaze_white_24dp)
+                .transform(new CircleTransform())
+                .into(leftIcon);
     }
 
 
