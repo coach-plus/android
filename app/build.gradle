@@ -22,14 +22,14 @@ android {
             storePassword keystoreProperties['storePassword']
         }
     }
-    compileSdkVersion 22
+    compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.mathandoro.coachplus"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 7
-        versionName "1.0.6"
+        versionCode 9
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -42,15 +42,16 @@ android {
     productFlavors {
         dev {
             applicationId "com.mathandoro.coachplus.dev"
-            buildConfigField "String", "BASE_URL", '"https://dev.coach.plus/api/"'
+            buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
         }
         beta {
+            manifestPlaceholders = [appName:"Coach+ "]
             applicationId "com.mathandoro.coachplus.beta"
-            buildConfigField "String", "BASE_URL", '"https://dev.coach.plus/api/"'
+            buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
         }
         prod {
             applicationId "com.mathandoro.coachplus"
-            buildConfigField "String", "BASE_URL", '"https://coach.plus/api/"'
+            buildConfigField "String", "BASE_URL", '"https://coach.plus"'
         }
     }
 }
@@ -61,12 +62,15 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.getbase:floatingactionbutton:1.10.1'
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:design:22.2.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.android.support:recyclerview-v7:22.2.1'
-    compile 'com.android.support:support-v4:22.2.1'
+    compile 'com.android.support:recyclerview-v7:25.+'
+    compile 'com.android.support:support-v4:25.+'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.theartofdev.edmodo:android-image-cropper:2.4.+'
+
     testCompile 'junit:junit:4.12'
 }

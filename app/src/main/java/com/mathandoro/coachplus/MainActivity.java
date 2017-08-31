@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     }
 
     public void switchTeamContext(Membership membership) {
+        toolbarFragment.setTeam(membership.getTeam());
         this.settings.setActiveTeamId(membership.getTeam().get_id());
         TeamFeedFragment teamFeedFragment = TeamFeedFragment.newInstance(membership);
         getSupportFragmentManager()

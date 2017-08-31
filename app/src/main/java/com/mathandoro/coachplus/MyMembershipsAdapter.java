@@ -4,10 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.models.Team;
+import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,12 +30,32 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public static class TeamViewHolder extends RecyclerView.ViewHolder {
         public TextView teamNameTextView;
+        public ImageView teamImageView;
         public View containerView;
 
         public TeamViewHolder(View view) {
             super(view);
             containerView = view;
             teamNameTextView = (TextView)view.findViewById(R.id.team_item_team_name);
+            teamImageView = (ImageView)view.findViewById(R.id.team_item_team_icon);
+        }
+
+        public void bindMembership(Membership membership){
+            if(membership.getTeam().getImage() != null){
+                String imageUrl = BuildConfig.BASE_URL + "/uploads/" + membership.getTeam().getImage();
+                Picasso.with(teamImageView.getContext())
+                        .load(imageUrl)
+                        .placeholder(R.drawable.circle)
+                        .transform(new CircleTransform())
+                        .into(teamImageView);
+
+                teamImageView.setImageResource(R.drawable.ic_dehaze_white_24dp);
+            }
+            else{
+                // cancel any pending request if there is one. This can happen because when data gets updated within a short period (first cache, then live data!)
+                Picasso.with(teamImageView.getContext()).cancelRequest(teamImageView);
+                teamImageView.setImageResource(R.drawable.circle);
+            }
         }
     }
 
@@ -98,14 +123,16 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
 
             case TEAM_ITEM:
-                TeamViewHolder teamViewHolder = (TeamViewHolder)holder;
-                teamViewHolder.teamNameTextView.setText(memberships.get(position).getTeam().getName());
+                final Membership membership = memberships.get(position);
+                final TeamViewHolder teamViewHolder = (TeamViewHolder)holder;
+                teamViewHolder.teamNameTextView.setText(membership.getTeam().getName());
                 teamViewHolder.containerView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mainActivity.switchTeamContext(memberships.get(position));
+                        mainActivity.switchTeamContext(membership);
                     }
                 });
+               teamViewHolder.bindMembership(membership);
         }
     }
 

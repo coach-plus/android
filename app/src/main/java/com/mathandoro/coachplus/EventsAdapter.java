@@ -76,7 +76,9 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 EventItemViewHolder eventItemViewHolder = (EventItemViewHolder)holder;
                 final Event event = getEvent(position);
                 eventItemViewHolder.title.setText(event.getName());
-                eventItemViewHolder.time.setText(event.getStart().toString());
+                if(event.getStart() != null){
+                    eventItemViewHolder.time.setText(event.getStart().toString());
+                }
                 eventItemViewHolder.itemContainer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
