@@ -52,7 +52,7 @@ public class EventsActivity extends AppCompatActivity implements ToolbarFragment
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+       // tabLayout.setupWithViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -63,9 +63,6 @@ public class EventsActivity extends AppCompatActivity implements ToolbarFragment
             startActivity(intent);
             }
         });
-
-
-
     }
 
 

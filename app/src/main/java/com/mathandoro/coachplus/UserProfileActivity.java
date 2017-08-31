@@ -19,7 +19,6 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
-
     }
 
     @Override
