@@ -57,7 +57,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
+        android:text="Coach Plus"
         android:textColor="#ffffff"
         android:textSize="18sp"
         android:textStyle="bold"

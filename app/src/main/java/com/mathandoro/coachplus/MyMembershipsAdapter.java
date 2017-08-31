@@ -48,8 +48,6 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .placeholder(R.drawable.circle)
                         .transform(new CircleTransform())
                         .into(teamImageView);
-
-                teamImageView.setImageResource(R.drawable.ic_dehaze_white_24dp);
             }
             else{
                 // cancel any pending request if there is one. This can happen because when data gets updated within a short period (first cache, then live data!)
