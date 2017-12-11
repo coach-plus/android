@@ -14,23 +14,105 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:background="#ffffff"
-        android:layout_gravity="start"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_gravity="start"
+        android:background="#ffffff">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:background="@color/colorAccent"
-        android:layout_height="56dp" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:background="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/info"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:tint="#ffffff"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout3"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout3"
+            android:src="@drawable/ic_info_outline_black_24dp" />
+
+        <ImageView
+            android:id="@+id/registerTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:tint="#ffffff"
+            app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout3"
+            android:src="@drawable/ic_add_black_24dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:text="TEAMS"
+            android:textColor="#ffffff"
+            android:textSize="18dp"
+            android:textStyle="bold|italic"
+            app:layout_constraintBottom_toTopOf="@+id/my_recycler_view"
+            app:layout_constraintEnd_toStartOf="@+id/registerTeam"
+            app:layout_constraintStart_toEndOf="@+id/info"
+            app:layout_constraintTop_toTopOf="@+id/linearLayout3" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/my_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical" />
-    </LinearLayout>
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="55dp"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/navigation_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Logout"
+            android:textStyle="bold"
+            android:textColor="#3381b8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_recycler_view" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v4.widget.DrawerLayout>

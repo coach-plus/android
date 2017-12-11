@@ -23,7 +23,7 @@ android {
         }
     }
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.mathandoro.coachplus"
         minSdkVersion 15
@@ -39,17 +39,21 @@ android {
             signingConfig signingConfigs.config
         }
     }
+    flavorDimensions 'tier'
     productFlavors {
         dev {
+            dimension 'tier'
             applicationId "com.mathandoro.coachplus.dev"
             buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
         }
         beta {
+            dimension 'tier'
             manifestPlaceholders = [appName:"Coach+ "]
             applicationId "com.mathandoro.coachplus.beta"
             buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
         }
         prod {
+            dimension 'tier'
             applicationId "com.mathandoro.coachplus"
             buildConfigField "String", "BASE_URL", '"https://coach.plus"'
         }
