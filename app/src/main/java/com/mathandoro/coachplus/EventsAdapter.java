@@ -50,8 +50,7 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-            return EVENT_ITEM;
-
+        return EVENT_ITEM;
     }
 
     @Override

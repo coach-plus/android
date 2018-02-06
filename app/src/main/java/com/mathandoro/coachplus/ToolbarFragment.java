@@ -1,8 +1,5 @@
 package com.mathandoro.coachplus;
 
-import android.media.Image;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,16 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Team;
-import com.squareup.picasso.Picasso;
 
 
 public class ToolbarFragment extends Fragment {
     private Toolbar toolbar;
     private ImageView leftIcon;
     private ImageView logo;
-    private TextView teamName;
+    private TextView title;
 
     private ToolbarFragmentListener toolbarFragmentListener;
 
@@ -40,7 +35,12 @@ public class ToolbarFragment extends Fragment {
     }
 
     public void setTeam(Team team){
-       teamName.setText(team.getName());
+       title.setText(team.getName());
+       logo.setVisibility(View.INVISIBLE);
+    }
+
+    public void setTitle(String titleText){
+        title.setText(titleText);
         logo.setVisibility(View.INVISIBLE);
     }
 
@@ -77,7 +77,7 @@ public class ToolbarFragment extends Fragment {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         toolbar.setTitle("");
         toolbar.hideOverflowMenu();
-        teamName = (TextView)view.findViewById(R.id.toolbar_team_name);
+        title = (TextView)view.findViewById(R.id.toolbar_team_name);
         leftIcon = (ImageView)view.findViewById(R.id.toolbar_left_icon);
         logo = (ImageView)view.findViewById(R.id.toolbar_logo);
         leftIcon.setOnClickListener(new View.OnClickListener() {

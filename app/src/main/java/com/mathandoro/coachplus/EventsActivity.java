@@ -44,15 +44,13 @@ public class EventsActivity extends AppCompatActivity implements ToolbarFragment
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
+        toolbarFragment.setTitle(this.team.getName() + " / Events");
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-       // tabLayout.setupWithViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +67,7 @@ public class EventsActivity extends AppCompatActivity implements ToolbarFragment
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_events, menu);
+        //getMenuInflater().inflate(R.menu.menu_events, menu);
         return true;
     }
 
