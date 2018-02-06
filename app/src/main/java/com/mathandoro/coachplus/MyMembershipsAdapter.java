@@ -9,10 +9,7 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Membership;
-import com.mathandoro.coachplus.models.Team;
 import com.squareup.picasso.Picasso;
-
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +23,6 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private List<Membership> memberships;
 
     final int TEAM_ITEM = 0;
-    final int CREATE_TEAM_ITEM = 1;
 
     public static class TeamViewHolder extends RecyclerView.ViewHolder {
         public TextView teamNameTextView;
@@ -50,23 +46,14 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .into(teamImageView);
             }
             else{
-                // cancel any pending request if there is one. This can happen because when data gets updated within a short period (first cache, then live data!)
+                // cancel any pending request if there is one.
+                // This can happen because when data gets updated within a short period (first cache, then live data!)
                 Picasso.with(teamImageView.getContext()).cancelRequest(teamImageView);
                 teamImageView.setImageResource(R.drawable.circle);
             }
         }
     }
 
-    public static class RegisterTeamViewHolder extends RecyclerView.ViewHolder {
-        public View containerView;
-
-        public RegisterTeamViewHolder(View view) {
-            super(view);
-            containerView = view;
-        }
-    }
-
-    // todo additional view holders for create team, logout etc.
 
     public MyMembershipsAdapter(MainActivity mainActivity) {
         this.memberships = new ArrayList<>();
@@ -80,10 +67,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemViewType(int position) {
-        if(position < this.memberships.size()){
-            return TEAM_ITEM;
-        }
-        return CREATE_TEAM_ITEM;
+        return TEAM_ITEM;
     }
 
     @Override
@@ -92,11 +76,6 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
         RecyclerView.ViewHolder viewHolder = null;
         View view = null;
         switch(viewType){
-            case CREATE_TEAM_ITEM:
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.register_team_item, parent, false);
-                viewHolder = new RegisterTeamViewHolder(view);
-                break;
             case TEAM_ITEM:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.navigation_item, parent, false);
@@ -110,16 +89,6 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         switch (holder.getItemViewType()) {
-            case CREATE_TEAM_ITEM:
-                RegisterTeamViewHolder registerTeamViewHolder = (RegisterTeamViewHolder) holder;
-                registerTeamViewHolder.containerView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mainActivity.navigateToCreateTeamActivity();
-                    }
-                });
-                break;
-
             case TEAM_ITEM:
                 final Membership membership = memberships.get(position);
                 final TeamViewHolder teamViewHolder = (TeamViewHolder)holder;
@@ -138,6 +107,6 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return memberships.size() + 1;
+        return memberships.size() ;
     }
 }
