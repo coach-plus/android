@@ -123,7 +123,9 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 EventDetailHeaderViewHolder eventDetailViewHolder = (EventDetailHeaderViewHolder) holder;
                 eventDetailViewHolder.name.setText(event.getName());
                 // todo location ! eventDetailViewHolder.location.setText(event.);
-                eventDetailViewHolder.time.setText(event.getStart().toString());
+                if(event.getStart() != null){
+                    eventDetailViewHolder.time.setText(event.getStart().toString());
+                }
                 eventDetailViewHolder.description.setText(event.getDescription());
                 break;
 

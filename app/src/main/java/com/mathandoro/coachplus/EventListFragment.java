@@ -18,8 +18,10 @@ import com.mathandoro.coachplus.data.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
+import java.util.function.Consumer;
 
 
 public class EventListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -31,13 +33,41 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
     private EventsAdapter eventsAdapter;
     protected DataLayer dataLayer;
     protected SwipeRefreshLayout swipeRefreshLayout;
-
+    protected boolean showUpcomingEvents = true;
 
     protected  DataLayerCallback<List<Event>> loadEventsCallback = new DataLayerCallback<List<Event>>() {
         @Override
         public void dataChanged(List<Event> events) {
-            eventsAdapter.setEvents(events);
+            List<Event> visibleEvents = this.filterVisibleEvents(events);
+            eventsAdapter.setEvents(visibleEvents);
             swipeRefreshLayout.setRefreshing(false);
+        }
+
+        private List<Event> filterVisibleEvents(List<Event> events){
+            if(showUpcomingEvents){
+                return this.filterUpcomingEvents(events);
+            }
+            return this.filterPastEvents(events);
+        }
+
+        private List<Event> filterUpcomingEvents(List<Event> events){
+            List<Event> upcomingEvents = new ArrayList<Event>();
+            for(Event event: events){
+                if(event.getEnd().after(new Date())){
+                    upcomingEvents.add(event);
+                }
+            }
+            return upcomingEvents;
+        }
+
+        private List<Event> filterPastEvents(List<Event> events){
+            List<Event> pastEvents = new ArrayList<Event>();
+            for(Event event: events){
+                if(event.getEnd().before(new Date())){
+                    pastEvents.add(event);
+                }
+            }
+            return pastEvents;
         }
 
         @Override
@@ -46,12 +76,19 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         }
     };
 
+
+
     public EventListFragment() {
         // Required empty public constructor
     }
 
-    public static EventListFragment newInstance(Team team) {
+    public void setShowUpcomingEvents(boolean showUpcomingEvents){
+        this.showUpcomingEvents = showUpcomingEvents;
+    }
+
+    public static EventListFragment newInstance(Team team, boolean showUpcomingEvents) {
         EventListFragment fragment = new EventListFragment();
+        fragment.setShowUpcomingEvents(showUpcomingEvents);
         Bundle args = new Bundle();
         args.putParcelable(ARG_TEAM,  team);
         fragment.setArguments(args);

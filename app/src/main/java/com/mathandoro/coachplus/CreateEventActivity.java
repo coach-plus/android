@@ -144,7 +144,7 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         if(view == this.createEventButton){
             Date startDate = start.getTime();
             Date endDate = end.getTime();
-            Event newEvent = new Event(this.eventName.getText().toString(), this.description.getText().toString(), startDate, endDate);
+            Event newEvent = new Event(this.eventName.getText().toString(), this.description.getText().toString(), startDate, endDate, "");
             dataLayer.createEvent(team, newEvent, new DataLayerCallback<Event>() {
                 @Override
                 public void dataChanged(Event data) {

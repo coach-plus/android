@@ -135,7 +135,11 @@ public class EventsActivity extends AppCompatActivity implements ToolbarFragment
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
             //return PlaceholderFragment.newInstance(position + 1);
-            return EventListFragment.newInstance(team);
+            boolean showUpcomingEvents = true;
+            if(position == 1){
+                showUpcomingEvents = false;
+            }
+            return EventListFragment.newInstance(team, showUpcomingEvents);
         }
 
         @Override
@@ -151,7 +155,6 @@ public class EventsActivity extends AppCompatActivity implements ToolbarFragment
                     return "Upcoming";
                 case 1:
                     return "Past";
-
             }
             return null;
         }

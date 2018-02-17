@@ -7,7 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.mathandoro.coachplus.models.Event;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -30,8 +33,9 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public EventItemViewHolder(View view) {
             super(view);
             this.itemContainer = view;
-            this.title = (TextView)view.findViewById(R.id.team_item_team_name);
-            this.time = (TextView)view.findViewById(R.id.team_item_team_description);
+            this.title = (TextView)view.findViewById(R.id.event_item_event_name);
+            this.time = (TextView)view.findViewById(R.id.event_item_event_start);
+            this.location = (TextView)view.findViewById(R.id.event_item_event_location);
         }
     }
 
@@ -61,7 +65,7 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         switch(viewType){
             case EVENT_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.navigation_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_item, parent, false);
                 viewHolder = new EventItemViewHolder(view);
                 break;
         }
@@ -76,8 +80,9 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 final Event event = getEvent(position);
                 eventItemViewHolder.title.setText(event.getName());
                 if(event.getStart() != null){
-                    eventItemViewHolder.time.setText(event.getStart().toString());
+                    eventItemViewHolder.time.setText(this.formatGermanTimestamp(event.getStart()));
                 }
+                // todo location
                 eventItemViewHolder.itemContainer.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -86,6 +91,17 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 });
                 break;
         }
+    }
+
+    public String formatGermanTimestamp(Date indate)
+    {
+        String dateString = null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy - HH:mm");
+        try{
+            dateString = simpleDateFormat.format( indate ) + " Uhr";
+        }catch (Exception exception){
+        }
+        return dateString;
     }
 
     protected Event getEvent(int position){
