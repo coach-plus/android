@@ -44,7 +44,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements ToolbarFr
         setContentView(R.layout.activity_create_team);
         settings = new Settings(this);
 
-        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_toolbar);
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.my_memberships_fragment_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
 

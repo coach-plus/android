@@ -34,7 +34,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public EventDetailHeaderViewHolder(View view) {
             super(view);
-            name = (TextView)view.findViewById(R.id.event_detail_event_name);
+            name = (TextView)view.findViewById(R.id.list_section_heading_text);
             location = (TextView)view.findViewById(R.id.event_detail_location);
             time = (TextView)view.findViewById(R.id.event_detail_time);
             description = (TextView)view.findViewById(R.id.event_detail_description);
@@ -105,7 +105,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 viewHolder = new EventDetailHeaderViewHolder(view);
                 break;
             case ATTENDANCE_HEADING:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_event_detail_attendance_header, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_section_heading, parent, false);
                 viewHolder = new AttendanceHeadingViewHolder(view);
                 break;
             case ATTENDANCE_ITEM:

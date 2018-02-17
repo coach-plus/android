@@ -2,10 +2,6 @@ package com.mathandoro.coachplus;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-
-import com.mathandoro.coachplus.R;
 
 public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
 
@@ -14,9 +10,9 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
+        setContentView(R.layout.user_profile_activity);
 
-        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_toolbar);
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.user_profile_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
     }

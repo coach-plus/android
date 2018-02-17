@@ -8,9 +8,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
         dataLayer = DataLayer.getInstance(this);
 
-        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_toolbar);
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.my_memberships_fragment_toolbar);
         toolbarFragment.setListener(this);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ImageView registerTeamImage = (ImageView)findViewById(R.id.registerTeam);

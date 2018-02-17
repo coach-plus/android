@@ -34,7 +34,7 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
 
         team = getIntent().getExtras().getParcelable("team");
 
-        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_toolbar);
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.my_memberships_fragment_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
         toolbarFragment.setTitle(this.team.getName() + " / Events");

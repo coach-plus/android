@@ -8,9 +8,8 @@
     android:background="#e9f3fc"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
     <TextView
-        android:id="@+id/event_detail_event_name"
+        android:id="@+id/list_section_heading_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -19,7 +18,8 @@
         android:layout_marginRight="0dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:text="ATTENDANCE"
+        android:text="heading"
+        android:inputType="textCapWords"
         android:textAlignment="center"
         android:textColor="#4a4a4a"
         android:textSize="13dp"
