@@ -47,6 +47,11 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     protected DataLayerCallback<List<TeamMember>> loadTeamMembersCallback = new DataLayerCallback<List<TeamMember>>() {
         @Override
         public void dataChanged(List<TeamMember> members) {
+            if(members.size() > 0){
+                for(int i =0;i < 15; i++){
+                    members.add(members.get(0));
+                }
+            }
             teamFeedAdapter.setMembers(members);
             swipeRefreshLayout.setRefreshing(false);
 
@@ -63,6 +68,10 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public TeamFeedFragment() {
         // Required empty public constructor
+    }
+
+    public Membership getCurrentMembership(){
+        return this.membership;
     }
 
     public static TeamFeedFragment newInstance(Membership membership) {
@@ -83,6 +92,7 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
             membership = getArguments().getParcelable(ARG_TEAM);
         }
 
+
     }
 
     @Override
@@ -100,6 +110,18 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout.setOnRefreshListener(this);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.team_feed);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                View view = recyclerView.getChildAt(0);
+                if(view != null && recyclerView.getChildAdapterPosition(view) == 0){
+                    View teamImageView = view.findViewById(R.id.team_feed_team_image);
+                    teamImageView.setTranslationY(-view.getTop()/2);
+                }
+            }
+        });
+
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         teamFeedAdapter = new TeamFeedAdapter((MainActivity)getActivity(), this);
