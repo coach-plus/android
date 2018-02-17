@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import com.mathandoro.coachplus.data.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Response.InvitationResponse;
-import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
 
 import java.util.List;
@@ -173,7 +171,7 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     public void navigateToAllEvents() {
-        Intent intent = new Intent(getActivity(), EventsActivity.class);
+        Intent intent = new Intent(getActivity(), EventListActivity.class);
         intent.putExtra("team", membership.getTeam());
         startActivity(intent);
     }

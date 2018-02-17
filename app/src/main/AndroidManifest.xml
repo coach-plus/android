@@ -43,7 +43,7 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity
-            android:name=".EventsActivity"
+            android:name=".EventListActivity"
             android:label="@string/title_activity_events"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme">

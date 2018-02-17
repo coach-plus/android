@@ -78,7 +78,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch(viewType){
             case TEAM_ITEM:
                 view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.navigation_item, parent, false);
+                        .inflate(R.layout.team_item, parent, false);
                 viewHolder = new TeamViewHolder(view);
                 break;
         }

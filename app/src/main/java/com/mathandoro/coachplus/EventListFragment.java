@@ -21,7 +21,6 @@ import com.mathandoro.coachplus.models.Team;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
 
 
 public class EventListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -30,7 +29,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
-    private EventsAdapter eventsAdapter;
+    private EventListAdapter eventListAdapter;
     protected DataLayer dataLayer;
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected boolean showUpcomingEvents = true;
@@ -39,7 +38,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         @Override
         public void dataChanged(List<Event> events) {
             List<Event> visibleEvents = this.filterVisibleEvents(events);
-            eventsAdapter.setEvents(visibleEvents);
+            eventListAdapter.setEvents(visibleEvents);
             swipeRefreshLayout.setRefreshing(false);
         }
 
@@ -122,8 +121,8 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         mRecyclerView = (RecyclerView) view.findViewById(R.id.eventListRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        eventsAdapter = new EventsAdapter((EventsActivity)getActivity(), this);
-        mRecyclerView.setAdapter(eventsAdapter);
+        eventListAdapter = new EventListAdapter((EventListActivity)getActivity(), this);
+        mRecyclerView.setAdapter(eventListAdapter);
 
         // load data
         dataLayer.getEvents(team, true, loadEventsCallback);

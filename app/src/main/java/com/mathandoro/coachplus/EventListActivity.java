@@ -1,21 +1,14 @@
 package com.mathandoro.coachplus;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +19,7 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.models.Team;
 
-public class EventsActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
+public class EventListActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
 
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
@@ -56,7 +49,7 @@ public class EventsActivity extends AppCompatActivity implements ToolbarFragment
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            Intent intent = new Intent(EventsActivity.this, CreateEventActivity.class);
+            Intent intent = new Intent(EventListActivity.this, CreateEventActivity.class);
             intent.putExtra("team", team);
             startActivity(intent);
             }

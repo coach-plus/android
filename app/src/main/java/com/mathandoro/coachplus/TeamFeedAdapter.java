@@ -1,6 +1,5 @@
 package com.mathandoro.coachplus;
 
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.squareup.picasso.Picasso;
@@ -129,7 +127,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_feed_upcoming_events_header, parent, false);
                 return new UpcomingEventsHeaderViewHolder(view);
             case UPCOMING_EVENTS_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.navigation_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_item, parent, false);
                 return new UpcomingEventsItemViewHolder(view);
             case MEMBERS_HEADER:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_feed_members_header, parent, false);

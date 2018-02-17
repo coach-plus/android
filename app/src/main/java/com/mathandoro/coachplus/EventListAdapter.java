@@ -1,6 +1,5 @@
 package com.mathandoro.coachplus;
 
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,8 @@ import java.util.List;
 
 
 
-public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final EventsActivity eventsActivity;
+public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final EventListActivity eventListActivity;
     private final EventListFragment eventListFragment;
     private List<Event> events;
 
@@ -40,10 +39,10 @@ public class EventsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
-    public EventsAdapter(EventsActivity eventsActivity, EventListFragment eventListFragment) {
+    public EventListAdapter(EventListActivity eventListActivity, EventListFragment eventListFragment) {
         this.events = new ArrayList<>();
         this.eventListFragment = eventListFragment;
-        this.eventsActivity = eventsActivity;
+        this.eventListActivity = eventListActivity;
     }
 
 
