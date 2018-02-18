@@ -1,12 +1,14 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.models.Response.ApiResponse;
+import com.mathandoro.coachplus.views.MainActivity.MainActivity;
 
 import java.util.List;
 

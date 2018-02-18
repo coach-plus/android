@@ -5,10 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mathandoro.coachplus.RegisterTeamActivity">
+    tools:context="com.mathandoro.coachplus.views.RegisterTeamActivity">
 
     <fragment
-        class="com.mathandoro.coachplus.ToolbarFragment"
+        class="com.mathandoro.coachplus.views.layout.ToolbarFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:id="@+id/my_memberships_fragment_toolbar"

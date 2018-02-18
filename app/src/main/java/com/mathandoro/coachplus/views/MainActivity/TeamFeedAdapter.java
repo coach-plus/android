@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views.MainActivity;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mathandoro.coachplus.BuildConfig;
+import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.squareup.picasso.Picasso;

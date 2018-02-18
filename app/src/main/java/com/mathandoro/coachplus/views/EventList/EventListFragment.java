@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views.EventList;
 
 
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
+import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.data.DataLayer;
 import com.mathandoro.coachplus.data.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;

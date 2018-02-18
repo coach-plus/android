@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views.MainActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,9 +14,15 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 
+import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.views.RegisterTeamActivity;
+import com.mathandoro.coachplus.Settings;
+import com.mathandoro.coachplus.views.layout.ToolbarFragment;
+import com.mathandoro.coachplus.views.UserProfileActivity;
 import com.mathandoro.coachplus.data.DataLayer;
 import com.mathandoro.coachplus.data.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.views.LoginActivity;
 
 import java.util.List;
 

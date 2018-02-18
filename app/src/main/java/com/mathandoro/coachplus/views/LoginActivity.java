@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.models.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Response.LoginResponse;
 import com.mathandoro.coachplus.models.LoginUser;
+import com.mathandoro.coachplus.views.MainActivity.MainActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;

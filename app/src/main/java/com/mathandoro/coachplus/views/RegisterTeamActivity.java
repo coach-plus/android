@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,11 +13,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.RegisterTeam;
 import com.mathandoro.coachplus.models.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Team;
+import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.squareup.picasso.Picasso;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;

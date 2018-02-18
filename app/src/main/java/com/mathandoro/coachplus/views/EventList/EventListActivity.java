@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views.EventList;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import com.mathandoro.coachplus.views.CreateEventActivity;
+import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.mathandoro.coachplus.models.Team;
 
 public class EventListActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {

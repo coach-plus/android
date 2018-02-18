@@ -1,7 +1,10 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
 

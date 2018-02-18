@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views.MainActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.data.DataLayer;
 import com.mathandoro.coachplus.data.DataLayerCallback;
@@ -22,6 +24,8 @@ import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Response.InvitationResponse;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.views.CreateEventActivity;
+import com.mathandoro.coachplus.views.EventList.EventListActivity;
 
 import java.util.List;
 

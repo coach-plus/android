@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mathandoro.coachplus.EventListActivity">
+    tools:context="com.mathandoro.coachplus.views.EventList.EventListActivity">
 
     <fragment
         android:id="@+id/my_memberships_fragment_toolbar"
-        class="com.mathandoro.coachplus.ToolbarFragment"
+        class="com.mathandoro.coachplus.views.layout.ToolbarFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintHorizontal_bias="0.0"

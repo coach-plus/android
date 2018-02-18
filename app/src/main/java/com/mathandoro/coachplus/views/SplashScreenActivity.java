@@ -1,9 +1,15 @@
-package com.mathandoro.coachplus;
+package com.mathandoro.coachplus.views;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
+import com.mathandoro.coachplus.views.LoginActivity;
+import com.mathandoro.coachplus.views.MainActivity.MainActivity;
+import com.mathandoro.coachplus.views.RegisterActivity;
 
 
 public class SplashScreenActivity extends AppCompatActivity {
