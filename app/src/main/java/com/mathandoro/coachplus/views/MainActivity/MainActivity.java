@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.views.RegisterTeamActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -122,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
     private void loadMembershipsRecyclerView(){
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        mLinearLayoutManager = new LinearLayoutManager(this);
+        mLinearLayoutManager = new PreloadLayoutManager(this); //new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         myMembershipsAdapter = new MyMembershipsAdapter(this);
         mRecyclerView.setAdapter(myMembershipsAdapter);

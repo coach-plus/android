@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.squareup.picasso.Picasso;
 
@@ -29,6 +30,7 @@ public class UserInfoViewHolder extends RecyclerView.ViewHolder {
         String imageUrl = BuildConfig.BASE_URL + "/uploads/" + user.getImage();
         Picasso.with(this.itemView.getContext())
                 .load(imageUrl)
+                .transform(new CircleTransform())
                 .placeholder(R.drawable.circle)
                 .into(this.teamImage);
     }
