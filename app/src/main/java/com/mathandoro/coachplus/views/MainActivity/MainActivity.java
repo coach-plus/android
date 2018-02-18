@@ -18,9 +18,9 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.views.RegisterTeamActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
-import com.mathandoro.coachplus.views.UserProfileActivity;
-import com.mathandoro.coachplus.data.DataLayer;
-import com.mathandoro.coachplus.data.DataLayerCallback;
+import com.mathandoro.coachplus.views.UserProfile.UserProfileActivity;
+import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.LoginActivity;
 

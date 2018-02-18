@@ -18,7 +18,7 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.RegisterTeam;
-import com.mathandoro.coachplus.models.Response.ApiResponse;
+import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.squareup.picasso.Picasso;

@@ -1,18 +1,18 @@
-package com.mathandoro.coachplus.data;
+package com.mathandoro.coachplus.persistence;
 
 import android.content.Context;
 
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.models.Response.ApiResponse;
-import com.mathandoro.coachplus.models.Response.CreateEventResponse;
+import com.mathandoro.coachplus.api.Response.ApiResponse;
+import com.mathandoro.coachplus.api.Response.CreateEventResponse;
 import com.mathandoro.coachplus.models.Event;
-import com.mathandoro.coachplus.models.Response.EventsResponse;
-import com.mathandoro.coachplus.models.Response.MyMembershipsResponse;
+import com.mathandoro.coachplus.api.Response.EventsResponse;
+import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
-import com.mathandoro.coachplus.models.Response.TeamMembersResponse;
+import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -78,6 +78,30 @@ public class DataLayer {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<MyMembershipsResponse>> call, Throwable t) {
+                callback.error();
+            }
+        });
+    }
+
+    public void getMembershipsOfUser(String userId, final DataLayerCallback<List<Membership>> callback){
+        if(this.offlineMode){
+            return;
+        }
+        ApiClient.instance().userService.getMembershipsOfUser(settings.getToken(), userId)
+                .enqueue(new Callback<ApiResponse<MyMembershipsResponse>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<MyMembershipsResponse>> call,
+                                   Response<ApiResponse<MyMembershipsResponse>> response) {
+                if(response.code() == 200){
+                    if(callback != null){
+                        List<Membership> memberships = response.body().content.getMemberships();
+                        callback.dataChanged(memberships);
                     }
                 }
             }

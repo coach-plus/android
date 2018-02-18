@@ -9,8 +9,8 @@ import android.widget.EditText;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.models.Response.ApiResponse;
-import com.mathandoro.coachplus.models.Response.LoginResponse;
+import com.mathandoro.coachplus.api.Response.ApiResponse;
+import com.mathandoro.coachplus.api.Response.LoginResponse;
 import com.mathandoro.coachplus.models.LoginUser;
 import com.mathandoro.coachplus.views.MainActivity.MainActivity;
 

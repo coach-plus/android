@@ -15,8 +15,8 @@ import android.view.ViewGroup;
 
 import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.data.DataLayer;
-import com.mathandoro.coachplus.data.DataLayerCallback;
+import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 

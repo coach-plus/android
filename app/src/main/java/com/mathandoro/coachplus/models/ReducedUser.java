@@ -11,17 +11,20 @@ public class ReducedUser implements Parcelable {
     protected String firstname;
     protected String lastname;
     protected String _id;
+    protected String image;
 
-    public ReducedUser(String firstname, String lastname, String _id) {
+    public ReducedUser(String firstname, String lastname, String _id, String image) {
         this.firstname = firstname;
         this.lastname = lastname;
         this._id = _id;
+        this.image = image;
     }
 
     protected ReducedUser(Parcel in) {
         firstname = in.readString();
         lastname = in.readString();
         _id = in.readString();
+        image = in.readString();
     }
 
     public static final Creator<ReducedUser> CREATOR = new Creator<ReducedUser>() {
@@ -60,6 +63,14 @@ public class ReducedUser implements Parcelable {
         this.lastname = lastname;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -70,5 +81,6 @@ public class ReducedUser implements Parcelable {
         parcel.writeString(firstname);
         parcel.writeString(lastname);
         parcel.writeString(_id);
+        parcel.writeString(image);
     }
 }

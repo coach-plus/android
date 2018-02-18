@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.data;
+package com.mathandoro.coachplus.persistence;
 
 import com.mathandoro.coachplus.models.Team;
 

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.squareup.picasso.Picasso;
@@ -144,12 +145,19 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         switch (holder.getItemViewType()) {
             case TEAM_IMAGE_ITEM:
+                String image = this.teamFeedFragment.getCurrentMembership().getTeam().getImage();
                 TeamImageItemViewHolder teamImageItemViewHolder = (TeamImageItemViewHolder) holder;
-                String imageUrl = BuildConfig.BASE_URL + "/uploads/" + this.teamFeedFragment.getCurrentMembership().getTeam().getImage();
-                Picasso.with(teamImageItemViewHolder.itemView.getContext())
-                        .load(imageUrl)
-                        .placeholder(R.drawable.circle)
-                        .into(teamImageItemViewHolder.teamImage);
+                if(image != null){
+                    String imageUrl = BuildConfig.BASE_URL + "/uploads/" + image;
+                    Picasso.with(teamImageItemViewHolder.itemView.getContext())
+                            .load(imageUrl)
+                            .placeholder(R.drawable.circle)
+                            .into(teamImageItemViewHolder.teamImage);
+                }
+                else{
+                    teamImageItemViewHolder.teamImage.setImageResource(R.drawable.circle);
+                }
+
                 break;
             case UPCOMING_EVENTS_HEADER:
                 UpcomingEventsHeaderViewHolder upcomingEventsHeaderViewHolder = (UpcomingEventsHeaderViewHolder) holder;
@@ -168,9 +176,27 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             case MEMBERS_ITEM:
                 TeamMembersItemViewHolder memberViewHolder = (TeamMembersItemViewHolder)holder;
-                TeamMember teamMember = getMember(position);
+                final TeamMember teamMember = getMember(position);
                 memberViewHolder.name.setText(teamMember.getUser().getFirstname() + " " + teamMember.getUser().getLastname());
                 memberViewHolder.role.setText(teamMember.getRole());
+                String userImage = teamMember.getUser().getImage();
+                if(userImage != null){
+                    String imageUrl = BuildConfig.BASE_URL + "/uploads/" + userImage;
+                    Picasso.with(memberViewHolder.itemView.getContext())
+                            .load(imageUrl)
+                            .transform(new CircleTransform())
+                            .placeholder(R.drawable.circle)
+                            .into(memberViewHolder.icon);
+                }
+                else{
+                    memberViewHolder.icon.setImageResource(R.drawable.circle);
+                }
+                memberViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        teamFeedFragment.navigateToUserProfile(teamMember.getUser());
+                    }
+                });
                 break;
         }
     }

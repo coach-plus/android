@@ -2,7 +2,6 @@ package com.mathandoro.coachplus.views;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,8 +12,8 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.data.DataLayer;
-import com.mathandoro.coachplus.data.DataLayerCallback;
+import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 

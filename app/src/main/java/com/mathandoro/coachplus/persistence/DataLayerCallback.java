@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.data;
+package com.mathandoro.coachplus.persistence;
 
 /**
  * Created by dominik on 31.03.17.

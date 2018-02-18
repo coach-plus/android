@@ -10,8 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.data.DataLayer;
-import com.mathandoro.coachplus.data.DataLayerCallback;
+import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;

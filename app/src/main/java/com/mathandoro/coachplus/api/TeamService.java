@@ -1,13 +1,12 @@
 package com.mathandoro.coachplus.api;
 
 import com.mathandoro.coachplus.models.RegisterTeam;
-import com.mathandoro.coachplus.models.Response.ApiResponse;
-import com.mathandoro.coachplus.models.Response.CreateEventResponse;
+import com.mathandoro.coachplus.api.Response.ApiResponse;
+import com.mathandoro.coachplus.api.Response.CreateEventResponse;
 import com.mathandoro.coachplus.models.Event;
-import com.mathandoro.coachplus.models.Response.CreateTeamResponse;
-import com.mathandoro.coachplus.models.Response.EventsResponse;
-import com.mathandoro.coachplus.models.Response.InvitationResponse;
-import com.mathandoro.coachplus.models.Response.TeamMembersResponse;
+import com.mathandoro.coachplus.api.Response.EventsResponse;
+import com.mathandoro.coachplus.api.Response.InvitationResponse;
+import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
 import com.mathandoro.coachplus.models.Team;
 
 import retrofit2.Call;

@@ -11,10 +11,9 @@ import android.widget.EditText;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.models.Response.ApiResponse;
+import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.models.RegisterUser;
-import com.mathandoro.coachplus.models.Response.RegistrationResponse;
-import com.mathandoro.coachplus.views.EmailVerificationActivity;
+import com.mathandoro.coachplus.api.Response.RegistrationResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

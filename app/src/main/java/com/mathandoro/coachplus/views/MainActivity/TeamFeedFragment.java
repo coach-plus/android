@@ -18,14 +18,17 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.data.DataLayer;
-import com.mathandoro.coachplus.data.DataLayerCallback;
+import com.mathandoro.coachplus.models.ReducedUser;
+import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
-import com.mathandoro.coachplus.models.Response.ApiResponse;
-import com.mathandoro.coachplus.models.Response.InvitationResponse;
+import com.mathandoro.coachplus.api.Response.ApiResponse;
+import com.mathandoro.coachplus.api.Response.InvitationResponse;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.views.CreateEventActivity;
 import com.mathandoro.coachplus.views.EventList.EventListActivity;
+import com.mathandoro.coachplus.views.UserProfile.UserProfileActivity;
+import com.mathandoro.coachplus.views.UserProfile.UserProfileAdapter;
 
 import java.util.List;
 
@@ -177,6 +180,12 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void navigateToAllEvents() {
         Intent intent = new Intent(getActivity(), EventListActivity.class);
         intent.putExtra("team", membership.getTeam());
+        startActivity(intent);
+    }
+
+    public void navigateToUserProfile(ReducedUser user) {
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 

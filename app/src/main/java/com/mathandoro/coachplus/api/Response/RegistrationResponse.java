@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.models.Response;
+package com.mathandoro.coachplus.api.Response;
 
 /**
  * Created by dominik on 26.03.17.

@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.models.Response;
+package com.mathandoro.coachplus.api.Response;
 
 import com.mathandoro.coachplus.models.Event;
 
