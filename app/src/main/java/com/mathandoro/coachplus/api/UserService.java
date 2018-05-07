@@ -3,6 +3,7 @@ package com.mathandoro.coachplus.api;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.LoginResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
+import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.models.LoginUser;
 import com.mathandoro.coachplus.models.RegisterUser;
 import com.mathandoro.coachplus.api.Response.RegistrationResponse;
@@ -25,6 +26,9 @@ public interface UserService {
 
     @POST("users/login")
     Call<ApiResponse<LoginResponse>> loginUser(@Body LoginUser loginUser);
+
+    @GET("users/me")
+    Call<ApiResponse<MyUserResponse>> getMyUser();
 
     @POST("users/verification/{token}")
     Call<ApiResponse<Object>> verifyEmail(@Path("token") String token);

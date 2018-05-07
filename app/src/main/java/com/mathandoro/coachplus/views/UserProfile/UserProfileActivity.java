@@ -61,6 +61,8 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         adapter.setUser(user);
         recyclerView.setAdapter(adapter);
 
+        // todo load user
+
         dataLayer.getMembershipsOfUser(user.get_id(), new DataLayerCallback<List<Membership>>() {
             @Override
             public void dataChanged(List<Membership> memberships) {

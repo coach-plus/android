@@ -12,13 +12,17 @@ public class User {
     protected String email;
     protected Date registered;
     protected boolean emailVerified;
+    protected String image;
+    protected String _id;
 
-    public User(String firstname, String lastname, String email, Date registered, boolean emailVerified) {
+    public User(String id, String firstname, String lastname, String email, String image, Date registered, boolean emailVerified) {
+        this._id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.registered = registered;
         this.emailVerified = emailVerified;
+        this.image = image;
     }
 
     public String getFirstname() {
@@ -59,5 +63,21 @@ public class User {
 
     public void setEmailVerified(boolean emailVerified) {
         this.emailVerified = emailVerified;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }
