@@ -15,9 +15,9 @@ public class Event implements Parcelable {
     protected String description;
     protected Date start;
     protected Date end;
-    protected String location;
+    protected Location location;
 
-    public Event(String name, String description, Date start, Date end, String location) {
+    public Event(String name, String description, Date start, Date end, Location location) {
         this.name = name;
         this.description = description;
         this.start = start;
@@ -30,7 +30,7 @@ public class Event implements Parcelable {
         description = in.readString();
         start = (Date)in.readValue(Date.class.getClassLoader());
         end = (Date)in.readValue(Date.class.getClassLoader());
-        location = in.readString();
+        location = (Location)in.readValue(Location.class.getClassLoader());
     }
 
     public static final Creator<Event> CREATOR = new Creator<Event>() {
@@ -73,11 +73,11 @@ public class Event implements Parcelable {
         return end;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -96,6 +96,6 @@ public class Event implements Parcelable {
         dest.writeString(description);
         dest.writeValue(start);
         dest.writeValue(end);
-        dest.writeString(location);
+        dest.writeValue(location);
     }
 }

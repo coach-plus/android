@@ -28,7 +28,6 @@ import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.views.CreateEventActivity;
 import com.mathandoro.coachplus.views.EventList.EventListActivity;
 import com.mathandoro.coachplus.views.UserProfile.UserProfileActivity;
-import com.mathandoro.coachplus.views.UserProfile.UserProfileAdapter;
 
 import java.util.List;
 
@@ -52,14 +51,8 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     protected DataLayerCallback<List<TeamMember>> loadTeamMembersCallback = new DataLayerCallback<List<TeamMember>>() {
         @Override
         public void dataChanged(List<TeamMember> members) {
-            if(members.size() > 0){
-                for(int i =0;i < 15; i++){
-                    members.add(members.get(0));
-                }
-            }
             teamFeedAdapter.setMembers(members);
             swipeRefreshLayout.setRefreshing(false);
-
         }
 
         @Override

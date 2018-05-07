@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.models.Location;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;
@@ -144,7 +145,8 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         if(view == this.createEventButton){
             Date startDate = start.getTime();
             Date endDate = end.getTime();
-            Event newEvent = new Event(this.eventName.getText().toString(), this.description.getText().toString(), startDate, endDate, "");
+            Location location = new Location("todo", 0, 0);
+            Event newEvent = new Event(this.eventName.getText().toString(), this.description.getText().toString(), startDate, endDate, location);
             dataLayer.createEvent(team, newEvent, new DataLayerCallback<Event>() {
                 @Override
                 public void dataChanged(Event data) {

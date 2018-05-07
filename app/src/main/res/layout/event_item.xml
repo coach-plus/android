@@ -57,7 +57,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:tint="#9b9b9b"
-        android:src="@drawable/ic_chevron_right_black_24dp"
+        app:srcCompat="@drawable/ic_chevron_right_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

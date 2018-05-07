@@ -159,7 +159,8 @@ public class DataLayer {
         if(this.offlineMode){
             return;
         }
-        ApiClient.instance().teamService.createEvent(settings.getToken(), team.get_id(), event).enqueue(new Callback<ApiResponse<CreateEventResponse>>() {
+        ApiClient.instance().teamService.createEvent(settings.getToken(), team.get_id(), event)
+                .enqueue(new Callback<ApiResponse<CreateEventResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<CreateEventResponse>> call, Response<ApiResponse<CreateEventResponse>> response) {
                 if(response.code() == 201){

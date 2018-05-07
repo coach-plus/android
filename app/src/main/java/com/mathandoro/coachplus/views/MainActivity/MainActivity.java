@@ -1,19 +1,23 @@
 package com.mathandoro.coachplus.views.MainActivity;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
 import android.view.Gravity;
 import android.view.View;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageView;
-
-
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.views.RegisterTeamActivity;
@@ -66,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
         this.loadMembershipsRecyclerView();
         this.loadMemberships();
     }
+
+
 
     private void loadMemberships(){
         this.dataLayer.getMyMemberships(new DataLayerCallback<List<Membership>>() {
@@ -157,8 +163,11 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     }
 
     public void navigateToUserProfileActivity(){
-        Intent createTeamIntent = new Intent(this, UserProfileActivity.class);
-        startActivity(createTeamIntent);
+        // todo add get and pass user id to profile activity !
+        // todo use toolbar only ?
+        // crashes!
+        Intent userProfileIntent = new Intent(this, UserProfileActivity.class);
+        startActivity(userProfileIntent);
     }
 
     public void logout(View view){
