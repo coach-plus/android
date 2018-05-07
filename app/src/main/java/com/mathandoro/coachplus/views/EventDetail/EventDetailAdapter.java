@@ -4,12 +4,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.TeamMember;
-import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,33 +40,60 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public EventDetailHeaderViewHolder(View view) {
             super(view);
-            name = (TextView)view.findViewById(R.id.list_section_heading_text);
-            location = (TextView)view.findViewById(R.id.event_detail_location);
-            time = (TextView)view.findViewById(R.id.event_detail_time);
-            description = (TextView)view.findViewById(R.id.event_detail_description);
+            name = view.findViewById(R.id.list_section_heading_text);
+            location = view.findViewById(R.id.event_detail_location);
+            time = view.findViewById(R.id.event_detail_time);
+            description = view.findViewById(R.id.event_detail_description);
         }
     }
 
     class AttendanceHeadingViewHolder extends RecyclerView.ViewHolder {
 
         View itemContainer;
+        TextView heading;
 
         public AttendanceHeadingViewHolder(View view) {
             super(view);
             this.itemContainer = view;
         }
+
+        public void setHeading(String heading){
+            this.heading.setText(heading);
+        }
     }
 
     class AttendanceItemViewHolder extends RecyclerView.ViewHolder {
         TextView name;
-        TextView role;
+        TextView you;
+        Button attendButton;
         View itemContainer;
+        ImageView profilePicture;
 
         public AttendanceItemViewHolder(View view) {
             super(view);
-            name = (TextView)view.findViewById(R.id.event_detail_attendance_item_name);
-            role = (TextView)view.findViewById(R.id.event_detail_attendance_item_role);
+            name = view.findViewById(R.id.eventDetailUsername);
+            you = view.findViewById(R.id.eventDetailYou);
+            profilePicture = view.findViewById(R.id.eventDetailUserImage);
+
             itemContainer = view;
+        }
+
+        public void bindMember(TeamMember teamMember){
+            String userImage = teamMember.getUser().getImage();
+            name.setText(teamMember.getUser().getFirstname() + " " + teamMember.getUser().getLastname());
+            // todo is user ?
+            you.setVisibility(View.INVISIBLE);
+            if(userImage != null){
+                String imageUrl = BuildConfig.BASE_URL + "/uploads/" + userImage;
+                Picasso.with(profilePicture.getContext())
+                        .load(imageUrl)
+                        .transform(new CircleTransform())
+                        .placeholder(R.drawable.circle)
+                        .into(profilePicture);
+            }
+            else {
+                profilePicture.setImageResource(R.drawable.circle);
+            }
         }
     }
 
@@ -111,7 +142,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 viewHolder = new AttendanceHeadingViewHolder(view);
                 break;
             case ATTENDANCE_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_event_detail_attendance_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_detail_attendence, parent, false);
                 viewHolder = new AttendanceItemViewHolder(view);
                 break;
         }
@@ -124,7 +155,10 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             case EVENT_DETAIL_HEADER:
                 EventDetailHeaderViewHolder eventDetailViewHolder = (EventDetailHeaderViewHolder) holder;
                 eventDetailViewHolder.name.setText(event.getName());
-                // todo location ! eventDetailViewHolder.location.setText(event.);
+                if(event.getLocation() != null){
+                    eventDetailViewHolder.location.setText(event.getLocation().getName());
+                    // todo location google maps link!
+                }
                 if(event.getStart() != null){
                     eventDetailViewHolder.time.setText(event.getStart().toString());
                 }
@@ -133,13 +167,13 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             case ATTENDANCE_HEADING:
                 AttendanceHeadingViewHolder eventItemViewHolder = (AttendanceHeadingViewHolder)holder;
+                eventItemViewHolder.setHeading("Attendance");
                 break;
 
             case ATTENDANCE_ITEM:
                 AttendanceItemViewHolder attendanceViewHolder = (AttendanceItemViewHolder)holder;
                 TeamMember teamMember = getMember(position);
-                attendanceViewHolder.name.setText(teamMember.getUser().getFirstname() + teamMember.getUser().getLastname());
-                attendanceViewHolder.role.setText(teamMember.getRole());
+                attendanceViewHolder.bindMember(teamMember);
                 break;
         }
     }

@@ -7,7 +7,7 @@
     android:layout_height="70dp">
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/eventDetailUserImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
@@ -20,35 +20,50 @@
         android:layout_marginLeft="20dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/eventDetailYou"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="8dp"
+        android:text="(you)"
+        android:textColor="#9b9b9b"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/eventDetailUsername"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/eventDetailUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor=" #4a4a4a"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView6"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintStart_toEndOf="@+id/eventDetailUserImage"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/eventDetailAttend"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/circle"
-        android:scaleType="center"
         android:backgroundTint="#5fba7dad"
+        android:scaleType="center"
         android:tint=" #9b9b9b"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+        app:layout_constraintEnd_toStartOf="@+id/eventDetailDontAttend"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_check_black_24dp" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/eventDetailDontAttend"
         android:layout_width="60dp"
         android:layout_height="0dp"
         android:backgroundTint="@android:color/transparent"
