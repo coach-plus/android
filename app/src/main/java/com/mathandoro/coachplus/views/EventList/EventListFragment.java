@@ -146,6 +146,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         Intent intent = new Intent(getActivity(), EventDetailActivity.class);
         intent.putExtra("team", team);
         intent.putExtra("event", event);
+        startActivity(intent);
     }
 
 
