@@ -41,7 +41,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         toolbarFragment.showBackButton();
         toolbarFragment.setTitle("");
 
-        recyclerView = (RecyclerView) findViewById(R.id.user_profile_recycler_view);
+        recyclerView = findViewById(R.id.user_profile_recycler_view);
         // parallax
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

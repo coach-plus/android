@@ -55,6 +55,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public AttendanceHeadingViewHolder(View view) {
             super(view);
             this.itemContainer = view;
+            heading = view.findViewById(R.id.list_section_heading_text);
         }
 
         public void setHeading(String heading){

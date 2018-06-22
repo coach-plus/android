@@ -12,7 +12,9 @@ import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.persistence.AppState;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final TeamFeedFragment teamFeedFragment;
     private List<TeamMember> members;
     private List<Event> events;
+    private JWTUser myUser;
 
     final int UPCOMING_EVENTS_HEADER = 0;
     final int UPCOMING_EVENTS_ITEM = 1;
@@ -89,6 +92,12 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.events = new ArrayList<>();
         this.teamFeedFragment = teamFeedFragment;
         this.mainActivity = mainActivity;
+        AppState.instance().myUser.subscribe((JWTUser user) -> this.onMyUserChanged(user));
+    }
+
+    private void onMyUserChanged(JWTUser myUser){
+        this.myUser = myUser;
+        this.notifyDataSetChanged();
     }
 
     public void setMembers(List<TeamMember> members){
@@ -161,23 +170,25 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
             case UPCOMING_EVENTS_HEADER:
                 UpcomingEventsHeaderViewHolder upcomingEventsHeaderViewHolder = (UpcomingEventsHeaderViewHolder) holder;
-                upcomingEventsHeaderViewHolder.seeAllEventsButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        teamFeedFragment.navigateToAllEvents();
-                    }
+                upcomingEventsHeaderViewHolder.seeAllEventsButton.setOnClickListener((View view) -> {
+                    teamFeedFragment.navigateToAllEvents();
                 });
                 break;
 
             case UPCOMING_EVENTS_ITEM:
                 UpcomingEventsItemViewHolder eventItemViewHolder = (UpcomingEventsItemViewHolder)holder;
                 Event event = getEvent(position);
+                // todo
                 break;
 
             case MEMBERS_ITEM:
                 TeamMembersItemViewHolder memberViewHolder = (TeamMembersItemViewHolder)holder;
                 final TeamMember teamMember = getMember(position);
-                memberViewHolder.name.setText(teamMember.getUser().getFirstname() + " " + teamMember.getUser().getLastname());
+                String username = teamMember.getUser().getFirstname() + " " + teamMember.getUser().getLastname();
+                if(this.myUser != null && this.myUser.getId().equals(teamMember.getUser().get_id())){
+                    username += " (" + mainActivity.getString(R.string.you) + ")";
+                }
+                memberViewHolder.name.setText(username);
                 memberViewHolder.role.setText(teamMember.getRole());
                 String userImage = teamMember.getUser().getImage();
                 if(userImage != null){
@@ -191,26 +202,22 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 else{
                     memberViewHolder.icon.setImageResource(R.drawable.circle);
                 }
-                memberViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        teamFeedFragment.navigateToUserProfile(teamMember.getUser());
-                    }
-                });
+                memberViewHolder.itemView.setOnClickListener((View view) ->
+                    teamFeedFragment.navigateToUserProfile(teamMember.getUser()));
                 break;
         }
     }
 
     protected Event getEvent(int position){
-        return this.events.get(position -1);
+        return this.events.get(position - 2);
     }
 
     protected TeamMember getMember(int position){
-        return this.members.get(position - 2 - events.size());
+        return this.members.get(position - 3 - events.size());
     }
 
     @Override
     public int getItemCount() {
-        return members.size() + events.size() + 2;
+        return members.size() + events.size() + 3;
     }
 }

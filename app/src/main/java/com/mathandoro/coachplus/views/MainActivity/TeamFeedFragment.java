@@ -18,6 +18,7 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
@@ -89,8 +90,6 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         if (getArguments() != null) {
             membership = getArguments().getParcelable(ARG_TEAM);
         }
-
-
     }
 
     @Override

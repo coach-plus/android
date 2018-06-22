@@ -98,4 +98,12 @@ public class Cache {
         fos.close();
     }
 
+    public void saveString(String filename, String data, CacheContext context) throws IOException {
+        this.saveFile(context.getDirectory(), filename, data.getBytes());
+    }
+
+    public String getString(String fileName, CacheContext context) throws IOException {
+        byte[] data = this.readFile(context.getDirectory(), fileName);
+        return new String(data);
+    }
 }

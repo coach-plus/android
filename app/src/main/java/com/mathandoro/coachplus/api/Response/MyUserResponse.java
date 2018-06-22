@@ -1,5 +1,6 @@
 package com.mathandoro.coachplus.api.Response;
 
+import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.User;
 
 /**
@@ -7,5 +8,5 @@ import com.mathandoro.coachplus.models.User;
  */
 
 public class MyUserResponse {
-    public User user;
+    public JWTUser user;
 }

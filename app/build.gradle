@@ -23,7 +23,7 @@ android {
         }
     }
     compileSdkVersion 27
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.mathandoro.coachplus"
@@ -44,12 +44,13 @@ android {
     productFlavors {
         dev {
             dimension 'tier'
+            manifestPlaceholders = [appName:"Coach+ (Dev)"]
             applicationId "com.mathandoro.coachplus.dev"
             buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
         }
         beta {
             dimension 'tier'
-            manifestPlaceholders = [appName:"Coach+ "]
+            manifestPlaceholders = [appName:"Coach+ (Beta)"]
             applicationId "com.mathandoro.coachplus.beta"
             buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
         }
@@ -58,6 +59,10 @@ android {
             applicationId "com.mathandoro.coachplus"
             buildConfigField "String", "BASE_URL", '"https://coach.plus"'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -71,13 +76,12 @@ dependencies {
     compile 'com.android.support:transition:27.1.1'
     compile 'com.android.support:recyclerview-v7:27.1.1'
     compile 'com.android.support:support-v4:27.1.1'
-
     compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
-
+    implementation 'com.google.code.gson:gson:2.8.5'
     testCompile 'junit:junit:4.12'
 }

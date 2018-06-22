@@ -2,17 +2,22 @@ package com.mathandoro.coachplus.persistence;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.CreateEventResponse;
+import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
+import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
+import com.mathandoro.coachplus.models.User;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +25,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.HTTP;
 
 
 public class DataLayer {
@@ -27,10 +33,10 @@ public class DataLayer {
     static DataLayer instance;
     protected Context context;
     protected Cache cache;
-    protected boolean offlineMode = false;
     protected Settings settings;
     final String MY_MEMBERSHIPS = "myMemberships";
     final String EVENTS = "events";
+    private Gson gson;
 
 
 
@@ -38,6 +44,7 @@ public class DataLayer {
         this.context = context;
         this.settings = new Settings(this.context);
         this.cache = new Cache(this.context);
+        this.gson = new Gson();
     }
 
     public static DataLayer getInstance(Context context){
@@ -46,11 +53,6 @@ public class DataLayer {
         }
         return instance;
     }
-
-    public void setOfflineMode(boolean offlineMode){
-        this.offlineMode = offlineMode;
-    }
-
 
     public void getMyMemberships(final DataLayerCallback<List<Membership>> callback){
         if(this.cache.exists(MY_MEMBERSHIPS, CacheContext.DEFAULT())){
@@ -62,9 +64,6 @@ public class DataLayer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        if(this.offlineMode){
-            return;
         }
         ApiClient.instance().membershipService.getMyMemberships(settings.getToken()).enqueue(new Callback<ApiResponse<MyMembershipsResponse>>() {
             @Override
@@ -90,9 +89,6 @@ public class DataLayer {
     }
 
     public void getMembershipsOfUser(String userId, final DataLayerCallback<List<Membership>> callback){
-        if(this.offlineMode){
-            return;
-        }
         ApiClient.instance().userService.getMembershipsOfUser(settings.getToken(), userId)
                 .enqueue(new Callback<ApiResponse<MyMembershipsResponse>>() {
             @Override
@@ -113,6 +109,57 @@ public class DataLayer {
         });
     }
 
+    public void getMyUser(){
+        // todo cache?
+        ApiClient.instance().userService.getMyUser(settings.getToken())
+                .enqueue(new Callback<ApiResponse<MyUserResponse>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<MyUserResponse>> call,
+                                           Response<ApiResponse<MyUserResponse>> response) {
+                        if(response.code() == 200){
+                                JWTUser user = response.body().content.user;
+                                AppState.instance().myUser.publish(user);
+                            }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<MyUserResponse>> call, Throwable t) {
+                        // todo callback with error?
+                    }
+                });
+    }
+
+    // todo
+    public void getUser(boolean useCache){
+        Call<ApiResponse<MyUserResponse>> myUserCall = ApiClient.instance().userService.getMyUser(settings.getToken());
+        this.getData(myUserCall, null, useCache);
+    }
+
+    private <T> void getData(Call<ApiResponse<T>> t, final DataLayerCallback<T> callback, boolean useCache){
+        t.enqueue(new Callback<ApiResponse<T>>() {
+            @Override
+            public void onResponse(Call<ApiResponse<T>> call, Response<ApiResponse<T>> response) {
+                if(response.code() == 200){
+                    if(callback != null){
+                        /*
+                        String serializedResponse = DataLayer.this.gson.toJson(response.body().content);
+                        try {
+                            cache.saveList(members, TEAM_MEMBERS, CacheContext.TEAM(finalTeam));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }*/
+                        callback.dataChanged(response.body().content);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<T>> call, Throwable t) {
+                callback.error();
+            }
+        });
+    }
+
     public void getTeamMembers(Team team, boolean useCache, final DataLayerCallback<List<TeamMember>> callback){
         final String TEAM_MEMBERS = "teamMembers";
         final Team finalTeam = team;
@@ -126,9 +173,6 @@ public class DataLayer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        if(this.offlineMode){
-            return;
         }
         ApiClient.instance().teamService.getTeamMembers(settings.getToken(), team.get_id()).enqueue(new Callback<ApiResponse<TeamMembersResponse>>() {
             @Override
@@ -155,10 +199,6 @@ public class DataLayer {
 
     public void createEvent(Team team, Event event, final DataLayerCallback<Event> callback){
         final String CREATE_EVENT = "createEvent";
-
-        if(this.offlineMode){
-            return;
-        }
         ApiClient.instance().teamService.createEvent(settings.getToken(), team.get_id(), event)
                 .enqueue(new Callback<ApiResponse<CreateEventResponse>>() {
             @Override
@@ -193,9 +233,6 @@ public class DataLayer {
                 e.printStackTrace();
             }
         }
-        if(this.offlineMode){
-            return;
-        }
         ApiClient.instance().teamService.getEventsOfTeam(settings.getToken(), team.get_id()).enqueue(new Callback<ApiResponse<EventsResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<EventsResponse>> call, Response<ApiResponse<EventsResponse>> response) {
@@ -222,6 +259,7 @@ public class DataLayer {
                 callback.error();
             }
         });
+
     }
 
 

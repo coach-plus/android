@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Explode;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
@@ -18,8 +20,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
+
+import com.google.gson.Gson;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
+import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.Location;
+import com.mathandoro.coachplus.models.ReducedUser;
+import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.models.User;
 import com.mathandoro.coachplus.views.RegisterTeamActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -29,10 +39,12 @@ import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.LoginActivity;
 
+import java.util.Date;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener, ToolbarFragment.ToolbarFragmentListener {
+public class MainActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
+        ToolbarFragment.ToolbarFragmentListener {
 
     Settings settings;
     private MyMembershipsAdapter myMembershipsAdapter;
@@ -41,8 +53,10 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     DataLayer dataLayer;
     private DrawerLayout drawer;
     private boolean initalMembershipsLoaded;
-    protected List<Membership> memberships;
     protected ToolbarFragment toolbarFragment;
+
+    protected List<Membership> memberships;
+    protected JWTUser myUser;
 
     static int CREATE_TEAM_REQUEST = 1;
 
@@ -69,8 +83,12 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
         this.loadMembershipsRecyclerView();
         this.loadMemberships();
+        this.loadMyUser();
     }
 
+    private void loadMyUser(){
+        this.dataLayer.getMyUser();
+    }
 
 
     private void loadMemberships(){
@@ -180,11 +198,12 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     public void switchTeamContext(Membership membership) {
         toolbarFragment.setTeam(membership.getTeam());
         this.settings.setActiveTeamId(membership.getTeam().get_id());
-        TeamFeedFragment teamFeedFragment = TeamFeedFragment.newInstance(membership);
+        TeamFeedFragment fragment = TeamFeedFragment.newInstance(membership);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_activity_fragment_container, teamFeedFragment)
+                .replace(R.id.main_activity_fragment_container, fragment)
                 .commit();
+
         drawer.closeDrawer(GravityCompat.START);
     }
 

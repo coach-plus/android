@@ -28,7 +28,7 @@ public interface UserService {
     Call<ApiResponse<LoginResponse>> loginUser(@Body LoginUser loginUser);
 
     @GET("users/me")
-    Call<ApiResponse<MyUserResponse>> getMyUser();
+    Call<ApiResponse<MyUserResponse>> getMyUser(@Header("X-ACCESS-TOKEN") String accessToken);
 
     @POST("users/verification/{token}")
     Call<ApiResponse<Object>> verifyEmail(@Path("token") String token);

@@ -22,7 +22,7 @@ public class CacheContext {
         return new CacheContext("");
     }
 
-    public static CacheContext TEAM(Team team ){
-        return new CacheContext(team.getName());
+    public static CacheContext TEAM(Team team){
+        return new CacheContext("teams/" + team.getName());
     }
 }
