@@ -3,6 +3,7 @@ package com.mathandoro.coachplus.views;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Target;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -39,6 +42,21 @@ public class RegisterTeamActivity extends AppCompatActivity implements ToolbarFr
     protected ImageView teamImageView;
     protected boolean imageSelected = false;
     protected ToolbarFragment toolbarFragment;
+    private Bitmap teamBitmap;
+    private Target target = new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            teamBitmap = bitmap;
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+        }
+    };
 
 
     @Override
@@ -52,36 +70,26 @@ public class RegisterTeamActivity extends AppCompatActivity implements ToolbarFr
         toolbarFragment.showBackButton();
 
 
-        Button registerTeamButton = (Button) findViewById(R.id.createTeamButton);
-        teamImageView = (ImageView) findViewById(R.id.teamImageView);
-        teamImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pickImage();
-            }
-        });
-        final EditText teamNameEditText = (EditText) findViewById(R.id.teamNameEditText);
-        final CheckBox registerTeamPublicToggleButton = (CheckBox)findViewById(R.id.registerTeamPublicToggleButton);
+        Button registerTeamButton = findViewById(R.id.createTeamButton);
+        teamImageView = findViewById(R.id.teamImageView);
+        teamImageView.setOnClickListener((View view) -> pickImage());
+        final EditText teamNameEditText = findViewById(R.id.teamNameEditText);
+        final CheckBox registerTeamPublicToggleButton = findViewById(R.id.registerTeamPublicToggleButton);
 
-        registerTeamButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerTeam(teamNameEditText.getText().toString(), registerTeamPublicToggleButton.isActivated(), getSelectedImageBase64());
-            }
-        });
+        registerTeamButton.setOnClickListener((View v) ->
+                registerTeam(teamNameEditText.getText().toString(), registerTeamPublicToggleButton.isActivated(), getSelectedImageBase64())
+        );
     }
 
     String getSelectedImageBase64(){
-        if(!imageSelected){
+        if(teamBitmap == null){
             return null;
         }
-        BitmapDrawable bitmapDrawable = (BitmapDrawable)teamImageView.getDrawable();
-        Bitmap bitmap = bitmapDrawable.getBitmap();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, bos);
+        teamBitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, bos);
         byte[] bb = bos.toByteArray();
         String imageData = Base64.encodeToString(bb, Base64.DEFAULT);
-        String base64ImagePrefix = "data:image/png;base64,";
+        String base64ImagePrefix = "data:image/jpeg;base64,";
         return base64ImagePrefix + imageData;
     }
 
@@ -122,7 +130,11 @@ public class RegisterTeamActivity extends AppCompatActivity implements ToolbarFr
             if (resultCode == RESULT_OK) {
                 imageSelected = true;
                 Uri resultUri = result.getUri();
-                Picasso.with(teamImageView.getContext()).load(resultUri).transform(new CircleTransform()).into(teamImageView);
+                RequestCreator requestCreator = Picasso.with(teamImageView.getContext()).load(resultUri);
+
+                requestCreator.into(target);
+                requestCreator.transform(new CircleTransform()).into(teamImageView);
+
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();
             }
