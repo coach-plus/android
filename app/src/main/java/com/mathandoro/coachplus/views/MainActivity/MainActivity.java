@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.views.RegisterTeamActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -175,23 +176,6 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_userprofile) {
-            this.navigateToUserProfileActivity();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void navigateToUserProfileActivity(){
-        // todo add get and pass user id to profile activity !
-        // todo use toolbar only ?
-        // crashes!
-        Intent userProfileIntent = new Intent(this, UserProfileActivity.class);
-        startActivity(userProfileIntent);
-    }
 
     public void logout(View view){
         this.settings.reset();
@@ -226,6 +210,13 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
     @Override
     public void onRightIconPressed() {
+        this.navigateToMyUserProfile();
+    }
+
+    public void navigateToMyUserProfile() {
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        intent.putExtra("user", myUser);
+        startActivity(intent);
     }
 }
 

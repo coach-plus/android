@@ -101,12 +101,11 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(membership.getTeam().getName());
 
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.team_feed);
+        mRecyclerView = view.findViewById(R.id.team_feed);
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -124,23 +123,13 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         teamFeedAdapter = new TeamFeedAdapter((MainActivity)getActivity(), this);
         mRecyclerView.setAdapter(teamFeedAdapter);
 
-        floatingActionsMenu  = (FloatingActionsMenu)view.findViewById(R.id.team_feed_floating_menu);
+        floatingActionsMenu  = view.findViewById(R.id.team_feed_floating_menu);
 
-        addEventFab = (FloatingActionButton)view.findViewById(R.id.team_feed_add_event_fab);
-        addEventFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createEvent();
-            }
-        });
+        addEventFab = view.findViewById(R.id.team_feed_add_event_fab);
+        addEventFab.setOnClickListener((View v) -> createEvent());
 
-        inviteToTeamFab = (FloatingActionButton) view.findViewById(R.id.team_feed_invite_fab);
-        inviteToTeamFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inviteToTeam();
-            }
-        });
+        inviteToTeamFab = view.findViewById(R.id.team_feed_invite_fab);
+        inviteToTeamFab.setOnClickListener((View v) -> inviteToTeam());
 
         if(!membership.getRole().equals("coach")){
             if(!membership.getTeam().isPublic()){
@@ -177,7 +166,8 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public void navigateToUserProfile(ReducedUser user) {
         Intent intent = new Intent(getActivity(), UserProfileActivity.class);
-        intent.putExtra("user", user);
+        intent.putExtra(UserProfileActivity.INTENT_PARAM_USER, user);
+        intent.putExtra(UserProfileActivity.INTENT_PARAM_IS_ME, false);
         startActivity(intent);
     }
 

@@ -80,9 +80,9 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ImageView icon;
         public TeamMembersItemViewHolder(View view) {
             super(view);
-            name = (TextView)view.findViewById(R.id.team_feed_member_name);
-            role = (TextView)view.findViewById(R.id.team_feed_member_role);
-            icon = (ImageView)view.findViewById(R.id.team_feed_member_icon);
+            name = view.findViewById(R.id.team_feed_member_name);
+            role = view.findViewById(R.id.team_feed_member_role);
+            icon = view.findViewById(R.id.team_feed_member_icon);
         }
     }
 

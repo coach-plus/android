@@ -19,19 +19,21 @@ import java.util.List;
 
 public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
 
+    public final static String INTENT_PARAM_IS_ME = "isMe";
+    public final static String INTENT_PARAM_USER = "user";
+
     protected ToolbarFragment toolbarFragment;
     private RecyclerView recyclerView;
     private DataLayer dataLayer;
 
     private ReducedUser user;
+    private boolean isMyUser;
     private List<Membership> memberships;
+    private UserProfileAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        user = getIntent().getExtras().getParcelable("user");
         dataLayer = DataLayer.getInstance(this);
 
         setContentView(R.layout.user_profile_activity);
@@ -55,15 +57,29 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
                 }
             }
         });
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        final UserProfileAdapter adapter = new UserProfileAdapter(this);
-        adapter.setUser(user);
+        this.loadUser();
+    }
+
+    private void loadUser(){
+        isMyUser = getIntent().getExtras().getBoolean(INTENT_PARAM_IS_ME, true);
+        if(!isMyUser){
+            user = getIntent().getExtras().getParcelable(INTENT_PARAM_USER);
+            loadMemberships();
+        }
+        else {
+            dataLayer.getMyUser(true, response -> {
+                user = response.user;
+                loadMemberships();
+            });
+        }
+    }
+
+    private void loadMemberships(){
+        adapter = new UserProfileAdapter(this);
         recyclerView.setAdapter(adapter);
-
-        // todo load user
-
+        adapter.setUser(user);
         dataLayer.getMembershipsOfUser(user.get_id(), new DataLayerCallback<List<Membership>>() {
             @Override
             public void dataChanged(List<Membership> memberships) {
@@ -75,7 +91,6 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
             }
         });
-
     }
 
     @Override
@@ -85,6 +100,5 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
     @Override
     public void onRightIconPressed() {
-        finish();
     }
 }
