@@ -82,4 +82,9 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
     public void onLeftIconPressed() {
         finish();
     }
+
+    @Override
+    public void onRightIconPressed() {
+        finish();
+    }
 }

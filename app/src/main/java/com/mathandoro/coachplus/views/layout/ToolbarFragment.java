@@ -18,6 +18,7 @@ import com.mathandoro.coachplus.models.Team;
 public class ToolbarFragment extends Fragment {
     private Toolbar toolbar;
     private ImageView leftIcon;
+    private ImageView rightIcon;
     private ImageView logo;
     private TextView title;
 
@@ -33,6 +34,11 @@ public class ToolbarFragment extends Fragment {
 
     public void showBackButton(){
         this.leftIcon.setImageResource(R.drawable.ic_arrow_back_white_24dp);
+    }
+
+    public void showUserIcon(){
+        this.rightIcon.setVisibility(View.VISIBLE);
+        this.rightIcon.setImageResource(R.drawable.ic_account_circle_white_36dp);
     }
 
     public void setTeam(Team team){
@@ -75,18 +81,16 @@ public class ToolbarFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
         toolbar.setTitle("");
         toolbar.hideOverflowMenu();
-        title = (TextView)view.findViewById(R.id.toolbar_team_name);
-        leftIcon = (ImageView)view.findViewById(R.id.toolbar_left_icon);
-        logo = (ImageView)view.findViewById(R.id.toolbar_logo);
-        leftIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toolbarFragmentListener.onLeftIconPressed();
-            }
-        });
+        title = view.findViewById(R.id.toolbar_team_name);
+        leftIcon = view.findViewById(R.id.toolbar_left_icon);
+        rightIcon = view.findViewById(R.id.toolbar_right_icon);
+        rightIcon.setVisibility(View.GONE);
+        logo = view.findViewById(R.id.toolbar_logo);
+        leftIcon.setOnClickListener((View v) -> toolbarFragmentListener.onLeftIconPressed());
+        rightIcon.setOnClickListener((View v) -> toolbarFragmentListener.onRightIconPressed());
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
     }
 
@@ -98,5 +102,6 @@ public class ToolbarFragment extends Fragment {
 
     public interface ToolbarFragmentListener {
         void onLeftIconPressed();
+        void onRightIconPressed();
     }
 }

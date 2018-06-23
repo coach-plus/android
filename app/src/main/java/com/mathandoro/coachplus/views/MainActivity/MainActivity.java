@@ -1,16 +1,9 @@
 package com.mathandoro.coachplus.views.MainActivity;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.transition.Explode;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
@@ -18,19 +11,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
-import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
-import com.mathandoro.coachplus.models.Location;
-import com.mathandoro.coachplus.models.ReducedUser;
-import com.mathandoro.coachplus.models.TeamMember;
-import com.mathandoro.coachplus.models.User;
 import com.mathandoro.coachplus.views.RegisterTeamActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -40,7 +26,6 @@ import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.LoginActivity;
 
-import java.util.Date;
 import java.util.List;
 
 
@@ -71,8 +56,10 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
         dataLayer = DataLayer.getInstance(this);
 
-        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.my_memberships_fragment_toolbar);
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
         toolbarFragment.setListener(this);
+        toolbarFragment.showUserIcon();
+
         drawer = findViewById(R.id.drawer_layout);
 
         this.loadNavigationDrawer();
@@ -164,8 +151,8 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     }
 
     private void loadMembershipsRecyclerView(){
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-        mLinearLayoutManager = new PreloadLayoutManager(this); //new LinearLayoutManager(this);
+        mRecyclerView = findViewById(R.id.my_recycler_view);
+        mLinearLayoutManager = new PreloadLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         myMembershipsAdapter = new MyMembershipsAdapter(this);
         mRecyclerView.setAdapter(myMembershipsAdapter);
@@ -174,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -184,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+         // getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -235,4 +222,10 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     public void onLeftIconPressed() {
         drawer.openDrawer(Gravity.START);
     }
+
+
+    @Override
+    public void onRightIconPressed() {
+    }
 }
+

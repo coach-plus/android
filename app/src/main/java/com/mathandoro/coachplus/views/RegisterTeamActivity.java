@@ -2,7 +2,6 @@ package com.mathandoro.coachplus.views;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -65,7 +64,7 @@ public class RegisterTeamActivity extends AppCompatActivity implements ToolbarFr
         setContentView(R.layout.activity_create_team);
         settings = new Settings(this);
 
-        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.my_memberships_fragment_toolbar);
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
 
@@ -156,5 +155,9 @@ public class RegisterTeamActivity extends AppCompatActivity implements ToolbarFr
     @Override
     public void onLeftIconPressed() {
         finish();
+    }
+
+    @Override
+    public void onRightIconPressed() {
     }
 }

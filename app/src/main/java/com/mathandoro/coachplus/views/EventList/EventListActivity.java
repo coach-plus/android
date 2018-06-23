@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,7 +38,7 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
 
         team = getIntent().getExtras().getParcelable("team");
 
-        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.my_memberships_fragment_toolbar);
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
         toolbarFragment.setTitle(this.team.getName() + " / Events");
@@ -45,10 +46,10 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +88,9 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         finish();
     }
 
+    @Override
+    public void onRightIconPressed() { }
+
 
     public static class PlaceholderFragment extends Fragment {
         /**
@@ -114,7 +118,7 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_events, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            TextView textView = (rootView.findViewById(R.id.section_label));
             textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
