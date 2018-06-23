@@ -11,7 +11,6 @@ import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Membership;
-import com.mathandoro.coachplus.views.MainActivity.MainActivity;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,19 +95,10 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 final Membership membership = memberships.get(position);
                 final TeamViewHolder teamViewHolder = (TeamViewHolder)holder;
                 teamViewHolder.teamNameTextView.setText(membership.getTeam().getName());
-                teamViewHolder.containerView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mainActivity.switchTeamContext(membership);
-                    }
-                });
+                teamViewHolder.containerView.setOnClickListener((View v) -> mainActivity.switchTeamContext(membership));
                teamViewHolder.bindMembership(membership);
         }
     }
-
-
-
-
 
     @Override
     public int getItemCount() {

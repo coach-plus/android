@@ -48,13 +48,8 @@ public class NoTeamsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button createTeamButton = (Button) view.findViewById(R.id.createTeamButton);
-        createTeamButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onRegisterTeamButtonPressed();
-            }
-        });
+        Button createTeamButton = view.findViewById(R.id.createTeamButton);
+        createTeamButton.setOnClickListener((View v) -> listener.onRegisterTeamButtonPressed());
     }
 
 

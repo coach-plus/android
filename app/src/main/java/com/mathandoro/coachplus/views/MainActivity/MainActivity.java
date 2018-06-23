@@ -2,6 +2,7 @@ package com.mathandoro.coachplus.views.MainActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -10,14 +11,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
-import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.views.RegisterTeamActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -31,7 +30,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
-        ToolbarFragment.ToolbarFragmentListener {
+        ToolbarFragment.ToolbarFragmentListener, SwipeRefreshLayout.OnRefreshListener {
 
     Settings settings;
     private MyMembershipsAdapter myMembershipsAdapter;
@@ -44,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
     protected List<Membership> memberships;
     protected JWTUser myUser;
+    private SwipeRefreshLayout membershipsSwipeRefreshLayout;
 
     static int CREATE_TEAM_REQUEST = 1;
 
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
         this.dataLayer.getMyMemberships(new DataLayerCallback<List<Membership>>() {
             @Override
             public void dataChanged(List<Membership> data) {
+                membershipsSwipeRefreshLayout.setRefreshing(false);
                 memberships = data;
                 myMembershipsAdapter.setMemberships(data);
                 String activeTeamId = settings.getActiveTeamId();
@@ -115,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
             @Override
             public void error() {
+                membershipsSwipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -152,7 +154,12 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     }
 
     private void loadMembershipsRecyclerView(){
-        mRecyclerView = findViewById(R.id.my_recycler_view);
+        mRecyclerView = findViewById(R.id.team_overview_recycler_view);
+
+        // todo
+        membershipsSwipeRefreshLayout = findViewById(R.id.teams_overview_swipe_layout);
+        membershipsSwipeRefreshLayout.setOnRefreshListener(this);
+
         mLinearLayoutManager = new PreloadLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         myMembershipsAdapter = new MyMembershipsAdapter(this);
@@ -217,6 +224,11 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
         Intent intent = new Intent(this, UserProfileActivity.class);
         intent.putExtra("user", myUser);
         startActivity(intent);
+    }
+
+    @Override
+    public void onRefresh() {
+        this.loadMemberships();
     }
 }
 

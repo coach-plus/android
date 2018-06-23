@@ -42,7 +42,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ImageView teamImage;
         public TeamImageItemViewHolder(View view) {
             super(view);
-            teamImage = (ImageView)view.findViewById(R.id.team_feed_team_image);
+            teamImage = view.findViewById(R.id.team_feed_team_image);
         }
     }
 
@@ -51,12 +51,11 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public UpcomingEventsHeaderViewHolder(View view) {
             super(view);
-            seeAllEventsButton = (Button)view.findViewById(R.id.team_feed_upcoming_events_header_see_all_events_button);
+            seeAllEventsButton = view.findViewById(R.id.team_feed_upcoming_events_header_see_all_events_button);
         }
     }
 
     class UpcomingEventsItemViewHolder extends RecyclerView.ViewHolder {
-
         TextView title;
         TextView location;
         TextView time;
@@ -78,6 +77,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView name;
         TextView role;
         ImageView icon;
+
         public TeamMembersItemViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.team_feed_member_name);
