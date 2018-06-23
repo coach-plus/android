@@ -68,7 +68,7 @@
             android:layout_height="56dp"
             android:background="@color/colorAccent"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toTopOf="@+id/teams_overview_swipe_layout"
+            app:layout_constraintBottom_toTopOf="@+id/memberships_swipe_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -87,7 +87,7 @@
             android:src="@drawable/ic_info_outline_black_24dp"
             android:tint="#ffffff"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/teams_overview_swipe_layout"
+            app:layout_constraintBottom_toTopOf="@+id/memberships_swipe_layout"
             app:layout_constraintStart_toStartOf="@+id/navigation_drawer_header"
             app:layout_constraintTop_toTopOf="@+id/navigation_drawer_header" />
 
@@ -101,7 +101,7 @@
             android:layout_marginTop="8dp"
             android:src="@drawable/ic_add_black_24dp"
             android:tint="#ffffff"
-            app:layout_constraintBottom_toTopOf="@+id/teams_overview_swipe_layout"
+            app:layout_constraintBottom_toTopOf="@+id/memberships_swipe_layout"
             app:layout_constraintEnd_toEndOf="@+id/navigation_drawer_header"
             app:layout_constraintTop_toTopOf="@+id/navigation_drawer_header" />
 
@@ -118,13 +118,13 @@
             android:textColor="#ffffff"
             android:textSize="18dp"
             android:textStyle="bold|italic"
-            app:layout_constraintBottom_toTopOf="@+id/teams_overview_swipe_layout"
+            app:layout_constraintBottom_toTopOf="@+id/memberships_swipe_layout"
             app:layout_constraintEnd_toStartOf="@+id/registerTeam"
             app:layout_constraintStart_toEndOf="@+id/info"
             app:layout_constraintTop_toTopOf="@+id/navigation_drawer_header" />
 
         <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/teams_overview_swipe_layout"
+            android:id="@+id/memberships_swipe_layout"
 
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -136,7 +136,7 @@
 
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/team_overview_recycler_view"
+                android:id="@+id/memberships_recycler_view"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scrollbars="vertical"
@@ -155,7 +155,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/teams_overview_swipe_layout">
+            app:layout_constraintTop_toBottomOf="@+id/memberships_swipe_layout">
 
             <TextView
                 android:id="@+id/logout_text_view"
