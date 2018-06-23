@@ -35,8 +35,8 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
         public TeamViewHolder(View view) {
             super(view);
             containerView = view;
-            teamNameTextView = (TextView)view.findViewById(R.id.team_item_team_name);
-            teamImageView = (ImageView)view.findViewById(R.id.team_item_team_icon);
+            teamNameTextView = view.findViewById(R.id.team_item_team_name);
+            teamImageView = view.findViewById(R.id.team_item_team_icon);
         }
 
         public void bindMembership(Membership membership){

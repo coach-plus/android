@@ -40,7 +40,7 @@ public class DataLayer {
 
 
 
-    private DataLayer(Context context){
+    public DataLayer(Context context){
         this.context = context;
         this.settings = new Settings(this.context);
         this.cache = new Cache(this.context);
@@ -109,33 +109,33 @@ public class DataLayer {
         });
     }
 
-    public void getMyUser(){
-        // todo cache?
-        ApiClient.instance().userService.getMyUser(settings.getToken())
-                .enqueue(new Callback<ApiResponse<MyUserResponse>>() {
-                    @Override
-                    public void onResponse(Call<ApiResponse<MyUserResponse>> call,
-                                           Response<ApiResponse<MyUserResponse>> response) {
-                        if(response.code() == 200){
-                                JWTUser user = response.body().content.user;
-                                AppState.instance().myUser.publish(user);
-                            }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiResponse<MyUserResponse>> call, Throwable t) {
-                        // todo callback with error?
-                    }
-                });
-    }
+//    public void getMyUser(){
+//        // todo cache?
+//        ApiClient.instance().userService.getMyUser(settings.getToken())
+//                .enqueue(new Callback<ApiResponse<MyUserResponse>>() {
+//                    @Override
+//                    public void onResponse(Call<ApiResponse<MyUserResponse>> call,
+//                                           Response<ApiResponse<MyUserResponse>> response) {
+//                        if(response.code() == 200){
+//                                JWTUser user = response.body().content.user;
+//                                AppState.instance().myUser.publish(user);
+//                            }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ApiResponse<MyUserResponse>> call, Throwable t) {
+//                        // todo callback with error?
+//                    }
+//                });
+//    }
 
     // todo
-    public void getUser(boolean useCache){
+    public void getMyUser(boolean useCache, final DataLayerSuccessCallback<MyUserResponse> callback){
         Call<ApiResponse<MyUserResponse>> myUserCall = ApiClient.instance().userService.getMyUser(settings.getToken());
-        this.getData(myUserCall, null, useCache);
+        this.getData(myUserCall, useCache, callback);
     }
 
-    private <T> void getData(Call<ApiResponse<T>> t, final DataLayerCallback<T> callback, boolean useCache){
+    private <T> void getData(Call<ApiResponse<T>> t,  boolean useCache, final DataLayerSuccessCallback<T> callback){
         t.enqueue(new Callback<ApiResponse<T>>() {
             @Override
             public void onResponse(Call<ApiResponse<T>> call, Response<ApiResponse<T>> response) {
@@ -155,7 +155,7 @@ public class DataLayer {
 
             @Override
             public void onFailure(Call<ApiResponse<T>> call, Throwable t) {
-                callback.error();
+
             }
         });
     }

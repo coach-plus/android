@@ -42,7 +42,8 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         toolbarFragment.setTitle("");
 
         recyclerView = findViewById(R.id.user_profile_recycler_view);
-        // parallax
+
+        // parallax scroll effect
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

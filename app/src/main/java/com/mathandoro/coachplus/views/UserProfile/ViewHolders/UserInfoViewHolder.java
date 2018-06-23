@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.CircleTransform;
+import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.squareup.picasso.Picasso;
 
@@ -18,11 +19,13 @@ import com.squareup.picasso.Picasso;
 public class UserInfoViewHolder extends RecyclerView.ViewHolder {
     ImageView teamImage;
     TextView usernameText;
+    TextView emailText;
 
     public UserInfoViewHolder(View view) {
         super(view);
-        teamImage = (ImageView)view.findViewById(R.id.user_profile_user_image);
-        usernameText = (TextView)view.findViewById(R.id.user_profile_username);
+        teamImage = view.findViewById(R.id.user_profile_user_image);
+        usernameText = view.findViewById(R.id.user_profile_username);
+        emailText = view.findViewById(R.id.user_profile_email);
     }
 
     public void bind(ReducedUser user){
@@ -33,5 +36,11 @@ public class UserInfoViewHolder extends RecyclerView.ViewHolder {
                 .transform(new CircleTransform())
                 .placeholder(R.drawable.circle)
                 .into(this.teamImage);
+        if(user instanceof JWTUser){
+            emailText.setText(((JWTUser) user).getEmail());
+        }
+        else{
+            emailText.setVisibility(View.GONE);
+        }
     }
 }

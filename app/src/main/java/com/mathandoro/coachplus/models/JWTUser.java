@@ -4,30 +4,15 @@ package com.mathandoro.coachplus.models;
  * Created by dominik on 14.05.18.
  */
 
-public class JWTUser {
-    private String id;
-    private String email;
-    private String firstname;
-    private String lastname;
-    private String image;
+public class JWTUser extends ReducedUser {
+    protected String email;
 
-    public String getId() {
-        return id;
+    public JWTUser(String firstname, String lastname, String _id, String image, String email) {
+        super(firstname, lastname, _id, image);
+        this.email = email;
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public String getImage() {
-        return image;
     }
 }

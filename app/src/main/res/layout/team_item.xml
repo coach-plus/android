@@ -33,7 +33,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="2dp"
-        android:text="Description"
+        android:text="X members"
         android:textColor="#000000"
         android:textSize="10dp"
         app:layout_constraintStart_toEndOf="@+id/team_item_team_icon"
@@ -59,20 +59,6 @@
         android:orientation="horizontal"
         android:background="#d8d8d8"
         app:layout_constraintBottom_toBottomOf="parent"></LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:tint="#9b9b9b"
-        android:src="@drawable/ic_chevron_right_black_24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView5"

@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.mathandoro.coachplus.R;
@@ -72,22 +73,37 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.my_memberships_fragment_toolbar);
         toolbarFragment.setListener(this);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ImageView registerTeamImage = (ImageView)findViewById(R.id.registerTeam);
-        registerTeamImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.this.navigateToCreateTeamActivity();
-            }
-        });
+        drawer = findViewById(R.id.drawer_layout);
 
+        this.loadNavigationDrawer();
         this.loadMembershipsRecyclerView();
         this.loadMemberships();
         this.loadMyUser();
     }
 
+    private void loadNavigationDrawer(){
+        ImageView registerTeamImage = findViewById(R.id.registerTeam);
+        TextView logoutView = findViewById(R.id.logout_text_view);
+        registerTeamImage.setOnClickListener((View v) ->
+                MainActivity.this.navigateToCreateTeamActivity()
+        );
+        logoutView.setOnClickListener((View v) -> {
+            logout();
+        });
+    }
+
     private void loadMyUser(){
-        this.dataLayer.getMyUser();
+        this.dataLayer.getMyUser(true, (response) -> {
+            myUser = response.user;
+        });
+    }
+
+    private void logout(){
+        settings.reset();
+        // todo clear cached files
+        Intent logoutIntent = new Intent(this, LoginActivity.class);
+        logoutIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(logoutIntent);
     }
 
 
@@ -136,6 +152,8 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
         Intent createTeamIntent = new Intent(this, RegisterTeamActivity.class);
         startActivityForResult(createTeamIntent, CREATE_TEAM_REQUEST);
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

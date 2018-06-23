@@ -92,7 +92,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.events = new ArrayList<>();
         this.teamFeedFragment = teamFeedFragment;
         this.mainActivity = mainActivity;
-        AppState.instance().myUser.subscribe((JWTUser user) -> this.onMyUserChanged(user));
+        AppState.instance(mainActivity).myUser.subscribe((JWTUser user) -> this.onMyUserChanged(user));
     }
 
     private void onMyUserChanged(JWTUser myUser){
@@ -185,7 +185,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 TeamMembersItemViewHolder memberViewHolder = (TeamMembersItemViewHolder)holder;
                 final TeamMember teamMember = getMember(position);
                 String username = teamMember.getUser().getFirstname() + " " + teamMember.getUser().getLastname();
-                if(this.myUser != null && this.myUser.getId().equals(teamMember.getUser().get_id())){
+                if(this.myUser != null && this.myUser.get_id().equals(teamMember.getUser().get_id())){
                     username += " (" + mainActivity.getString(R.string.you) + ")";
                 }
                 memberViewHolder.name.setText(username);

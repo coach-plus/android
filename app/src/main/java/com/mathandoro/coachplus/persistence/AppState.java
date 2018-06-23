@@ -1,5 +1,7 @@
 package com.mathandoro.coachplus.persistence;
 
+import android.content.Context;
+
 import com.mathandoro.coachplus.helpers.Observable;
 import com.mathandoro.coachplus.models.JWTUser;
 
@@ -11,20 +13,26 @@ public class AppState {
     public Observable<JWTUser> myUser = new Observable<>(true);
 
     private static AppState instance;
+    private DataLayer dataLayer;
 
-    private AppState(){
+    private AppState(Context context){
+        this.dataLayer = new DataLayer(context);
     }
 
-    public static AppState instance(){
+    public static AppState instance(Context context){
         if(instance == null){
-            instance = new AppState();
+            instance = new AppState(context);
+
         }
         return instance;
     }
 
 
     public void loadMyUser(){
-        // todo
+        this.dataLayer.getMyUser(true, response -> {
+            this.myUser.publish(response.user);
+        });
         // myUser.publish();
+
     }
 }
