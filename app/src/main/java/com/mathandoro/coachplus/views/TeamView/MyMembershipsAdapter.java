@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Membership;
 import com.squareup.picasso.Picasso;
@@ -29,8 +30,8 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public static class TeamViewHolder extends RecyclerView.ViewHolder {
         public TextView teamNameTextView;
         public ImageView teamImageView;
+        public ImageView privateTeamImageView;
         public View containerView;
-        private int imageSize = 120;
 
 
         public TeamViewHolder(View view) {
@@ -38,15 +39,21 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
             containerView = view;
             teamNameTextView = view.findViewById(R.id.team_item_team_name);
             teamImageView = view.findViewById(R.id.team_item_team_icon);
+            privateTeamImageView = view.findViewById(R.id.team_item_private_icon);
         }
 
         public void bindMembership(Membership membership){
-
+            if(membership.getTeam().isPublic()){
+                privateTeamImageView.setVisibility(View.INVISIBLE);
+            }
+            else {
+                privateTeamImageView.setVisibility(View.VISIBLE);
+            }
             if(membership.getTeam().getImage() != null){
                 String imageUrl = BuildConfig.BASE_URL + "/uploads/" + membership.getTeam().getImage();
                 Picasso.with(teamImageView.getContext())
                         .load(imageUrl)
-                        .resize(imageSize,imageSize)
+                        .resize(Settings.TEAM_ICON_SIZE, Settings.TEAM_ICON_SIZE)
                         .placeholder(R.drawable.circle)
                         .transform(new CircleTransform())
                         .into(teamImageView);
