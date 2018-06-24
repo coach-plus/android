@@ -9,7 +9,7 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
-import com.mathandoro.coachplus.views.MainActivity.MainActivity;
+import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
 import java.util.List;
 
@@ -103,7 +103,7 @@ public class JoinTeamActivity extends AppCompatActivity {
     }
 
     void navigateToMain(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, TeamViewActivity.class);
         startActivity(intent);
         finish();
     }

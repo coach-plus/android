@@ -8,7 +8,7 @@ import android.util.Log;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
-import com.mathandoro.coachplus.views.MainActivity.MainActivity;
+import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
 import java.util.List;
 
@@ -43,7 +43,7 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
     public void onResponse(Call<ApiResponse<Object>> call, Response<ApiResponse<Object>> response) {
         if(call == this.verifyEmailCall){
             if(response.code() == 200) {
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, TeamViewActivity.class);
                 startActivity(intent);
                 finish();
             }

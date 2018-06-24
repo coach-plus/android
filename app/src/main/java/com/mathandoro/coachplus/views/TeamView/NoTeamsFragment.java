@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.views.MainActivity;
+package com.mathandoro.coachplus.views.TeamView;
 
 import android.app.Activity;
 import android.os.Bundle;

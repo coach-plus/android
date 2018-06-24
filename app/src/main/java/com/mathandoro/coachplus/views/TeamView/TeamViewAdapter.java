@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.views.MainActivity;
+package com.mathandoro.coachplus.views.TeamView;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,15 +20,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by dominik on 02.04.17.
  */
 
-public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final MainActivity mainActivity;
-    private final TeamFeedFragment teamFeedFragment;
+public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final TeamViewActivity mainActivity;
+    private final TeamViewFragment teamFeedFragment;
     private List<TeamMember> members;
     private List<Event> events;
     private JWTUser myUser;
@@ -89,7 +88,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    public TeamFeedAdapter(MainActivity mainActivity, TeamFeedFragment teamFeedFragment) {
+    public TeamViewAdapter(TeamViewActivity mainActivity, TeamViewFragment teamFeedFragment) {
         this.members = new ArrayList<>();
         this.events = new ArrayList<>();
         this.teamFeedFragment = teamFeedFragment;
@@ -135,19 +134,19 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         View view = null;
         switch(viewType){
             case TEAM_IMAGE_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_feed_team_image_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_team_image_item, parent, false);
                 return new TeamImageItemViewHolder(view);
             case UPCOMING_EVENTS_HEADER:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_feed_upcoming_events_header, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_upcoming_events_header, parent, false);
                 return new UpcomingEventsHeaderViewHolder(view);
             case UPCOMING_EVENTS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_item, parent, false);
                 return new UpcomingEventsItemViewHolder(view);
             case MEMBERS_HEADER:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_feed_members_header, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_members_header, parent, false);
                 return new TeamMembersHeaderViewHolder(view);
             default: //case MEMBERS_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_feed_member_item, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_member_item, parent, false);
                 return new TeamMembersItemViewHolder(view);
         }
     }

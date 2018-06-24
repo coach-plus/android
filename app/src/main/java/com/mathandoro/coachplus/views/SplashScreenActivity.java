@@ -7,9 +7,7 @@ import android.view.View;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
-import com.mathandoro.coachplus.views.LoginActivity;
-import com.mathandoro.coachplus.views.MainActivity.MainActivity;
-import com.mathandoro.coachplus.views.RegisterActivity;
+import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -29,13 +27,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void navigateToMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, TeamViewActivity.class);
         startActivity(intent);
         finish();
     }
 
     public void register(View view) {
-        Intent intent = new Intent(this, RegisterActivity.class);
+        Intent intent = new Intent(this, UserRegistrationActivity.class);
         startActivity(intent);
     }
 

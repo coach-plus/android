@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.views.MainActivity;
+package com.mathandoro.coachplus.views.TeamView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
-import com.mathandoro.coachplus.views.RegisterTeamActivity;
+import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.mathandoro.coachplus.views.UserProfile.UserProfileActivity;
@@ -29,7 +29,7 @@ import com.mathandoro.coachplus.views.LoginActivity;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
+public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
         ToolbarFragment.ToolbarFragmentListener, SwipeRefreshLayout.OnRefreshListener {
 
     Settings settings;
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
         ImageView registerTeamImage = findViewById(R.id.registerTeam);
         TextView logoutView = findViewById(R.id.logout_text_view);
         registerTeamImage.setOnClickListener((View v) ->
-                MainActivity.this.navigateToCreateTeamActivity()
+                TeamViewActivity.this.navigateToCreateTeamActivity()
         );
         logoutView.setOnClickListener((View v) -> {
             logout();
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     }
 
     public void navigateToCreateTeamActivity(){
-        Intent createTeamIntent = new Intent(this, RegisterTeamActivity.class);
+        Intent createTeamIntent = new Intent(this, TeamRegistrationActivity.class);
         startActivityForResult(createTeamIntent, CREATE_TEAM_REQUEST);
     }
 
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     public void switchTeamContext(Membership membership) {
         toolbarFragment.setTeam(membership.getTeam());
         this.settings.setActiveTeamId(membership.getTeam().get_id());
-        TeamFeedFragment fragment = TeamFeedFragment.newInstance(membership);
+        TeamViewFragment fragment = TeamViewFragment.newInstance(membership);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_activity_fragment_container, fragment)

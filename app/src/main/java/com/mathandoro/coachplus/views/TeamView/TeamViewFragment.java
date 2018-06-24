@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.views.MainActivity;
+package com.mathandoro.coachplus.views.TeamView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,7 +18,6 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
@@ -37,7 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_TEAM = "MEMBERSHIP";
     private Settings settings;
     // private Team team;
@@ -45,7 +44,7 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
-    private TeamFeedAdapter teamFeedAdapter;
+    private TeamViewAdapter teamFeedAdapter;
     protected DataLayer dataLayer;
     protected SwipeRefreshLayout swipeRefreshLayout;
 
@@ -65,7 +64,7 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     private FloatingActionButton addEventFab;
     private FloatingActionsMenu floatingActionsMenu;
 
-    public TeamFeedFragment() {
+    public TeamViewFragment() {
         // Required empty public constructor
     }
 
@@ -73,8 +72,8 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
         return this.membership;
     }
 
-    public static TeamFeedFragment newInstance(Membership membership) {
-        TeamFeedFragment fragment = new TeamFeedFragment();
+    public static TeamViewFragment newInstance(Membership membership) {
+        TeamViewFragment fragment = new TeamViewFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_TEAM,  membership);
         fragment.setArguments(args);
@@ -95,7 +94,7 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_team_overview, container, false);
+        return inflater.inflate(R.layout.team_view_fragment, container, false);
     }
 
     @Override
@@ -120,7 +119,7 @@ public class TeamFeedFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        teamFeedAdapter = new TeamFeedAdapter((MainActivity)getActivity(), this);
+        teamFeedAdapter = new TeamViewAdapter((TeamViewActivity)getActivity(), this);
         mRecyclerView.setAdapter(teamFeedAdapter);
 
         floatingActionsMenu  = view.findViewById(R.id.team_feed_floating_menu);

@@ -22,8 +22,8 @@ public class UserMembershipViewHolder extends RecyclerView.ViewHolder {
 
     public UserMembershipViewHolder(View view) {
         super(view);
-        teamNameText = (TextView)view.findViewById(R.id.user_profile_membership_item_team_name); // wrong
-        teamImage = (ImageView) view.findViewById(R.id.user_profile_membership_item_team_icon);
+        teamNameText = view.findViewById(R.id.user_profile_membership_item_team_name); // wrong
+        teamImage = view.findViewById(R.id.user_profile_membership_item_team_icon);
     }
 
     public void bind(Membership membership){

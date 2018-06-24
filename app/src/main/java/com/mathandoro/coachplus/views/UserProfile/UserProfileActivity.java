@@ -11,8 +11,6 @@ import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
-import com.mathandoro.coachplus.views.MainActivity.MainActivity;
-import com.mathandoro.coachplus.views.MainActivity.TeamFeedAdapter;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.List;

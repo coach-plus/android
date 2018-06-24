@@ -20,7 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class RegisterActivity extends AppCompatActivity implements Callback<ApiResponse<RegistrationResponse>> {
+public class UserRegistrationActivity extends AppCompatActivity implements Callback<ApiResponse<RegistrationResponse>> {
 
 
     EditText firstnameEditText;

@@ -12,7 +12,7 @@ import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.LoginResponse;
 import com.mathandoro.coachplus.models.LoginUser;
-import com.mathandoro.coachplus.views.MainActivity.MainActivity;
+import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
     }
 
     protected void navigateToMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, TeamViewActivity.class);
         startActivity(intent);
         finish();
     }

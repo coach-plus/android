@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.views.MainActivity;
+package com.mathandoro.coachplus.views.TeamView;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +21,7 @@ import java.util.List;
 
 
 public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final MainActivity mainActivity;
+    private final TeamViewActivity mainActivity;
     private List<Membership> memberships;
 
     final int TEAM_ITEM = 0;
@@ -61,7 +61,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
 
-    public MyMembershipsAdapter(MainActivity mainActivity) {
+    public MyMembershipsAdapter(TeamViewActivity mainActivity) {
         this.memberships = new ArrayList<>();
         this.mainActivity = mainActivity;
     }

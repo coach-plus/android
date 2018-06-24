@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RegisterTeamActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
+public class TeamRegistrationActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
 
     final int TEAM_IMAGE_SIZE = 512;
     final int IMAGE_QUALITY = 95;

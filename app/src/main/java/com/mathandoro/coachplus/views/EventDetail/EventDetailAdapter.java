@@ -137,7 +137,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         switch(viewType){
             case EVENT_DETAIL_HEADER:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.content_event_detail_header, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_detail_header, parent, false);
                 viewHolder = new EventDetailHeaderViewHolder(view);
                 break;
             case ATTENDANCE_HEADING:
