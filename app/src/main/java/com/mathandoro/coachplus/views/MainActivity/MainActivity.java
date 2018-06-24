@@ -154,7 +154,8 @@ public class MainActivity extends AppCompatActivity implements NoTeamsFragment.N
     }
 
     private void loadMembershipsRecyclerView(){
-        mRecyclerView = findViewById(R.id.team_overview_recycler_view);
+        mRecyclerView = findViewById(R.id.memberships_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
 
         membershipsSwipeRefreshLayout = findViewById(R.id.memberships_swipe_layout);
         membershipsSwipeRefreshLayout.setOnRefreshListener(this);

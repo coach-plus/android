@@ -11,6 +11,10 @@ import android.util.Log;
 public class Settings {
     protected Context context;
 
+    public static int TEAM_ICON_SIZE = 128;
+    public static int USER_ICON_SIZE = 128;
+    public static int TEAM_ICON_LARGE = 512;
+
     protected String TOKEN = "TOKEN";
     protected String EMAIL = "EMAIL";
     protected String PASSWORD = "PASSWORD";

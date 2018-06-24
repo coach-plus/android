@@ -30,6 +30,8 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
         public TextView teamNameTextView;
         public ImageView teamImageView;
         public View containerView;
+        private int imageSize = 120;
+
 
         public TeamViewHolder(View view) {
             super(view);
@@ -39,10 +41,12 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
 
         public void bindMembership(Membership membership){
+
             if(membership.getTeam().getImage() != null){
                 String imageUrl = BuildConfig.BASE_URL + "/uploads/" + membership.getTeam().getImage();
                 Picasso.with(teamImageView.getContext())
                         .load(imageUrl)
+                        .resize(imageSize,imageSize)
                         .placeholder(R.drawable.circle)
                         .transform(new CircleTransform())
                         .into(teamImageView);
@@ -50,8 +54,8 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
             else{
                 // cancel any pending request if there is one.
                 // This can happen because when data gets updated within a short period (first cache, then live data!)
-                Picasso.with(teamImageView.getContext()).cancelRequest(teamImageView);
-                teamImageView.setImageResource(R.drawable.circle);
+                // Picasso.with(teamImageView.getContext()).cancelRequest(teamImageView);
+                 teamImageView.setImageResource(R.drawable.circle);
             }
         }
     }
@@ -93,7 +97,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (holder.getItemViewType()) {
             case TEAM_ITEM:
                 final Membership membership = memberships.get(position);
-                final TeamViewHolder teamViewHolder = (TeamViewHolder)holder;
+                TeamViewHolder teamViewHolder = (TeamViewHolder)holder;
                 teamViewHolder.teamNameTextView.setText(membership.getTeam().getName());
                 teamViewHolder.containerView.setOnClickListener((View v) -> mainActivity.switchTeamContext(membership));
                teamViewHolder.bindMembership(membership);

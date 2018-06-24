@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.TeamMember;
@@ -88,6 +89,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 String imageUrl = BuildConfig.BASE_URL + "/uploads/" + userImage;
                 Picasso.with(profilePicture.getContext())
                         .load(imageUrl)
+                        .resize(Settings.USER_ICON_SIZE, Settings.USER_ICON_SIZE)
                         .transform(new CircleTransform())
                         .placeholder(R.drawable.circle)
                         .into(profilePicture);

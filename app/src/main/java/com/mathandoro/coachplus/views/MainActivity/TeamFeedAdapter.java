@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
@@ -19,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by dominik on 02.04.17.
@@ -160,6 +162,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     String imageUrl = BuildConfig.BASE_URL + "/uploads/" + image;
                     Picasso.with(teamImageItemViewHolder.itemView.getContext())
                             .load(imageUrl)
+                            .resize(Settings.TEAM_ICON_LARGE, Settings.TEAM_ICON_LARGE)
                             .placeholder(R.drawable.circle)
                             .into(teamImageItemViewHolder.teamImage);
                 }
@@ -195,6 +198,7 @@ public class TeamFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     String imageUrl = BuildConfig.BASE_URL + "/uploads/" + userImage;
                     Picasso.with(memberViewHolder.itemView.getContext())
                             .load(imageUrl)
+                            .resize(Settings.USER_ICON_SIZE, Settings.USER_ICON_SIZE)
                             .transform(new CircleTransform())
                             .placeholder(R.drawable.circle)
                             .into(memberViewHolder.icon);
