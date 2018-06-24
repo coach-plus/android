@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
-import com.mathandoro.coachplus.helpers.Observable;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
@@ -16,6 +15,8 @@ import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.List;
+
+import io.reactivex.Observable;
 
 public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
 

@@ -20,7 +20,6 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
-import com.mathandoro.coachplus.helpers.Observable;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
@@ -34,6 +33,8 @@ import com.mathandoro.coachplus.views.UserProfile.UserProfileActivity;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.functions.BiFunction;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -145,18 +146,17 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     private void loadData(){
-        boolean useCache = true;
-        // todo load team image
+        boolean useCache = false;
+        // todo reload team image / membership
         Observable<TeamMembersResponse> teamMembersV2 = dataLayer.getTeamMembersV2(membership.getTeam(), useCache);
         Observable<EventsResponse> eventsV2 = dataLayer.getEventsV2(membership.getTeam(), useCache);
-        Observable[] observables = {teamMembersV2, eventsV2};
-        Observable.all(observables).subscribe( (Object[] data) -> {
-            TeamMembersResponse teamMembersResponse = (TeamMembersResponse)data[0];
-            EventsResponse eventsResponse = (EventsResponse)data[1];
+
+        Observable.zip(teamMembersV2, eventsV2, (teamMembersResponse, eventsResponse) -> {
             teamViewAdapter.setMembers(teamMembersResponse.getMembers());
             teamViewAdapter.setUpcomingEvents(eventsResponse.getEvents());
             swipeRefreshLayout.setRefreshing(false);
-        });
+            return true;
+        }).subscribe();
     }
 
     @Override

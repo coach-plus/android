@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
-import com.mathandoro.coachplus.helpers.Observable;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
@@ -29,6 +28,8 @@ import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.LoginActivity;
 
 import java.util.List;
+
+import io.reactivex.Observable;
 
 
 public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
@@ -69,7 +70,9 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         this.loadMembershipsRecyclerView();
         this.loadMemberships();
         this.loadMyUser();
+
     }
+
 
     private void loadNavigationDrawer(){
         ImageView registerTeamImage = findViewById(R.id.registerTeam);

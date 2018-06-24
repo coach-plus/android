@@ -8,25 +8,21 @@ import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.CreateEventResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
-import com.mathandoro.coachplus.helpers.Observable;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
-import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.Membership;
-import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
-import com.mathandoro.coachplus.models.User;
 
 import java.io.IOException;
 import java.util.List;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.HTTP;
 
 
 public class DataLayer {
@@ -136,8 +132,9 @@ public class DataLayer {
     }
 
     public Observable<TeamMembersResponse> getTeamMembersV2(Team team, boolean useCache){
+        String token = settings.getToken();
         Call<ApiResponse<TeamMembersResponse>> teamMembersCall = ApiClient.instance()
-                .teamService.getTeamMembers(settings.getToken(), team.get_id());
+                .teamService.getTeamMembers(token, team.get_id());
         return this.getData(teamMembersCall, useCache);
     }
 
@@ -147,32 +144,33 @@ public class DataLayer {
     }
 
     private <T> Observable<T> getData(Call<ApiResponse<T>> t, boolean useCache){
-        Observable<T> resultObservable = new Observable<>();
-        t.enqueue(new Callback<ApiResponse<T>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<T>> call, Response<ApiResponse<T>> response) {
-                if(response.code() == 200){
+        Observable<T> resultObservable = Observable.create(emitter -> {
+            t.enqueue(new Callback<ApiResponse<T>>() {
+                @Override
+                public void onResponse(Call<ApiResponse<T>> call, Response<ApiResponse<T>> response) {
+                    if(response.code() == 200){
                     /*
+                    todo cache
                     String serializedResponse = DataLayer.this.gson.toJson(response.body().content);
                     try {
                         cache.saveList(members, TEAM_MEMBERS, CacheContext.TEAM(finalTeam));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }*/
-                    resultObservable.emit(response.body().content);
+                        emitter.onNext(response.body().content);
+                    }
+                    else {
+                        emitter.onError(new Throwable("API returned code " + response.code()));
+                    }
                 }
-                else {
-                    resultObservable.emitError(new Error("API returned code " + response.code()));
+
+                @Override
+                public void onFailure(Call<ApiResponse<T>> call, Throwable t) {
+                    emitter.onError(t);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<T>> call, Throwable t) {
-                // todo
-                resultObservable.emitError(null);
-
-            }
+            });
         });
+
         return resultObservable;
     }
 

@@ -93,7 +93,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.events = new ArrayList<>();
         this.teamFeedFragment = teamFeedFragment;
         this.mainActivity = mainActivity;
-        AppState.instance(mainActivity).myUser.subscribe((JWTUser user) -> this.onMyUserChanged(user));
+        //AppState.instance(mainActivity).myUser.subscribe((JWTUser user) -> this.onMyUserChanged(user));
     }
 
     private void onMyUserChanged(JWTUser myUser){
