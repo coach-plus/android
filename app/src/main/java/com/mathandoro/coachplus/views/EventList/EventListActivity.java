@@ -50,32 +50,22 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        fab.setOnClickListener((View view) -> {
             Intent intent = new Intent(EventListActivity.this, CreateEventActivity.class);
-            intent.putExtra("team", team);
+            intent.putExtra(CreateEventActivity.INTENT_PARAM_TEAM, team);
             startActivity(intent);
-            }
         });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_events, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -132,9 +122,6 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            //return PlaceholderFragment.newInstance(position + 1);
             boolean showUpcomingEvents = true;
             if(position == 1){
                 showUpcomingEvents = false;
@@ -144,7 +131,6 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return 2;
         }
 

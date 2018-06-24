@@ -18,6 +18,9 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.api.Response.EventsResponse;
+import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
+import com.mathandoro.coachplus.helpers.Observable;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
@@ -37,21 +40,20 @@ import retrofit2.Response;
 
 
 public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private static final String ARG_TEAM = "MEMBERSHIP";
+    private static final String ARG_MEMBERSHIP = "MEMBERSHIP";
     private Settings settings;
-    // private Team team;
     private Membership membership;
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
-    private TeamViewAdapter teamFeedAdapter;
+    private TeamViewAdapter teamViewAdapter;
     protected DataLayer dataLayer;
     protected SwipeRefreshLayout swipeRefreshLayout;
 
     protected DataLayerCallback<List<TeamMember>> loadTeamMembersCallback = new DataLayerCallback<List<TeamMember>>() {
         @Override
         public void dataChanged(List<TeamMember> members) {
-            teamFeedAdapter.setMembers(members);
+            teamViewAdapter.setMembers(members);
             swipeRefreshLayout.setRefreshing(false);
         }
 
@@ -75,7 +77,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     public static TeamViewFragment newInstance(Membership membership) {
         TeamViewFragment fragment = new TeamViewFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_TEAM,  membership);
+        args.putParcelable(ARG_MEMBERSHIP,  membership);
         fragment.setArguments(args);
         return fragment;
     }
@@ -87,7 +89,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         dataLayer = DataLayer.getInstance(this.getActivity());
         if (getArguments() != null) {
-            membership = getArguments().getParcelable(ARG_TEAM);
+            membership = getArguments().getParcelable(ARG_MEMBERSHIP);
         }
     }
 
@@ -119,8 +121,8 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        teamFeedAdapter = new TeamViewAdapter((TeamViewActivity)getActivity(), this);
-        mRecyclerView.setAdapter(teamFeedAdapter);
+        teamViewAdapter = new TeamViewAdapter((TeamViewActivity)getActivity(), this);
+        mRecyclerView.setAdapter(teamViewAdapter);
 
         floatingActionsMenu  = view.findViewById(R.id.team_feed_floating_menu);
 
@@ -138,7 +140,23 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
                 addEventFab.setVisibility(View.GONE);
             }
         }
-        dataLayer.getTeamMembers(membership.getTeam(), true, loadTeamMembersCallback);
+
+        loadData();
+    }
+
+    private void loadData(){
+        boolean useCache = true;
+        // todo load team image
+        Observable<TeamMembersResponse> teamMembersV2 = dataLayer.getTeamMembersV2(membership.getTeam(), useCache);
+        Observable<EventsResponse> eventsV2 = dataLayer.getEventsV2(membership.getTeam(), useCache);
+        Observable[] observables = {teamMembersV2, eventsV2};
+        Observable.all(observables).subscribe( (Object[] data) -> {
+            TeamMembersResponse teamMembersResponse = (TeamMembersResponse)data[0];
+            EventsResponse eventsResponse = (EventsResponse)data[1];
+            teamViewAdapter.setMembers(teamMembersResponse.getMembers());
+            teamViewAdapter.setUpcomingEvents(eventsResponse.getEvents());
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 
     @Override
@@ -149,7 +167,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        dataLayer.getTeamMembers(membership.getTeam(), false, loadTeamMembersCallback);
+        loadData();
     }
 
     public interface OnFragmentInteractionListener {

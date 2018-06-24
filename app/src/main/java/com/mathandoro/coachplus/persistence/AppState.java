@@ -27,12 +27,4 @@ public class AppState {
         return instance;
     }
 
-
-    public void loadMyUser(){
-        this.dataLayer.getMyUser(true, response -> {
-            this.myUser.publish(response.user);
-        });
-        // myUser.publish();
-
-    }
 }

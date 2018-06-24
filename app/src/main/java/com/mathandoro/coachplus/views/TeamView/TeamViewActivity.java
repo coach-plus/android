@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.helpers.Observable;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
@@ -75,15 +77,12 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         registerTeamImage.setOnClickListener((View v) ->
                 TeamViewActivity.this.navigateToCreateTeamActivity()
         );
-        logoutView.setOnClickListener((View v) -> {
-            logout();
-        });
+        logoutView.setOnClickListener((View v) -> logout());
     }
 
     private void loadMyUser(){
-        this.dataLayer.getMyUser(true, (response) -> {
-            myUser = response.user;
-        });
+        Observable<MyUserResponse> myUserV2 = this.dataLayer.getMyUserV2(true);
+        myUserV2.subscribe((response) -> myUser = response.user);
     }
 
     private void logout(){
@@ -181,14 +180,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     public boolean onCreateOptionsMenu(Menu menu) {
          // getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
-
-
-    public void logout(View view){
-        this.settings.reset();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     public void switchTeamContext(Membership membership) {

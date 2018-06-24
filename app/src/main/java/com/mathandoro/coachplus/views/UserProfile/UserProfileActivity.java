@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.helpers.Observable;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
@@ -67,7 +69,8 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
             loadMemberships();
         }
         else {
-            dataLayer.getMyUser(true, response -> {
+            Observable<MyUserResponse> myUserV2 = dataLayer.getMyUserV2(true);
+            myUserV2.subscribe(response -> {
                 user = response.user;
                 loadMemberships();
             });

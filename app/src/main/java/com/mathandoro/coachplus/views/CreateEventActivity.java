@@ -23,6 +23,8 @@ import java.util.Date;
 
 public class CreateEventActivity extends AppCompatActivity implements  View.OnClickListener {
 
+    public static final String INTENT_PARAM_TEAM = "team";
+
     DatePickerDialog datePickerDialog = null;
     TimePickerDialog timePickerDialog = null;
     private DataLayer dataLayer;
@@ -49,7 +51,7 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         end.set(Calendar.SECOND, 0);
         setContentView(R.layout.activity_create_event);
         dataLayer = DataLayer.getInstance(this);
-        team = getIntent().getExtras().getParcelable("team");
+        team = getIntent().getExtras().getParcelable(INTENT_PARAM_TEAM);
 
         eventName = (EditText)findViewById(R.id.createEventEventName);
         description = (EditText)findViewById(R.id.createEventEventDescription);

@@ -8,6 +8,7 @@ import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.CreateEventResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.helpers.Observable;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
@@ -109,16 +110,16 @@ public class DataLayer {
         });
     }
 
-//    public void getMyUser(){
+//    public void getMyUserV2(){
 //        // todo cache?
-//        ApiClient.instance().userService.getMyUser(settings.getToken())
+//        ApiClient.instance().userService.getMyUserV2(settings.getToken())
 //                .enqueue(new Callback<ApiResponse<MyUserResponse>>() {
 //                    @Override
 //                    public void onResponse(Call<ApiResponse<MyUserResponse>> call,
 //                                           Response<ApiResponse<MyUserResponse>> response) {
 //                        if(response.code() == 200){
 //                                JWTUser user = response.body().content.user;
-//                                AppState.instance().myUser.publish(user);
+//                                AppState.instance().myUser.emit(user);
 //                            }
 //                    }
 //
@@ -129,35 +130,50 @@ public class DataLayer {
 //                });
 //    }
 
-    // todo
-    public void getMyUser(boolean useCache, final DataLayerSuccessCallback<MyUserResponse> callback){
+    public Observable<MyUserResponse> getMyUserV2(boolean useCache){
         Call<ApiResponse<MyUserResponse>> myUserCall = ApiClient.instance().userService.getMyUser(settings.getToken());
-        this.getData(myUserCall, useCache, callback);
+        return this.getData(myUserCall, useCache);
     }
 
-    private <T> void getData(Call<ApiResponse<T>> t,  boolean useCache, final DataLayerSuccessCallback<T> callback){
+    public Observable<TeamMembersResponse> getTeamMembersV2(Team team, boolean useCache){
+        Call<ApiResponse<TeamMembersResponse>> teamMembersCall = ApiClient.instance()
+                .teamService.getTeamMembers(settings.getToken(), team.get_id());
+        return this.getData(teamMembersCall, useCache);
+    }
+
+    public Observable<EventsResponse> getEventsV2(final Team team, boolean useCache) {
+        Call<ApiResponse<EventsResponse>> eventsOfTeam = ApiClient.instance().teamService.getEventsOfTeam(settings.getToken(), team.get_id());
+        return this.getData(eventsOfTeam, useCache);
+    }
+
+    private <T> Observable<T> getData(Call<ApiResponse<T>> t, boolean useCache){
+        Observable<T> resultObservable = new Observable<>();
         t.enqueue(new Callback<ApiResponse<T>>() {
             @Override
             public void onResponse(Call<ApiResponse<T>> call, Response<ApiResponse<T>> response) {
                 if(response.code() == 200){
-                    if(callback != null){
-                        /*
-                        String serializedResponse = DataLayer.this.gson.toJson(response.body().content);
-                        try {
-                            cache.saveList(members, TEAM_MEMBERS, CacheContext.TEAM(finalTeam));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }*/
-                        callback.dataChanged(response.body().content);
-                    }
+                    /*
+                    String serializedResponse = DataLayer.this.gson.toJson(response.body().content);
+                    try {
+                        cache.saveList(members, TEAM_MEMBERS, CacheContext.TEAM(finalTeam));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }*/
+                    resultObservable.emit(response.body().content);
+                }
+                else {
+                    resultObservable.emitError(new Error("API returned code " + response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponse<T>> call, Throwable t) {
+                // todo
+                resultObservable.emitError(null);
 
             }
         });
+        return resultObservable;
     }
 
     public void getTeamMembers(Team team, boolean useCache, final DataLayerCallback<List<TeamMember>> callback){

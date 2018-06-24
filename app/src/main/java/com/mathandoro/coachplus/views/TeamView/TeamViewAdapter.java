@@ -119,11 +119,13 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else if(position == 1){
             return UPCOMING_EVENTS_HEADER;
         }
-        else if(position > 0 && position <= events.size()){
-            return UPCOMING_EVENTS_ITEM;
-        }
-        else if(position == 2 + events.size()){
-            return MEMBERS_HEADER;
+        else if(position > 0){
+            if(position < events.size() + 2){
+                return UPCOMING_EVENTS_ITEM;
+            }
+            else if(position == 2 + events.size()){
+                return MEMBERS_HEADER;
+            }
         }
         return MEMBERS_ITEM;
     }

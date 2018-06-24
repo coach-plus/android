@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +26,7 @@ import java.util.List;
 
 
 public class EventListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private static final String ARG_TEAM = "TEAM";
+    private static final String PARAM_TEAM = "TEAM";
     private Team team;
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
@@ -92,7 +91,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         EventListFragment fragment = new EventListFragment();
         fragment.setShowUpcomingEvents(showUpcomingEvents);
         Bundle args = new Bundle();
-        args.putParcelable(ARG_TEAM,  team);
+        args.putParcelable(PARAM_TEAM,  team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -102,7 +101,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         super.onCreate(savedInstanceState);
         dataLayer = DataLayer.getInstance(this.getActivity());
         if (getArguments() != null) {
-            team = getArguments().getParcelable(ARG_TEAM);
+            team = getArguments().getParcelable(PARAM_TEAM);
         }
 
     }
@@ -116,12 +115,11 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-       // ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(team.getName());
 
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.eventListSwipeRefreshLayout);
+        swipeRefreshLayout = view.findViewById(R.id.eventListSwipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.eventListRecyclerView);
+        mRecyclerView = view.findViewById(R.id.eventListRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         eventListAdapter = new EventListAdapter((EventListActivity)getActivity(), this);

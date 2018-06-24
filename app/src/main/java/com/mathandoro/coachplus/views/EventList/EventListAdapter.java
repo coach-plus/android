@@ -34,9 +34,9 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public EventItemViewHolder(View view) {
             super(view);
             this.itemContainer = view;
-            this.title = (TextView)view.findViewById(R.id.event_item_event_name);
-            this.time = (TextView)view.findViewById(R.id.event_item_event_start);
-            this.location = (TextView)view.findViewById(R.id.event_item_event_location);
+            this.title = view.findViewById(R.id.event_item_event_name);
+            this.time = view.findViewById(R.id.event_item_event_start);
+            this.location = view.findViewById(R.id.event_item_event_location);
         }
     }
 
