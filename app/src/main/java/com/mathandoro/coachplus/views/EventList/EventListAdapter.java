@@ -24,23 +24,6 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     final int EVENT_ITEM = 0;
 
 
-    class EventItemViewHolder extends RecyclerView.ViewHolder {
-
-        TextView title;
-        TextView location;
-        TextView time;
-        View itemContainer;
-
-        public EventItemViewHolder(View view) {
-            super(view);
-            this.itemContainer = view;
-            this.title = view.findViewById(R.id.event_item_event_name);
-            this.time = view.findViewById(R.id.event_item_event_start);
-            this.location = view.findViewById(R.id.event_item_event_location);
-        }
-    }
-
-
     public EventListAdapter(EventListActivity eventListActivity, EventListFragment eventListFragment) {
         this.events = new ArrayList<>();
         this.eventListFragment = eventListFragment;
@@ -79,31 +62,14 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case EVENT_ITEM:
                 EventItemViewHolder eventItemViewHolder = (EventItemViewHolder)holder;
                 final Event event = getEvent(position);
-                eventItemViewHolder.title.setText(event.getName());
-                if(event.getStart() != null){
-                    eventItemViewHolder.time.setText(this.formatGermanTimestamp(event.getStart()));
-                }
-                // todo location
-                eventItemViewHolder.itemContainer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        eventListFragment.navigateToEventDetail(event);
-                    }
-                });
+                eventItemViewHolder.bind(event);
+                eventItemViewHolder.itemContainer.setOnClickListener((View v) ->
+                    eventListFragment.navigateToEventDetail(event));
                 break;
         }
     }
 
-    public String formatGermanTimestamp(Date indate)
-    {
-        String dateString = null;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy - HH:mm");
-        try{
-            dateString = simpleDateFormat.format( indate ) + " Uhr";
-        }catch (Exception exception){
-        }
-        return dateString;
-    }
+
 
     protected Event getEvent(int position){
         return this.events.get(position);

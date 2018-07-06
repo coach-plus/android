@@ -15,6 +15,7 @@ import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.views.EventList.EventItemViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -55,23 +56,6 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    class UpcomingEventsItemViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView location;
-        TextView time;
-        View itemContainer;
-
-        public UpcomingEventsItemViewHolder(View view) {
-            super(view);
-            this.itemContainer = view;
-            name = view.findViewById(R.id.event_item_event_name);
-            // todo use shared view holder with event list!
-        }
-
-        public void bindEvent(Event event){
-            name.setText(event.getName());
-        }
-    }
 
     class TeamMembersHeaderViewHolder extends RecyclerView.ViewHolder {
         public TeamMembersHeaderViewHolder(View view) {
@@ -148,7 +132,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return new UpcomingEventsHeaderViewHolder(view);
             case UPCOMING_EVENTS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_item, parent, false);
-                return new UpcomingEventsItemViewHolder(view);
+                return new EventItemViewHolder(view);
             case MEMBERS_HEADER:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_members_header, parent, false);
                 return new TeamMembersHeaderViewHolder(view);
@@ -185,9 +169,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 break;
 
             case UPCOMING_EVENTS_ITEM:
-                UpcomingEventsItemViewHolder eventItemViewHolder = (UpcomingEventsItemViewHolder)holder;
+                EventItemViewHolder eventItemViewHolder = (EventItemViewHolder)holder;
                 Event event = getEvent(position);
-                eventItemViewHolder.bindEvent(event);
+                eventItemViewHolder.bind(event);
                 break;
 
             case MEMBERS_ITEM:
