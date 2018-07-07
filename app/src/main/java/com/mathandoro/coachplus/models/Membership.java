@@ -11,20 +11,17 @@ public class Membership implements Parcelable {
         protected String role;
         protected Team team;
         protected String user;
-        protected int memberCount;
 
         public Membership(String role, Team team, String user, int memberCount) {
                 this.role = role;
                 this.team = team;
                 this.user = user;
-                this.memberCount = memberCount;
         }
 
         protected Membership(Parcel in) {
                 role = in.readString();
                 team = in.readParcelable(Team.class.getClassLoader());
                 user = in.readString();
-                memberCount = in.readInt();
         }
 
 
@@ -33,7 +30,6 @@ public class Membership implements Parcelable {
                 dest.writeString(role);
                 dest.writeParcelable(team, flags);
                 dest.writeString(user);
-                dest.writeInt(memberCount);
         }
 
         @Override
@@ -75,14 +71,6 @@ public class Membership implements Parcelable {
 
         public void setUser(String user) {
                 this.user = user;
-        }
-
-        public int getMemberCount() {
-                return memberCount;
-        }
-
-        public void setMemberCount(int memberCount) {
-                this.memberCount = memberCount;
         }
 
         public static Creator<Membership> getCREATOR() {

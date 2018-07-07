@@ -12,11 +12,14 @@ public class Team implements Parcelable{
     protected String name;
     protected boolean isPublic;
     protected String image;
+    protected int memberCount;
 
-    public Team(String _id, String name, boolean isPublic) {
+
+    public Team(String _id, String name, boolean isPublic, int memberCount) {
         this._id = _id;
         this.name = name;
         this.isPublic = isPublic;
+        this.memberCount = memberCount;
     }
 
     protected Team(Parcel in) {
@@ -24,6 +27,7 @@ public class Team implements Parcelable{
         name = in.readString();
         image = in.readString();
         isPublic = in.readByte() != 0;
+        memberCount = in.readInt();
     }
 
     public static final Creator<Team> CREATOR = new Creator<Team>() {
@@ -81,5 +85,14 @@ public class Team implements Parcelable{
         dest.writeString(name);
         dest.writeString(image);
         dest.writeByte((byte) (isPublic ? 1 : 0));
+        dest.writeInt(memberCount);
+    }
+
+    public int getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(int memberCount) {
+        this.memberCount = memberCount;
     }
 }
