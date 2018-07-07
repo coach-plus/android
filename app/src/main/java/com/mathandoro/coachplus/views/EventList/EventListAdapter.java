@@ -4,14 +4,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.views.viewHolders.EventItemViewHolder;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 

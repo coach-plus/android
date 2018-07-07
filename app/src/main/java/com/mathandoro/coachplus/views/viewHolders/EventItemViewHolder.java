@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.views.EventList;
+package com.mathandoro.coachplus.views.viewHolders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,10 +11,10 @@ import java.util.Date;
 
 public class EventItemViewHolder extends RecyclerView.ViewHolder {
 
-    TextView title;
-    TextView location;
-    TextView time;
-    View itemContainer;
+    public TextView title;
+    public TextView location;
+    public TextView time;
+    public View itemContainer;
 
     public EventItemViewHolder(View view) {
         super(view);
