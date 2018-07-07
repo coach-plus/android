@@ -11,13 +11,19 @@ import android.widget.TextView;
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
+import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * Created by dominik on 21.04.17.
@@ -27,6 +33,8 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final EventDetailActivity mainActivity;
     private List<TeamMember> members;
     private Event event;
+    private DataLayer dataLayer;
+    private JWTUser myUser;
 
     final int EVENT_DETAIL_HEADER = 0;
     final int ATTENDANCE_HEADING = 1;
@@ -64,47 +72,13 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    class AttendanceItemViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView you;
-        Button attendButton;
-        View itemContainer;
-        ImageView profilePicture;
-
-        public AttendanceItemViewHolder(View view) {
-            super(view);
-            name = view.findViewById(R.id.eventDetailUsername);
-            you = view.findViewById(R.id.eventDetailYou);
-            profilePicture = view.findViewById(R.id.eventDetailUserImage);
-
-            itemContainer = view;
-        }
-
-        public void bindMember(TeamMember teamMember){
-            String userImage = teamMember.getUser().getImage();
-            name.setText(teamMember.getUser().getFirstname() + " " + teamMember.getUser().getLastname());
-            // todo is user ?
-            you.setVisibility(View.INVISIBLE);
-            if(userImage != null){
-                String imageUrl = BuildConfig.BASE_URL + "/uploads/" + userImage;
-                Picasso.with(profilePicture.getContext())
-                        .load(imageUrl)
-                        .resize(Settings.USER_ICON_SIZE, Settings.USER_ICON_SIZE)
-                        .transform(new CircleTransform())
-                        .placeholder(R.drawable.circle)
-                        .into(profilePicture);
-            }
-            else {
-                profilePicture.setImageResource(R.drawable.circle);
-            }
-        }
-    }
-
 
     public EventDetailAdapter(EventDetailActivity mainActivity, Event event) {
         this.members = new ArrayList<>();
+        this.dataLayer = DataLayer.getInstance(mainActivity);
         this.event = event;
         this.mainActivity = mainActivity;
+        this.loadMyUser();
     }
 
     public void setEvent(Event event) {
@@ -114,6 +88,16 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setMembers(List<TeamMember> members){
         this.members = members;
+        this.notifyDataSetChanged();
+    }
+
+    private void loadMyUser(){
+        Observable<MyUserResponse> myUserV2 = this.dataLayer.getMyUserV2(true);
+        myUserV2.subscribe((response) -> this.onMyUserChanged(response.user));
+    }
+
+    private void onMyUserChanged(JWTUser myUser){
+        this.myUser = myUser;
         this.notifyDataSetChanged();
     }
 
@@ -145,8 +129,8 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 viewHolder = new AttendanceHeadingViewHolder(view);
                 break;
             case ATTENDANCE_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_detail_attendence, parent, false);
-                viewHolder = new AttendanceItemViewHolder(view);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
+                viewHolder = new TeamMemberViewHolder(view);
                 break;
         }
         return viewHolder;
@@ -174,9 +158,9 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 break;
 
             case ATTENDANCE_ITEM:
-                AttendanceItemViewHolder attendanceViewHolder = (AttendanceItemViewHolder)holder;
+                TeamMemberViewHolder attendanceViewHolder = (TeamMemberViewHolder)holder;
                 TeamMember teamMember = getMember(position);
-                attendanceViewHolder.bindMember(teamMember);
+                attendanceViewHolder.bind(teamMember, myUser, true);
                 break;
         }
     }

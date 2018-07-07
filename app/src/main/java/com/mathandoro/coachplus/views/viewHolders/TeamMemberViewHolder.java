@@ -20,6 +20,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     ImageView whistle;
     ImageButton attend;
     ImageButton dontAttend;
+    public final int MAX_NAME_LENGTH = 14;
 
     public TeamMemberViewHolder(View view) {
         super(view);
@@ -32,6 +33,9 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(TeamMember teamMember, JWTUser myUser, boolean attendenceMode){
         String username = teamMember.getUser().getFirstname() + " " + teamMember.getUser().getLastname();
+        if(username.length() > MAX_NAME_LENGTH){
+            username = teamMember.getUser().getFirstname() + " " + teamMember.getUser().getLastname().substring(0,1) +".";
+        }
         if(myUser != null && myUser.get_id().equals(teamMember.getUser().get_id())){
             username += " (" + "you" + ")";
         }

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="45dp"
-    android:background="#e9f3fc"
+    android:background="@color/headingBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
