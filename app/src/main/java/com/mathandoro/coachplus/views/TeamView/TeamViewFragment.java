@@ -20,6 +20,7 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
+import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
@@ -28,6 +29,7 @@ import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.InvitationResponse;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.views.CreateEventActivity;
+import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
 import com.mathandoro.coachplus.views.EventList.EventListActivity;
 import com.mathandoro.coachplus.views.UserProfile.UserProfileActivity;
 
@@ -168,6 +170,13 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onRefresh() {
         loadData();
+    }
+
+    public void navigateToEvent(Event event) {
+        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+        intent.putExtra("event", event);
+        intent.putExtra("team", membership.getTeam());
+        startActivity(intent);
     }
 
     public interface OnFragmentInteractionListener {

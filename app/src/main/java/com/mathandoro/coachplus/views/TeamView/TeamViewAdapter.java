@@ -19,6 +19,7 @@ import com.mathandoro.coachplus.views.EventList.EventItemViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,12 +32,16 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<TeamMember> members;
     private List<Event> events;
     private JWTUser myUser;
+    private boolean noUpcomingEvents = false;
 
     final int UPCOMING_EVENTS_HEADER = 0;
     final int UPCOMING_EVENTS_ITEM = 1;
     final int MEMBERS_HEADER = 2;
     final int MEMBERS_ITEM = 3;
     final int TEAM_IMAGE_ITEM = 4;
+    final int NO_UPCOMING_EVENTS = 5;
+
+    private static final int MAX_VISIBLE_EVENTS = 3;
 
 
     class TeamImageItemViewHolder extends RecyclerView.ViewHolder {
@@ -59,6 +64,12 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     class TeamMembersHeaderViewHolder extends RecyclerView.ViewHolder {
         public TeamMembersHeaderViewHolder(View view) {
+            super(view);
+        }
+    }
+
+    class NoEventsViewHolder extends RecyclerView.ViewHolder {
+        public NoEventsViewHolder(View view) {
             super(view);
         }
     }
@@ -96,7 +107,10 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void setUpcomingEvents(List<Event> events){
-        this.events = events;
+        this.events = this.filterVisibleEvents(events);
+        if(this.events.size() == 0){
+            noUpcomingEvents = true;
+        }
         this.notifyDataSetChanged();
     }
 
@@ -108,11 +122,15 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         else if(position == 1){
             return UPCOMING_EVENTS_HEADER;
         }
+        else if(position == 2 && noUpcomingEvents){
+            return NO_UPCOMING_EVENTS;
+        }
         else if(position > 0){
-            if(position < events.size() + 2){
+            int offset = noUpcomingEvents ? 1: 0;
+            if(position < events.size() + 2 + offset){
                 return UPCOMING_EVENTS_ITEM;
             }
-            else if(position == 2 + events.size()){
+            else if(position == offset + 2 + events.size()){
                 return MEMBERS_HEADER;
             }
         }
@@ -122,7 +140,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                               int viewType) {
-        View view = null;
+        View view;
         switch(viewType){
             case TEAM_IMAGE_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_team_image_item, parent, false);
@@ -136,6 +154,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case MEMBERS_HEADER:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_members_header, parent, false);
                 return new TeamMembersHeaderViewHolder(view);
+            case NO_UPCOMING_EVENTS:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_no_event_item, parent, false);
+                return new NoEventsViewHolder(view);
             default: //case MEMBERS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_member_item, parent, false);
                 return new TeamMembersItemViewHolder(view);
@@ -172,6 +193,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 EventItemViewHolder eventItemViewHolder = (EventItemViewHolder)holder;
                 Event event = getEvent(position);
                 eventItemViewHolder.bind(event);
+                holder.itemView.setOnClickListener((View view) ->
+                    teamFeedFragment.navigateToEvent(event)
+                );
                 break;
 
             case MEMBERS_ITEM:
@@ -207,11 +231,34 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     protected TeamMember getMember(int position){
-        return this.members.get(position - 3 - events.size());
+        int offset = noUpcomingEvents ? 1 : 0;
+        return this.members.get(position - offset - 3 - events.size());
+    }
+
+    private List<Event> filterVisibleEvents(List<Event> events){
+        List<Event> upcomingEvents = new ArrayList<Event>();
+        for(Event event: events){
+            if(event.getEnd().after(new Date())){
+                upcomingEvents.add(event);
+                if(upcomingEvents.size() == MAX_VISIBLE_EVENTS){
+                    break;
+                }
+            }
+        }
+        return upcomingEvents;
     }
 
     @Override
     public int getItemCount() {
-        return members.size() + events.size() + 3;
+        int noEventSize = noUpcomingEvents ? 1 : 0;
+        int teamImage = 1;
+        int eventHeader = 1;
+        int membersHeader = 1;
+        return teamImage
+                + members.size()
+                + events.size()
+                + noEventSize
+                + eventHeader
+                + membersHeader;
     }
 }
