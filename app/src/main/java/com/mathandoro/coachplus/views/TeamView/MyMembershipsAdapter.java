@@ -29,6 +29,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     public static class TeamViewHolder extends RecyclerView.ViewHolder {
         public TextView teamNameTextView;
+        public TextView teamMembers;
         public ImageView teamImageView;
         public ImageView privateTeamImageView;
         public View containerView;
@@ -40,6 +41,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
             teamNameTextView = view.findViewById(R.id.team_item_team_name);
             teamImageView = view.findViewById(R.id.team_item_team_icon);
             privateTeamImageView = view.findViewById(R.id.team_item_private_icon);
+            teamMembers = view.findViewById(R.id.team_item_members);
         }
 
         public void bindMembership(Membership membership){
@@ -49,6 +51,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
             else {
                 privateTeamImageView.setVisibility(View.VISIBLE);
             }
+            teamMembers.setText(membership.getMemberCount() + " Members");
             if(membership.getTeam().getImage() != null){
                 String imageUrl = BuildConfig.BASE_URL + "/uploads/" + membership.getTeam().getImage();
                 Picasso.with(teamImageView.getContext())

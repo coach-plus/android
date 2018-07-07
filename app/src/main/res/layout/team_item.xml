@@ -27,7 +27,7 @@
         android:layout_marginLeft="20dp"></ImageView>
 
     <TextView
-        android:id="@+id/team_item_team_description"
+        android:id="@+id/team_item_members"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_marginLeft="10dp"

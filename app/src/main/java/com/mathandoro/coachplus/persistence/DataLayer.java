@@ -51,6 +51,11 @@ public class DataLayer {
         return instance;
     }
 
+    public Observable<MyMembershipsResponse> getMyMembershipsV2(boolean useCache){
+        Call<ApiResponse<MyMembershipsResponse>> myUserCall = ApiClient.instance().membershipService.getMyMemberships(settings.getToken()); //.userService.getMyUser(settings.getToken());
+        return this.getData(myUserCall, useCache);
+    }
+
     public void getMyMemberships(final DataLayerCallback<List<Membership>> callback){
         if(this.cache.exists(MY_MEMBERSHIPS, CacheContext.DEFAULT())){
             try {

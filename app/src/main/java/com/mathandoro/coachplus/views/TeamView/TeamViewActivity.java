@@ -98,27 +98,19 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
 
     private void loadMemberships(){
-        this.dataLayer.getMyMemberships(new DataLayerCallback<List<Membership>>() {
-            @Override
-            public void dataChanged(List<Membership> data) {
-                membershipsSwipeRefreshLayout.setRefreshing(false);
-                memberships = data;
-                myMembershipsAdapter.setMemberships(data);
-                String activeTeamId = settings.getActiveTeamId();
-                if(memberships.size() > 0 && activeTeamId == null){
-                    switchTeamContext(memberships.get(0));
-                    initalMembershipsLoaded = true;
-                    return;
-                }
-                if (!initalMembershipsLoaded) {
-                    initalMembershipsLoaded = true;
-                    loadActiveTeam();
-                }
+        this.dataLayer.getMyMembershipsV2(false).subscribe(myMembershipsResponse -> {
+            membershipsSwipeRefreshLayout.setRefreshing(false);
+            memberships = myMembershipsResponse.getMemberships();
+            myMembershipsAdapter.setMemberships(myMembershipsResponse.getMemberships());
+            String activeTeamId = settings.getActiveTeamId();
+            if(memberships.size() > 0 && activeTeamId == null){
+                switchTeamContext(memberships.get(0));
+                initalMembershipsLoaded = true;
+                return;
             }
-
-            @Override
-            public void error() {
-                membershipsSwipeRefreshLayout.setRefreshing(false);
+            if (!initalMembershipsLoaded) {
+                initalMembershipsLoaded = true;
+                loadActiveTeam();
             }
         });
     }
