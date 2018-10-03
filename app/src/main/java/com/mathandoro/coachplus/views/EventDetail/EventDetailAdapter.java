@@ -6,16 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.mathandoro.coachplus.Const;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -30,6 +33,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private Event event;
     private DataLayer dataLayer;
     private JWTUser myUser;
+    private TeamMember myUsersMembership;
 
     final int EVENT_DETAIL_HEADER = 0;
     final int ATTENDANCE_HEADING = 1;
@@ -83,6 +87,13 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void setParticipationItems(List<ParticipationItem> items){
         this.participationItems = items;
+        for (ParticipationItem item : items
+             ) {
+            if(item.getTeamMember().getUser().get_id().equals(myUser.get_id())){
+                myUsersMembership = item.getTeamMember();
+                break;
+            }
+        }
         this.notifyDataSetChanged();
     }
 
@@ -154,14 +165,39 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             case ATTENDANCE_ITEM:
                 TeamMemberViewHolder attendanceViewHolder = (TeamMemberViewHolder)holder;
                 TeamMember teamMember = getParticipationItem(position).getTeamMember();
-                attendanceViewHolder.bindParticipationMode(getParticipationItem(position), myUser, () -> {
-                    // todo: if event hasn't started
-                    mainActivity.onUpdateWillAttend(myUser, true);
+                attendanceViewHolder.bindParticipationMode(getParticipationItem(position), myUser, event, () -> {
+                    if(eventHasStarted(event)){
+                        if(isMyUserCoach()){
+                            mainActivity.onUpdateDidAttend(teamMember.getUser().get_id(), true);
+                        }
+                    }
+                    else if(teamMemberIsMyUser(teamMember)){
+                        mainActivity.onUpdateWillAttend(teamMember.getUser().get_id(), true);
+                    }
                 }, () -> {
-                    mainActivity.onUpdateWillAttend(myUser, false);
+                    if(eventHasStarted(event)){
+                        if(isMyUserCoach()){
+                            mainActivity.onUpdateDidAttend(teamMember.getUser().get_id(), false);
+                        }
+                    }
+                    else if(this.teamMemberIsMyUser(teamMember)){
+                        mainActivity.onUpdateWillAttend(teamMember.getUser().get_id(), false);
+                    }
                 });
                 break;
         }
+    }
+
+    protected boolean teamMemberIsMyUser(TeamMember teamMember){
+        return teamMember.getUser().get_id().equals(myUser.get_id());
+    }
+
+    protected boolean isMyUserCoach(){
+        return this.myUsersMembership.getRole().equals(Const.Role.Coach.toString());
+    }
+
+    protected boolean eventHasStarted(Event event){
+        return event.getStart().before(new Date());
     }
 
 

@@ -3,10 +3,10 @@ package com.mathandoro.coachplus.models;
 public class Participation {
     protected String user;
     protected String event;
-    protected boolean willAttend;
-    protected boolean didAttend;
+    protected Boolean willAttend;
+    protected Boolean didAttend;
 
-    public Participation(String user, String event, boolean willAttend, boolean didAttend) {
+    public Participation(String user, String event, Boolean willAttend, Boolean didAttend) {
         this.user = user;
         this.event = event;
         this.willAttend = willAttend;
@@ -21,11 +21,11 @@ public class Participation {
         return event;
     }
 
-    public boolean WillAttend() {
+    public Boolean WillAttend() {
         return willAttend;
     }
 
-    public boolean DidAttend() {
+    public Boolean DidAttend() {
         return didAttend;
     }
 }

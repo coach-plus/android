@@ -6,5 +6,7 @@
     <color name="colorAccent">#52b0f0</color>
     <color name="black_semi_transparent">#B2000000</color>
     <color name="headingBackground">#e9f3fc</color>
+    <color name="colorGreen">#16c416</color>
+    <color name="colorRed">#e61118</color>
 
 </resources>

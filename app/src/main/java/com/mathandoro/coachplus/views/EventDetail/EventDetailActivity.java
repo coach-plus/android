@@ -105,14 +105,20 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
 
-    public void onUpdateWillAttend(JWTUser user, boolean willAttend) {
-        this.dataLayer.setWillAttend(this.team.get_id(), this.event.get_id(), user.get_id(), willAttend).subscribe(participation -> {
-            this.map.get(participation.getUser()).participation = participation;
-            eventDetailAdapter.setParticipationItems(new ArrayList<>(map.values()));
+    public void onUpdateWillAttend(String userId, boolean willAttend) {
+        this.dataLayer.setWillAttend(this.team.get_id(), this.event.get_id(), userId, willAttend).subscribe(participation -> {
+            this.updateParticipation(participation);
         });
     }
 
-    public void onUpdateDidAttend(JWTUser user, boolean didAttend) {
+    public void onUpdateDidAttend(String userId, boolean didAttend) {
+        this.dataLayer.setDidAttend(this.team.get_id(), this.event.get_id(), userId, didAttend).subscribe(participation -> {
+            this.updateParticipation(participation);
+        });
+    }
 
+    private void updateParticipation(Participation participation){
+        this.map.get(participation.getUser()).participation = participation;
+        eventDetailAdapter.setParticipationItems(new ArrayList<>(map.values()));
     }
 }
