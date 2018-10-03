@@ -11,13 +11,19 @@ import java.util.Date;
  */
 
 public class Event implements Parcelable {
+    public String get_id() {
+        return _id;
+    }
+
+    protected String _id;
     protected String name;
     protected String description;
     protected Date start;
     protected Date end;
     protected Location location;
 
-    public Event(String name, String description, Date start, Date end, Location location) {
+    public Event(String id, String name, String description, Date start, Date end, Location location) {
+        this._id = id;
         this.name = name;
         this.description = description;
         this.start = start;
@@ -26,6 +32,7 @@ public class Event implements Parcelable {
     }
 
     protected Event(Parcel in) {
+        _id = in.readString();
         name = in.readString();
         description = in.readString();
         start = (Date)in.readValue(Date.class.getClassLoader());
@@ -92,6 +99,7 @@ public class Event implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
         dest.writeString(name);
         dest.writeString(description);
         dest.writeValue(start);

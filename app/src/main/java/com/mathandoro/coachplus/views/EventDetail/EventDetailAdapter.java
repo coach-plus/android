@@ -4,21 +4,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
-import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +26,7 @@ import io.reactivex.Observable;
 
 public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final EventDetailActivity mainActivity;
-    private List<TeamMember> members;
+    private List<ParticipationItem> participationItems;
     private Event event;
     private DataLayer dataLayer;
     private JWTUser myUser;
@@ -74,7 +69,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
     public EventDetailAdapter(EventDetailActivity mainActivity, Event event) {
-        this.members = new ArrayList<>();
+        this.participationItems = new ArrayList<>();
         this.dataLayer = DataLayer.getInstance(mainActivity);
         this.event = event;
         this.mainActivity = mainActivity;
@@ -86,8 +81,8 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.notifyDataSetChanged();
     }
 
-    public void setMembers(List<TeamMember> members){
-        this.members = members;
+    public void setParticipationItems(List<ParticipationItem> items){
+        this.participationItems = items;
         this.notifyDataSetChanged();
     }
 
@@ -100,7 +95,6 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.myUser = myUser;
         this.notifyDataSetChanged();
     }
-
 
     @Override
     public int getItemViewType(int position) {
@@ -159,18 +153,27 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             case ATTENDANCE_ITEM:
                 TeamMemberViewHolder attendanceViewHolder = (TeamMemberViewHolder)holder;
-                TeamMember teamMember = getMember(position);
-                attendanceViewHolder.bind(teamMember, myUser, true);
+                TeamMember teamMember = getParticipationItem(position).getTeamMember();
+                attendanceViewHolder.bindParticipationMode(getParticipationItem(position), myUser, () -> {
+                    // todo: if event hasn't started
+                    mainActivity.onUpdateWillAttend(myUser, true);
+                }, () -> {
+                    mainActivity.onUpdateWillAttend(myUser, false);
+                });
                 break;
         }
     }
 
-    protected TeamMember getMember(int position){
-        return this.members.get(position - 2);
+
+    protected ParticipationItem getParticipationItem(int position){
+        return this.participationItems.get(position - 2);
     }
 
     @Override
     public int getItemCount() {
-        return members.size() +  2;
+        return this.participationItems.size() +  2;
     }
+
+
 }
+

@@ -5,13 +5,17 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.api.Request.DidAttendRequest;
+import com.mathandoro.coachplus.api.Request.WillAttendRequest;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.CreateEventResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
@@ -36,7 +40,6 @@ public class DataLayer {
     private Gson gson;
 
 
-
     public DataLayer(Context context){
         this.context = context;
         this.settings = new Settings(this.context);
@@ -51,9 +54,29 @@ public class DataLayer {
         return instance;
     }
 
+    public Observable<ParticipationResponse> getParticipationOfEvent(boolean useCache, String teamId, String eventId){
+        Call<ApiResponse<ParticipationResponse>> participationCall = ApiClient.instance().teamService.getParticipationOfEvent(settings.getToken(), teamId, eventId);
+        return this.getData(participationCall, useCache);
+    }
+
+    public Observable<Participation> setWillAttend(String teamId, String eventId, String userId, boolean willAttend){
+        Call<ApiResponse<Participation>> participationCall = ApiClient.instance().teamService.setWillAttend(settings.getToken(), teamId, eventId, userId, new WillAttendRequest(willAttend));
+        return this.getData(participationCall, false);
+    }
+
+    public Observable<Participation> setDidAttend(String teamId, String eventId, String userId, boolean didAttend){
+        Call<ApiResponse<Participation>> participationCall = ApiClient.instance().teamService.setDidAttend(settings.getToken(), teamId, eventId, userId, new DidAttendRequest(didAttend));
+        return this.getData(participationCall, false);
+    }
+
     public Observable<MyMembershipsResponse> getMyMembershipsV2(boolean useCache){
         Call<ApiResponse<MyMembershipsResponse>> myUserCall = ApiClient.instance().membershipService.getMyMemberships(settings.getToken()); //.userService.getMyUser(settings.getToken());
         return this.getData(myUserCall, useCache);
+    }
+
+    public Observable<TeamMembersResponse> getTeamMembersV2(boolean useCache, Team team){
+        Call<ApiResponse<TeamMembersResponse>> teamMembersCall = ApiClient.instance().teamService.getTeamMembers(settings.getToken(), team.get_id());
+        return this.getData(teamMembersCall, useCache);
     }
 
     public void getMyMemberships(final DataLayerCallback<List<Membership>> callback){

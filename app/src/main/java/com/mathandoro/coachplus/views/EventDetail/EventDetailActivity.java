@@ -7,16 +7,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.api.Response.ParticipationResponse;
+import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
+import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.persistence.DataLayer;
-import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
 public class EventDetailActivity extends AppCompatActivity {
 
@@ -25,6 +35,8 @@ public class EventDetailActivity extends AppCompatActivity {
     private DataLayer dataLayer;
 
     List<TeamMember> teamMembers;
+    List<ParticipationResponse.ParticipationAndMembership> participations;
+    Map<String, ParticipationItem> map = new HashMap<>();
     Event event;
     Team team;
 
@@ -60,7 +72,7 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     private void loadEventDetailRecyclerView(){
-        eventDetailRecyclerView = (RecyclerView) findViewById(R.id.event_detail_recycler_view);
+        eventDetailRecyclerView = findViewById(R.id.event_detail_recycler_view);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(this);
         eventDetailRecyclerView.setLayoutManager(mLinearLayoutManager);
         eventDetailAdapter = new EventDetailAdapter(this, event);
@@ -68,22 +80,39 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     private void loadData(){
-        this.loadTeamMembers();
+       Observable.zip(this.loadTeamMembers(), this.loadParticipation(), (teamMembersResponse, participationResponse) -> {
+            map = new HashMap<>();
+            for (TeamMember teamMember : teamMembersResponse.getMembers()) {
+                map.put(teamMember.getUser().get_id(), new ParticipationItem(teamMember, null));
+            }
+            for (ParticipationResponse.ParticipationAndMembership participationAndMembership : participationResponse.participation) {
+                map.get(participationAndMembership.user.get_id()).participation = participationAndMembership.participation;
+            }
+            return map.values();
+        }).subscribe(entries -> {
+            eventDetailAdapter.setParticipationItems(new ArrayList<>(entries));
+       });
     }
 
-    private void loadTeamMembers(){
-        this.dataLayer.getTeamMembers(team, true, new DataLayerCallback<List<TeamMember>>() {
-            @Override
-            public void dataChanged(List<TeamMember> members) {
-                teamMembers = members;
-                eventDetailAdapter.setMembers(members);
-            }
 
-            @Override
-            public void error() {
-            }
+    private Observable<TeamMembersResponse> loadTeamMembers(){
+        return this.dataLayer.getTeamMembersV2(true, team);
+    }
+
+
+    protected Observable<ParticipationResponse> loadParticipation(){
+       return this.dataLayer.getParticipationOfEvent(false, this.team.get_id(), this.event.get_id());
+    }
+
+
+    public void onUpdateWillAttend(JWTUser user, boolean willAttend) {
+        this.dataLayer.setWillAttend(this.team.get_id(), this.event.get_id(), user.get_id(), willAttend).subscribe(participation -> {
+            this.map.get(participation.getUser()).participation = participation;
+            eventDetailAdapter.setParticipationItems(new ArrayList<>(map.values()));
         });
     }
 
+    public void onUpdateDidAttend(JWTUser user, boolean didAttend) {
 
+    }
 }

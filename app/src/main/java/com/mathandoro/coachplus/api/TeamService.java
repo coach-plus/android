@@ -1,5 +1,9 @@
 package com.mathandoro.coachplus.api;
 
+import com.mathandoro.coachplus.api.Request.DidAttendRequest;
+import com.mathandoro.coachplus.api.Request.WillAttendRequest;
+import com.mathandoro.coachplus.api.Response.ParticipationResponse;
+import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.RegisterTeam;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.CreateEventResponse;
@@ -14,6 +18,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -33,6 +38,15 @@ public interface TeamService {
 
     @POST("teams/{teamId}/events")
     Call<ApiResponse<CreateEventResponse>> createEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Body Event event);
+
+    @GET("teams/{teamId}/events/{eventId}/participation")
+    Call<ApiResponse<ParticipationResponse>> getParticipationOfEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId);
+
+    @PUT("teams/{teamId}/events/{eventId}/participation/{userId}/didAttend")
+    Call<ApiResponse<Participation>> setDidAttend(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Path("userId") String userId, @Body DidAttendRequest didAttend);
+
+    @PUT("teams/{teamId}/events/{eventId}/participation/{userId}/willAttend")
+    Call<ApiResponse<Participation>> setWillAttend(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Path("userId") String userId, @Body WillAttendRequest willAttend);
 
     @POST("teams/private/join/{token}")
     Call<ApiResponse<Object>> joinPrivateTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("token") String token);

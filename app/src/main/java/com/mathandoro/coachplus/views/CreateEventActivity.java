@@ -148,7 +148,7 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
             Date startDate = start.getTime();
             Date endDate = end.getTime();
             Location location = new Location("todo", 0, 0);
-            Event newEvent = new Event(this.eventName.getText().toString(), this.description.getText().toString(), startDate, endDate, location);
+            Event newEvent = new Event(null, this.eventName.getText().toString(), this.description.getText().toString(), startDate, endDate, location);
             dataLayer.createEvent(team, newEvent, new DataLayerCallback<Event>() {
                 @Override
                 public void dataChanged(Event data) {
