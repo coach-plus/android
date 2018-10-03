@@ -20,6 +20,7 @@ import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -215,6 +216,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private List<Event> filterVisibleEvents(List<Event> events){
+        Collections.sort(events, (eventA, eventB) -> eventA.getStart().compareTo(eventB.getStart()));
         List<Event> upcomingEvents = new ArrayList();
         for(Event event: events){
             if(event.getEnd().after(new Date())){

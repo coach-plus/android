@@ -21,6 +21,9 @@ import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -58,6 +61,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
                     upcomingEvents.add(event);
                 }
             }
+            Collections.sort(upcomingEvents, (eventA, eventB) -> eventA.getStart().compareTo(eventB.getStart()));
             return upcomingEvents;
         }
 
@@ -68,6 +72,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
                     pastEvents.add(event);
                 }
             }
+            Collections.sort(pastEvents, (eventA, eventB) -> eventA.getEnd().compareTo(eventB.getEnd()) * -1);
             return pastEvents;
         }
 
