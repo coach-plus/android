@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
@@ -29,13 +31,14 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 public class EventDetailActivity extends AppCompatActivity {
+    public static final String EXTRA_BUNDLE = "bundle";
+    public static final String EXTRA_TEAM = "team";
+    public static final String EXTRA_EVENT = "event";
 
     private RecyclerView eventDetailRecyclerView;
     private EventDetailAdapter eventDetailAdapter;
     private DataLayer dataLayer;
 
-    List<TeamMember> teamMembers;
-    List<ParticipationResponse.ParticipationAndMembership> participations;
     Map<String, ParticipationItem> map = new HashMap<>();
     Event event;
     Team team;
@@ -44,29 +47,21 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_detail_activity);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
 
-        team = getIntent().getExtras().getParcelable("team");
-        event = getIntent().getExtras().getParcelable("event");
+        Bundle bundle = getIntent().getExtras().getBundle(EXTRA_BUNDLE);
+
+        team = bundle.getParcelable(EXTRA_TEAM);
+        event = bundle.getParcelable(EXTRA_EVENT);
 
         dataLayer = DataLayer.getInstance(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show());
         loadEventDetailRecyclerView();
         loadData();
     }
@@ -120,5 +115,17 @@ public class EventDetailActivity extends AppCompatActivity {
     private void updateParticipation(Participation participation){
         this.map.get(participation.getUser()).participation = participation;
         eventDetailAdapter.setParticipationItems(new ArrayList<>(map.values()));
+    }
+
+    public void showBottomSheet(String userId, final boolean didAttend){
+        EventDetailBottomSheet bottomSheet = new EventDetailBottomSheet();
+        bottomSheet.setListener(() -> {
+            this.dataLayer.setDidAttend(team.get_id(), event.get_id(), userId, didAttend).subscribe(participation -> {
+                updateParticipation(participation);
+                bottomSheet.dismiss();
+            });
+        });
+        bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
+
     }
 }

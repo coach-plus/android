@@ -11,8 +11,6 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
-import com.mathandoro.coachplus.models.Membership;
-import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
@@ -37,7 +35,16 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     final int EVENT_DETAIL_HEADER = 0;
     final int ATTENDANCE_HEADING = 1;
-    final int ATTENDANCE_ITEM = 2;
+    final int ATTENDANCE_ITEM_ACTIVE = 2;
+    final int ATTENDANCE_ITEM_PASSIVE = 3;
+
+
+    public enum ItemState {
+        READ_DID_ATTEND_STATE,
+        READ_WILL_ATTEND_STATE,
+        SET_WILL_ATTEND_STATE,
+        SET_DID_ATTEND_STATE
+    }
 
     class EventDetailHeaderViewHolder extends RecyclerView.ViewHolder {
         TextView name;
@@ -115,7 +122,28 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         else if(position == 1){
             return ATTENDANCE_HEADING;
         }
-        return ATTENDANCE_ITEM;
+        ItemState itemState = getItemState(position);
+
+        if(itemState == ItemState.SET_WILL_ATTEND_STATE){
+            return ATTENDANCE_ITEM_ACTIVE;
+        }
+        return ATTENDANCE_ITEM_PASSIVE;
+    }
+
+    private ItemState getItemState(int position){
+        ParticipationItem participationItem = getParticipationItem(position);
+        if(event.getStart().before(new Date()) ){
+            if(myUsersMembership.getRole().equals(Const.Role.Coach.toString())){
+                return ItemState.SET_DID_ATTEND_STATE;
+            }
+            return ItemState.READ_DID_ATTEND_STATE;
+        }
+        else{
+            if(participationItem.getTeamMember() == myUsersMembership){
+                return ItemState.SET_WILL_ATTEND_STATE;
+            }
+            return ItemState.READ_WILL_ATTEND_STATE;
+        }
     }
 
     @Override
@@ -133,16 +161,14 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_section_heading, parent, false);
                 viewHolder = new AttendanceHeadingViewHolder(view);
                 break;
-            case ATTENDANCE_ITEM:
+            case ATTENDANCE_ITEM_ACTIVE:
+            case ATTENDANCE_ITEM_PASSIVE:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
-                if(event.getStart().before(new Date()) ){
-                    View.inflate(view.getContext(), R.layout.member_item_attendence_status, view.findViewById(R.id.member_item_right_container));
-                }
-                // todo: show other users status
-                // todo: split to other item view type
-                //else if()
-                else {
+                if(viewType == ATTENDANCE_ITEM_ACTIVE){
                     View.inflate(view.getContext(), R.layout.member_item_buttons, view.findViewById(R.id.member_item_right_container));
+                }
+                else{
+                    View.inflate(view.getContext(), R.layout.member_item_attendence_status, view.findViewById(R.id.member_item_right_container));
                 }
                 viewHolder = new TeamMemberViewHolder(view);
                 break;
@@ -166,34 +192,29 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 eventDetailViewHolder.description.setText(event.getDescription());
                 break;
 
-            case ATTENDANCE_HEADING:
-                AttendanceHeadingViewHolder eventItemViewHolder = (AttendanceHeadingViewHolder)holder;
+            case ATTENDANCE_HEADING: {
+                AttendanceHeadingViewHolder eventItemViewHolder = (AttendanceHeadingViewHolder) holder;
                 eventItemViewHolder.setHeading("Attendance");
                 break;
+            }
 
-            case ATTENDANCE_ITEM:
-                TeamMemberViewHolder attendanceViewHolder = (TeamMemberViewHolder)holder;
+            case ATTENDANCE_ITEM_ACTIVE: {
+                TeamMemberViewHolder attendanceViewHolder = (TeamMemberViewHolder) holder;
                 TeamMember teamMember = getParticipationItem(position).getTeamMember();
-                attendanceViewHolder.bindParticipationMode(getParticipationItem(position), myUser, event, () -> {
-                    if(eventHasStarted(event)){
-                        if(isMyUserCoach()){
-                            mainActivity.onUpdateDidAttend(teamMember.getUser().get_id(), true);
-                        }
-                    }
-                    else if(teamMemberIsMyUser(teamMember)){
-                        mainActivity.onUpdateWillAttend(teamMember.getUser().get_id(), true);
-                    }
-                }, () -> {
-                    if(eventHasStarted(event)){
-                        if(isMyUserCoach()){
-                            mainActivity.onUpdateDidAttend(teamMember.getUser().get_id(), false);
-                        }
-                    }
-                    else if(this.teamMemberIsMyUser(teamMember)){
-                        mainActivity.onUpdateWillAttend(teamMember.getUser().get_id(), false);
-                    }
+                attendanceViewHolder.bindSetMode(getParticipationItem(position), myUser, (willAttend) -> {
+                    mainActivity.onUpdateWillAttend(teamMember.getUser().get_id(), willAttend);
                 });
                 break;
+            }
+
+            case ATTENDANCE_ITEM_PASSIVE: {
+                TeamMemberViewHolder attendancePassiveViewHolder = (TeamMemberViewHolder) holder;
+                ParticipationItem item = getParticipationItem(position);
+                attendancePassiveViewHolder.bindReadMode(myUser, event, getItemState(position), item, (didAttend) -> {
+                    mainActivity.showBottomSheet(item.teamMember.getUser().get_id(), didAttend);
+                });
+                break;
+            }
         }
     }
 

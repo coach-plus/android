@@ -23,20 +23,24 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.mathandoro.coachplus.models.Team;
 
+import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_BUNDLE;
+import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_TEAM;
+
 public class EventListActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
-
-
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private Team team;
     private ToolbarFragment toolbarFragment;
+    public static final String EXTRA_BUNDLE = "bundle";
+    public static final String EXTRA_TEAM = "team";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
 
-        team = getIntent().getExtras().getParcelable("team");
+        Bundle bundle = getIntent().getExtras().getBundle(EXTRA_BUNDLE);
+        team = bundle.getParcelable(EXTRA_TEAM);
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
         toolbarFragment.setListener(this);

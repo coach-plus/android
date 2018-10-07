@@ -9,14 +9,14 @@
         android:id="@+id/user_profile_membership_item_team_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/circle"
-        android:layout_marginLeft="20dp" />
+        app:srcCompat="@drawable/circle" />
 
     <TextView
         android:id="@+id/user_profile_membership_item_team_name"

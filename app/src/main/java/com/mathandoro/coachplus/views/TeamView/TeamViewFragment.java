@@ -36,7 +36,6 @@ import com.mathandoro.coachplus.views.UserProfile.UserProfileActivity;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.BiFunction;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -151,7 +150,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         boolean useCache = false;
         // todo reload team image / membership
         Observable<TeamMembersResponse> teamMembersV2 = dataLayer.getTeamMembersV2(membership.getTeam(), useCache);
-        Observable<EventsResponse> eventsV2 = dataLayer.getEventsV2(membership.getTeam(), useCache);
+        Observable<EventsResponse> eventsV2 = dataLayer.getEvents(membership.getTeam(), useCache);
 
         Observable.zip(teamMembersV2, eventsV2, (teamMembersResponse, eventsResponse) -> {
             teamViewAdapter.setMembers(teamMembersResponse.getMembers());
@@ -174,8 +173,10 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public void navigateToEvent(Event event) {
         Intent intent = new Intent(getActivity(), EventDetailActivity.class);
-        intent.putExtra("event", event);
-        intent.putExtra("team", membership.getTeam());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EventDetailActivity.EXTRA_EVENT, event);
+        bundle.putParcelable(EventDetailActivity.EXTRA_TEAM, membership.getTeam());
+        intent.putExtra(EventDetailActivity.EXTRA_BUNDLE, bundle);
         startActivity(intent);
     }
 
@@ -186,7 +187,9 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public void navigateToAllEvents() {
         Intent intent = new Intent(getActivity(), EventListActivity.class);
-        intent.putExtra("team", membership.getTeam());
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EventListActivity.EXTRA_TEAM, membership.getTeam());
+        intent.putExtra(EventListActivity.EXTRA_BUNDLE, bundle);
         startActivity(intent);
     }
 

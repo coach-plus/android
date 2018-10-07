@@ -13,19 +13,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.persistence.DataLayer;
-import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
+
+import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_BUNDLE;
+import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_EVENT;
+import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_TEAM;
 
 
 public class EventListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -38,50 +42,6 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
     protected DataLayer dataLayer;
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected boolean showUpcomingEvents = true;
-
-    protected  DataLayerCallback<List<Event>> loadEventsCallback = new DataLayerCallback<List<Event>>() {
-        @Override
-        public void dataChanged(List<Event> events) {
-            List<Event> visibleEvents = this.filterVisibleEvents(events);
-            eventListAdapter.setEvents(visibleEvents);
-            swipeRefreshLayout.setRefreshing(false);
-        }
-
-        private List<Event> filterVisibleEvents(List<Event> events){
-            if(showUpcomingEvents){
-                return this.filterUpcomingEvents(events);
-            }
-            return this.filterPastEvents(events);
-        }
-
-        private List<Event> filterUpcomingEvents(List<Event> events){
-            List<Event> upcomingEvents = new ArrayList<Event>();
-            for(Event event: events){
-                if(event.getEnd().after(new Date())){
-                    upcomingEvents.add(event);
-                }
-            }
-            Collections.sort(upcomingEvents, (eventA, eventB) -> eventA.getStart().compareTo(eventB.getStart()));
-            return upcomingEvents;
-        }
-
-        private List<Event> filterPastEvents(List<Event> events){
-            List<Event> pastEvents = new ArrayList<Event>();
-            for(Event event: events){
-                if(event.getEnd().before(new Date())){
-                    pastEvents.add(event);
-                }
-            }
-            Collections.sort(pastEvents, (eventA, eventB) -> eventA.getEnd().compareTo(eventB.getEnd()) * -1);
-            return pastEvents;
-        }
-
-        @Override
-        public void error() {
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    };
-
 
 
     public EventListFragment() {
@@ -130,8 +90,47 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         eventListAdapter = new EventListAdapter((EventListActivity)getActivity(), this);
         mRecyclerView.setAdapter(eventListAdapter);
 
-        // load data
-        dataLayer.getEvents(team, true, loadEventsCallback);
+        this.loadEvents(true);
+    }
+
+    private Consumer<EventsResponse> eventsLoaded = eventsResponse -> {
+        List<Event> events = eventsResponse.getEvents();
+        List<Event> visibleEvents = this.filterVisibleEvents(events);
+        eventListAdapter.setEvents(visibleEvents);
+        swipeRefreshLayout.setRefreshing(false);
+    };
+
+    private Consumer<Throwable> eventsLoadedError = error -> {
+        swipeRefreshLayout.setRefreshing(false);
+    };
+
+    private List<Event> filterVisibleEvents(List<Event> events){
+        if(showUpcomingEvents){
+            return this.filterUpcomingEvents(events);
+        }
+        return this.filterPastEvents(events);
+    }
+
+    private List<Event> filterUpcomingEvents(List<Event> events){
+        List<Event> upcomingEvents = new ArrayList<Event>();
+        for(Event event: events){
+            if(event.getEnd().after(new Date())){
+                upcomingEvents.add(event);
+            }
+        }
+        Collections.sort(upcomingEvents, (eventA, eventB) -> eventA.getStart().compareTo(eventB.getStart()));
+        return upcomingEvents;
+    }
+
+    private List<Event> filterPastEvents(List<Event> events){
+        List<Event> pastEvents = new ArrayList<Event>();
+        for(Event event: events){
+            if(event.getEnd().before(new Date())){
+                pastEvents.add(event);
+            }
+        }
+        Collections.sort(pastEvents, (eventA, eventB) -> eventA.getEnd().compareTo(eventB.getEnd()) * -1);
+        return pastEvents;
     }
 
     @Override
@@ -142,13 +141,19 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Override
     public void onRefresh() {
-        dataLayer.getEvents(team, false, loadEventsCallback);
+        this.loadEvents(false);
+    }
+
+    private void loadEvents(boolean useCache){
+        dataLayer.getEvents(team, useCache).subscribe(eventsLoaded, eventsLoadedError);
     }
 
     void navigateToEventDetail(Event event){
         Intent intent = new Intent(getActivity(), EventDetailActivity.class);
-        intent.putExtra("team", team);
-        intent.putExtra("event", event);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EXTRA_TEAM, team);
+        bundle.putParcelable(EXTRA_EVENT, event);
+        intent.putExtra(EXTRA_BUNDLE, bundle);
         startActivity(intent);
     }
 

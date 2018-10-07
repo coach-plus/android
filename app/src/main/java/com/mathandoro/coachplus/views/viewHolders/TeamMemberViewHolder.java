@@ -1,11 +1,9 @@
 package com.mathandoro.coachplus.views.viewHolders;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,9 +16,10 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.models.TeamMember;
-import com.mathandoro.coachplus.models.User;
+import com.mathandoro.coachplus.views.EventDetail.EventDetailAdapter;
 import com.mathandoro.coachplus.views.EventDetail.ParticipationItem;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +34,9 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     TextView attendenceStatus;
     public final int MAX_NAME_LENGTH = 14;
     Context context;
+    int colorRed;
+    int colorGreen;
+    int colorBlue;
 
     public TeamMemberViewHolder(View view) {
         super(view);
@@ -46,9 +48,78 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         attendenceStatus = view.findViewById(R.id.member_item_attendence_status);
 
         context = this.itemView.getContext();
+
+        colorRed = ResourcesCompat.getColor(context.getResources(), R.color.colorRed, null);
+        colorGreen = ResourcesCompat.getColor(context.getResources(), R.color.colorGreen, null);
+        colorBlue = ResourcesCompat.getColor(context.getResources(), R.color.colorPrimary, null);
     }
 
-    public void bind(TeamMember teamMember, JWTUser myUser){
+    public void bindReadMode(JWTUser myUser, Event event, EventDetailAdapter.ItemState itemState,
+                             ParticipationItem item, IAttendenceStateChange didAttendChange){
+        this.bindGeneralInformation(item.getTeamMember(), myUser);
+
+        if(itemState == EventDetailAdapter.ItemState.SET_DID_ATTEND_STATE){
+            // register click on item for state change
+            // fire event: IAttendenceStateChange attendenceChange
+            //boolean newState = item.getParticipation().DidAttend() == null ? item.getParticipation().WillAttend() : item.
+            boolean newState = true;
+            if(item.getParticipation() != null){
+                if(item.getParticipation().DidAttend() != null){
+                    newState = !item.getParticipation().DidAttend();
+                }
+                else if(item.getParticipation().WillAttend() != null){
+                    newState = !item.getParticipation().WillAttend();
+                }
+            }
+            boolean finalNewState = newState;
+            itemView.setOnClickListener(view -> {
+                didAttendChange.onChange(finalNewState);
+            });
+        }
+
+        GradientDrawable bgShape = (GradientDrawable)attendenceStatus.getBackground();
+
+        if(event.getStart().before(new Date())){
+            String text = "";
+            if(item.getParticipation() == null){
+                text = "no response";
+            }
+            else if(item.getParticipation().DidAttend() != null){
+                text = item.getParticipation().DidAttend() ? "did attend" : "didn't attend";
+            }
+            else if(item.getParticipation().WillAttend() != null) {
+                text = item.getParticipation().WillAttend() ? "did attend" : "didn't attend";
+            }
+            if(isBadState(item.getParticipation())){
+                text = "unexcused absence";
+                bgShape.setStroke(3, colorRed);
+                attendenceStatus.setTextColor(colorRed);
+            }
+            else{
+                bgShape.setStroke(3, colorGreen);
+                attendenceStatus.setTextColor(colorGreen);
+            }
+            attendenceStatus.setText(text);
+        }
+        else{
+            attendenceStatus.setTextColor(colorBlue);
+            bgShape.setStroke(3, colorBlue);
+            String text;
+            if(item.getParticipation() == null){
+                text = "unknown";
+            }
+            else {
+             text = item.getParticipation().WillAttend() ? "will attend" : "won't attend";
+            }
+            attendenceStatus.setText(text);
+        }
+    }
+
+    private boolean isMyUser(TeamMember teamMember, JWTUser myUser){
+        return myUser != null && myUser.get_id().equals(teamMember.getUser().get_id());
+    }
+
+    public void bindGeneralInformation(TeamMember teamMember, JWTUser myUser){
         ReducedUser user = teamMember.getUser();
         String username = user.getFirstname() + " " + user.getLastname();
         if(username.length() > MAX_NAME_LENGTH){
@@ -78,58 +149,39 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private boolean isMyUser(TeamMember teamMember, JWTUser myUser){
-        return myUser != null && myUser.get_id().equals(teamMember.getUser().get_id());
-    }
+    public void bindSetMode(ParticipationItem item, JWTUser myUser, IAttendenceStateChange attendenceChange){
+        this.bindGeneralInformation(item.getTeamMember(), myUser);
 
-    public void bindParticipationMode(ParticipationItem item, JWTUser myUser, Event event, ITeamMemberViewHolderEvent attendPressed, ITeamMemberViewHolderEvent dontAttendPressed){
-        int colorRed = ResourcesCompat.getColor(context.getResources(), R.color.colorRed, null);
-        int colorGreen = ResourcesCompat.getColor(context.getResources(), R.color.colorGreen, null);
-        this.bind(item.getTeamMember(), myUser);
+        attend.setOnClickListener(view -> {
+            attendenceChange.onChange(true);
+        });
+        dontAttend.setOnClickListener(view -> {
+            attendenceChange.onChange(false);
+        });
 
-        if(event.getStart().before(new Date())){
-                if(item.getParticipation() == null
-                        ||
-                        (item.getParticipation().WillAttend() == null
-                                && (item.getParticipation().DidAttend() == null
-                                || (item.getParticipation().DidAttend() != null && !item.getParticipation().DidAttend()))
-                        )
-                        ||
-                        (item.getParticipation().DidAttend() != null
-                                && item.getParticipation().WillAttend() != null
-                                && item.getParticipation().WillAttend() == true
-                                && item.getParticipation().DidAttend() == false)){
-                    itemView.setBackgroundColor(colorRed);
-                    // todo change text
-                    GradientDrawable bgShape = (GradientDrawable)attendenceStatus.getBackground();
-                    bgShape.setStroke(3, Color.BLACK);
-                }
-        }
-        else{
-            attend.setVisibility(View.VISIBLE);
-            dontAttend.setVisibility(View.VISIBLE);
-            attend.setOnClickListener(view -> {
-                attendPressed.onPressed();
-            });
-            dontAttend.setOnClickListener(view -> {
-                dontAttendPressed.onPressed();
-            });
-
-            if(item.getParticipation() != null){
-                if(item.getParticipation().WillAttend() != null && item.getParticipation().WillAttend()){
-                    attend.setColorFilter(colorGreen);
-                    dontAttend.setColorFilter(null);
-                }
-                else if(item.getParticipation().WillAttend() != null && !item.getParticipation().WillAttend()){
-                    dontAttend.setColorFilter(colorRed);
-                    attend.setColorFilter(null);
-                }
-
+        if(item.getParticipation() != null){
+            if(item.getParticipation().WillAttend() != null && item.getParticipation().WillAttend()){
+                attend.setColorFilter(colorGreen);
+                dontAttend.setColorFilter(null);
+            }
+            else if(item.getParticipation().WillAttend() != null && !item.getParticipation().WillAttend()){
+                dontAttend.setColorFilter(colorRed);
+                attend.setColorFilter(null);
             }
         }
+    }
 
-
-
-
+    private boolean isBadState(Participation participationItem){
+        return participationItem == null
+                ||
+                (participationItem.WillAttend() == null
+                        && (participationItem.DidAttend() == null
+                        || (participationItem.DidAttend() != null && !participationItem.DidAttend()))
+                )
+                ||
+                (participationItem.DidAttend() != null
+                        && participationItem.WillAttend() != null
+                        && participationItem.WillAttend() == true
+                        && participationItem.DidAttend() == false);
     }
 }
