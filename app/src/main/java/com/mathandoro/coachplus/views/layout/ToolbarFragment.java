@@ -34,6 +34,7 @@ public class ToolbarFragment extends Fragment {
 
     public void showBackButton(){
         this.leftIcon.setImageResource(R.drawable.ic_arrow_back_white_24dp);
+
     }
 
     public void showUserIcon(){
@@ -89,8 +90,18 @@ public class ToolbarFragment extends Fragment {
         rightIcon = view.findViewById(R.id.toolbar_right_icon);
         rightIcon.setVisibility(View.GONE);
         logo = view.findViewById(R.id.toolbar_logo);
-        leftIcon.setOnClickListener((View v) -> toolbarFragmentListener.onLeftIconPressed());
-        rightIcon.setOnClickListener((View v) -> toolbarFragmentListener.onRightIconPressed());
+        leftIcon.setOnClickListener((View v) -> {
+            if(toolbarFragmentListener == null){
+                return;
+            }
+            toolbarFragmentListener.onLeftIconPressed();
+        });
+        rightIcon.setOnClickListener((View v) ->{
+            if(toolbarFragmentListener == null){
+                return;
+            }
+            toolbarFragmentListener.onRightIconPressed();
+        });
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
     }
 

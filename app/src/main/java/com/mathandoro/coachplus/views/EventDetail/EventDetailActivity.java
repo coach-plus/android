@@ -21,6 +21,7 @@ import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,10 +48,20 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_detail_activity);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        ToolbarFragment toolbar = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.event_detail_activity_toolbar);
+        toolbar.setTitle("");
+        toolbar.showBackButton();
+        toolbar.setListener(new ToolbarFragment.ToolbarFragmentListener() {
+            @Override
+            public void onLeftIconPressed() {
+                finish();
+            }
+
+            @Override
+            public void onRightIconPressed() {
+            }
+        });
+
 
         Bundle bundle = getIntent().getExtras().getBundle(EXTRA_BUNDLE);
 
