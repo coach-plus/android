@@ -19,7 +19,6 @@ public class ToolbarFragment extends Fragment {
     private Toolbar toolbar;
     private ImageView leftIcon;
     private ImageView rightIcon;
-    private ImageView logo;
     private TextView title;
 
     private ToolbarFragmentListener toolbarFragmentListener;
@@ -44,12 +43,10 @@ public class ToolbarFragment extends Fragment {
 
     public void setTeam(Team team){
        title.setText(team.getName());
-       logo.setVisibility(View.INVISIBLE);
     }
 
     public void setTitle(String titleText){
         title.setText(titleText);
-        logo.setVisibility(View.INVISIBLE);
     }
 
 
@@ -89,7 +86,6 @@ public class ToolbarFragment extends Fragment {
         leftIcon = view.findViewById(R.id.toolbar_left_icon);
         rightIcon = view.findViewById(R.id.toolbar_right_icon);
         rightIcon.setVisibility(View.GONE);
-        logo = view.findViewById(R.id.toolbar_logo);
         leftIcon.setOnClickListener((View v) -> {
             if(toolbarFragmentListener == null){
                 return;
