@@ -135,6 +135,15 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 break;
             case ATTENDANCE_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
+                if(event.getStart().before(new Date()) ){
+                    View.inflate(view.getContext(), R.layout.member_item_attendence_status, view.findViewById(R.id.member_item_right_container));
+                }
+                // todo: show other users status
+                // todo: split to other item view type
+                //else if()
+                else {
+                    View.inflate(view.getContext(), R.layout.member_item_buttons, view.findViewById(R.id.member_item_right_container));
+                }
                 viewHolder = new TeamMemberViewHolder(view);
                 break;
         }

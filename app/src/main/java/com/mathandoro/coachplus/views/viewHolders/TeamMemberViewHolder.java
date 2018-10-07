@@ -2,6 +2,7 @@ package com.mathandoro.coachplus.views.viewHolders;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,6 +32,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     ImageView whistle;
     ImageButton attend;
     ImageButton dontAttend;
+    TextView attendenceStatus;
     public final int MAX_NAME_LENGTH = 14;
     Context context;
 
@@ -41,12 +43,12 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         whistle = view.findViewById(R.id.member_item_whistle);
         attend = view.findViewById(R.id.member_item_attend);
         dontAttend = view.findViewById(R.id.member_item_dont_attend);
+        attendenceStatus = view.findViewById(R.id.member_item_attendence_status);
+
         context = this.itemView.getContext();
     }
 
     public void bind(TeamMember teamMember, JWTUser myUser){
-        attend.setVisibility(View.GONE);
-        dontAttend.setVisibility(View.GONE);
         ReducedUser user = teamMember.getUser();
         String username = user.getFirstname() + " " + user.getLastname();
         if(username.length() > MAX_NAME_LENGTH){
@@ -84,42 +86,50 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         int colorRed = ResourcesCompat.getColor(context.getResources(), R.color.colorRed, null);
         int colorGreen = ResourcesCompat.getColor(context.getResources(), R.color.colorGreen, null);
         this.bind(item.getTeamMember(), myUser);
-        attend.setVisibility(View.VISIBLE);
-        dontAttend.setVisibility(View.VISIBLE);
-        itemView.setBackgroundColor(Color.WHITE);
 
-        if(item.getParticipation() != null){
-            if(item.getParticipation().WillAttend() != null && item.getParticipation().WillAttend()){
-                attend.setColorFilter(colorGreen);
-                dontAttend.setColorFilter(null);
-            }
-            else if(item.getParticipation().WillAttend() != null && !item.getParticipation().WillAttend()){
-                dontAttend.setColorFilter(colorRed);
-                attend.setColorFilter(null);
-            }
-
-        }
         if(event.getStart().before(new Date())){
-            if(item.getParticipation() == null
-                    ||
-                    (item.getParticipation().WillAttend() == null
-                            && (item.getParticipation().DidAttend() == null
-                            || (item.getParticipation().DidAttend() != null && !item.getParticipation().DidAttend()))
-                    )
-                    ||
-                    (item.getParticipation().DidAttend() != null
-                            && item.getParticipation().WillAttend() != null
-                            && item.getParticipation().WillAttend() == true
-                            && item.getParticipation().DidAttend() == false)){
-                itemView.setBackgroundColor(colorRed);
+                if(item.getParticipation() == null
+                        ||
+                        (item.getParticipation().WillAttend() == null
+                                && (item.getParticipation().DidAttend() == null
+                                || (item.getParticipation().DidAttend() != null && !item.getParticipation().DidAttend()))
+                        )
+                        ||
+                        (item.getParticipation().DidAttend() != null
+                                && item.getParticipation().WillAttend() != null
+                                && item.getParticipation().WillAttend() == true
+                                && item.getParticipation().DidAttend() == false)){
+                    itemView.setBackgroundColor(colorRed);
+                    // todo change text
+                    GradientDrawable bgShape = (GradientDrawable)attendenceStatus.getBackground();
+                    bgShape.setStroke(3, Color.BLACK);
+                }
+        }
+        else{
+            attend.setVisibility(View.VISIBLE);
+            dontAttend.setVisibility(View.VISIBLE);
+            attend.setOnClickListener(view -> {
+                attendPressed.onPressed();
+            });
+            dontAttend.setOnClickListener(view -> {
+                dontAttendPressed.onPressed();
+            });
+
+            if(item.getParticipation() != null){
+                if(item.getParticipation().WillAttend() != null && item.getParticipation().WillAttend()){
+                    attend.setColorFilter(colorGreen);
+                    dontAttend.setColorFilter(null);
+                }
+                else if(item.getParticipation().WillAttend() != null && !item.getParticipation().WillAttend()){
+                    dontAttend.setColorFilter(colorRed);
+                    attend.setColorFilter(null);
+                }
+
             }
         }
 
-        attend.setOnClickListener(view -> {
-            attendPressed.onPressed();
-        });
-        dontAttend.setOnClickListener(view -> {
-            dontAttendPressed.onPressed();
-        });
+
+
+
     }
 }
