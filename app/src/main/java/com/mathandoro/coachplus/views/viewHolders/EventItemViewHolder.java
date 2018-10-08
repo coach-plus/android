@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.helpers.Formatter;
 import com.mathandoro.coachplus.models.Event;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,32 +34,9 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
             location.setText("");
         }
         if(event.getStart() != null){
-            this.time.setText(this.formatGermanTimestamp(event.getStart(), event.getEnd()));
+            this.time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd()));
         }
     }
 
-    private String formatGermanTimestamp(Date startDate, Date endDate)
-    {
-        String dateString;
-        String longFormat = "dd.MM.yy - HH:mm";
-        String shortFormat = "HH:mm";
-        SimpleDateFormat formatedStartDate = new SimpleDateFormat(longFormat);
-        SimpleDateFormat formatedEndDate =  new SimpleDateFormat(longFormat);
-        Calendar startCalendar = Calendar.getInstance();
-        Calendar endCalendar = Calendar.getInstance();
 
-        startCalendar.setTime(endDate);
-        endCalendar.setTime(endDate);
-
-        if(startCalendar.get(Calendar.DAY_OF_MONTH) == endCalendar.get(Calendar.DAY_OF_MONTH)){
-            formatedEndDate = new SimpleDateFormat(shortFormat);
-        }
-
-        try{
-            dateString = formatedStartDate.format( startDate ) + " Uhr bis " + formatedEndDate.format(endDate) + " Uhr";
-        }catch (Exception exception){
-            dateString = "?";
-        }
-        return dateString;
-    }
 }

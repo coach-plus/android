@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.mathandoro.coachplus.Const;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.helpers.Formatter;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.TeamMember;
@@ -227,7 +228,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     // todo location google maps link!
                 }
                 if(event.getStart() != null){
-                    eventDetailViewHolder.time.setText(event.getStart().toString());
+                    eventDetailViewHolder.time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd()));
                 }
                 eventDetailViewHolder.description.setText(event.getDescription());
                 break;
