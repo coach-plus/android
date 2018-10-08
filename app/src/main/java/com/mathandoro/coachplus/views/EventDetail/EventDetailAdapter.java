@@ -55,7 +55,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public EventDetailHeaderViewHolder(View view) {
             super(view);
-            name = view.findViewById(R.id.list_section_heading_text);
+            name = view.findViewById(R.id.event_detail_attendance_header_text);
             location = view.findViewById(R.id.event_detail_location);
             time = view.findViewById(R.id.event_detail_time);
             description = view.findViewById(R.id.event_detail_description);
@@ -65,16 +65,56 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     class AttendanceHeadingViewHolder extends RecyclerView.ViewHolder {
 
         View itemContainer;
-        TextView heading;
+        TextView numCommitmentsTextView;
+        TextView numRejectionsTextView;
+        TextView numUnknownTextView;
 
         public AttendanceHeadingViewHolder(View view) {
             super(view);
             this.itemContainer = view;
-            heading = view.findViewById(R.id.list_section_heading_text);
+            numCommitmentsTextView = view.findViewById(R.id.event_detail_num_commitments);
+            numRejectionsTextView = view.findViewById(R.id.event_detail_num_rejections);
+            numUnknownTextView = view.findViewById(R.id.event_detail_num_unknown);
         }
 
-        public void setHeading(String heading){
-            this.heading.setText(heading);
+        public void bind(List<ParticipationItem> items, Event event){
+            int numCommitments=0, numRejections=0, numUnknwon=0;
+            for (ParticipationItem item : items) {
+                if (item.getParticipation() != null) {
+                    Boolean attendStatus = item.getParticipation().WillAttend();
+                    if(event.getStart().before(new Date())){
+                        if(item.getParticipation().DidAttend()!=null){
+                            attendStatus = item.getParticipation().DidAttend();
+                        }
+                        else if(item.getParticipation().WillAttend()!=null){
+                            attendStatus = item.getParticipation().WillAttend();
+                        }
+                        else{
+                            attendStatus = false;
+                        }
+                    }
+                    if(attendStatus != null){
+                        if(attendStatus){
+                            numCommitments++;
+                        }
+                        else{
+                            numRejections++;
+                        }
+                    }
+                    else {
+                        numUnknwon++;
+                    }
+                }
+                else if(event.getStart().before(new Date())){
+                    numRejections++;
+                }
+                else{
+                    numUnknwon++;
+                }
+            }
+            numCommitmentsTextView.setText(""+numCommitments);
+            numRejectionsTextView.setText(""+numRejections);
+            numUnknownTextView.setText(""+numUnknwon);
         }
     }
 
@@ -158,7 +198,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 viewHolder = new EventDetailHeaderViewHolder(view);
                 break;
             case ATTENDANCE_HEADING:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_section_heading, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_detail_attendance_header, parent, false);
                 viewHolder = new AttendanceHeadingViewHolder(view);
                 break;
             case ATTENDANCE_ITEM_ACTIVE:
@@ -194,7 +234,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             case ATTENDANCE_HEADING: {
                 AttendanceHeadingViewHolder eventItemViewHolder = (AttendanceHeadingViewHolder) holder;
-                eventItemViewHolder.setHeading("Attendance");
+                eventItemViewHolder.bind(participationItems, event);
                 break;
             }
 

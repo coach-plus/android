@@ -13,4 +13,5 @@
     <string name="title_activity_event_detail">EventDetailActivity</string>
 
     <string name="you">you</string>
+    <string name="attendance">Attendance</string>
 </resources>
