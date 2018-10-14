@@ -106,4 +106,8 @@ public class Event implements Parcelable {
         dest.writeValue(end);
         dest.writeValue(location);
     }
+
+    public boolean hasStarted(){
+        return start.before(new Date());
+    }
 }

@@ -1,4 +1,4 @@
-package com.mathandoro.coachplus.views.UserProfile.ViewHolders;
+package com.mathandoro.coachplus.views.viewHolders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,10 +15,10 @@ public class SectionHeaderViewHolder extends RecyclerView.ViewHolder {
 
     public SectionHeaderViewHolder(View view) {
         super(view);
-        sectionHeaderText = (TextView)view.findViewById(R.id.event_detail_attendance_header_text);
+        sectionHeaderText = view.findViewById(R.id.event_detail_attendance_header_text);
     }
 
-    public void bind(){
-        this.sectionHeaderText.setText("MEMBERSHIPS");
+    public void bind(String sectionName){
+        this.sectionHeaderText.setText(sectionName);
     }
 }

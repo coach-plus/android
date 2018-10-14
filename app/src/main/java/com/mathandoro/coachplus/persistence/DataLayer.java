@@ -9,12 +9,15 @@ import com.mathandoro.coachplus.api.Request.DidAttendRequest;
 import com.mathandoro.coachplus.api.Request.WillAttendRequest;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.CreateEventResponse;
+import com.mathandoro.coachplus.api.Response.CreateNewsResponse;
+import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.models.News;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
@@ -52,6 +55,21 @@ public class DataLayer {
             instance = new DataLayer(context.getApplicationContext());
         }
         return instance;
+    }
+
+    public Observable<GetNewsResponse> getNews(String teamId, String eventId){
+        Call<ApiResponse<GetNewsResponse>> apiCall = ApiClient.instance().teamService.getNews(settings.getToken(), teamId, eventId);
+        return this.getData(apiCall, false);
+    }
+
+    public Observable<CreateNewsResponse> createNews(String teamId, String eventId, News news){
+        Call<ApiResponse<CreateNewsResponse>> news1 = ApiClient.instance().teamService.createNews(settings.getToken(), teamId, eventId, news);
+        return this.getData(news1, false);
+    }
+
+    public Observable<Object> deleteNews(String teamId, String eventId, String newsId){
+        Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.deleteNews(settings.getToken(), teamId, eventId, newsId);
+        return this.getData(apiResponseCall, false);
     }
 
     public Observable<ParticipationResponse> getParticipationOfEvent(boolean useCache, String teamId, String eventId){

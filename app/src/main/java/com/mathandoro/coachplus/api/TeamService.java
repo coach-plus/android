@@ -2,7 +2,10 @@ package com.mathandoro.coachplus.api;
 
 import com.mathandoro.coachplus.api.Request.DidAttendRequest;
 import com.mathandoro.coachplus.api.Request.WillAttendRequest;
+import com.mathandoro.coachplus.api.Response.CreateNewsResponse;
+import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
+import com.mathandoro.coachplus.models.News;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.RegisterTeam;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
@@ -15,6 +18,7 @@ import com.mathandoro.coachplus.models.Team;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -56,4 +60,16 @@ public interface TeamService {
 
     @POST("teams/{teamId}/invite")
     Call<ApiResponse<InvitationResponse>> createInvitationUrl(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
+
+    @GET("teams/{teamId}/events/{eventId}/news")
+    Call<ApiResponse<GetNewsResponse>> getNews(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId);
+
+    @POST("teams/{teamId}/events/{eventId}/news")
+    Call<ApiResponse<CreateNewsResponse>> createNews(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Body News news);
+
+    @DELETE("teams/{teamId}/events/{eventId}/news/{newsId}")
+    Call<ApiResponse<Object>> deleteNews(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Path("newsId") String newsId);
+
 }
+
+

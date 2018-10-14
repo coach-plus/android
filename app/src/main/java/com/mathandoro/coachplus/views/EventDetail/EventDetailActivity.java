@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
 import com.mathandoro.coachplus.models.JWTUser;
@@ -98,13 +99,16 @@ public class EventDetailActivity extends AppCompatActivity {
         }).subscribe(entries -> {
             eventDetailAdapter.setParticipationItems(new ArrayList<>(entries));
        });
+       this.loadNews().subscribe(newsResponse -> eventDetailAdapter.setNews(newsResponse.getNews()));
     }
 
+    private Observable<GetNewsResponse> loadNews(){
+        return this.dataLayer.getNews(team.get_id(), event.get_id());
+    }
 
     private Observable<TeamMembersResponse> loadTeamMembers(){
         return this.dataLayer.getTeamMembersV2(true, team);
     }
-
 
     protected Observable<ParticipationResponse> loadParticipation(){
        return this.dataLayer.getParticipationOfEvent(false, this.team.get_id(), this.event.get_id());

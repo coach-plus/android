@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
-import com.mathandoro.coachplus.views.UserProfile.ViewHolders.SectionHeaderViewHolder;
+import com.mathandoro.coachplus.views.viewHolders.SectionHeaderViewHolder;
 import com.mathandoro.coachplus.views.UserProfile.ViewHolders.UserInfoViewHolder;
 import com.mathandoro.coachplus.views.UserProfile.ViewHolders.UserMembershipViewHolder;
 
@@ -79,7 +79,7 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 break;
             case MEMBERSHIPS_HEADER:
                 SectionHeaderViewHolder sectionHeaderViewHolder = (SectionHeaderViewHolder) holder;
-                sectionHeaderViewHolder.bind();
+                sectionHeaderViewHolder.bind("MEMBERSHIPS");
                 break;
             case MEMBERSHIP_ITEM:
                 Membership membership = this.getMembership(position);

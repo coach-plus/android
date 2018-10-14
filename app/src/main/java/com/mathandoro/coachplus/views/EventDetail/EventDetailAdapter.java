@@ -10,10 +10,16 @@ import com.mathandoro.coachplus.Const;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.Formatter;
+import com.mathandoro.coachplus.helpers.RecycleViewStack;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.News;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.views.EventDetail.ViewHolders.AttendanceHeadingViewHolder;
+import com.mathandoro.coachplus.views.EventDetail.ViewHolders.EventDetailHeaderViewHolder;
+import com.mathandoro.coachplus.views.EventDetail.ViewHolders.NewsItemViewHolder;
+import com.mathandoro.coachplus.views.viewHolders.SectionHeaderViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
 
 import java.util.ArrayList;
@@ -29,6 +35,7 @@ import io.reactivex.Observable;
 public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final EventDetailActivity mainActivity;
     private List<ParticipationItem> participationItems;
+    private List<News> news;
     private Event event;
     private DataLayer dataLayer;
     private JWTUser myUser;
@@ -38,6 +45,11 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     final int ATTENDANCE_HEADING = 1;
     final int ATTENDANCE_ITEM_ACTIVE = 2;
     final int ATTENDANCE_ITEM_PASSIVE = 3;
+    final int ATTENDANCE_ITEM = 6;
+    final int NEWS_HEADER = 4;
+    final int NEWS_ITEM = 5;
+
+    private RecycleViewStack viewStack;
 
 
     public enum ItemState {
@@ -47,85 +59,24 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         SET_DID_ATTEND_STATE
     }
 
-    class EventDetailHeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView name;
-        TextView time;
-        TextView location;
-        TextView description;
-
-
-        public EventDetailHeaderViewHolder(View view) {
-            super(view);
-            name = view.findViewById(R.id.event_detail_attendance_header_text);
-            location = view.findViewById(R.id.event_detail_location);
-            time = view.findViewById(R.id.event_detail_time);
-            description = view.findViewById(R.id.event_detail_description);
-        }
-    }
-
-    class AttendanceHeadingViewHolder extends RecyclerView.ViewHolder {
-
-        View itemContainer;
-        TextView numCommitmentsTextView;
-        TextView numRejectionsTextView;
-        TextView numUnknownTextView;
-
-        public AttendanceHeadingViewHolder(View view) {
-            super(view);
-            this.itemContainer = view;
-            numCommitmentsTextView = view.findViewById(R.id.event_detail_num_commitments);
-            numRejectionsTextView = view.findViewById(R.id.event_detail_num_rejections);
-            numUnknownTextView = view.findViewById(R.id.event_detail_num_unknown);
-        }
-
-        public void bind(List<ParticipationItem> items, Event event){
-            int numCommitments=0, numRejections=0, numUnknwon=0;
-            for (ParticipationItem item : items) {
-                if (item.getParticipation() != null) {
-                    Boolean attendStatus = item.getParticipation().WillAttend();
-                    if(event.getStart().before(new Date())){
-                        if(item.getParticipation().DidAttend()!=null){
-                            attendStatus = item.getParticipation().DidAttend();
-                        }
-                        else if(item.getParticipation().WillAttend()!=null){
-                            attendStatus = item.getParticipation().WillAttend();
-                        }
-                        else{
-                            attendStatus = false;
-                        }
-                    }
-                    if(attendStatus != null){
-                        if(attendStatus){
-                            numCommitments++;
-                        }
-                        else{
-                            numRejections++;
-                        }
-                    }
-                    else {
-                        numUnknwon++;
-                    }
-                }
-                else if(event.getStart().before(new Date())){
-                    numRejections++;
-                }
-                else{
-                    numUnknwon++;
-                }
-            }
-            numCommitmentsTextView.setText(""+numCommitments);
-            numRejectionsTextView.setText(""+numRejections);
-            numUnknownTextView.setText(""+numUnknwon);
-        }
-    }
-
 
     public EventDetailAdapter(EventDetailActivity mainActivity, Event event) {
+        this.initViewStack();
         this.participationItems = new ArrayList<>();
+        this.news = new ArrayList<>();
         this.dataLayer = DataLayer.getInstance(mainActivity);
         this.event = event;
         this.mainActivity = mainActivity;
         this.loadMyUser();
+    }
+
+    private void initViewStack(){
+        this.viewStack = new RecycleViewStack();
+        this.viewStack.addSection(EVENT_DETAIL_HEADER, 1);
+        this.viewStack.addSection(NEWS_HEADER, 0);
+        this.viewStack.addSection(NEWS_ITEM, 0);
+        this.viewStack.addSection(ATTENDANCE_HEADING, 1);
+        this.viewStack.addSection(ATTENDANCE_ITEM, 0);
     }
 
     public void setEvent(Event event) {
@@ -133,10 +84,22 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.notifyDataSetChanged();
     }
 
+    public void setNews(List<News> news){
+        this.news = news;
+        if(news.size() > 0){
+            this.viewStack.updateSection(NEWS_HEADER, 1);
+        }
+        else{
+            this.viewStack.updateSection(NEWS_HEADER, 0);
+        }
+        this.viewStack.updateSection(NEWS_ITEM, news.size());
+        this.notifyDataSetChanged();
+    }
+
     public void setParticipationItems(List<ParticipationItem> items){
         this.participationItems = items;
-        for (ParticipationItem item : items
-             ) {
+        this.viewStack.updateSection(ATTENDANCE_ITEM, items.size());
+        for (ParticipationItem item : items) {
             if(item.getTeamMember().getUser().get_id().equals(myUser.get_id())){
                 myUsersMembership = item.getTeamMember();
                 break;
@@ -157,18 +120,16 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0){
-            return EVENT_DETAIL_HEADER;
+        int sectionId = this.viewStack.getSectionIdAt(position);
+        if(sectionId == ATTENDANCE_ITEM){
+            ItemState itemState = getItemState(position);
+            if(itemState == ItemState.SET_WILL_ATTEND_STATE){
+                return ATTENDANCE_ITEM_ACTIVE;
+            }
+            return ATTENDANCE_ITEM_PASSIVE;
         }
-        else if(position == 1){
-            return ATTENDANCE_HEADING;
-        }
-        ItemState itemState = getItemState(position);
+        return sectionId;
 
-        if(itemState == ItemState.SET_WILL_ATTEND_STATE){
-            return ATTENDANCE_ITEM_ACTIVE;
-        }
-        return ATTENDANCE_ITEM_PASSIVE;
     }
 
     private ItemState getItemState(int position){
@@ -192,19 +153,27 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                                       int viewType) {
         View view = null;
         RecyclerView.ViewHolder viewHolder = null;
-
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         switch(viewType){
             case EVENT_DETAIL_HEADER:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_detail_header, parent, false);
+                view = layoutInflater.inflate(R.layout.event_detail_header, parent, false);
                 viewHolder = new EventDetailHeaderViewHolder(view);
                 break;
+            case NEWS_HEADER:
+                view = layoutInflater.inflate(R.layout.list_section_heading, parent, false);
+                viewHolder = new SectionHeaderViewHolder(view);
+                break;
+            case NEWS_ITEM:
+                view = layoutInflater.inflate(R.layout.event_detail_news_item, parent, false);
+                viewHolder = new NewsItemViewHolder(view);
+                break;
             case ATTENDANCE_HEADING:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_detail_attendance_header, parent, false);
+                view = layoutInflater.inflate(R.layout.event_detail_attendance_header, parent, false);
                 viewHolder = new AttendanceHeadingViewHolder(view);
                 break;
             case ATTENDANCE_ITEM_ACTIVE:
             case ATTENDANCE_ITEM_PASSIVE:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
+                view = layoutInflater.inflate(R.layout.member_item, parent, false);
                 if(viewType == ATTENDANCE_ITEM_ACTIVE){
                     View.inflate(view.getContext(), R.layout.member_item_buttons, view.findViewById(R.id.member_item_right_container));
                 }
@@ -222,17 +191,17 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch (holder.getItemViewType()) {
             case EVENT_DETAIL_HEADER:
                 EventDetailHeaderViewHolder eventDetailViewHolder = (EventDetailHeaderViewHolder) holder;
-                eventDetailViewHolder.name.setText(event.getName());
-                if(event.getLocation() != null){
-                    eventDetailViewHolder.location.setText(event.getLocation().getName());
-                    // todo location google maps link!
-                }
-                if(event.getStart() != null){
-                    eventDetailViewHolder.time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd()));
-                }
-                eventDetailViewHolder.description.setText(event.getDescription());
+               eventDetailViewHolder.bind(event);
                 break;
-
+            case NEWS_HEADER:
+                SectionHeaderViewHolder sectionHeaderViewHolder = (SectionHeaderViewHolder) holder;
+                sectionHeaderViewHolder.bind("Announcements");
+                break;
+            case NEWS_ITEM:
+                News news = getNewsItem(position);
+                NewsItemViewHolder newsItemViewHolder = (NewsItemViewHolder)holder;
+                newsItemViewHolder.bind(news);
+                break;
             case ATTENDANCE_HEADING: {
                 AttendanceHeadingViewHolder eventItemViewHolder = (AttendanceHeadingViewHolder) holder;
                 eventItemViewHolder.bind(participationItems, event);
@@ -259,28 +228,22 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
+/*
     protected boolean teamMemberIsMyUser(TeamMember teamMember){
         return teamMember.getUser().get_id().equals(myUser.get_id());
     }
-
-    protected boolean isMyUserCoach(){
-        return this.myUsersMembership.getRole().equals(Const.Role.Coach.toString());
+*/
+    private ParticipationItem getParticipationItem(int position){
+        return this.participationItems.get(this.viewStack.positionInSection(ATTENDANCE_ITEM, position));
     }
 
-    protected boolean eventHasStarted(Event event){
-        return event.getStart().before(new Date());
-    }
-
-
-    protected ParticipationItem getParticipationItem(int position){
-        return this.participationItems.get(position - 2);
+    private News getNewsItem(int position){
+        return this.news.get(this.viewStack.positionInSection(NEWS_ITEM, position));
     }
 
     @Override
     public int getItemCount() {
-        return this.participationItems.size() +  2;
+        return this.viewStack.size();
     }
-
-
 }
 

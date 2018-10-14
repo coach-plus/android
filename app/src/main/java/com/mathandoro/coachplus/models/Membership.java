@@ -3,77 +3,83 @@ package com.mathandoro.coachplus.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.mathandoro.coachplus.Const;
+
 /**
  * Created by dominik on 31.03.17.
  */
 
 public class Membership implements Parcelable {
-        protected String role;
-        protected Team team;
-        protected String user;
+    protected String role;
+    protected Team team;
+    protected String user;
 
-        public Membership(String role, Team team, String user, int memberCount) {
-                this.role = role;
-                this.team = team;
-                this.user = user;
+    public Membership(String role, Team team, String user, int memberCount) {
+        this.role = role;
+        this.team = team;
+        this.user = user;
+    }
+
+    protected Membership(Parcel in) {
+        role = in.readString();
+        team = in.readParcelable(Team.class.getClassLoader());
+        user = in.readString();
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(role);
+        dest.writeParcelable(team, flags);
+        dest.writeString(user);
+    }
+
+    @Override
+    public int describeContents() {
+            return 0;
+    }
+
+    public static final Creator<Membership> CREATOR = new Creator<Membership>() {
+        @Override
+        public Membership createFromParcel(Parcel in) {
+                return new Membership(in);
         }
-
-        protected Membership(Parcel in) {
-                role = in.readString();
-                team = in.readParcelable(Team.class.getClassLoader());
-                user = in.readString();
-        }
-
 
         @Override
-        public void writeToParcel(Parcel dest, int flags) {
-                dest.writeString(role);
-                dest.writeParcelable(team, flags);
-                dest.writeString(user);
+        public Membership[] newArray(int size) {
+                return new Membership[size];
         }
+    };
 
-        @Override
-        public int describeContents() {
-                return 0;
-        }
+    public String getRole() {
+            return role;
+    }
 
-        public static final Creator<Membership> CREATOR = new Creator<Membership>() {
-                @Override
-                public Membership createFromParcel(Parcel in) {
-                        return new Membership(in);
-                }
+    public void setRole(String role) {
+            this.role = role;
+    }
 
-                @Override
-                public Membership[] newArray(int size) {
-                        return new Membership[size];
-                }
-        };
+    public Team getTeam() {
+            return team;
+    }
 
-        public String getRole() {
-                return role;
-        }
+    public void setTeam(Team team) {
+            this.team = team;
+    }
 
-        public void setRole(String role) {
-                this.role = role;
-        }
+    public String getUser() {
+            return user;
+    }
 
-        public Team getTeam() {
-                return team;
-        }
+    public void setUser(String user) {
+            this.user = user;
+    }
 
-        public void setTeam(Team team) {
-                this.team = team;
-        }
+    public static Creator<Membership> getCREATOR() {
+            return CREATOR;
+    }
 
-        public String getUser() {
-                return user;
-        }
-
-        public void setUser(String user) {
-                this.user = user;
-        }
-
-        public static Creator<Membership> getCREATOR() {
-                return CREATOR;
-        }
+    public boolean isCoach(){
+        return this.role.equals(Const.Role.Coach.toString());
+    }
 }
