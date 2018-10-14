@@ -43,7 +43,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     private DrawerLayout drawer;
     private boolean initalMembershipsLoaded;
     protected ToolbarFragment toolbarFragment;
-
     protected List<Membership> memberships;
     protected JWTUser myUser;
     private SwipeRefreshLayout membershipsSwipeRefreshLayout;
@@ -70,9 +69,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         this.loadMembershipsRecyclerView();
         this.loadMemberships();
         this.loadMyUser();
-
     }
-
 
     private void loadNavigationDrawer(){
         ImageView registerTeamImage = findViewById(R.id.registerTeam);
@@ -95,7 +92,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         logoutIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(logoutIntent);
     }
-
 
     private void loadMemberships(){
         this.dataLayer.getMyMembershipsV2(false).subscribe(myMembershipsResponse -> {
@@ -137,8 +133,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         startActivityForResult(createTeamIntent, CREATE_TEAM_REQUEST);
     }
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -160,7 +154,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         mRecyclerView.setAdapter(myMembershipsAdapter);
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -173,7 +166,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-         // getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 

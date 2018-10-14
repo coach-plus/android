@@ -1,22 +1,17 @@
 package com.mathandoro.coachplus.views.EventDetail;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
-import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
@@ -26,7 +21,6 @@ import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -40,6 +34,10 @@ public class EventDetailActivity extends AppCompatActivity {
     private RecyclerView eventDetailRecyclerView;
     private EventDetailAdapter eventDetailAdapter;
     private DataLayer dataLayer;
+
+    private FloatingActionButton createNewsFab;
+    private FloatingActionButton editEventFab;
+    private FloatingActionsMenu floatingActionsMenu;
 
     Map<String, ParticipationItem> map = new HashMap<>();
     Event event;
@@ -71,8 +69,9 @@ public class EventDetailActivity extends AppCompatActivity {
 
         dataLayer = DataLayer.getInstance(this);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        createNewsFab = findViewById(R.id.event_detail_create_news_fab);
+        editEventFab = findViewById(R.id.fab);
+        editEventFab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
         loadEventDetailRecyclerView();
         loadData();
