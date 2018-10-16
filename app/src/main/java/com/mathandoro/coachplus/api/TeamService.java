@@ -1,5 +1,6 @@
 package com.mathandoro.coachplus.api;
 
+import com.mathandoro.coachplus.api.Request.CreateNewsRequest;
 import com.mathandoro.coachplus.api.Request.DidAttendRequest;
 import com.mathandoro.coachplus.api.Request.WillAttendRequest;
 import com.mathandoro.coachplus.api.Response.CreateNewsResponse;
@@ -65,7 +66,7 @@ public interface TeamService {
     Call<ApiResponse<GetNewsResponse>> getNews(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId);
 
     @POST("teams/{teamId}/events/{eventId}/news")
-    Call<ApiResponse<CreateNewsResponse>> createNews(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Body News news);
+    Call<ApiResponse<Object>> createNews(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Body CreateNewsRequest news);
 
     @DELETE("teams/{teamId}/events/{eventId}/news/{newsId}")
     Call<ApiResponse<Object>> deleteNews(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Path("newsId") String newsId);

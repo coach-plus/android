@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.api.Request.CreateNewsRequest;
 import com.mathandoro.coachplus.api.Request.DidAttendRequest;
 import com.mathandoro.coachplus.api.Request.WillAttendRequest;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
@@ -62,8 +63,9 @@ public class DataLayer {
         return this.getData(apiCall, false);
     }
 
-    public Observable<CreateNewsResponse> createNews(String teamId, String eventId, News news){
-        Call<ApiResponse<CreateNewsResponse>> news1 = ApiClient.instance().teamService.createNews(settings.getToken(), teamId, eventId, news);
+    public Observable<Object> createNews(String teamId, String eventId, String title, String text){
+        // todo error: response contains author as userId instead of reduced user (in CreateNewsResponse)
+        Call<ApiResponse<Object>> news1 = ApiClient.instance().teamService.createNews(settings.getToken(), teamId, eventId, new CreateNewsRequest(title, text));
         return this.getData(news1, false);
     }
 
