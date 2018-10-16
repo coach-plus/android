@@ -174,6 +174,5 @@ public class EventDetailActivity extends AppCompatActivity {
             });
         });
         bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
-
     }
 }
