@@ -45,7 +45,7 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
-        toolbarFragment.setTitle(this.team.getName() + " / Events");
+        toolbarFragment.setTitle(getString(R.string.events_of)+" "+ this.team.getName());
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -142,9 +142,9 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Upcoming";
+                    return getString(R.string.upcoming);
                 case 1:
-                    return "Past";
+                    return getString(R.string.past);
             }
             return null;
         }

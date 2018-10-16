@@ -51,7 +51,8 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
             else {
                 privateTeamImageView.setVisibility(View.VISIBLE);
             }
-            teamMembers.setText(membership.getTeam().getMemberCount() + " Members");
+            String numMembersSuffix = membership.getTeam().getMemberCount() == 1 ? itemView.getResources().getString(R.string.member) : itemView.getResources().getString(R.string.members);
+            teamMembers.setText(membership.getTeam().getMemberCount() + " " + numMembersSuffix);
             if(membership.getTeam().getImage() != null){
                 String imageUrl = BuildConfig.BASE_URL + "/uploads/" + membership.getTeam().getImage();
                 Picasso.with(teamImageView.getContext())

@@ -59,6 +59,9 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         SET_DID_ATTEND_STATE
     }
 
+    public JWTUser getMyUser() {
+        return myUser;
+    }
 
     public EventDetailAdapter(EventDetailActivity mainActivity, Event event) {
         this.initViewStack();

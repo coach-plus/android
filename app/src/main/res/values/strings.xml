@@ -14,4 +14,12 @@
 
     <string name="you">you</string>
     <string name="attendance">Attendance</string>
+    <string name="events_of">Events of</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="past">Past</string>
+    <string name="members">Members</string>
+    <string name="member">Member</string>
+    <string name="logout">Logout</string>
+    <string name="see_all_events">see all events</string>
+
 </resources>

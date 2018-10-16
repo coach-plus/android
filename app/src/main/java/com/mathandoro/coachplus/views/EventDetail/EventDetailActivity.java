@@ -1,10 +1,19 @@
 package com.mathandoro.coachplus.views.EventDetail;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.EditText;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -12,6 +21,8 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
+import com.mathandoro.coachplus.helpers.CustomDialog;
+import com.mathandoro.coachplus.models.News;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
@@ -20,6 +31,7 @@ import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,12 +81,34 @@ public class EventDetailActivity extends AppCompatActivity {
 
         dataLayer = DataLayer.getInstance(this);
 
+        floatingActionsMenu = findViewById(R.id.event_detail_fab_menu);
         createNewsFab = findViewById(R.id.event_detail_create_news_fab);
+        createNewsFab.setOnClickListener(view -> this.showCreateNewsDialog());
         editEventFab = findViewById(R.id.fab);
         editEventFab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
         loadEventDetailRecyclerView();
         loadData();
+    }
+
+    private void showCreateNewsDialog(){
+        floatingActionsMenu.collapse();
+
+        CustomDialog customDialog = new CustomDialog(this, R.layout.create_news_dialog);
+        customDialog.show();
+        EditText newsText = (EditText) customDialog.findViewById(R.id.create_news_dialog_news_edit_text);
+        customDialog.findViewById(R.id.create_news_dialog_create_news_button).setOnClickListener(view -> {
+            customDialog.hide();
+            // create event
+            dataLayer.createNews(team.get_id(), event.get_id(), "title", newsText.getText().toString()).subscribe(response ->{
+                // todo update list instead
+                loadNews(); // workaround: load all news again
+            });
+        });
+        customDialog.findViewById(R.id.create_news_dialog_cancel_button).setOnClickListener(view -> {
+            customDialog.hide();
+        });
+
     }
 
     private void loadEventDetailRecyclerView(){
@@ -98,11 +132,11 @@ public class EventDetailActivity extends AppCompatActivity {
         }).subscribe(entries -> {
             eventDetailAdapter.setParticipationItems(new ArrayList<>(entries));
        });
-       this.loadNews().subscribe(newsResponse -> eventDetailAdapter.setNews(newsResponse.getNews()));
+       this.loadNews();
     }
 
-    private Observable<GetNewsResponse> loadNews(){
-        return this.dataLayer.getNews(team.get_id(), event.get_id());
+    private void loadNews(){
+        this.dataLayer.getNews(team.get_id(), event.get_id()).subscribe(newsResponse -> eventDetailAdapter.setNews(newsResponse.getNews()));
     }
 
     private Observable<TeamMembersResponse> loadTeamMembers(){

@@ -33,21 +33,17 @@
         app:layout_constraintTop_toBottomOf="@+id/event_detail_activity_toolbar" />
 
 
-
     <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/team_feed_floating_menu"
+        android:id="@+id/event_detail_fab_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         app:fab_addButtonColorNormal="@color/colorPrimary"
         app:fab_addButtonColorPressed="@color/colorPrimaryLight"
         app:fab_addButtonPlusIconColor="#ffffff"
         app:fab_addButtonSize="normal"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
         app:fab_labelStyle="@style/menu_labels_style"
         app:fab_labelsPosition="left">
 
@@ -56,20 +52,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/colorPrimary"
-            app:fab_size="mini"
-            app:fab_title="edit event"
             app:fab_colorPressed="@color/colorPrimaryLight"
-            app:fab_icon="@drawable/ic_mode_edit_white_48dp" />
+            app:fab_icon="@drawable/ic_mode_edit_white_48dp"
+            app:fab_size="mini"
+            app:fab_title="edit event" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/event_detail_create_news_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:fab_colorNormal="@color/colorPrimary"
+            app:fab_colorPressed="@color/colorPrimaryLight"
             app:fab_icon="@drawable/ic_today_white_48dp"
             app:fab_size="mini"
-            app:fab_title="create news"
-            app:fab_colorPressed="@color/colorPrimaryLight"/>
+            app:fab_title="create news" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
