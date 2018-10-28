@@ -29,6 +29,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     TextView name;
     ImageView icon;
     ImageView whistle;
+    ImageView whistleBackground;
     ImageButton attend;
     ImageButton dontAttend;
     TextView attendenceStatus;
@@ -43,6 +44,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         name = view.findViewById(R.id.member_item_name);
         icon = view.findViewById(R.id.member_item_icon);
         whistle = view.findViewById(R.id.member_item_whistle);
+        whistleBackground = view.findViewById(R.id.member_item_whistle_background);
         attend = view.findViewById(R.id.member_item_attend);
         dontAttend = view.findViewById(R.id.member_item_dont_attend);
         attendenceStatus = view.findViewById(R.id.member_item_attendence_status);
@@ -132,6 +134,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
 
         if(!teamMember.getRole().equals(Const.Role.Coach.toString())){
             whistle.setVisibility(View.GONE);
+            whistleBackground.setVisibility(View.GONE);
         }
 
         String userImage = teamMember.getUser().getImage();

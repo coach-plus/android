@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,6 +17,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"></ImageView>
+
+
+    <ImageView
+        android:id="@+id/member_item_whistle_background"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:tint="#ffffff"
+        app:layout_constraintStart_toStartOf="@+id/member_item_icon"
+        app:layout_constraintTop_toTopOf="@+id/member_item_icon"
+        app:srcCompat="@drawable/circle" />
+
+    <ImageView
+        android:id="@+id/member_item_whistle"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:tint="@color/colorPrimary"
+
+        app:layout_constraintBottom_toBottomOf="@+id/member_item_whistle_background"
+        app:layout_constraintEnd_toEndOf="@+id/member_item_whistle_background"
+        app:layout_constraintStart_toStartOf="@+id/member_item_whistle_background"
+        app:layout_constraintTop_toTopOf="@+id/member_item_whistle_background"
+        app:srcCompat="@drawable/ic_trillerpfeife_links" />
 
     <LinearLayout
         android:id="@+id/bottom_line"
@@ -40,19 +66,6 @@
         app:layout_constraintStart_toEndOf="@+id/member_item_icon"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/member_item_whistle"
-            android:layout_width="wrap_content"
-            android:layout_height="26dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/circle" />
-
         <TextView
             android:id="@+id/member_item_name"
             android:layout_width="wrap_content"
@@ -65,7 +78,7 @@
             android:textColor="#211d1d"
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/member_item_whistle"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 

@@ -48,7 +48,6 @@ public class EventDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_detail_activity);
         ToolbarFragment toolbar = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.create_event_activity_toolbar);
-        toolbar.setTitle("");
         toolbar.showBackButton();
         toolbar.setListener(new ToolbarFragment.ToolbarFragmentListener() {
             @Override
@@ -66,6 +65,8 @@ public class EventDetailActivity extends AppCompatActivity {
 
         team = bundle.getParcelable(EXTRA_TEAM);
         event = bundle.getParcelable(EXTRA_EVENT);
+
+        toolbar.setTitle(event.getName());
 
         dataLayer = DataLayer.getInstance(this);
 

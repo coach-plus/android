@@ -12,6 +12,7 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.views.viewHolders.MembershipViewHolder;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,51 +27,6 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
     private List<Membership> memberships;
 
     final int TEAM_ITEM = 0;
-
-    public static class TeamViewHolder extends RecyclerView.ViewHolder {
-        public TextView teamNameTextView;
-        public TextView teamMembers;
-        public ImageView teamImageView;
-        public ImageView privateTeamImageView;
-        public View containerView;
-
-
-        public TeamViewHolder(View view) {
-            super(view);
-            containerView = view;
-            teamNameTextView = view.findViewById(R.id.team_item_team_name);
-            teamImageView = view.findViewById(R.id.team_item_team_icon);
-            privateTeamImageView = view.findViewById(R.id.team_item_private_icon);
-            teamMembers = view.findViewById(R.id.team_item_members);
-        }
-
-        public void bindMembership(Membership membership){
-            if(membership.getTeam().isPublic()){
-                privateTeamImageView.setVisibility(View.INVISIBLE);
-            }
-            else {
-                privateTeamImageView.setVisibility(View.VISIBLE);
-            }
-            String numMembersSuffix = membership.getTeam().getMemberCount() == 1 ? itemView.getResources().getString(R.string.member) : itemView.getResources().getString(R.string.members);
-            teamMembers.setText(membership.getTeam().getMemberCount() + " " + numMembersSuffix);
-            if(membership.getTeam().getImage() != null){
-                String imageUrl = BuildConfig.BASE_URL + "/uploads/" + membership.getTeam().getImage();
-                Picasso.with(teamImageView.getContext())
-                        .load(imageUrl)
-                        .resize(Settings.TEAM_ICON_SIZE, Settings.TEAM_ICON_SIZE)
-                        .placeholder(R.drawable.circle)
-                        .transform(new CircleTransform())
-                        .into(teamImageView);
-            }
-            else{
-                // cancel any pending request if there is one.
-                // This can happen because when data gets updated within a short period (first cache, then live data!)
-                // Picasso.with(teamImageView.getContext()).cancelRequest(teamImageView);
-                 teamImageView.setImageResource(R.drawable.circle);
-            }
-        }
-    }
-
 
     public MyMembershipsAdapter(TeamViewActivity mainActivity) {
         this.memberships = new ArrayList<>();
@@ -96,7 +52,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
             case TEAM_ITEM:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.team_item, parent, false);
-                viewHolder = new TeamViewHolder(view);
+                viewHolder = new MembershipViewHolder(view);
                 break;
         }
 
@@ -108,10 +64,9 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (holder.getItemViewType()) {
             case TEAM_ITEM:
                 final Membership membership = memberships.get(position);
-                TeamViewHolder teamViewHolder = (TeamViewHolder)holder;
-                teamViewHolder.teamNameTextView.setText(membership.getTeam().getName());
+                MembershipViewHolder teamViewHolder = (MembershipViewHolder)holder;
                 teamViewHolder.containerView.setOnClickListener((View v) -> mainActivity.switchTeamContext(membership));
-               teamViewHolder.bindMembership(membership);
+                teamViewHolder.bind(membership);
         }
     }
 

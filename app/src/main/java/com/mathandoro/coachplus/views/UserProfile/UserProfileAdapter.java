@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
+import com.mathandoro.coachplus.views.viewHolders.MembershipViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.SectionHeaderViewHolder;
 import com.mathandoro.coachplus.views.UserProfile.ViewHolders.UserInfoViewHolder;
-import com.mathandoro.coachplus.views.UserProfile.ViewHolders.UserMembershipViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,8 +65,8 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 view = layoutInflater.inflate(R.layout.list_section_heading, parent, false);
                 return new SectionHeaderViewHolder(view);
             default:
-                view = layoutInflater.inflate(R.layout.user_profile_membership_item, parent, false);
-                return new UserMembershipViewHolder(view);
+                view = layoutInflater.inflate(R.layout.team_item , parent, false);
+                return new MembershipViewHolder(view);
         }
     }
 
@@ -83,7 +83,7 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 break;
             case MEMBERSHIP_ITEM:
                 Membership membership = this.getMembership(position);
-                UserMembershipViewHolder membershipViewHolder = (UserMembershipViewHolder) holder;
+                MembershipViewHolder membershipViewHolder = (MembershipViewHolder) holder;
                 membershipViewHolder.bind(membership);
                 break;
         }
