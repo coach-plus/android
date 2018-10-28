@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.models.Location;
 import com.mathandoro.coachplus.persistence.DataLayer;
@@ -40,7 +41,7 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
     Calendar end = Calendar.getInstance();
 
 
-    Button createEventButton;
+    FloatingActionButton createEventButton;
     Team team;
 
 
@@ -53,37 +54,17 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         dataLayer = DataLayer.getInstance(this);
         team = getIntent().getExtras().getParcelable(INTENT_PARAM_TEAM);
 
-        eventName = (EditText)findViewById(R.id.createEventEventName);
-        description = (EditText)findViewById(R.id.createEventEventDescription);
-        startDate = (Button)findViewById(R.id.createEventEventStartDate);
-        startDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePicker((Button)view, start);
-            }
-        });
-        startTime = (Button)findViewById(R.id.createEventEventStartTime);
-        startTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTimePicker(startTime, start);
-            }
-        });
-        endDate = (Button)findViewById(R.id.createEventEventEndDate);
-        endDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showDatePicker((Button)view, end);
-            }
-        });
-        endTime = (Button)findViewById(R.id.createEventEventEndTime);
-        endTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTimePicker(endTime, end);
-            }
-        });
-        createEventButton = (Button)findViewById(R.id.createEventCreateEventButton);
+        eventName = findViewById(R.id.createEventEventName);
+        description = findViewById(R.id.createEventEventDescription);
+        startDate = findViewById(R.id.createEventEventStartDate);
+        startDate.setOnClickListener(view -> showDatePicker((Button)view, start));
+        startTime = findViewById(R.id.createEventEventStartTime);
+        startTime.setOnClickListener(view -> showTimePicker(startTime, start));
+        endDate = findViewById(R.id.createEventEventEndDate);
+        endDate.setOnClickListener(view -> showDatePicker((Button)view, end));
+        endTime = findViewById(R.id.createEventEventEndTime);
+        endTime.setOnClickListener(view -> showTimePicker(endTime, end));
+        createEventButton = findViewById(R.id.create_event_create_button);
         createEventButton.setOnClickListener(this);
     }
 
