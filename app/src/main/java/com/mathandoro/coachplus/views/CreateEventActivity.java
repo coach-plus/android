@@ -18,11 +18,12 @@ import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
+import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.Calendar;
 import java.util.Date;
 
-public class CreateEventActivity extends AppCompatActivity implements  View.OnClickListener {
+public class CreateEventActivity extends AppCompatActivity implements  View.OnClickListener, ToolbarFragment.ToolbarFragmentListener {
 
     public static final String INTENT_PARAM_TEAM = "team";
 
@@ -43,6 +44,7 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
 
     FloatingActionButton createEventButton;
     Team team;
+    private ToolbarFragment toolbarFragment;
 
 
     @Override
@@ -53,6 +55,11 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         setContentView(R.layout.activity_create_event);
         dataLayer = DataLayer.getInstance(this);
         team = getIntent().getExtras().getParcelable(INTENT_PARAM_TEAM);
+
+        toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.create_event_activity_toolbar);
+        toolbarFragment.setListener(this);
+        toolbarFragment.showBackButton();
+        toolbarFragment.setTitle("");
 
         eventName = findViewById(R.id.createEventEventName);
         description = findViewById(R.id.createEventEventDescription);
@@ -143,5 +150,15 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
                 }
             });
         }
+    }
+
+    @Override
+    public void onLeftIconPressed() {
+        finish();
+    }
+
+    @Override
+    public void onRightIconPressed() {
+
     }
 }

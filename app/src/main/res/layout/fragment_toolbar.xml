@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/lib/com.mathandoro.coachplus"
     xmlns:app2="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,7 +30,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:src="@drawable/ic_dehaze_white_24dp"
+        app2:srcCompat="@drawable/ic_dehaze_white_24dp"
         app2:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app2:layout_constraintLeft_toLeftOf="parent"
         app2:layout_constraintTop_toTopOf="@+id/toolbar" />
@@ -54,16 +55,14 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:text="Coach Plus"
         android:textColor="#ffffff"
         android:textSize="18sp"
         android:textStyle="bold"
         app2:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app2:layout_constraintEnd_toStartOf="@+id/toolbar_right_icon"
-        app2:layout_constraintStart_toEndOf="@+id/toolbar_left_icon"
+        app2:layout_constraintEnd_toEndOf="@+id/toolbar"
+        app2:layout_constraintStart_toStartOf="@+id/toolbar"
         app2:layout_constraintTop_toTopOf="@+id/toolbar" />
 
 </android.support.constraint.ConstraintLayout>

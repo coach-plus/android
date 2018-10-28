@@ -1,28 +1,18 @@
 package com.mathandoro.coachplus.views.EventDetail;
 
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
 import com.mathandoro.coachplus.helpers.CustomDialog;
-import com.mathandoro.coachplus.models.News;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
@@ -31,12 +21,10 @@ import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 public class EventDetailActivity extends AppCompatActivity {
     public static final String EXTRA_BUNDLE = "bundle";
@@ -59,7 +47,7 @@ public class EventDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_detail_activity);
-        ToolbarFragment toolbar = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.event_detail_activity_toolbar);
+        ToolbarFragment toolbar = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.create_event_activity_toolbar);
         toolbar.setTitle("");
         toolbar.showBackButton();
         toolbar.setListener(new ToolbarFragment.ToolbarFragmentListener() {
