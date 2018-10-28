@@ -52,7 +52,7 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         super.onCreate(savedInstanceState);
         start.set(Calendar.SECOND, 0);
         end.set(Calendar.SECOND, 0);
-        setContentView(R.layout.activity_create_event);
+        setContentView(R.layout.create_event_activity);
         dataLayer = DataLayer.getInstance(this);
         team = getIntent().getExtras().getParcelable(INTENT_PARAM_TEAM);
 

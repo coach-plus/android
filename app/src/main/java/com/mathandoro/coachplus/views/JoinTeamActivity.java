@@ -24,7 +24,7 @@ public class JoinTeamActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_join_team);
+        setContentView(R.layout.join_team_activity);
 
         settings = new Settings(this);
 

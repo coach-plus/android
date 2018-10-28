@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,9 +22,6 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.mathandoro.coachplus.models.Team;
 
-import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_BUNDLE;
-import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_TEAM;
-
 public class EventListActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -37,7 +33,7 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_events);
+        setContentView(R.layout.events_activity);
 
         Bundle bundle = getIntent().getExtras().getBundle(EXTRA_BUNDLE);
         team = bundle.getParcelable(EXTRA_TEAM);

@@ -48,22 +48,20 @@
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintTop_creator="1" />
 
-    <Button
-        android:id="@+id/createTeamButton"
-        android:layout_width="0dp"
+    <com.getbase.floatingactionbutton.FloatingActionButton
+        android:id="@+id/create_team_create_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/round_button_blue"
-        android:text="create team"
-        android:textColor="@color/colorAccent"
+        android:layout_marginBottom="16dp"
+        app:fab_colorNormal="@color/colorPrimary"
+        app:fab_colorPressed="@color/colorPrimaryLight"
+        app:fab_icon="@drawable/ic_check_black_24dp"
+        app:fab_size="normal"
+        app:fab_title="create news"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <CheckBox
         android:id="@+id/registerTeamPublicToggleButton"

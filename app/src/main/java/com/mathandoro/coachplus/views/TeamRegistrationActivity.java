@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
@@ -61,7 +62,7 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_team);
+        setContentView(R.layout.create_team_activity);
         settings = new Settings(this);
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
@@ -69,7 +70,7 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
         toolbarFragment.showBackButton();
 
 
-        Button registerTeamButton = findViewById(R.id.createTeamButton);
+        FloatingActionButton registerTeamButton = findViewById(R.id.create_team_create_button);
         teamImageView = findViewById(R.id.teamImageView);
         teamImageView.setOnClickListener((View view) -> pickImage());
         final EditText teamNameEditText = findViewById(R.id.teamNameEditText);

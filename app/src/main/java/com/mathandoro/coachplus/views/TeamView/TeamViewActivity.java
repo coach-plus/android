@@ -23,7 +23,6 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.mathandoro.coachplus.views.UserProfile.UserProfileActivity;
 import com.mathandoro.coachplus.persistence.DataLayer;
-import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.LoginActivity;
 
@@ -55,7 +54,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         super.onCreate(savedInstanceState);
         this.initalMembershipsLoaded = false;
         this.settings = new Settings(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.team_view_activity);
 
         dataLayer = DataLayer.getInstance(this);
 

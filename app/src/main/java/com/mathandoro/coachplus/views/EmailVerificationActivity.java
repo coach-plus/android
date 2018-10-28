@@ -23,7 +23,7 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_email_verification);
+        setContentView(R.layout.email_verification_activity);
 
         Intent intent = getIntent();
         String action = intent.getAction();
