@@ -16,15 +16,15 @@
         android:id="@+id/team_item_team_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:src="@drawable/circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.512"
-        android:layout_marginLeft="20dp"></ImageView>
+        app:layout_constraintVertical_bias="0.512"></ImageView>
 
     <TextView
         android:id="@+id/team_item_members"
