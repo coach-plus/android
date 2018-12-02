@@ -1,10 +1,12 @@
 package com.mathandoro.coachplus.views.EventDetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -13,13 +15,17 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
 import com.mathandoro.coachplus.helpers.CustomDialog;
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.views.CreateEventActivity;
+import com.mathandoro.coachplus.views.EventList.EventListActivity;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +36,7 @@ public class EventDetailActivity extends AppCompatActivity {
     public static final String EXTRA_BUNDLE = "bundle";
     public static final String EXTRA_TEAM = "team";
     public static final String EXTRA_EVENT = "event";
+    public static final String EXTRA_MEMBERSHIP = "membership";
 
     private RecyclerView eventDetailRecyclerView;
     private EventDetailAdapter eventDetailAdapter;
@@ -42,6 +49,7 @@ public class EventDetailActivity extends AppCompatActivity {
     Map<String, ParticipationItem> map = new HashMap<>();
     Event event;
     Team team;
+    Membership membership;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +73,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
         team = bundle.getParcelable(EXTRA_TEAM);
         event = bundle.getParcelable(EXTRA_EVENT);
+        membership = bundle.getParcelable(EXTRA_MEMBERSHIP);
 
         toolbar.setTitle(event.getName());
 
@@ -76,6 +85,10 @@ public class EventDetailActivity extends AppCompatActivity {
         editEventFab = findViewById(R.id.fab);
         editEventFab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
+
+        if(!membership.isCoach()){
+            floatingActionsMenu.setVisibility(View.GONE);
+        }
         loadEventDetailRecyclerView();
         loadData();
     }

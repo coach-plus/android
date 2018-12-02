@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
@@ -134,7 +135,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         inviteToTeamFab = view.findViewById(R.id.team_feed_invite_fab);
         inviteToTeamFab.setOnClickListener((View v) -> inviteToTeam());
 
-        if(!membership.getRole().equals("coach")){
+        if(!membership.getRole().equals(Role.COACH)){
             if(!membership.getTeam().isPublic()){
                 floatingActionsMenu.setVisibility(View.GONE);
             }
@@ -176,6 +177,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         Bundle bundle = new Bundle();
         bundle.putParcelable(EventDetailActivity.EXTRA_EVENT, event);
         bundle.putParcelable(EventDetailActivity.EXTRA_TEAM, membership.getTeam());
+        bundle.putParcelable(EventDetailActivity.EXTRA_MEMBERSHIP, membership);
         intent.putExtra(EventDetailActivity.EXTRA_BUNDLE, bundle);
         startActivity(intent);
     }
@@ -189,6 +191,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         Intent intent = new Intent(getActivity(), EventListActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(EventListActivity.EXTRA_TEAM, membership.getTeam());
+        bundle.putParcelable(EventListActivity.EXTRA_MEMBERSHIP, membership);
         intent.putExtra(EventListActivity.EXTRA_BUNDLE, bundle);
         startActivity(intent);
     }

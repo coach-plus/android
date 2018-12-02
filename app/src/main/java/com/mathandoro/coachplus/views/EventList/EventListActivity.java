@@ -14,9 +14,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.TextView;
-
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.CreateEventActivity;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -26,9 +25,11 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private Team team;
+    private Membership membership;
     private ToolbarFragment toolbarFragment;
     public static final String EXTRA_BUNDLE = "bundle";
     public static final String EXTRA_TEAM = "team";
+    public static final String EXTRA_MEMBERSHIP = "membership";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
 
         Bundle bundle = getIntent().getExtras().getBundle(EXTRA_BUNDLE);
         team = bundle.getParcelable(EXTRA_TEAM);
+        membership = bundle.getParcelable(EXTRA_MEMBERSHIP);
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
         toolbarFragment.setListener(this);
@@ -49,12 +51,19 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener((View view) -> {
-            Intent intent = new Intent(EventListActivity.this, CreateEventActivity.class);
-            intent.putExtra(CreateEventActivity.INTENT_PARAM_TEAM, team);
-            startActivity(intent);
-        });
+        FloatingActionButton createEventFab = findViewById(R.id.create_event_fab);
+        if(membership.isCoach()){
+            createEventFab.setOnClickListener((View view) -> {
+
+                Intent intent = new Intent(EventListActivity.this, CreateEventActivity.class);
+                intent.putExtra(CreateEventActivity.INTENT_PARAM_TEAM, team);
+                startActivity(intent);
+            });
+        }
+        else{
+            createEventFab.setVisibility(View.GONE);
+        }
+
     }
 
 
@@ -126,7 +135,7 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
             if(position == 1){
                 showUpcomingEvents = false;
             }
-            return EventListFragment.newInstance(team, showUpcomingEvents);
+            return EventListFragment.newInstance(team, membership, showUpcomingEvents);
         }
 
         @Override

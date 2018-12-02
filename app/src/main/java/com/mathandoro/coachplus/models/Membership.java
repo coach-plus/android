@@ -3,7 +3,7 @@ package com.mathandoro.coachplus.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.mathandoro.coachplus.Const;
+import com.mathandoro.coachplus.Role;
 
 /**
  * Created by dominik on 31.03.17.
@@ -80,6 +80,6 @@ public class Membership implements Parcelable {
     }
 
     public boolean isCoach(){
-        return this.role.equals(Const.Role.Coach.toString());
+        return this.role.equals(Role.COACH);
     }
 }

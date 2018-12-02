@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mathandoro.coachplus.BuildConfig;
-import com.mathandoro.coachplus.Const;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
@@ -132,7 +132,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         }
         name.setText(username);
 
-        if(!teamMember.getRole().equals(Const.Role.Coach.toString())){
+        if(!teamMember.getRole().equals(Role.COACH)){
             whistle.setVisibility(View.GONE);
             whistleBackground.setVisibility(View.GONE);
         }

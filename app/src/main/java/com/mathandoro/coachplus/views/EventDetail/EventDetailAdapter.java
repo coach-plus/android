@@ -4,12 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.mathandoro.coachplus.Const;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
-import com.mathandoro.coachplus.helpers.Formatter;
 import com.mathandoro.coachplus.helpers.RecycleViewStack;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
@@ -138,7 +135,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private ItemState getItemState(int position){
         ParticipationItem participationItem = getParticipationItem(position);
         if(event.getStart().before(new Date()) ){
-            if(myUsersMembership.getRole().equals(Const.Role.Coach.toString())){
+            if(myUsersMembership.getRole().equals(Role.COACH)){
                 return ItemState.SET_DID_ATTEND_STATE;
             }
             return ItemState.READ_DID_ATTEND_STATE;

@@ -14,12 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mathandoro.coachplus.api.Response.EventsResponse;
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -29,12 +31,15 @@ import io.reactivex.functions.Consumer;
 
 import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_BUNDLE;
 import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_EVENT;
+import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_MEMBERSHIP;
 import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXTRA_TEAM;
 
 
 public class EventListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String PARAM_TEAM = "TEAM";
+    private static final String PARAM_MEMBERSHIP = "MEMBERSHIP";
     private Team team;
+    private Membership membership;
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
@@ -52,11 +57,12 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         this.showUpcomingEvents = showUpcomingEvents;
     }
 
-    public static EventListFragment newInstance(Team team, boolean showUpcomingEvents) {
+    public static EventListFragment newInstance(Team team, Membership membership, boolean showUpcomingEvents) {
         EventListFragment fragment = new EventListFragment();
         fragment.setShowUpcomingEvents(showUpcomingEvents);
         Bundle args = new Bundle();
         args.putParcelable(PARAM_TEAM,  team);
+        args.putParcelable(PARAM_MEMBERSHIP,  membership);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,6 +73,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         dataLayer = DataLayer.getInstance(this.getActivity());
         if (getArguments() != null) {
             team = getArguments().getParcelable(PARAM_TEAM);
+            membership = getArguments().getParcelable(PARAM_MEMBERSHIP);
         }
 
     }
@@ -153,6 +160,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         Bundle bundle = new Bundle();
         bundle.putParcelable(EXTRA_TEAM, team);
         bundle.putParcelable(EXTRA_EVENT, event);
+        bundle.putParcelable(EXTRA_MEMBERSHIP, membership);
         intent.putExtra(EXTRA_BUNDLE, bundle);
         startActivity(intent);
     }

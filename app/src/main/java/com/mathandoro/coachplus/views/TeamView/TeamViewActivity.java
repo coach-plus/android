@@ -34,11 +34,11 @@ import io.reactivex.Observable;
 public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
         ToolbarFragment.ToolbarFragmentListener, SwipeRefreshLayout.OnRefreshListener {
 
-    Settings settings;
+    private Settings settings;
     private MyMembershipsAdapter myMembershipsAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
-    DataLayer dataLayer;
+    private DataLayer dataLayer;
     private DrawerLayout drawer;
     private boolean initalMembershipsLoaded;
     protected ToolbarFragment toolbarFragment;
