@@ -21,5 +21,8 @@
     <string name="member">Member</string>
     <string name="logout">Logout</string>
     <string name="see_all_events">see all events</string>
+    <string name="team_description_public">Your team will be open for anyone to join</string>
+    <string name="team_description_private">Only invited people can join your team</string>
+
 
 </resources>

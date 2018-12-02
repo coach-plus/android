@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.mathandoro.coachplus.R;
@@ -74,10 +76,20 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
         teamImageView = findViewById(R.id.teamImageView);
         teamImageView.setOnClickListener((View view) -> pickImage());
         final EditText teamNameEditText = findViewById(R.id.teamNameEditText);
-        final CheckBox registerTeamPublicToggleButton = findViewById(R.id.registerTeamPublicToggleButton);
+        final Switch registerTeamPublicToggleButton = findViewById(R.id.registerTeamPublicToggleButton);
+        final TextView registerTeamVisibilityDescription = findViewById(R.id.registerTeamVisibilityDescription);
+
+        registerTeamPublicToggleButton.setOnCheckedChangeListener((compoundButton,isPublic) -> {
+            if(isPublic){
+                registerTeamVisibilityDescription.setText(R.string.team_description_public);
+            }
+            else{
+                registerTeamVisibilityDescription.setText(R.string.team_description_private);
+            }
+        });
 
         registerTeamButton.setOnClickListener((View v) ->
-                registerTeam(teamNameEditText.getText().toString(), registerTeamPublicToggleButton.isActivated(), getSelectedImageBase64())
+                registerTeam(teamNameEditText.getText().toString(), registerTeamPublicToggleButton.isChecked(), getSelectedImageBase64())
         );
     }
 
@@ -110,6 +122,7 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
 
             @Override
             public void onFailure(Call<ApiResponse<Team>> call, Throwable t) {
+
                 fail();
             }
         });
