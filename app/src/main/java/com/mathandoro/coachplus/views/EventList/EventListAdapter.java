@@ -6,8 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.helpers.RecycleViewStack;
 import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.views.EventDetail.EventDetailAdapter;
 import com.mathandoro.coachplus.views.viewHolders.EventItemViewHolder;
+import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,25 +22,38 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final EventListFragment eventListFragment;
     private List<Event> events;
 
+    RecycleViewStack viewStack;
+
     final int EVENT_ITEM = 0;
+    final int NO_EVENTS_ITEM = 1;
 
 
     public EventListAdapter(EventListActivity eventListActivity, EventListFragment eventListFragment) {
         this.events = new ArrayList<>();
         this.eventListFragment = eventListFragment;
         this.eventListActivity = eventListActivity;
+        viewStack = new RecycleViewStack();
+        viewStack.addSection(EVENT_ITEM, 0);
+        viewStack.addSection(NO_EVENTS_ITEM, 0);
     }
 
 
     public void setEvents(List<Event> events){
         this.events = events;
+        viewStack.updateSection(EVENT_ITEM, events.size());
+        if(events.size() == 0){
+            viewStack.updateSection(NO_EVENTS_ITEM, 1);
+        }
+        else {
+            viewStack.updateSection(NO_EVENTS_ITEM, 0);
+        }
         this.notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return EVENT_ITEM;
-    }
+        return this.viewStack.getSectionIdAt(position);
+      }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
@@ -49,6 +65,10 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case EVENT_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_item, parent, false);
                 viewHolder = new EventItemViewHolder(view);
+                break;
+            case NO_EVENTS_ITEM:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_no_event_item, parent, false);
+                viewHolder = new StaticViewHolder(view);
                 break;
         }
         return viewHolder;
@@ -70,12 +90,12 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     protected Event getEvent(int position){
-        return this.events.get(position);
+        return this.events.get(viewStack.positionInSection(EVENT_ITEM, position));
     }
 
 
     @Override
     public int getItemCount() {
-        return events.size();
+        return viewStack.size();
     }
 }

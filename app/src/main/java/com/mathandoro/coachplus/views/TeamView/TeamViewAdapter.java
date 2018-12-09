@@ -16,6 +16,7 @@ import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.viewHolders.EventItemViewHolder;
+import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -66,18 +67,6 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-
-    class TeamMembersHeaderViewHolder extends RecyclerView.ViewHolder {
-        public TeamMembersHeaderViewHolder(View view) {
-            super(view);
-        }
-    }
-
-    class NoEventsViewHolder extends RecyclerView.ViewHolder {
-        public NoEventsViewHolder(View view) {
-            super(view);
-        }
-    }
 
 
     public TeamViewAdapter(TeamViewActivity mainActivity, TeamViewFragment teamFeedFragment) {
@@ -151,10 +140,10 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return new EventItemViewHolder(view);
             case MEMBERS_HEADER:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_members_header, parent, false);
-                return new TeamMembersHeaderViewHolder(view);
+                return new StaticViewHolder(view);
             case NO_UPCOMING_EVENTS:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_no_event_item, parent, false);
-                return new NoEventsViewHolder(view);
+                return new StaticViewHolder(view);
             default: //case MEMBERS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
                 return new TeamMemberViewHolder(view);
