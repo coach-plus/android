@@ -32,26 +32,31 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
     private DataLayer dataLayer;
 
     private ReducedUser user;
-    private boolean isMyUser;
-   // private List<Membership> memberships;
+    private boolean isMyUser = false;
     private UserProfileAdapter adapter;
     private Settings settings;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.user_profile_activity);
+
         this.settings = new Settings(this);
         dataLayer = DataLayer.getInstance(this);
 
-        setContentView(R.layout.user_profile_activity);
+        recyclerView = findViewById(R.id.user_profile_recycler_view);
+        adapter = new UserProfileAdapter(this);
+        recyclerView.setAdapter(adapter);
+
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.user_profile_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
         toolbarFragment.setTitle("");
 
-        recyclerView = findViewById(R.id.user_profile_recycler_view);
+
 
         // parallax scroll effect
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -71,25 +76,31 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
     }
 
     private void loadUser(){
-        isMyUser = getIntent().getExtras().getBoolean(INTENT_PARAM_IS_ME, true);
-        if(!isMyUser){
-            user = getIntent().getExtras().getParcelable(INTENT_PARAM_USER);
+        Observable<MyUserResponse> myUserV2 = dataLayer.getMyUserV2(true);
+        myUserV2.subscribe(response -> {
+            this.user = response.user;
+
+            ReducedUser userParam = getIntent().getExtras().getParcelable(INTENT_PARAM_USER);
+            if(userParam != null){
+                if(userParam.get_id().equals(this.user.get_id()))   {
+                    isMyUser = true;
+                }
+                else{
+                    this.user = userParam;
+                }
+            }else{
+                isMyUser = true;
+            }
+            adapter.setUser(user, isMyUser);
+            if(isMyUser){
+                toolbarFragment.showSettings();
+            }
             loadMemberships();
-        }
-        else {
-            toolbarFragment.showSettings();
-            Observable<MyUserResponse> myUserV2 = dataLayer.getMyUserV2(true);
-            myUserV2.subscribe(response -> {
-                user = response.user;
-                loadMemberships();
-            });
-        }
+        });
     }
 
     private void loadMemberships(){
-        adapter = new UserProfileAdapter(this);
-        recyclerView.setAdapter(adapter);
-        adapter.setUser(user);
+
         dataLayer.getMembershipsOfUser(user.get_id(), new DataLayerCallback<List<Membership>>() {
             @Override
             public void dataChanged(List<Membership> memberships) {

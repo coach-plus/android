@@ -51,4 +51,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_profile_username" />
 
+    <ImageView
+        android:id="@+id/user_profile_edit_profile_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
+        android:layout_marginTop="52dp"
+        android:tint="#ffffff"
+        app:layout_constraintStart_toStartOf="@+id/user_profile_user_image"
+        app:layout_constraintTop_toTopOf="@+id/user_profile_user_image"
+        app:srcCompat="@drawable/circle" />
+
+    <ImageView
+        android:id="@+id/user_profile_edit_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:tint="#000000"
+        app:layout_constraintBottom_toBottomOf="@+id/user_profile_edit_profile_picture"
+        app:layout_constraintEnd_toEndOf="@+id/user_profile_edit_profile_picture"
+        app:layout_constraintStart_toStartOf="@+id/user_profile_edit_profile_picture"
+        app:layout_constraintTop_toTopOf="@+id/user_profile_edit_profile_picture"
+        app:srcCompat="@drawable/ic_mode_edit_white_48dp" />
+
 </android.support.constraint.ConstraintLayout>

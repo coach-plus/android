@@ -20,15 +20,19 @@ public class UserInfoViewHolder extends RecyclerView.ViewHolder {
     ImageView teamImage;
     TextView usernameText;
     TextView emailText;
+    View editPhotoContainer;
+    View editPhotoPen;
 
     public UserInfoViewHolder(View view) {
         super(view);
         teamImage = view.findViewById(R.id.user_profile_user_image);
         usernameText = view.findViewById(R.id.user_profile_username);
         emailText = view.findViewById(R.id.user_profile_email);
+        editPhotoContainer = view.findViewById(R.id.user_profile_edit_profile_picture);
+        editPhotoPen = view.findViewById(R.id.user_profile_edit_icon);
     }
 
-    public void bind(ReducedUser user){
+    public void bind(ReducedUser user, boolean isMyUser){
         usernameText.setText(user.getFirstname() + " " + user.getLastname());
         String imageUrl = BuildConfig.BASE_URL + "/uploads/" + user.getImage();
         Picasso.with(this.itemView.getContext())
@@ -36,11 +40,15 @@ public class UserInfoViewHolder extends RecyclerView.ViewHolder {
                 .transform(new CircleTransform())
                 .placeholder(R.drawable.circle)
                 .into(this.teamImage);
-        if(user instanceof JWTUser){
+        if(isMyUser){
             emailText.setText(((JWTUser) user).getEmail());
+            editPhotoContainer.setVisibility(View.VISIBLE);
+            editPhotoPen.setVisibility(View.VISIBLE);
         }
         else{
             emailText.setVisibility(View.GONE);
+            editPhotoContainer.setVisibility(View.GONE);
+            editPhotoPen.setVisibility(View.GONE);
         }
     }
 }

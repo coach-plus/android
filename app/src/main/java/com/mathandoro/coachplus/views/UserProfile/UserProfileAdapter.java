@@ -21,6 +21,7 @@ import java.util.List;
 public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Membership> memberships;
     private ReducedUser user;
+    private boolean isMyUser = false;
 
     final int USER_INFO = 0;
     final int MEMBERSHIPS_HEADER = 1;
@@ -36,8 +37,9 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.notifyDataSetChanged();
     }
 
-    public void setUser(ReducedUser user){
+    public void setUser(ReducedUser user, boolean isMyUser){
         this.user = user;
+        this.isMyUser = isMyUser;
         this.notifyDataSetChanged();
     }
 
@@ -75,7 +77,7 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch (holder.getItemViewType()) {
             case USER_INFO:
                 UserInfoViewHolder userInfoViewHolder = (UserInfoViewHolder) holder;
-                userInfoViewHolder.bind(user);
+                userInfoViewHolder.bind(user, isMyUser);
                 break;
             case MEMBERSHIPS_HEADER:
                 SectionHeaderViewHolder sectionHeaderViewHolder = (SectionHeaderViewHolder) holder;
@@ -95,6 +97,9 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
+        if(user == null){
+            return 0;
+        }
         return memberships.size() + 2;
     }
 }
