@@ -11,13 +11,18 @@ import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 public class WebViewActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
     public static final String URL = "url";
+    public static final String TITLE = "title";
     private ToolbarFragment toolbarFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String url  = getIntent().getStringExtra(URL);
+        String title = getIntent().getStringExtra(TITLE);
+        if(title == null){
+            title = "";
+        }
+        String url = getIntent().getStringExtra(URL);
         if (url == null || url.isEmpty()) finish();
 
         setContentView(R.layout.webview_activity);
@@ -25,7 +30,7 @@ public class WebViewActivity extends AppCompatActivity implements ToolbarFragmen
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.webview_activity_fragment_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
-        toolbarFragment.setTitle("");
+        toolbarFragment.setTitle(title);
 
         toolbarFragment.showBackButton();
 

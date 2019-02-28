@@ -6,8 +6,6 @@
 
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_events">EventsActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_event_detail">EventDetailActivity</string>
@@ -23,6 +21,7 @@
     <string name="see_all_events">see all events</string>
     <string name="team_description_public">Your team will be open for anyone to join</string>
     <string name="team_description_private">Only invited people can join your team</string>
+    <string name="user_profile_settings">User Profile</string>
 
 
 </resources>

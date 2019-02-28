@@ -111,9 +111,11 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
     @Override
     public void onRightIconPressed() {
         if(isMyUser){
-            Intent i = new Intent(this, WebViewActivity.class);
-            i.putExtra(WebViewActivity.URL, BuildConfig.BASE_URL);
-            startActivity(i);
+            Intent intent = new Intent(this, WebViewActivity.class);
+            intent.putExtra(WebViewActivity.URL, BuildConfig.BASE_URL);
+            intent.putExtra(WebViewActivity.TITLE, getString(R.string.user_profile_settings));
+
+            startActivity(intent);
         }
     }
 }
