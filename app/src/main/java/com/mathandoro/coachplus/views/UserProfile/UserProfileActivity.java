@@ -1,17 +1,21 @@
 package com.mathandoro.coachplus.views.UserProfile;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
+import com.mathandoro.coachplus.views.WebViewActivity;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.List;
@@ -29,12 +33,15 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
     private ReducedUser user;
     private boolean isMyUser;
-    private List<Membership> memberships;
+   // private List<Membership> memberships;
     private UserProfileAdapter adapter;
+    private Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.settings = new Settings(this);
         dataLayer = DataLayer.getInstance(this);
 
         setContentView(R.layout.user_profile_activity);
@@ -70,6 +77,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
             loadMemberships();
         }
         else {
+            toolbarFragment.showSettings();
             Observable<MyUserResponse> myUserV2 = dataLayer.getMyUserV2(true);
             myUserV2.subscribe(response -> {
                 user = response.user;
@@ -102,5 +110,10 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
     @Override
     public void onRightIconPressed() {
+        if(isMyUser){
+            Intent i = new Intent(this, WebViewActivity.class);
+            i.putExtra(WebViewActivity.URL, BuildConfig.BASE_URL);
+            startActivity(i);
+        }
     }
 }

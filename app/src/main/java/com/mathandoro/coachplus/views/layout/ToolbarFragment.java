@@ -42,6 +42,11 @@ public class ToolbarFragment extends Fragment {
         this.rightIcon.setImageResource(R.drawable.ic_account_circle_white_36dp);
     }
 
+    public void showSettings(){
+        this.rightIcon.setVisibility(View.VISIBLE);
+        this.rightIcon.setImageResource(R.drawable.ic_settings_white_24dp);
+    }
+
     public void setTeam(Team team){
        title.setText(team.getName());
     }
