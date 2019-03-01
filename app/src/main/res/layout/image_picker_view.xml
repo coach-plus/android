@@ -5,17 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+
+    <android.support.v7.widget.AppCompatImageView
         android:id="@+id/image_picker_user_image"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="38dp"
+        android:padding="20dp"
+        android:background="@drawable/circle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_activity_fragment_toolbar"
+        app:srcCompat="@drawable/ic_menu_camera"
+        android:backgroundTint="#FFC3C3C3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/circle" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView

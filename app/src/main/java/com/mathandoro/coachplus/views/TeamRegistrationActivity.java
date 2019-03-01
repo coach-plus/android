@@ -8,10 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -23,6 +20,7 @@ import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.RegisterTeam;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Team;
+import com.mathandoro.coachplus.views.layout.ImagePickerView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -36,29 +34,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TeamRegistrationActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
+public class TeamRegistrationActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener, ImagePickerView.ImagePickerListener {
 
-    final int TEAM_IMAGE_SIZE = 512;
-    final int IMAGE_QUALITY = 95;
     protected Settings settings;
-    protected ImageView teamImageView;
-    protected boolean imageSelected = false;
+    protected ImagePickerView imagePickerView;
     protected ToolbarFragment toolbarFragment;
-    private Bitmap teamBitmap;
-    private Target target = new Target() {
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            teamBitmap = bitmap;
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable errorDrawable) {
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable placeHolderDrawable) {
-        }
-    };
 
 
     @Override
@@ -73,8 +53,10 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
 
 
         FloatingActionButton registerTeamButton = findViewById(R.id.create_team_create_button);
-        teamImageView = findViewById(R.id.teamImageView);
-        teamImageView.setOnClickListener((View view) -> pickImage());
+        imagePickerView = findViewById(R.id.teamImageView);
+        imagePickerView.setEditable(true);
+        imagePickerView.setListener(this);
+
         final EditText teamNameEditText = findViewById(R.id.teamNameEditText);
         final Switch registerTeamPublicToggleButton = findViewById(R.id.registerTeamPublicToggleButton);
         final TextView registerTeamVisibilityDescription = findViewById(R.id.registerTeamVisibilityDescription);
@@ -89,20 +71,8 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
         });
 
         registerTeamButton.setOnClickListener((View v) ->
-                registerTeam(teamNameEditText.getText().toString(), registerTeamPublicToggleButton.isChecked(), getSelectedImageBase64())
+                registerTeam(teamNameEditText.getText().toString(), registerTeamPublicToggleButton.isChecked(), imagePickerView.getSelectedImageBase64())
         );
-    }
-
-    String getSelectedImageBase64(){
-        if(teamBitmap == null){
-            return null;
-        }
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        teamBitmap.compress(Bitmap.CompressFormat.JPEG, IMAGE_QUALITY, bos);
-        byte[] bb = bos.toByteArray();
-        String imageData = Base64.encodeToString(bb, Base64.DEFAULT);
-        String base64ImagePrefix = "data:image/jpeg;base64,";
-        return base64ImagePrefix + imageData;
     }
 
     void registerTeam(String teamName, boolean isPublic, String teamImageBase64){
@@ -122,35 +92,24 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
 
             @Override
             public void onFailure(Call<ApiResponse<Team>> call, Throwable t) {
-
                 fail();
             }
         });
     }
 
-    void pickImage(){
-        CropImage.activity(null)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setRequestedSize(TEAM_IMAGE_SIZE, TEAM_IMAGE_SIZE)
-                .setAspectRatio(1,1)
-                .start(this);
+    @Override
+    public void onPickImage() {
+        this.pickImage();
+    }
+
+    private void pickImage(){
+        ImagePickerView.startImagePickerIntent(this);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                imageSelected = true;
-                Uri resultUri = result.getUri();
-                RequestCreator requestCreator = Picasso.with(teamImageView.getContext()).load(resultUri);
-
-                requestCreator.into(target);
-                requestCreator.transform(new CircleTransform()).into(teamImageView);
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
-            }
+            imagePickerView.onActivityResult(resultCode, data).subscribe();
         }
     }
 
@@ -174,4 +133,5 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
     @Override
     public void onRightIconPressed() {
     }
+
 }

@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -30,7 +32,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ImagePickerView extends ConstraintLayout {
 
-    private ImageView imageView;
+    private AppCompatImageView imageView;
     private View editBackgroundView;
     private ImageView editIconView;
     private boolean editable = false;
@@ -81,6 +83,8 @@ public class ImagePickerView extends ConstraintLayout {
     }
 
     public void setImage(String imageUrl){
+        imageView.setPadding(0,0,0,0);
+        imageView.setColorFilter(null   );
         Picasso.with(this.imageView.getContext())
                 .load(imageUrl)
                 .transform(new CircleTransform())
@@ -114,6 +118,9 @@ public class ImagePickerView extends ConstraintLayout {
         if (resultCode == RESULT_OK) {
             imageSelected = true;
             Uri resultUri = result.getUri();
+
+            imageView.setPadding(0,0,0,0);
+
             RequestCreator requestCreator = Picasso.with(imageView.getContext()).load(resultUri);
 
             requestCreator.into(target);
