@@ -2,4 +2,8 @@
 <resources>
     <string name="fa_sign_out_alt">&#xf2f5;</string>
     <string name="fa_sign_in_alt">&#xf2f6;</string>
+    <string name="fa_times_circle">&#xf057;</string>
+    <string name="fa_check_circle">&#xf058;</string>
+    <string name="fa_exclamation_circle">&#xf06a;</string>
+    <string name="fa_question_circle">&#xf059;</string>
 </resources>

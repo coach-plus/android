@@ -38,6 +38,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     int colorRed;
     int colorGreen;
     int colorBlue;
+    int colorOrange;
 
     public TeamMemberViewHolder(View view) {
         super(view);
@@ -54,6 +55,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         colorRed = ResourcesCompat.getColor(context.getResources(), R.color.colorRed, null);
         colorGreen = ResourcesCompat.getColor(context.getResources(), R.color.colorGreen, null);
         colorBlue = ResourcesCompat.getColor(context.getResources(), R.color.colorPrimary, null);
+        colorOrange = ResourcesCompat.getColor(context.getResources(), R.color.colorOrange, null);
     }
 
     public void bindReadMode(JWTUser myUser, Event event, EventDetailAdapter.ItemState itemState,
@@ -79,41 +81,47 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
             });
         }
 
-        GradientDrawable bgShape = (GradientDrawable)attendenceStatus.getBackground();
 
         if(event.getStart().before(new Date())){
-            String text = "";
+            int text = R.string.fa_question_circle;
             if(item.getParticipation() == null){
-                text = "no response";
+                text = R.string.fa_question_circle;
+                attendenceStatus.setTextColor(colorBlue);
             }
             else if(item.getParticipation().DidAttend() != null){
-                text = item.getParticipation().DidAttend() ? "did attend" : "didn't attend";
+                text = item.getParticipation().DidAttend() ? R.string.fa_check_circle : R.string.fa_times_circle;
             }
             else if(item.getParticipation().WillAttend() != null) {
-                text = item.getParticipation().WillAttend() ? "did attend" : "didn't attend";
+                text = item.getParticipation().WillAttend() ?  R.string.fa_check_circle : R.string.fa_times_circle;
             }
             if(isBadState(item.getParticipation())){
-                text = "unexcused absence";
-                bgShape.setStroke(3, colorRed);
+                text = R.string.fa_exclamation_circle;
                 attendenceStatus.setTextColor(colorRed);
             }
-            else{
-                bgShape.setStroke(3, colorGreen);
+            else if(item.getParticipation() != null &&
+                    item.getParticipation().WillAttend() != null && item.getParticipation().WillAttend() == false
+                    ){
+                attendenceStatus.setTextColor(colorOrange);
+            }
+            else if(item.getParticipation() != null &&
+                    ((item.getParticipation().WillAttend() != null && item.getParticipation().WillAttend()) ||
+                    item.getParticipation().DidAttend() != null && item.getParticipation().DidAttend())) {
                 attendenceStatus.setTextColor(colorGreen);
             }
             attendenceStatus.setText(text);
         }
         else{
-            attendenceStatus.setTextColor(colorBlue);
-            bgShape.setStroke(3, colorBlue);
-            String text;
+            int color = colorBlue;
+            int text = R.string.fa_question_circle;
             if(item.getParticipation() == null){
-                text = "unknown";
+                text = R.string.fa_question_circle;
             }
             else {
-             text = item.getParticipation().WillAttend() ? "will attend" : "won't attend";
+             text = item.getParticipation().WillAttend() ? R.string.fa_check_circle : R.string.fa_times_circle;
+             color = item.getParticipation().WillAttend() ? colorGreen : colorOrange;
             }
             attendenceStatus.setText(text);
+            attendenceStatus.setTextColor(color);
         }
     }
 
@@ -175,16 +183,15 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     }
 
     private boolean isBadState(Participation participationItem){
-        return participationItem == null
-                ||
-                (participationItem.WillAttend() == null
-                        && (participationItem.DidAttend() == null
-                        || (participationItem.DidAttend() != null && !participationItem.DidAttend()))
-                )
-                ||
-                (participationItem.DidAttend() != null
+        return participationItem != null &&
+
+                (((participationItem.DidAttend() != null  // wanted to attend but didn't attend
                         && participationItem.WillAttend() != null
                         && participationItem.WillAttend() == true
-                        && participationItem.DidAttend() == false);
+                        && participationItem.DidAttend() == false))
+                ||
+                ( participationItem.WillAttend() == null && // didn't say anything and didn't attend
+                        participationItem.DidAttend() != null &&
+                        participationItem.DidAttend() == false));
     }
 }

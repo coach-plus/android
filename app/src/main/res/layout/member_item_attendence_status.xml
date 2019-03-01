@@ -6,17 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.AppCompatTextView
+    <com.mathandoro.coachplus.views.layout.FontAwesomeView
         android:id="@+id/member_item_attendence_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/textview_border"
         android:gravity="center"
         android:maxLines="2"
-        android:text="will attend"
-        android:minWidth="20dp"
+        android:text="@string/fa_check_circle"
+        android:textColor="@color/colorGreen"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

@@ -23,33 +23,40 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+
+    <com.mathandoro.coachplus.views.layout.FontAwesomeView
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:tint="@color/colorGreen"
+        android:text="@string/fa_check_circle"
+        android:textSize="18sp"
+        android:textColor="@color/colorGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/event_detail_num_rejections"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check_black_24dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+
+    <com.mathandoro.coachplus.views.layout.FontAwesomeView
         android:id="@+id/imageView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
-        android:tint="@color/colorRed"
+        android:textColor="@color/colorRed"
+        android:textSize="18sp"
+        android:text="@string/fa_times_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/event_detail_num_unknown"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_clear_black_24dp" />
+
+
 
     <TextView
         android:id="@+id/event_detail_num_commitments"
@@ -99,7 +106,7 @@
         app:layout_constraintEnd_toStartOf="@+id/textView7"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.mathandoro.coachplus.views.layout.FontAwesomeView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,7 +114,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
-        android:text="?"
+        android:text="@string/fa_question_circle"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"
