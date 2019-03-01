@@ -15,11 +15,14 @@ import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
+import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
+import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 import com.mathandoro.coachplus.views.WebViewActivity;
 import com.mathandoro.coachplus.views.layout.ImagePickerView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
+import com.mathandoro.coachplus.views.viewHolders.MembershipViewHolder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -29,7 +32,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 
-public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener, ImagePickerView.ImagePickerListener {
+public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener, ImagePickerView.ImagePickerListener, MembershipViewHolder.MembershipViewHolderListener {
 
     public final static String INTENT_PARAM_USER = "user";
 
@@ -50,6 +53,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         setContentView(R.layout.user_profile_activity);
 
         this.settings = new Settings(this);
+
         dataLayer = DataLayer.getInstance(this);
 
         recyclerView = findViewById(R.id.user_profile_recycler_view);
@@ -61,6 +65,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
         toolbarFragment.setTitle("");
+
 
 
 
@@ -145,5 +150,33 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
            adapter.handleImagePickerActivityResult(resultCode, data);
         }
+    }
+
+    // todo confirmation dialog
+
+    public void navigateToMembership(Membership membership) {
+        Intent intent = new Intent(this, TeamViewActivity.class);
+        intent.putExtra(TeamViewActivity.PARAM_MEMBERSHIP, membership);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void joinTeam(Team team) {
+        dataLayer.joinPublicTeam(team.get_id()).subscribe(membership -> {
+            this.loadMemberships();
+        }, error -> {});
+    }
+
+    @Override
+    public void leaveTeam(Team team) {
+        dataLayer.leaveTeam(team.get_id()).subscribe(membership -> {
+            if(team.get_id().equals(settings.getActiveTeamId())){
+               settings.setActiveTeamId(null);
+               this.navigateToMembership(null);
+            }else {
+                this.loadMemberships();
+            }
+        }, error -> {});
     }
 }

@@ -10,6 +10,7 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
 import java.lang.reflect.Member;
@@ -21,6 +22,7 @@ import retrofit2.Response;
 
 public class JoinTeamActivity extends AppCompatActivity {
 
+    private DataLayer dataLayer;
     private Settings settings;
 
     @Override
@@ -29,6 +31,7 @@ public class JoinTeamActivity extends AppCompatActivity {
         setContentView(R.layout.join_team_activity);
 
         settings = new Settings(this);
+        dataLayer = new DataLayer(this);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -54,41 +57,16 @@ public class JoinTeamActivity extends AppCompatActivity {
         }
 
         if(teamType.equals("private")) {
-            this.joinPrivateTeam(tokenOrTeamId);
+            dataLayer.joinPrivateTeam(tokenOrTeamId).subscribe(
+                    membership -> navigateToMain(membership),
+                    error -> navigateToMain(null));
         }
         else{
-            this.joinPublicTeam(tokenOrTeamId);
+            dataLayer.joinPublicTeam(tokenOrTeamId).subscribe(
+                    membership -> navigateToMain(membership),
+                    error -> navigateToMain(null));
         }
 
-    }
-
-    void joinPrivateTeam(String token) {
-        Call<ApiResponse<Membership>> apiResponseCall = ApiClient.instance().teamService.joinPrivateTeam(settings.getToken(), token);
-    joinTeam(apiResponseCall);
-    }
-
-    void joinPublicTeam(String teamId){
-        Call<ApiResponse<Membership>> apiResponseCall = ApiClient.instance().teamService.joinPublicTeam(settings.getToken(), teamId);
-        joinTeam(apiResponseCall);
-    }
-
-    void joinTeam(Call<ApiResponse<Membership>> apiResponseCall){
-        apiResponseCall.enqueue(new Callback<ApiResponse<Membership>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<Membership>> call, Response<ApiResponse<Membership>> response) {
-                if(response.code() == 201){
-                    navigateToMain(response.body().content);
-                }
-                else if(response.code() >= 400 && response.code() < 500){
-                    navigateToMain(null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<Membership>> call, Throwable t) {
-
-            }
-        });
     }
 
     void navigateToMain(Membership membership){

@@ -106,7 +106,7 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             case MEMBERSHIP_ITEM:
                 Membership membership = this.getMembership(position);
                 MembershipViewHolder membershipViewHolder = (MembershipViewHolder) holder;
-                membershipViewHolder.bind(membership);
+                membershipViewHolder.bind(membership, true, isMyUser, userProfileActivity);
                 break;
         }
     }

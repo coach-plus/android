@@ -41,23 +41,27 @@
 
     <TextView
         android:id="@+id/team_item_team_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="Team Awesome"
         android:textColor="#211d1d"
         android:textSize="14dp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/team_item_right_icon"
         app:layout_constraintStart_toEndOf="@+id/team_item_team_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:orientation="horizontal"
         android:background="#d8d8d8"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"></LinearLayout>
 
     <ImageView
@@ -84,5 +88,24 @@
         app:layout_constraintStart_toStartOf="@+id/team_item_private_icon_background"
         app:layout_constraintTop_toTopOf="@+id/team_item_private_icon_background"
         app:srcCompat="@drawable/ic_lock_outline_black_24dp" />
+
+    <com.mathandoro.coachplus.views.layout.FontAwesomeView
+        android:id="@+id/team_item_right_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/fa_sign_out_alt"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+
 
 </android.support.constraint.ConstraintLayout>

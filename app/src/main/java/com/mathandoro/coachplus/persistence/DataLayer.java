@@ -88,6 +88,21 @@ public class DataLayer {
         return this.apiCall(apiResponseCall, false);
     }
 
+    public Observable<Membership> joinPrivateTeam(String invitationToken) {
+        Call<ApiResponse<Membership>> apiResponseCall = ApiClient.instance().teamService.joinPrivateTeam(settings.getToken(), invitationToken);
+        return this.apiCall(apiResponseCall, false);
+    }
+
+    public Observable<Membership> joinPublicTeam(String teamId){
+        Call<ApiResponse<Membership>> apiResponseCall = ApiClient.instance().teamService.joinPublicTeam(settings.getToken(), teamId);
+        return this.apiCall(apiResponseCall, false);
+    }
+
+    public Observable<Object> leaveTeam(String teamId){
+        Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.leaveTeam(settings.getToken(), teamId);
+        return this.apiCall(apiResponseCall, false);
+    }
+
     public Observable<Participation> setDidAttend(String teamId, String eventId, String userId, boolean didAttend){
         Call<ApiResponse<Participation>> participationCall = ApiClient.instance().teamService.setDidAttend(settings.getToken(), teamId, eventId, userId, new DidAttendRequest(didAttend));
         return this.apiCall(participationCall, false);
@@ -153,7 +168,7 @@ public class DataLayer {
             t.enqueue(new Callback<ApiResponse<T>>() {
                 @Override
                 public void onResponse(Call<ApiResponse<T>> call, Response<ApiResponse<T>> response) {
-                    if(response.code() == 200 || response.code() == 201){
+                    if(response.code() >= 200 && response.code() < 300){
                     /*
                     todo cache
                     String serializedResponse = DataLayer.this.gson.toJson(response.body().content);

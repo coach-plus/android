@@ -107,8 +107,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
              //    initalMembershipsLoaded = true;
                 return;
             }
-            else { // (!initalMembershipsLoaded) {
-                // initalMembershipsLoaded = true;
+            else {
                 loadActiveTeam();
             }
         });

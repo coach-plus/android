@@ -72,6 +72,8 @@ public interface TeamService {
     @DELETE("teams/{teamId}/events/{eventId}/news/{newsId}")
     Call<ApiResponse<Object>> deleteNews(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Path("newsId") String newsId);
 
+    @DELETE("teams/{teamId}/memberships")
+    Call<ApiResponse<Object>> leaveTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
 }
 
 

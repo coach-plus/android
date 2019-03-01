@@ -66,7 +66,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 final Membership membership = memberships.get(position);
                 MembershipViewHolder teamViewHolder = (MembershipViewHolder)holder;
                 teamViewHolder.containerView.setOnClickListener((View v) -> mainActivity.switchTeamContext(membership));
-                teamViewHolder.bind(membership);
+                teamViewHolder.bind(membership, false,true, null); // todo dont show icons here
         }
     }
 

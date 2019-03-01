@@ -13,17 +13,28 @@ public class Membership implements Parcelable {
     protected String role;
     protected Team team;
     protected String user;
+    protected boolean joined;
 
-    public Membership(String role, Team team, String user, int memberCount) {
+    public boolean isJoined() {
+        return joined;
+    }
+
+    public void setJoined(boolean joined) {
+        this.joined = joined;
+    }
+
+    public Membership(String role, Team team, String user, int memberCount, boolean joined) {
         this.role = role;
         this.team = team;
         this.user = user;
+        this.joined = joined;
     }
 
     protected Membership(Parcel in) {
         role = in.readString();
         team = in.readParcelable(Team.class.getClassLoader());
         user = in.readString();
+        joined = in.readByte() != 0;
     }
 
 
@@ -32,6 +43,7 @@ public class Membership implements Parcelable {
         dest.writeString(role);
         dest.writeParcelable(team, flags);
         dest.writeString(user);
+        dest.writeByte((byte) (joined ? 1 : 0));
     }
 
     @Override

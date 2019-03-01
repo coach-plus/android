@@ -35,8 +35,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
 
         this.settings = new Settings(this);
 
-        emailEditText = (EditText)findViewById(R.id.loginEmailEditText);
-        passwordEditText = (EditText)findViewById(R.id.loginPasswordEditText);
+        emailEditText = findViewById(R.id.loginEmailEditText);
+        passwordEditText = findViewById(R.id.loginPasswordEditText);
     }
 
     public void login(View view){

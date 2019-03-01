@@ -37,7 +37,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TeamRegistrationActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener, ImagePickerView.ImagePickerListener {
+public class TeamRegistrationActivity extends AppCompatActivity
+        implements ToolbarFragment.ToolbarFragmentListener, ImagePickerView.ImagePickerListener {
 
     protected Settings settings;
     protected ImagePickerView imagePickerView;
