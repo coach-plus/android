@@ -20,6 +20,7 @@ import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
+import com.mathandoro.coachplus.models.UserImageUpload;
 
 import java.util.List;
 
@@ -78,6 +79,12 @@ public class DataLayer {
     public Observable<Participation> setWillAttend(String teamId, String eventId, String userId, boolean willAttend){
         Call<ApiResponse<Participation>> participationCall = ApiClient.instance().teamService.setWillAttend(settings.getToken(), teamId, eventId, userId, new WillAttendRequest(willAttend));
         return this.apiCall(participationCall, false);
+    }
+
+    // todo return type correct ?
+    public Observable<MyUserResponse> uploadUserImage(String imageBase64){
+        Call<ApiResponse<MyUserResponse>> apiResponseCall = ApiClient.instance().userService.updateUserImage(settings.getToken(), new UserImageUpload(imageBase64));
+        return this.apiCall(apiResponseCall, false);
     }
 
     public Observable<Participation> setDidAttend(String teamId, String eventId, String userId, boolean didAttend){

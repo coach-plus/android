@@ -7,12 +7,14 @@ import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.models.LoginUser;
 import com.mathandoro.coachplus.models.RegisterUser;
 import com.mathandoro.coachplus.api.Response.RegistrationResponse;
+import com.mathandoro.coachplus.models.UserImageUpload;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -29,6 +31,9 @@ public interface UserService {
 
     @GET("users/me")
     Call<ApiResponse<MyUserResponse>> getMyUser(@Header("X-ACCESS-TOKEN") String accessToken);
+
+    @PUT("users/me")
+    Call<ApiResponse<MyUserResponse>> updateUserImage(@Header("X-ACCESS-TOKEN") String accessToken, @Body UserImageUpload imageUpload);
 
     @POST("users/verification/{token}")
     Call<ApiResponse<Object>> verifyEmail(@Path("token") String token);

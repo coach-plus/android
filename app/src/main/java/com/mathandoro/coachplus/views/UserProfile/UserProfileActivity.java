@@ -1,6 +1,7 @@
 package com.mathandoro.coachplus.views.UserProfile;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,20 +12,25 @@ import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.views.WebViewActivity;
+import com.mathandoro.coachplus.views.layout.ImagePickerView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.List;
 
 import io.reactivex.Observable;
 
-public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
+public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener, ImagePickerView.ImagePickerListener {
 
-    public final static String INTENT_PARAM_IS_ME = "isMe";
     public final static String INTENT_PARAM_USER = "user";
 
     protected ToolbarFragment toolbarFragment;
@@ -47,7 +53,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         dataLayer = DataLayer.getInstance(this);
 
         recyclerView = findViewById(R.id.user_profile_recycler_view);
-        adapter = new UserProfileAdapter(this);
+        adapter = new UserProfileAdapter(this, dataLayer);
         recyclerView.setAdapter(adapter);
 
 
@@ -65,7 +71,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
                 super.onScrolled(recyclerView, dx, dy);
                 View view = recyclerView.getChildAt(0);
                 if(view != null && recyclerView.getChildAdapterPosition(view) == 0){
-                    View userImageView = view.findViewById(R.id.user_profile_user_image);
+                    View userImageView = view.findViewById(R.id.user_profile_image);
                     userImageView.setTranslationY(-view.getTop()/2);
                 }
             }
@@ -127,6 +133,17 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
             intent.putExtra(WebViewActivity.TITLE, getString(R.string.user_profile_settings));
 
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onPickImage() {
+        ImagePickerView.startImagePickerIntent(this);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+           adapter.handleImagePickerActivityResult(resultCode, data);
         }
     }
 }

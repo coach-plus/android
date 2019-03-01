@@ -42,11 +42,11 @@ public class UserRegistrationActivity extends AppCompatActivity implements Callb
 
         this.settings = new Settings(this);
 
-        firstnameEditText = ((EditText)findViewById(R.id.firstnameEditText));
-        lastnameEditText = ((EditText)findViewById(R.id.lastnameEditText));
-        emailEditText = ((EditText)findViewById(R.id.emailEditText));
-        passwordEditText = ((EditText)findViewById(R.id.passwordEditText));
-        passwordRepeatEditText = ((EditText)findViewById(R.id.repeatPasswordEditText));
+        firstnameEditText = findViewById(R.id.firstnameEditText);
+        lastnameEditText = findViewById(R.id.lastnameEditText);
+        emailEditText = findViewById(R.id.emailEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
+        passwordRepeatEditText = findViewById(R.id.repeatPasswordEditText);
     }
 
     public void registerUser(View view){

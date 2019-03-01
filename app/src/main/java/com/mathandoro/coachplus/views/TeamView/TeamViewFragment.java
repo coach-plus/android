@@ -199,7 +199,6 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void navigateToUserProfile(ReducedUser user) {
         Intent intent = new Intent(getActivity(), UserProfileActivity.class);
         intent.putExtra(UserProfileActivity.INTENT_PARAM_USER, user);
-        intent.putExtra(UserProfileActivity.INTENT_PARAM_IS_ME, false);
         startActivity(intent);
     }
 

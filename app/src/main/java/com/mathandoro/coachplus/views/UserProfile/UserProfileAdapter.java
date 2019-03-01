@@ -1,18 +1,31 @@
 package com.mathandoro.coachplus.views.UserProfile;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
+import com.mathandoro.coachplus.models.RegisterTeam;
+import com.mathandoro.coachplus.models.Team;
+import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.viewHolders.MembershipViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.SectionHeaderViewHolder;
 import com.mathandoro.coachplus.views.UserProfile.ViewHolders.UserInfoViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by dominik on 18.02.18.
@@ -27,9 +40,15 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     final int MEMBERSHIPS_HEADER = 1;
     final int MEMBERSHIP_ITEM = 2;
 
+    private UserInfoViewHolder userInfoViewHolder;
+    private UserProfileActivity userProfileActivity;
+    private DataLayer dataLayer;
 
-    public UserProfileAdapter(UserProfileActivity userProfileActivity) {
+
+    public UserProfileAdapter(UserProfileActivity userProfileActivity, DataLayer dataLayer) {
         memberships = new ArrayList<>();
+        this.userProfileActivity = userProfileActivity;
+        this.dataLayer = dataLayer;
     }
 
     public void setMemberships(List<Membership> memberships){
@@ -62,7 +81,8 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         switch(viewType){
             case USER_INFO:
                 view = layoutInflater.inflate(R.layout.user_profile_user_info, parent, false);
-                return new UserInfoViewHolder(view);
+                userInfoViewHolder = new UserInfoViewHolder(view, userProfileActivity);
+                return userInfoViewHolder;
             case MEMBERSHIPS_HEADER:
                 view = layoutInflater.inflate(R.layout.list_section_heading, parent, false);
                 return new SectionHeaderViewHolder(view);
@@ -101,5 +121,16 @@ public class UserProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return 0;
         }
         return memberships.size() + 2;
+    }
+
+    public void handleImagePickerActivityResult(int resultCode, Intent data) {
+        userInfoViewHolder.handleImagePickerActivityResult(resultCode, data)
+                .subscribe((Bitmap bitmap) -> changeUserProfileImage());
+    }
+
+    public void changeUserProfileImage(){
+        dataLayer.uploadUserImage(userInfoViewHolder.getImageBase64()).subscribe(myUserResponse -> {
+            Toast.makeText(userProfileActivity, "upload done", Toast.LENGTH_LONG);
+        });
     }
 }
