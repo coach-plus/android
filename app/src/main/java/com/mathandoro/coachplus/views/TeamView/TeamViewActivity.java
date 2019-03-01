@@ -136,7 +136,10 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == CREATE_TEAM_REQUEST && resultCode == RESULT_OK){
-           this.loadMemberships();
+            Membership newMembership = data.getParcelableExtra(TeamRegistrationActivity.RETURN_PARAM_MEMBERSHIP);
+            this.memberships.add(newMembership);
+            myMembershipsAdapter.setMemberships(memberships);
+            switchTeamContext(newMembership);
         }
     }
 

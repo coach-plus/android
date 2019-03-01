@@ -17,9 +17,11 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.helpers.CircleTransform;
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.RegisterTeam;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Team;
+import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.layout.ImagePickerView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.squareup.picasso.Picasso;
@@ -29,6 +31,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Member;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +42,9 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
     protected Settings settings;
     protected ImagePickerView imagePickerView;
     protected ToolbarFragment toolbarFragment;
+    private DataLayer dataLayer;
+
+    public static final String RETURN_PARAM_MEMBERSHIP = "membership";
 
 
     @Override
@@ -46,6 +52,8 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_team_activity);
         settings = new Settings(this);
+
+        dataLayer = new DataLayer(this);
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
         toolbarFragment.setListener(this);
@@ -76,25 +84,13 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
     }
 
     void registerTeam(String teamName, boolean isPublic, String teamImageBase64){
-        RegisterTeam team = new RegisterTeam(teamName, isPublic, teamImageBase64);
-        String token = settings.getToken();
-        Call<ApiResponse<Team>> registerTeamCall = ApiClient.instance().teamService.registerTeam(token, team);
-        registerTeamCall.enqueue(new Callback<ApiResponse<Team>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<Team>> call, Response<ApiResponse<Team>> response) {
-                if(response.code() == 201){
-                    success();
-                }
-                else{
+        dataLayer.registerTeam(teamName, isPublic, teamImageBase64).subscribe(
+                membership -> {
+                    success(membership);
+                },
+                error -> {
                     fail();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<Team>> call, Throwable t) {
-                fail();
-            }
-        });
+                });
     }
 
     @Override
@@ -113,8 +109,9 @@ public class TeamRegistrationActivity extends AppCompatActivity implements Toolb
         }
     }
 
-    void success(){
+    void success(Membership membership){
         Intent returnIntent = new Intent();
+        returnIntent.putExtra(RETURN_PARAM_MEMBERSHIP, membership);
         setResult(RESULT_OK, returnIntent);
         finish();
     }

@@ -18,6 +18,7 @@ import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Participation;
+import com.mathandoro.coachplus.models.RegisterTeam;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
 import com.mathandoro.coachplus.models.UserImageUpload;
@@ -138,6 +139,13 @@ public class DataLayer {
     public Observable<EventsResponse> getEvents(final Team team, boolean useCache) {
         Call<ApiResponse<EventsResponse>> eventsOfTeam = ApiClient.instance().teamService.getEventsOfTeam(settings.getToken(), team.get_id());
         return this.apiCall(eventsOfTeam, useCache);
+    }
+
+    public Observable<Membership> registerTeam(String teamName, boolean isPublic, String teamImageBase64){
+        RegisterTeam team = new RegisterTeam(teamName, isPublic, teamImageBase64);
+        String token = settings.getToken();
+        Call<ApiResponse<Membership>> registerTeamCall = ApiClient.instance().teamService.registerTeam(token, team);
+        return this.apiCall(registerTeamCall, false);
     }
 
     private <T> Observable<T> apiCall(Call<ApiResponse<T>> t, boolean useCache){

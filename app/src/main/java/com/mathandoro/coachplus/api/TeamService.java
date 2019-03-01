@@ -6,6 +6,7 @@ import com.mathandoro.coachplus.api.Request.WillAttendRequest;
 import com.mathandoro.coachplus.api.Response.CreateNewsResponse;
 import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.News;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.RegisterTeam;
@@ -33,7 +34,7 @@ import retrofit2.http.Path;
 public interface TeamService {
 
     @POST("teams/register")
-    Call<ApiResponse<Team>> registerTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Body RegisterTeam team);
+    Call<ApiResponse<Membership>> registerTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Body RegisterTeam team);
 
     @GET("teams/{teamId}/members")
     Call<ApiResponse<TeamMembersResponse>> getTeamMembers(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
