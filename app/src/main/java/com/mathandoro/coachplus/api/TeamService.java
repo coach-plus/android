@@ -55,10 +55,10 @@ public interface TeamService {
     Call<ApiResponse<Participation>> setWillAttend(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Path("userId") String userId, @Body WillAttendRequest willAttend);
 
     @POST("teams/private/join/{token}")
-    Call<ApiResponse<Object>> joinPrivateTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("token") String token);
+    Call<ApiResponse<Membership>> joinPrivateTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("token") String token);
 
     @POST("teams/public/join/{teamId}")
-    Call<ApiResponse<Object>> joinPublicTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
+    Call<ApiResponse<Membership>> joinPublicTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
 
     @POST("teams/{teamId}/invite")
     Call<ApiResponse<InvitationResponse>> createInvitationUrl(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);

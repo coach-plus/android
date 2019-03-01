@@ -34,13 +34,14 @@ import io.reactivex.Observable;
 public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
         ToolbarFragment.ToolbarFragmentListener, SwipeRefreshLayout.OnRefreshListener {
 
+    public static final String PARAM_MEMBERSHIP = "membership";
     private Settings settings;
     private MyMembershipsAdapter myMembershipsAdapter;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private DataLayer dataLayer;
     private DrawerLayout drawer;
-    private boolean initalMembershipsLoaded;
+  //  private boolean initalMembershipsLoaded;
     protected ToolbarFragment toolbarFragment;
     protected List<Membership> memberships;
     protected JWTUser myUser;
@@ -52,7 +53,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.initalMembershipsLoaded = false;
+      //  this.initalMembershipsLoaded = false;
         this.settings = new Settings(this);
         setContentView(R.layout.team_view_activity);
 
@@ -66,7 +67,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
         this.loadNavigationDrawer();
         this.loadMembershipsRecyclerView();
-        this.loadMemberships();
+        this.loadMemberships(getIntent().getParcelableExtra(PARAM_MEMBERSHIP));
         this.loadMyUser();
     }
 
@@ -92,19 +93,22 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         startActivity(logoutIntent);
     }
 
-    private void loadMemberships(){
+    private void loadMemberships(Membership joinedMembership){
         this.dataLayer.getMyMembershipsV2(false).subscribe(myMembershipsResponse -> {
             membershipsSwipeRefreshLayout.setRefreshing(false);
             memberships = myMembershipsResponse.getMemberships();
             myMembershipsAdapter.setMemberships(myMembershipsResponse.getMemberships());
             String activeTeamId = settings.getActiveTeamId();
-            if(memberships.size() > 0 && activeTeamId == null){
+            if(joinedMembership != null){
+                switchTeamContext(joinedMembership);
+            }
+            else if(memberships.size() > 0 && activeTeamId == null){
                 switchTeamContext(memberships.get(0));
-                initalMembershipsLoaded = true;
+             //    initalMembershipsLoaded = true;
                 return;
             }
-            if (!initalMembershipsLoaded) {
-                initalMembershipsLoaded = true;
+            else { // (!initalMembershipsLoaded) {
+                // initalMembershipsLoaded = true;
                 loadActiveTeam();
             }
         });
@@ -208,7 +212,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
     @Override
     public void onRefresh() {
-        this.loadMemberships();
+        this.loadMemberships(null);
     }
 }
 

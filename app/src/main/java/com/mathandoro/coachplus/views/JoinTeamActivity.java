@@ -9,8 +9,10 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import retrofit2.Call;
@@ -61,49 +63,37 @@ public class JoinTeamActivity extends AppCompatActivity {
     }
 
     void joinPrivateTeam(String token) {
-        Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.joinPrivateTeam(settings.getToken(), token);
-        apiResponseCall.enqueue(new Callback<ApiResponse<Object>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<Object>> call, Response<ApiResponse<Object>> response) {
-                if(response.code() == 201){
-                    Log.e("debug", "respoonse code: " + response.code());
-                    navigateToMain();
-                }
-                else if(response.code() >= 400 && response.code() < 500){
-                    Log.e("debug", "respoonse message: " + response.body());
-                    navigateToMain();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<Object>> call, Throwable t) {
-
-            }
-        });
+        Call<ApiResponse<Membership>> apiResponseCall = ApiClient.instance().teamService.joinPrivateTeam(settings.getToken(), token);
+    joinTeam(apiResponseCall);
     }
 
     void joinPublicTeam(String teamId){
-        Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.joinPublicTeam(settings.getToken(), teamId);
-        apiResponseCall.enqueue(new Callback<ApiResponse<Object>>() {
+        Call<ApiResponse<Membership>> apiResponseCall = ApiClient.instance().teamService.joinPublicTeam(settings.getToken(), teamId);
+        joinTeam(apiResponseCall);
+    }
+
+    void joinTeam(Call<ApiResponse<Membership>> apiResponseCall){
+        apiResponseCall.enqueue(new Callback<ApiResponse<Membership>>() {
             @Override
-            public void onResponse(Call<ApiResponse<Object>> call, Response<ApiResponse<Object>> response) {
+            public void onResponse(Call<ApiResponse<Membership>> call, Response<ApiResponse<Membership>> response) {
                 if(response.code() == 201){
-                    navigateToMain();
+                    navigateToMain(response.body().content);
                 }
                 else if(response.code() >= 400 && response.code() < 500){
-                    navigateToMain();
+                    navigateToMain(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<Object>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<Membership>> call, Throwable t) {
 
             }
         });
     }
 
-    void navigateToMain(){
+    void navigateToMain(Membership membership){
         Intent intent = new Intent(this, TeamViewActivity.class);
+        intent.putExtra(TeamViewActivity.PARAM_MEMBERSHIP, membership);
         startActivity(intent);
         finish();
     }
