@@ -53,18 +53,6 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     protected DataLayer dataLayer;
     protected SwipeRefreshLayout swipeRefreshLayout;
 
-    protected DataLayerCallback<List<TeamMember>> loadTeamMembersCallback = new DataLayerCallback<List<TeamMember>>() {
-        @Override
-        public void dataChanged(List<TeamMember> members) {
-            teamViewAdapter.setMembers(members);
-            swipeRefreshLayout.setRefreshing(false);
-        }
-
-        @Override
-        public void error() {
-            swipeRefreshLayout.setRefreshing(false);
-        }
-    };
     private FloatingActionButton inviteToTeamFab;
     private FloatingActionButton addEventFab;
     private FloatingActionsMenu floatingActionsMenu;
@@ -159,6 +147,11 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
             swipeRefreshLayout.setRefreshing(false);
             return true;
         }).subscribe();
+    }
+
+    public void reloadMembers(){
+        dataLayer.getTeamMembersV2(membership.getTeam(), false)
+                .subscribe(teamMembersResponse -> teamViewAdapter.setMembers(teamMembersResponse.getMembers()));
     }
 
     @Override

@@ -74,6 +74,10 @@ public interface TeamService {
 
     @DELETE("teams/{teamId}/memberships")
     Call<ApiResponse<Object>> leaveTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
+
+    @PUT("teams/{teamId}/coaches/{userId}")
+    Call<ApiResponse<Object>> promoteUser(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("userId") String userId);
+
 }
 
 

@@ -6,4 +6,6 @@
     <string name="fa_check_circle">&#xf058;</string>
     <string name="fa_exclamation_circle">&#xf06a;</string>
     <string name="fa_question_circle">&#xf059;</string>
+    <string name="fa_ellipsis_h">&#xf141;</string>
+
 </resources>

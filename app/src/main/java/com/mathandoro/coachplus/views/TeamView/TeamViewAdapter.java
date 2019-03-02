@@ -40,6 +40,8 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private boolean noUpcomingEvents = false;
     private DataLayer dataLayer;
 
+    private boolean isCoach = true;
+
     final int UPCOMING_EVENTS_HEADER = 0;
     final int UPCOMING_EVENTS_ITEM = 1;
     final int MEMBERS_HEADER = 2;
@@ -146,6 +148,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return new StaticViewHolder(view);
             default: //case MEMBERS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
+                if(isCoach){
+                    View.inflate(view.getContext(), R.layout.member_item_actions_indicator, view.findViewById(R.id.member_item_right_container));
+                }
                 return new TeamMemberViewHolder(view);
         }
     }
@@ -188,7 +193,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case MEMBERS_ITEM:
                 TeamMemberViewHolder memberViewHolder = (TeamMemberViewHolder)holder;
                 final TeamMember teamMember = getMember(position);
-                memberViewHolder.bindGeneralInformation(teamMember, myUser);
+                memberViewHolder.bindTeamViewMode(teamMember, myUser, () -> mainActivity.showBottomSheet(teamMember.get_id()));
                 memberViewHolder.itemView.setOnClickListener((View view) ->
                     teamFeedFragment.navigateToUserProfile(teamMember.getUser()));
                 break;

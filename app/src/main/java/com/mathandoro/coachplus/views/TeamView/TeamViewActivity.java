@@ -18,6 +18,7 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.views.EventDetail.EventDetailBottomSheet;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -46,6 +47,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     protected List<Membership> memberships;
     protected JWTUser myUser;
     private SwipeRefreshLayout membershipsSwipeRefreshLayout;
+    private TeamViewFragment teamViewFragment;
 
     static int CREATE_TEAM_REQUEST = 1;
 
@@ -177,10 +179,10 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     public void switchTeamContext(Membership membership) {
         toolbarFragment.setTeam(membership.getTeam());
         this.settings.setActiveTeamId(membership.getTeam().get_id());
-        TeamViewFragment fragment = TeamViewFragment.newInstance(membership);
+        teamViewFragment = TeamViewFragment.newInstance(membership);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.main_activity_fragment_container, fragment)
+                .replace(R.id.main_activity_fragment_container, teamViewFragment)
                 .commit();
 
         drawer.closeDrawer(GravityCompat.START);
@@ -197,7 +199,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         drawer.openDrawer(Gravity.START);
     }
 
-
     @Override
     public void onRightIconPressed() {
         this.navigateToMyUserProfile();
@@ -212,6 +213,25 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     @Override
     public void onRefresh() {
         this.loadMemberships(null);
+    }
+
+    public void showBottomSheet(String membershipId){
+        TeamViewBottomSheet bottomSheet = new TeamViewBottomSheet();
+        bottomSheet.setListener(new TeamViewBottomSheet.ITeamViewBottomSheetEvent() {
+            @Override
+            public void onKickUser() {
+                bottomSheet.dismiss();
+            }
+
+            @Override
+            public void onMakeCoach() {
+                dataLayer.updateRole(membershipId, "coach").subscribe(result -> {
+                    teamViewFragment.reloadMembers();
+                    bottomSheet.dismiss();
+                }, error -> bottomSheet.dismiss());
+            }
+        });
+        bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
     }
 }
 

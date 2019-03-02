@@ -33,12 +33,20 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     ImageButton attend;
     ImageButton dontAttend;
     TextView attendenceStatus;
+    View rightPlacehoder;
+
     public final int MAX_NAME_LENGTH = 14;
     Context context;
     int colorRed;
     int colorGreen;
     int colorBlue;
     int colorOrange;
+
+    public interface ITeamMemberItemListener {
+        void onOptionsClick();
+    }
+
+    private ITeamMemberItemListener listener;
 
     public TeamMemberViewHolder(View view) {
         super(view);
@@ -49,6 +57,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         attend = view.findViewById(R.id.member_item_attend);
         dontAttend = view.findViewById(R.id.member_item_dont_attend);
         attendenceStatus = view.findViewById(R.id.member_item_attendence_status);
+        rightPlacehoder = view.findViewById(R.id.member_item_right_container);
 
         context = this.itemView.getContext();
 
@@ -129,7 +138,13 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         return myUser != null && myUser.get_id().equals(teamMember.getUser().get_id());
     }
 
-    public void bindGeneralInformation(TeamMember teamMember, JWTUser myUser){
+    public void bindTeamViewMode(TeamMember teamMember, JWTUser myUser, ITeamMemberItemListener listener){
+        this.listener = listener;
+        this.bindGeneralInformation(teamMember, myUser);
+        this.rightPlacehoder.setOnClickListener((View view) -> listener.onOptionsClick());
+    }
+
+    private void bindGeneralInformation(TeamMember teamMember, JWTUser myUser){
         ReducedUser user = teamMember.getUser();
         String username = user.getFirstname() + " " + user.getLastname();
         if(username.length() > MAX_NAME_LENGTH){
@@ -140,7 +155,11 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         }
         name.setText(username);
 
-        if(!teamMember.getRole().equals(Role.COACH)){
+        if(teamMember.getRole().equals(Role.COACH)){
+            whistle.setVisibility(View.VISIBLE);
+            whistleBackground.setVisibility(View.VISIBLE);
+        }
+        else{
             whistle.setVisibility(View.GONE);
             whistleBackground.setVisibility(View.GONE);
         }
