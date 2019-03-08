@@ -17,6 +17,7 @@ import com.mathandoro.coachplus.views.EventDetail.ViewHolders.AttendanceHeadingV
 import com.mathandoro.coachplus.views.EventDetail.ViewHolders.EventDetailHeaderViewHolder;
 import com.mathandoro.coachplus.views.EventDetail.ViewHolders.NewsItemViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.SectionHeaderViewHolder;
+import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
 
 import java.util.ArrayList;
@@ -42,9 +43,10 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     final int ATTENDANCE_HEADING = 1;
     final int ATTENDANCE_ITEM_ACTIVE = 2;
     final int ATTENDANCE_ITEM_PASSIVE = 3;
-    final int ATTENDANCE_ITEM = 6;
-    final int NEWS_HEADER = 4;
-    final int NEWS_ITEM = 5;
+    final int ATTENDANCE_ITEM = 4;
+    final int NEWS_HEADER = 5;
+    final int NEWS_ITEM = 6;
+    final int FOOTER = 7;
 
     private RecycleViewStack viewStack;
 
@@ -56,9 +58,6 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         SET_DID_ATTEND_STATE
     }
 
-    public JWTUser getMyUser() {
-        return myUser;
-    }
 
     public EventDetailAdapter(EventDetailActivity mainActivity, Event event) {
         this.initViewStack();
@@ -77,6 +76,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.viewStack.addSection(NEWS_ITEM, 0);
         this.viewStack.addSection(ATTENDANCE_HEADING, 1);
         this.viewStack.addSection(ATTENDANCE_ITEM, 0);
+        this.viewStack.addSection(FOOTER, 1);
     }
 
     public void setEvent(Event event) {
@@ -182,6 +182,10 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
                 viewHolder = new TeamMemberViewHolder(view);
                 break;
+            case FOOTER:
+                view = layoutInflater.inflate(R.layout.footer, parent, false);
+                viewHolder = new StaticViewHolder(view);
+                break;
         }
         return viewHolder;
     }
@@ -228,11 +232,6 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-/*
-    protected boolean teamMemberIsMyUser(TeamMember teamMember){
-        return teamMember.getUser().get_id().equals(myUser.get_id());
-    }
-*/
     private ParticipationItem getParticipationItem(int position){
         return this.participationItems.get(this.viewStack.positionInSection(ATTENDANCE_ITEM, position));
     }
