@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.helpers.RecycleViewStack;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.Membership;
@@ -22,7 +22,6 @@ import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.UpcomingEventsHeaderViewHolder;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -38,13 +37,11 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final TeamViewActivity mainActivity;
     private final TeamViewFragment teamFeedFragment;
     private List<TeamMember> members;
-    private List<Event> events;
+    private List<Event> visibleEvents;
     private JWTUser myUser;
     private Membership myUsersMembership;
-    private boolean noUpcomingEvents = false;
     private DataLayer dataLayer;
-
-
+    private RecycleViewStack viewStack;
 
     final int UPCOMING_EVENTS_HEADER = 0;
     final int UPCOMING_EVENTS_ITEM = 1;
@@ -52,6 +49,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     final int MEMBERS_ITEM = 3;
     final int TEAM_IMAGE_ITEM = 4;
     final int NO_UPCOMING_EVENTS = 5;
+    final int FOOTER = 6;
 
     private static final int MAX_VISIBLE_EVENTS = 3;
 
@@ -59,11 +57,20 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public TeamViewAdapter(TeamViewActivity mainActivity, TeamViewFragment teamFeedFragment, Membership myUsersMembership) {
         this.members = new ArrayList<>();
         this.myUsersMembership = myUsersMembership;
-        this.events = new ArrayList<>();
+        this.visibleEvents = new ArrayList<>();
         this.teamFeedFragment = teamFeedFragment;
         this.mainActivity = mainActivity;
         this.dataLayer = DataLayer.getInstance(mainActivity);
         this.loadMyUser();
+
+        viewStack = new RecycleViewStack();
+        viewStack.addSection(TEAM_IMAGE_ITEM, 1);
+        viewStack.addSection(UPCOMING_EVENTS_HEADER, 1);
+        viewStack.addSection(UPCOMING_EVENTS_ITEM, 0);
+        viewStack.addSection(NO_UPCOMING_EVENTS, 0);
+        viewStack.addSection(MEMBERS_HEADER, 1);
+        viewStack.addSection(MEMBERS_ITEM, 0);
+        viewStack.addSection(FOOTER, 1);
     }
 
     private void loadMyUser(){
@@ -78,38 +85,26 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public void setMembers(List<TeamMember> members){
         this.members = members;
+        this.viewStack.updateSection(MEMBERS_ITEM, members.size());
         this.notifyDataSetChanged();
     }
 
     public void setUpcomingEvents(List<Event> events){
-        this.events = this.filterVisibleEvents(events);
-        if(this.events.size() == 0){
-            noUpcomingEvents = true;
+        this.visibleEvents = this.filterVisibleEvents(events);
+        if(this.visibleEvents.size() == 0){
+            this.viewStack.updateSection(NO_UPCOMING_EVENTS, 1);
+            this.viewStack.updateSection(UPCOMING_EVENTS_ITEM, 0);
+        }
+        else{
+            this.viewStack.updateSection(NO_UPCOMING_EVENTS, 0);
+            this.viewStack.updateSection(UPCOMING_EVENTS_ITEM, this.visibleEvents.size());
         }
         this.notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0){
-            return TEAM_IMAGE_ITEM;
-        }
-        else if(position == 1){
-            return UPCOMING_EVENTS_HEADER;
-        }
-        else if(position == 2 && noUpcomingEvents){
-            return NO_UPCOMING_EVENTS;
-        }
-        else if(position > 0){
-            int offset = noUpcomingEvents ? 1: 0;
-            if(position < events.size() + 2 + offset){
-                return UPCOMING_EVENTS_ITEM;
-            }
-            else if(position == offset + 2 + events.size()){
-                return MEMBERS_HEADER;
-            }
-        }
-        return MEMBERS_ITEM;
+        return viewStack.getSectionIdAt(position);
     }
 
     @Override
@@ -138,6 +133,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     View.inflate(view.getContext(), R.layout.member_item_actions_indicator, view.findViewById(R.id.member_item_right_container));
                 }
                 return new TeamMemberViewHolder(view);
+            case FOOTER:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer, parent, false);
+                return new StaticViewHolder(view);
         }
         throw new Error("unknown viewType: " + viewType);
     }
@@ -188,12 +186,11 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     protected Event getEvent(int position){
-        return this.events.get(position - 2);
+        return this.visibleEvents.get(viewStack.positionInSection(UPCOMING_EVENTS_ITEM, position));
     }
 
     protected TeamMember getMember(int position){
-        int offset = noUpcomingEvents ? 1 : 0;
-        return this.members.get(position - offset - 3 - events.size());
+        return this.members.get(viewStack.positionInSection(MEMBERS_ITEM, position));
     }
 
     private List<Event> filterVisibleEvents(List<Event> events){
@@ -212,15 +209,6 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        int noEventSize = noUpcomingEvents ? 1 : 0;
-        int teamImage = 1;
-        int eventHeader = 1;
-        int membersHeader = 1;
-        return teamImage
-                + members.size()
-                + events.size()
-                + noEventSize
-                + eventHeader
-                + membersHeader;
+        return viewStack.size();
     }
 }

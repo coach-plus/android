@@ -26,7 +26,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     final int EVENT_ITEM = 0;
     final int NO_EVENTS_ITEM = 1;
-
+    final int FOOTER = 2;
 
     public EventListAdapter(EventListActivity eventListActivity, EventListFragment eventListFragment) {
         this.events = new ArrayList<>();
@@ -35,8 +35,8 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         viewStack = new RecycleViewStack();
         viewStack.addSection(EVENT_ITEM, 0);
         viewStack.addSection(NO_EVENTS_ITEM, 0);
+        viewStack.addSection(FOOTER, 1);
     }
-
 
     public void setEvents(List<Event> events){
         this.events = events;
@@ -70,6 +70,10 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_no_event_item, parent, false);
                 viewHolder = new StaticViewHolder(view);
                 break;
+            case FOOTER:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer, parent, false);
+                viewHolder = new StaticViewHolder(view);
+                break;
         }
         return viewHolder;
     }
@@ -87,12 +91,9 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-
-
     protected Event getEvent(int position){
         return this.events.get(viewStack.positionInSection(EVENT_ITEM, position));
     }
-
 
     @Override
     public int getItemCount() {
