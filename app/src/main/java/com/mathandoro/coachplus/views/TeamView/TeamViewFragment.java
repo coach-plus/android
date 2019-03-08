@@ -112,7 +112,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        teamViewAdapter = new TeamViewAdapter((TeamViewActivity)getActivity(), this);
+        teamViewAdapter = new TeamViewAdapter((TeamViewActivity)getActivity(), this, membership);
         mRecyclerView.setAdapter(teamViewAdapter);
 
         floatingActionsMenu  = view.findViewById(R.id.team_feed_floating_menu);

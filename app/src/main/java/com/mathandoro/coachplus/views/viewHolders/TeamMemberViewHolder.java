@@ -138,10 +138,12 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         return myUser != null && myUser.get_id().equals(teamMember.getUser().get_id());
     }
 
-    public void bindTeamViewMode(TeamMember teamMember, JWTUser myUser, ITeamMemberItemListener listener){
+    public void bindTeamViewMode(TeamMember teamMember, JWTUser myUser, ITeamMemberItemListener listener, boolean isCoach){
         this.listener = listener;
         this.bindGeneralInformation(teamMember, myUser);
-        this.rightPlacehoder.setOnClickListener((View view) -> listener.onOptionsClick());
+        if(isCoach){
+            this.rightPlacehoder.setOnClickListener((View view) -> listener.onOptionsClick());
+        }
     }
 
     private void bindGeneralInformation(TeamMember teamMember, JWTUser myUser){

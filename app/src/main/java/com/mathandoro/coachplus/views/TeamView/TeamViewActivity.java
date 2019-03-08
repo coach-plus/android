@@ -18,7 +18,6 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
-import com.mathandoro.coachplus.views.EventDetail.EventDetailBottomSheet;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -42,7 +41,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     private LinearLayoutManager mLinearLayoutManager;
     private DataLayer dataLayer;
     private DrawerLayout drawer;
-  //  private boolean initalMembershipsLoaded;
     protected ToolbarFragment toolbarFragment;
     protected List<Membership> memberships;
     protected JWTUser myUser;
@@ -55,7 +53,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-      //  this.initalMembershipsLoaded = false;
         this.settings = new Settings(this);
         setContentView(R.layout.team_view_activity);
 
@@ -106,7 +103,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
             }
             else if(memberships.size() > 0 && activeTeamId == null){
                 switchTeamContext(memberships.get(0));
-             //    initalMembershipsLoaded = true;
                 return;
             }
             else {

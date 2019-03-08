@@ -4,22 +4,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.viewHolders.EventItemViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
+import com.mathandoro.coachplus.views.viewHolders.TeamImageItemViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
+import com.mathandoro.coachplus.views.viewHolders.UpcomingEventsHeaderViewHolder;
 import com.squareup.picasso.Picasso;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -37,10 +40,11 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<TeamMember> members;
     private List<Event> events;
     private JWTUser myUser;
+    private Membership myUsersMembership;
     private boolean noUpcomingEvents = false;
     private DataLayer dataLayer;
 
-    private boolean isCoach = true;
+
 
     final int UPCOMING_EVENTS_HEADER = 0;
     final int UPCOMING_EVENTS_ITEM = 1;
@@ -52,27 +56,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int MAX_VISIBLE_EVENTS = 3;
 
 
-    class TeamImageItemViewHolder extends RecyclerView.ViewHolder {
-        ImageView teamImage;
-        public TeamImageItemViewHolder(View view) {
-            super(view);
-            teamImage = view.findViewById(R.id.team_feed_team_image);
-        }
-    }
-
-    class UpcomingEventsHeaderViewHolder extends RecyclerView.ViewHolder {
-        Button seeAllEventsButton;
-
-        public UpcomingEventsHeaderViewHolder(View view) {
-            super(view);
-            seeAllEventsButton = view.findViewById(R.id.team_feed_upcoming_events_header_see_all_events_button);
-        }
-    }
-
-
-
-    public TeamViewAdapter(TeamViewActivity mainActivity, TeamViewFragment teamFeedFragment) {
+    public TeamViewAdapter(TeamViewActivity mainActivity, TeamViewFragment teamFeedFragment, Membership myUsersMembership) {
         this.members = new ArrayList<>();
+        this.myUsersMembership = myUsersMembership;
         this.events = new ArrayList<>();
         this.teamFeedFragment = teamFeedFragment;
         this.mainActivity = mainActivity;
@@ -146,13 +132,14 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case NO_UPCOMING_EVENTS:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_no_event_item, parent, false);
                 return new StaticViewHolder(view);
-            default: //case MEMBERS_ITEM:
+            case MEMBERS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
-                if(isCoach){
+                if(myUsersMembership.isCoach()){
                     View.inflate(view.getContext(), R.layout.member_item_actions_indicator, view.findViewById(R.id.member_item_right_container));
                 }
                 return new TeamMemberViewHolder(view);
         }
+        throw new Error("unknown viewType: " + viewType);
     }
 
     @Override
@@ -193,7 +180,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case MEMBERS_ITEM:
                 TeamMemberViewHolder memberViewHolder = (TeamMemberViewHolder)holder;
                 final TeamMember teamMember = getMember(position);
-                memberViewHolder.bindTeamViewMode(teamMember, myUser, () -> mainActivity.showBottomSheet(teamMember.get_id()));
+                memberViewHolder.bindTeamViewMode(teamMember, myUser, () -> mainActivity.showBottomSheet(teamMember.get_id()), myUsersMembership.isCoach());
                 memberViewHolder.itemView.setOnClickListener((View view) ->
                     teamFeedFragment.navigateToUserProfile(teamMember.getUser()));
                 break;
