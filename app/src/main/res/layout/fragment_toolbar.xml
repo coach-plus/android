@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/lib/com.mathandoro.coachplus"
     xmlns:app2="http://schemas.android.com/apk/res-auto"
@@ -7,14 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
         android:background="?attr/colorPrimary"
         app2:layout_constraintLeft_toLeftOf="parent"
         app2:layout_constraintRight_toRightOf="parent"
@@ -65,4 +61,4 @@
         app2:layout_constraintStart_toStartOf="@+id/toolbar"
         app2:layout_constraintTop_toTopOf="@+id/toolbar" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

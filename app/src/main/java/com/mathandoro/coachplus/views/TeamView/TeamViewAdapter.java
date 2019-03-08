@@ -1,6 +1,6 @@
 package com.mathandoro.coachplus.views.TeamView;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,7 +178,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case MEMBERS_ITEM:
                 TeamMemberViewHolder memberViewHolder = (TeamMemberViewHolder)holder;
                 final TeamMember teamMember = getMember(position);
-                memberViewHolder.bindTeamViewMode(teamMember, myUser, () -> mainActivity.showBottomSheet(teamMember.get_id()), myUsersMembership.isCoach());
+                memberViewHolder.bindTeamViewMode(teamMember, myUser,
+                        () -> mainActivity.showBottomSheet(teamMember.get_id(),
+                                teamMember.getRole()), myUsersMembership.isCoach());
                 memberViewHolder.itemView.setOnClickListener((View view) ->
                     teamFeedFragment.navigateToUserProfile(teamMember.getUser()));
                 break;

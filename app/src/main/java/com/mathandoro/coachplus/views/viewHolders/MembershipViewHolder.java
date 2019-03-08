@@ -1,7 +1,7 @@
 package com.mathandoro.coachplus.views.viewHolders;
 
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,8 +13,6 @@ import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Team;
 import com.squareup.picasso.Picasso;
-
-import java.lang.reflect.Member;
 
 public class MembershipViewHolder extends RecyclerView.ViewHolder {
 

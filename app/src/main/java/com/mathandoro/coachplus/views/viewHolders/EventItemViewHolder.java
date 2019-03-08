@@ -1,14 +1,11 @@
 package com.mathandoro.coachplus.views.viewHolders;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.Formatter;
 import com.mathandoro.coachplus.models.Event;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class EventItemViewHolder extends RecyclerView.ViewHolder {
 

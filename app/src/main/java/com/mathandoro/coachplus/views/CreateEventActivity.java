@@ -2,7 +2,7 @@ package com.mathandoro.coachplus.views;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +26,7 @@ import java.util.Date;
 public class CreateEventActivity extends AppCompatActivity implements  View.OnClickListener, ToolbarFragment.ToolbarFragmentListener {
 
     public static final String INTENT_PARAM_TEAM = "team";
+    public static final String INTENT_PARAM_EVENT = "event";
 
     DatePickerDialog datePickerDialog = null;
     TimePickerDialog timePickerDialog = null;
@@ -41,9 +42,12 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
     Calendar start = Calendar.getInstance();
     Calendar end = Calendar.getInstance();
 
+    Team team;
+    Event event;
+
+    boolean editMode = false;
 
     FloatingActionButton createEventButton;
-    Team team;
     private ToolbarFragment toolbarFragment;
 
 
@@ -54,7 +58,13 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         end.set(Calendar.SECOND, 0);
         setContentView(R.layout.create_event_activity);
         dataLayer = DataLayer.getInstance(this);
+
         team = getIntent().getExtras().getParcelable(INTENT_PARAM_TEAM);
+        event = getIntent().getExtras().getParcelable(INTENT_PARAM_TEAM);
+        editMode = event != null;
+
+
+        // todo if editmode, show save & delete event buttons
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.create_event_activity_toolbar);
         toolbarFragment.setListener(this);
@@ -71,8 +81,13 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         endDate.setOnClickListener(view -> showDatePicker((Button)view, end));
         endTime = findViewById(R.id.createEventEventEndTime);
         endTime.setOnClickListener(view -> showTimePicker(endTime, end));
+
         createEventButton = findViewById(R.id.create_event_create_button);
         createEventButton.setOnClickListener(this);
+
+        if(editMode){
+           // createEventButton.
+        }
     }
 
     void showDatePicker(final Button view, final Calendar calendar){
@@ -135,8 +150,13 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         if(view == this.createEventButton){
             Date startDate = start.getTime();
             Date endDate = end.getTime();
+
+            // todo location (google maps picker?)
             Location location = new Location("todo", 0, 0);
-            Event newEvent = new Event(null, this.eventName.getText().toString(), this.description.getText().toString(), startDate, endDate, location);
+            Event newEvent = new Event(null, this.eventName.getText().toString(),
+                    this.description.getText().toString(), startDate, endDate, location);
+
+            // todo use observable
             dataLayer.createEvent(team, newEvent, new DataLayerCallback<Event>() {
                 @Override
                 public void dataChanged(Event data) {

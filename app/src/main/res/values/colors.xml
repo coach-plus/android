@@ -11,5 +11,6 @@
     <color name="colorOrange">#ffa703</color>
     <color name="colorRed">#e61118</color>
     <color name="appBackground">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>

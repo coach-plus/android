@@ -12,5 +12,6 @@
 
     <dimen name="section_header_size">20dp</dimen>
 
+    <dimen name="text_hint">12dp</dimen>
 
 </resources>

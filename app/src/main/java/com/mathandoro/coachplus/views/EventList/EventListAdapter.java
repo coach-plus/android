@@ -1,6 +1,6 @@
 package com.mathandoro.coachplus.views.EventList;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.RecycleViewStack;
 import com.mathandoro.coachplus.models.Event;
-import com.mathandoro.coachplus.views.EventDetail.EventDetailAdapter;
 import com.mathandoro.coachplus.views.viewHolders.EventItemViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 

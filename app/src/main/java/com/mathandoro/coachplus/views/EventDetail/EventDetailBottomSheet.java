@@ -1,12 +1,10 @@
 package com.mathandoro.coachplus.views.EventDetail;
 
 import android.app.Dialog;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialogFragment;
+
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.mathandoro.coachplus.R;
 

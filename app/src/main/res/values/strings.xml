@@ -23,5 +23,8 @@
     <string name="team_description_private">Only invited people can join your team</string>
     <string name="user_profile_settings">User Profile</string>
 
+    <string name="make_user">make user</string>
+    <string name="make_coach">make coach</string>
+
 
 </resources>

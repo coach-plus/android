@@ -1,6 +1,6 @@
 package com.mathandoro.coachplus.views.EventDetail;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +19,9 @@ import com.mathandoro.coachplus.views.EventDetail.ViewHolders.NewsItemViewHolder
 import com.mathandoro.coachplus.views.viewHolders.SectionHeaderViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import io.reactivex.Observable;
 
 /**

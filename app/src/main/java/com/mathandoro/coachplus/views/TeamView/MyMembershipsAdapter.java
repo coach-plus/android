@@ -1,19 +1,14 @@
 package com.mathandoro.coachplus.views.TeamView;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.Settings;
-import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.viewHolders.MembershipViewHolder;
-import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 

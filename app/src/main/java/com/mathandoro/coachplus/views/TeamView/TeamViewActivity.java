@@ -2,19 +2,20 @@ package com.mathandoro.coachplus.views.TeamView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.core.view.GravityCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
@@ -211,8 +212,11 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         this.loadMemberships(null);
     }
 
-    public void showBottomSheet(String membershipId){
-        TeamViewBottomSheet bottomSheet = new TeamViewBottomSheet();
+    public void showBottomSheet(String membershipId, String currentRole){
+
+        String newRole = currentRole.equals(Role.COACH) ? Role.USER : Role.COACH;
+        TeamViewBottomSheet bottomSheet = TeamViewBottomSheet.newInstance(newRole);
+
         bottomSheet.setListener(new TeamViewBottomSheet.ITeamViewBottomSheetEvent() {
             @Override
             public void onKickUser() {
@@ -220,8 +224,8 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
             }
 
             @Override
-            public void onMakeCoach() {
-                dataLayer.updateRole(membershipId, "coach").subscribe(result -> {
+            public void onChangeRole(String newRole) {
+                dataLayer.updateRole(membershipId, newRole).subscribe(result -> {
                     teamViewFragment.reloadMembers();
                     bottomSheet.dismiss();
                 }, error -> bottomSheet.dismiss());

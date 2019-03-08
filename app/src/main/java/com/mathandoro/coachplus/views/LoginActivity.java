@@ -1,11 +1,12 @@
 package com.mathandoro.coachplus.views;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
@@ -20,8 +21,8 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements Callback<ApiResponse<LoginResponse>> {
 
-    EditText emailEditText;
-    EditText passwordEditText;
+    TextInputEditText emailEditText;
+    TextInputEditText passwordEditText;
     Settings settings;
     Call<ApiResponse<LoginResponse>> loginResponseCall;
 

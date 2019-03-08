@@ -2,19 +2,15 @@ package com.mathandoro.coachplus.views.UserProfile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
-import com.mathandoro.coachplus.models.RegisterTeam;
-import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.viewHolders.MembershipViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.SectionHeaderViewHolder;
@@ -22,10 +18,6 @@ import com.mathandoro.coachplus.views.UserProfile.ViewHolders.UserInfoViewHolder
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by dominik on 18.02.18.

@@ -1,24 +1,16 @@
 package com.mathandoro.coachplus.views;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
-import com.mathandoro.coachplus.api.ApiClient;
-import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
-import java.lang.reflect.Member;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class JoinTeamActivity extends AppCompatActivity {
 
