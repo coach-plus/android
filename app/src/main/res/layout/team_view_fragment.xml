@@ -40,6 +40,17 @@
         fab:fab_labelsPosition="left">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/team_feed_edit_team_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_icon="@drawable/ic_mode_edit_white_48dp"
+            fab:fab_size="mini"
+            fab:fab_title="edit team"
+            fab:fab_colorPressed="@color/colorPrimaryLight"/>
+
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/team_feed_invite_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -61,15 +72,6 @@
             fab:fab_title="add event"
             fab:fab_colorPressed="@color/colorPrimaryLight"/>
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/team_feed_edit_team_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/colorPrimary"
-            fab:fab_icon="@drawable/ic_mode_edit_white_48dp"
-            fab:fab_size="mini"
-            fab:fab_title="edit team"
-            fab:fab_colorPressed="@color/colorPrimaryLight"/>
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
