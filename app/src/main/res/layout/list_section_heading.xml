@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/headingBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:layout_editor_absoluteY="25dp">
 

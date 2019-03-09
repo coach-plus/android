@@ -30,6 +30,7 @@ import com.mathandoro.coachplus.api.Response.InvitationResponse;
 import com.mathandoro.coachplus.views.CreateEventActivity;
 import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
 import com.mathandoro.coachplus.views.EventList.EventListActivity;
+import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.views.UserProfile.UserProfileActivity;
 
 import io.reactivex.Observable;
@@ -51,6 +52,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private FloatingActionButton inviteToTeamFab;
     private FloatingActionButton addEventFab;
+    private FloatingActionButton editTeamFab;
     private FloatingActionsMenu floatingActionsMenu;
 
     public TeamViewFragment() {
@@ -115,6 +117,9 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         addEventFab = view.findViewById(R.id.team_feed_add_event_fab);
         addEventFab.setOnClickListener((View v) -> createEvent());
+
+        editTeamFab = view.findViewById(R.id.team_feed_edit_team_fab);
+        editTeamFab.setOnClickListener((View v) -> editTeam());
 
         inviteToTeamFab = view.findViewById(R.id.team_feed_invite_fab);
         inviteToTeamFab.setOnClickListener((View v) -> inviteToTeam());
@@ -227,6 +232,13 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         closeActionMenu();
         Intent intent = new Intent(this.getActivity(), CreateEventActivity.class);
         intent.putExtra("team", membership.getTeam());
+        startActivity(intent);
+    }
+
+    void editTeam(){
+        closeActionMenu();
+        Intent intent = new Intent(this.getActivity(), TeamRegistrationActivity.class);
+        intent.putExtra(TeamRegistrationActivity.INTENT_PARAM_TEAM, membership.getTeam());
         startActivity(intent);
     }
 }

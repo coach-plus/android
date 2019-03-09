@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,53 +7,54 @@
     tools:context="com.mathandoro.coachplus.views.TeamRegistrationActivity">
 
     <fragment
+        android:id="@+id/main_activity_fragment_toolbar"
         class="com.mathandoro.coachplus.views.layout.ToolbarFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/main_activity_fragment_toolbar"
-        tools:layout="@layout/fragment_toolbar"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.0" />
+        tools:layout="@layout/fragment_toolbar" />
 
 
     <com.mathandoro.coachplus.views.layout.ImagePickerView
-        android:id="@+id/teamImageView"
+        android:id="@+id/team_editor_image_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/main_activity_fragment_toolbar"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1" />
 
-
-
-    <EditText
-        android:id="@+id/teamNameEditText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout2"
+        style="@style/DefaultButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="32dp"
-        android:ems="10"
+        android:layout_marginTop="200dp"
         android:hint="Team Name"
-        android:inputType="textPersonName"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/teamImageView"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/team_editor_text_field"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/create_team_create_button"
+        android:id="@+id/team_editor_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -68,37 +68,70 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Switch
-        android:id="@+id/registerTeamPublicToggleButton"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/team_editor_visibility"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/registerTeamPublicTeamLabel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/registerTeamPublicTeamLabel" />
+        android:layout_marginTop="32dp"
+        android:checkedButton="@+id/team_editor_private_radio_button"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+        <RadioButton
+            android:id="@+id/team_editor_private_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+
+            android:text="private" />
+
+        <RadioButton
+            android:id="@+id/team_editor_public_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="public" />
+    </RadioGroup>
 
     <TextView
         android:id="@+id/registerTeamVisibilityDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/team_description_private"
+        android:textAlignment="center"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/registerTeamPublicToggleButton"
-        app:layout_constraintStart_toStartOf="@+id/registerTeamPublicTeamLabel"
-        app:layout_constraintTop_toBottomOf="@+id/registerTeamPublicTeamLabel" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/team_editor_visibility" />
 
-    <TextView
-        android:id="@+id/registerTeamPublicTeamLabel"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/team_editor_delete_button"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="20dp"
-        android:text="Public Team"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/teamNameEditText" />
+        android:layout_marginTop="32dp"
+        android:text="delete team"
+        app:backgroundTint="@color/colorRed"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/registerTeamVisibilityDescription" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="32dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="32dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

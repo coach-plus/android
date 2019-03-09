@@ -6,12 +6,14 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="android:windowBackground">@color/appBackground</item>
-        <item name="android:colorBackground">@color/appBackground</item>
+        <!--<item name="android:windowBackground">@color/appBackground</item>-->
+        <!--<item name="android:colorBackground">@color/appBackground</item>-->
 
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
 
 
     </style>
@@ -31,20 +33,18 @@
     </style>
 
     <style name="LoginInputFields" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
         <item name="boxStrokeColor">@color/white</item>
         <item name="hintTextAppearance">@style/LoginInputFieldsHint</item>
-
-
     </style>
 
     <style name="LoginInputFieldsHint">
-
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_hint</item>
-
     </style>
 
+    <style name="DefaultButton" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorAccent</item>
+    </style>
 
 
 </resources>

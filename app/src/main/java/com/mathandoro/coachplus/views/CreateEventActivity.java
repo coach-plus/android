@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.models.Location;
 import com.mathandoro.coachplus.persistence.DataLayer;
@@ -31,6 +32,7 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
     DatePickerDialog datePickerDialog = null;
     TimePickerDialog timePickerDialog = null;
     private DataLayer dataLayer;
+
     EditText eventName;
     EditText description;
 
@@ -60,7 +62,7 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         dataLayer = DataLayer.getInstance(this);
 
         team = getIntent().getExtras().getParcelable(INTENT_PARAM_TEAM);
-        event = getIntent().getExtras().getParcelable(INTENT_PARAM_TEAM);
+        event = getIntent().getExtras().getParcelable(INTENT_PARAM_EVENT);
         editMode = event != null;
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/headingBackground">
+    >
 
     <TextView
         android:id="@+id/team_feed_upcoming_events_header_title"
@@ -22,13 +22,13 @@
 
     <Button
         android:id="@+id/team_feed_upcoming_events_header_see_all_events_button"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
         android:minHeight="0dp"
         android:padding="10dp"
-        android:text="see all events >"
+        android:text="see all events"
 
         android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/team_feed_upcoming_events_header_title"
