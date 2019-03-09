@@ -21,6 +21,7 @@
 
     <ScrollView
 
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -336,6 +337,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="16dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/loginPasswordEditTextcont"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="500dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:hint="password"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollView2">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginPasswordEditText"
+            android:layout_width="match_parent"
+            android:singleLine="false"
+            android:lines="4"
+            android:gravity="top|left"
+            android:minLines="4"
+            android:scrollbars="vertical"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:textColor="@color/white" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

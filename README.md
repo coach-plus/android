@@ -3,3 +3,5 @@
 # android
 Coach+ Android App
 
+## Setup
+1. Download google-services.json from Firebase and put it inside the android/app/ directory
