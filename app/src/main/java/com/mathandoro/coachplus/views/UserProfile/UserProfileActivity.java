@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.models.Membership;
@@ -18,6 +19,7 @@ import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
+import com.mathandoro.coachplus.views.TeamView.TeamViewBottomSheet;
 import com.mathandoro.coachplus.views.WebViewActivity;
 import com.mathandoro.coachplus.views.layout.ImagePickerView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -49,7 +51,6 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         setContentView(R.layout.user_profile_activity);
 
         this.settings = new Settings(this);
-
         dataLayer = DataLayer.getInstance(this);
 
         recyclerView = findViewById(R.id.user_profile_recycler_view);
@@ -61,9 +62,6 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
         toolbarFragment.setTitle("");
-
-
-
 
         // parallax scroll effect
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -159,20 +157,52 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
     @Override
     public void joinTeam(Team team) {
-        dataLayer.joinPublicTeam(team.get_id()).subscribe(membership -> {
-            this.loadMemberships();
-        }, error -> {});
+        final ComfirmationBottomSheet bottomSheet = this.showConfirmationBottomSheet(getString(R.string.join_team_confirmation), false);
+        bottomSheet.setListener(new ComfirmationBottomSheet.IComfirmationBottomSheetListener() {
+            @Override
+            public void onConfirm() {
+                bottomSheet.dismiss();
+                dataLayer.joinPublicTeam(team.get_id()).subscribe(membership -> {
+                    UserProfileActivity.this.loadMemberships();
+                    bottomSheet.dismiss();
+                }, error -> {
+                });
+            }
+
+            @Override
+            public void onDecline() {
+                bottomSheet.dismiss();
+            }
+        });
     }
 
     @Override
     public void leaveTeam(Team team) {
-        dataLayer.leaveTeam(team.get_id()).subscribe(membership -> {
-            if(team.get_id().equals(settings.getActiveTeamId())){
-               settings.setActiveTeamId(null);
-               this.navigateToMembership(null);
-            }else {
-                this.loadMemberships();
+        ComfirmationBottomSheet bottomSheet = this.showConfirmationBottomSheet(getString(R.string.leave_team_confirmation), true);
+        bottomSheet.setListener( new ComfirmationBottomSheet.IComfirmationBottomSheetListener() {
+            @Override
+            public void onConfirm() {
+                bottomSheet.dismiss();
+                dataLayer.leaveTeam(team.get_id()).subscribe(membership -> {
+                    if(team.get_id().equals(settings.getActiveTeamId())){
+                        settings.setActiveTeamId(null);
+                        UserProfileActivity.this.navigateToMembership(null);
+                    }else {
+                        UserProfileActivity.this.loadMemberships();
+                    }
+                }, error -> {});
             }
-        }, error -> {});
+
+            @Override
+            public void onDecline() {
+                bottomSheet.dismiss();
+            }
+        });
+    }
+
+    private ComfirmationBottomSheet showConfirmationBottomSheet(String confirmationText, boolean danger){
+        ComfirmationBottomSheet bottomSheet = ComfirmationBottomSheet.newInstance(confirmationText, danger);
+        bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
+        return bottomSheet;
     }
 }

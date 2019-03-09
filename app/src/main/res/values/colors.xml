@@ -13,4 +13,5 @@
     <color name="appBackground">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="danger">@color/colorRed</color>
 </resources>

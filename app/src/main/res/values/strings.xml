@@ -25,6 +25,8 @@
 
     <string name="make_user">make user</string>
     <string name="make_coach">make coach</string>
+    <string name="join_team_confirmation">Do you really want to join the team?</string>
+    <string name="leave_team_confirmation">Do you really want to leave the team? This can\'t be undone</string>
 
 
 </resources>

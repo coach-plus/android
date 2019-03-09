@@ -42,11 +42,11 @@ public class TeamViewBottomSheet extends BottomSheetDialogFragment {
         dialog.setContentView(contentView);
         String changeRoleText = newRole.equals(Role.COACH) ? getString(R.string.make_coach) : getString(R.string.make_user);
 
-        Button button = dialog.findViewById(R.id.team_view_bottom_sheet_change_role);
+        Button button = dialog.findViewById(R.id.confirmation_bottom_sheet_confirm_button);
         button.setText(changeRoleText);
         button.setOnClickListener(view -> listener.onChangeRole(newRole));
 
-        Button kickButton = dialog.findViewById(R.id.team_view_bottom_sheet_kick_button);
+        Button kickButton = dialog.findViewById(R.id.confirmation_bottom_sheet_decline_button);
         kickButton.setOnClickListener(view -> listener.onKickUser());
     }
 }
