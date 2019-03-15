@@ -105,7 +105,7 @@ public class ImagePickerView extends ConstraintLayout {
 
 
     public static void startImagePickerIntent(Activity activity){
-        CropImage.activity(null)
+        CropImage.activity()
             .setGuidelines(CropImageView.Guidelines.ON)
             .setRequestedSize(IMAGE_SIZE, IMAGE_SIZE)
             .setAspectRatio(1,1)
