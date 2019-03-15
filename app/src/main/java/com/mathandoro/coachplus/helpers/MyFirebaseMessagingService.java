@@ -1,6 +1,5 @@
 package com.mathandoro.coachplus.helpers;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,7 +20,6 @@ import androidx.core.app.NotificationManagerCompat;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     String TAG = "coach";
-
     String DEFAULT_CHANNEL_ID = "DEFAULT";
 
 

@@ -20,6 +20,7 @@ import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 import com.mathandoro.coachplus.views.TeamView.TeamViewBottomSheet;
+import com.mathandoro.coachplus.views.UserSettingsActivity;
 import com.mathandoro.coachplus.views.WebViewActivity;
 import com.mathandoro.coachplus.views.layout.ImagePickerView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -127,10 +128,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
     @Override
     public void onRightIconPressed() {
         if(isMyUser){
-            Intent intent = new Intent(this, WebViewActivity.class);
-            intent.putExtra(WebViewActivity.URL, BuildConfig.BASE_URL);
-            intent.putExtra(WebViewActivity.TITLE, getString(R.string.user_profile_settings));
-
+            Intent intent = new Intent(this, UserSettingsActivity.class);
             startActivity(intent);
         }
     }

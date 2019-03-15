@@ -52,8 +52,9 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
     public void onResponse(Call<ApiResponse<LoginResponse>> call, Response<ApiResponse<LoginResponse>> response) {
         if(call == this.loginResponseCall && response.code() == 200 && response.body().success){
             this.settings.setPassword(this.password);
-            this.settings.setEmail(this.email);
             this.settings.setToken(response.body().content.token);
+            this.settings.setUser(response.body().content.user);
+
             this.navigateToMainActivity();
         }
     }

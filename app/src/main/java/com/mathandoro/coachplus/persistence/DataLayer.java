@@ -7,13 +7,16 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Request.CreateNewsRequest;
 import com.mathandoro.coachplus.api.Request.DidAttendRequest;
+import com.mathandoro.coachplus.api.Request.UpdatePasswordRequest;
 import com.mathandoro.coachplus.api.Request.UpdateRoleRequest;
+import com.mathandoro.coachplus.api.Request.UpdateUserRequest;
 import com.mathandoro.coachplus.api.Request.WillAttendRequest;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.CreateEventResponse;
 import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
+import com.mathandoro.coachplus.api.Response.UpdateUserInformationResponse;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
@@ -60,6 +63,16 @@ public class DataLayer {
     public Observable<GetNewsResponse> getNews(String teamId, String eventId){
         Call<ApiResponse<GetNewsResponse>> apiCall = ApiClient.instance().teamService.getNews(settings.getToken(), teamId, eventId);
         return this.apiCall(apiCall, false);
+    }
+
+    public Observable<Object> updatePassword(UpdatePasswordRequest updatePasswordRequest){
+        Call<ApiResponse<Object>> updateUserPassword = ApiClient.instance().userService.updateUserPassword(settings.getToken(), updatePasswordRequest);
+        return this.apiCall(updateUserPassword, false);
+    }
+
+    public Observable<UpdateUserInformationResponse> updateUserInformation(UpdateUserRequest updateUserInformationRequest){
+        Call<ApiResponse<UpdateUserInformationResponse>> updateUserInformation = ApiClient.instance().userService.updateUserInformation(settings.getToken(), updateUserInformationRequest);
+        return this.apiCall(updateUserInformation, false);
     }
 
     public Observable<Object> createNews(String teamId, String eventId, String title, String text){
@@ -182,7 +195,7 @@ public class DataLayer {
                 public void onResponse(Call<ApiResponse<T>> call, Response<ApiResponse<T>> response) {
                     if(response.code() >= 200 && response.code() < 300){
                     /*
-                    todo cache
+                    todo cache ?
                     String serializedResponse = DataLayer.this.gson.toJson(response.body().content);
                     try {
                         cache.saveList(members, TEAM_MEMBERS, CacheContext.TEAM(finalTeam));

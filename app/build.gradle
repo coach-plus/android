@@ -32,7 +32,7 @@ android {
         versionCode 9
         versionName "1.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        manifestPlaceholders = [appName:"Coach+"]
+        manifestPlaceholders = [appName: "Coach+"]
     }
     buildTypes {
         release {
@@ -45,13 +45,13 @@ android {
     productFlavors {
         dev {
             dimension 'tier'
-            manifestPlaceholders = [appName:"Coach+ (Dev)"]
+            manifestPlaceholders = [appName: "Coach+ (Dev)"]
             applicationId "com.mathandoro.coachplus.dev"
             buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
         }
         beta {
             dimension 'tier'
-            manifestPlaceholders = [appName:"Coach+ (Beta)"]
+            manifestPlaceholders = [appName: "Coach+ (Beta)"]
             applicationId "com.mathandoro.coachplus.beta"
             buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
         }

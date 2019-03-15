@@ -27,6 +27,10 @@
     <string name="make_coach">make coach</string>
     <string name="join_team_confirmation">Do you really want to join the team?</string>
     <string name="leave_team_confirmation">Do you really want to leave the team? This can\'t be undone</string>
+    <string name="title_activity_user_settings">UserSettings</string>
+    <string name="change_password">change password</string>
+    <string name="save_user_information">save user information</string>
+    <string name="user_settings_title">User Settings</string>
 
 
 </resources>

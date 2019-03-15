@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.mathandoro.coachplus.models.MyReducedUser;
+import com.mathandoro.coachplus.models.ReducedUser;
+
 /**
  * Created by dominik on 26.03.17.
  */
@@ -20,6 +24,7 @@ public class Settings {
     protected String PASSWORD = "PASSWORD";
     protected String FIRSTNAME = "FIRSTNAME";
     protected String LASTNAME = "LASTNAME";
+    protected String USER = "USER";
     protected String ACTIVE_TEAM_ID = "ACTIVE_TEAM_ID";
 
     protected SharedPreferences preferences;
@@ -63,22 +68,6 @@ public class Settings {
         this.setString(PASSWORD, password);
     }
 
-    public String getFirstname() {
-        return this.getString(FIRSTNAME);
-    }
-
-    public void setFirstname(String firstname) {
-        this.setString(FIRSTNAME, firstname);
-    }
-
-    public String getLastname() {
-        return this.getString(LASTNAME);
-    }
-
-    public void setLastname(String lastname) {
-        this.setString(LASTNAME, lastname);
-    }
-
     public void setActiveTeamId(String teamId){
         this.setString(ACTIVE_TEAM_ID, teamId);
     }
@@ -89,5 +78,25 @@ public class Settings {
 
     public void reset() {
         this.preferences.edit().clear().apply();
+    }
+
+    public void setUser(ReducedUser user){
+        this.setObject(USER, user);
+    }
+
+    public MyReducedUser getUser(){
+        return this.getObject(USER, MyReducedUser.class);
+    }
+
+    private void setObject(String name, Object object){
+        Gson gson = new Gson();
+        String json = gson.toJson(object);
+        this.setString(name, json);
+    }
+
+    private <T> T getObject(String name, Class<T> clazz){
+        String json = this.getString(name);
+        Gson gson = new Gson();
+        return gson.fromJson(json, clazz);
     }
 }

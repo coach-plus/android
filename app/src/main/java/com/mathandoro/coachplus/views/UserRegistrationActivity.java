@@ -92,8 +92,6 @@ public class UserRegistrationActivity extends AppCompatActivity implements Callb
     public void onResponse(Call<ApiResponse<RegistrationResponse>> call, Response<ApiResponse<RegistrationResponse>> response) {
         if(response.code() == 201 && response.body().success){
             this.settings.setToken(response.body().content.token);
-            this.settings.setFirstname(this.firstname);
-            this.settings.setLastname(this.lastname);
             this.settings.setEmail(this.email);
             this.settings.setPassword(this.password);
 

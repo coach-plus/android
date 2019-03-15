@@ -8,4 +8,10 @@
     <string name="fa_question_circle">&#xf059;</string>
     <string name="fa_ellipsis_h">&#xf141;</string>
 
+    <string name="fa_user">&#xf007;</string>
+    <string name="fa_users">&#xf0c0;</string>
+    <string name="fa_key">&#xf084;</string>
+
+
+
 </resources>

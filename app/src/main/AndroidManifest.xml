@@ -6,8 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,9 +15,11 @@
         android:label="${appName}"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".views.UserSettingsActivity"
+            android:label="@string/title_activity_user_settings"></activity>
 
-        <receiver android:name=".helpers.NotificationActionReceiver">
-        </receiver>
+        <receiver android:name=".helpers.NotificationActionReceiver"></receiver>
 
         <service android:name=".helpers.MyFirebaseMessagingService">
             <intent-filter>
@@ -28,15 +30,14 @@
         <activity
             android:name=".views.TeamView.TeamViewActivity"
             android:label="${appName}" />
-        <activity
-            android:name=".views.SplashScreenActivity">
+        <activity android:name=".views.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".views.UserRegistrationActivity"/>
+        <activity android:name=".views.UserRegistrationActivity" />
         <activity android:name=".views.EmailVerificationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -77,9 +78,8 @@
         </activity>
         <activity android:name=".views.TeamRegistrationActivity" />
         <activity android:name=".views.WebViewActivity" />
-        <activity android:name=".views.UserProfile.UserProfileActivity"></activity>
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"/>
+        <activity android:name=".views.UserProfile.UserProfileActivity" />
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
     </application>
-
 
 </manifest>

@@ -1,9 +1,12 @@
 package com.mathandoro.coachplus.api;
 
+import com.mathandoro.coachplus.api.Request.UpdatePasswordRequest;
+import com.mathandoro.coachplus.api.Request.UpdateUserRequest;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.LoginResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.api.Response.UpdateUserInformationResponse;
 import com.mathandoro.coachplus.models.LoginUser;
 import com.mathandoro.coachplus.models.RegisterUser;
 import com.mathandoro.coachplus.api.Response.RegistrationResponse;
@@ -32,8 +35,14 @@ public interface UserService {
     @GET("users/me")
     Call<ApiResponse<MyUserResponse>> getMyUser(@Header("X-ACCESS-TOKEN") String accessToken);
 
-    @PUT("users/me")
+    @PUT("users/me/image")
     Call<ApiResponse<MyUserResponse>> updateUserImage(@Header("X-ACCESS-TOKEN") String accessToken, @Body UserImageUpload imageUpload);
+
+    @PUT("users/me/information")
+    Call<ApiResponse<UpdateUserInformationResponse>> updateUserInformation(@Header("X-ACCESS-TOKEN") String accessToken, @Body UpdateUserRequest imageUpload);
+
+    @PUT("users/me/password")
+    Call<ApiResponse<Object>> updateUserPassword(@Header("X-ACCESS-TOKEN") String accessToken, @Body UpdatePasswordRequest updatePassword);
 
     @POST("users/verification/{token}")
     Call<ApiResponse<Object>> verifyEmail(@Path("token") String token);
