@@ -1,7 +1,6 @@
 package com.mathandoro.coachplus.views.EventList;
 
 import android.content.Intent;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.CreateEventActivity;
 import com.mathandoro.coachplus.R;
@@ -61,7 +62,7 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
             });
         }
         else{
-            createEventFab.setVisibility(View.GONE);
+            createEventFab.hide();
         }
 
     }

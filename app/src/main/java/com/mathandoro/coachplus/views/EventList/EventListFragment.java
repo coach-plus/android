@@ -93,7 +93,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         mRecyclerView = view.findViewById(R.id.eventListRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        eventListAdapter = new EventListAdapter((EventListActivity)getActivity(), this);
+        eventListAdapter = new EventListAdapter((EventListActivity)getActivity(), this, showUpcomingEvents);
         mRecyclerView.setAdapter(eventListAdapter);
 
         this.loadEvents(true);

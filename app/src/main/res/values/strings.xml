@@ -37,5 +37,7 @@
     <string name="user_is_no_longer_coach">%1$s is no longer a coach</string>
     <string name="user_is_now_coach">%1$s is now a coach</string>
     <string name="delete_team_confirmation">Do you really want to delete %1$s ?</string>
+    <string name="no_past_events">no past events</string>
+    <string name="no_upcoming_events">no upcoming events</string>
 
 </resources>

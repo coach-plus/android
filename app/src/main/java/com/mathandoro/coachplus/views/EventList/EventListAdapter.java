@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.RecycleViewStack;
@@ -26,11 +27,13 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     final int EVENT_ITEM = 0;
     final int NO_EVENTS_ITEM = 1;
     final int FOOTER = 2;
+    boolean futureEvents;
 
-    public EventListAdapter(EventListActivity eventListActivity, EventListFragment eventListFragment) {
+    public EventListAdapter(EventListActivity eventListActivity, EventListFragment eventListFragment, boolean futureEvents) {
         this.events = new ArrayList<>();
         this.eventListFragment = eventListFragment;
         this.eventListActivity = eventListActivity;
+        this.futureEvents = futureEvents;
         viewStack = new RecycleViewStack();
         viewStack.addSection(EVENT_ITEM, 0);
         viewStack.addSection(NO_EVENTS_ITEM, 0);
@@ -67,6 +70,13 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 break;
             case NO_EVENTS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_no_event_item, parent, false);
+                TextView textView = view.findViewById(R.id.event_no_event_item_text);
+                if(futureEvents){
+                    textView.setText(R.string.no_upcoming_events);
+                }
+                else {
+                    textView.setText(R.string.no_past_events);
+                }
                 viewHolder = new StaticViewHolder(view);
                 break;
             case FOOTER:
