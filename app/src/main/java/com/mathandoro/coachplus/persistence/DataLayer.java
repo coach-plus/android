@@ -127,6 +127,13 @@ public class DataLayer {
         return this.apiCall(apiResponseCall, false);
     }
 
+    public Observable<Team> updateTeam(String teamId, String teamName, boolean isPublic, String selectedImageBase64){
+        Team updatedTeam = new Team(teamId, teamName, isPublic, selectedImageBase64);
+        Call<ApiResponse<Team>> apiResponseCall = ApiClient.instance().teamService.updateTeam(settings.getToken(), teamId, updatedTeam);
+        return this.apiCall(apiResponseCall, false);
+    }
+
+
 
    @Deprecated
     public Observable<Object> promoteUser(String teamId, String userId){

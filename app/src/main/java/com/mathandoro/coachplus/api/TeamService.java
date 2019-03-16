@@ -42,6 +42,9 @@ public interface TeamService {
     @DELETE("teams/{teamId}")
     Call<ApiResponse<Object>> deleteTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
 
+    @PUT("teams/{teamId}")
+    Call<ApiResponse<Team>> updateTeam(@Header("X-ACCESS-TOKEN") String token, @Path("teamId") String teamId, @Body() Team team);
+
     @GET("teams/{teamId}/events")
     Call<ApiResponse<EventsResponse>> getEventsOfTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
 
@@ -80,7 +83,6 @@ public interface TeamService {
 
     @PUT("teams/{teamId}/coaches/{userId}")
     Call<ApiResponse<Object>> promoteUser(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("userId") String userId);
-
 }
 
 

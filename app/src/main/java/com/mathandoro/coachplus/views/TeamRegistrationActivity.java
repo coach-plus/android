@@ -96,7 +96,7 @@ public class TeamRegistrationActivity extends AppCompatActivity
         registerTeamButton.setOnClickListener((View v) -> {
             boolean isPublic = radioGroup.getCheckedRadioButtonId() == registerTeamPublicToggleButton.getId() ? true : false;
             if(editMode){
-                updateTeam();
+                updateTeam(editableTeam.get_id(), teamNameEditText.getText().toString(), isPublic, imagePickerView.getSelectedImageBase64());
             }
             else {
                 createTeam(teamNameEditText.getText().toString(), isPublic, imagePickerView.getSelectedImageBase64());
@@ -140,8 +140,10 @@ public class TeamRegistrationActivity extends AppCompatActivity
                 error -> fail());
     }
 
-    private void updateTeam(){
-        // todo
+    private void updateTeam(String teamId, String teamName, boolean isPublic, String selectedImageBase64){
+        dataLayer.updateTeam(teamId, teamName, isPublic, selectedImageBase64).subscribe(data -> {
+            success();
+        }, error -> {});
     }
 
     @Override
@@ -162,9 +164,15 @@ public class TeamRegistrationActivity extends AppCompatActivity
 
     void success(Membership membership){
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(RETURN_PARAM_MEMBERSHIP, membership);
+        if(membership != null){
+            returnIntent.putExtra(RETURN_PARAM_MEMBERSHIP, membership);
+        }
         setResult(RESULT_OK, returnIntent);
         finish();
+    }
+
+    void success(){
+        this.success(null);
     }
 
     void fail(){

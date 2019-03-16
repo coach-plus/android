@@ -132,7 +132,7 @@ public class ImagePickerView extends ConstraintLayout {
     }
 
     public String getSelectedImageBase64(){
-        if(bitmap == null){
+        if(bitmap == null || !imageSelected){
             return null;
         }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -141,6 +141,10 @@ public class ImagePickerView extends ConstraintLayout {
         String imageData = Base64.encodeToString(bb, Base64.DEFAULT);
         String base64ImagePrefix = "data:image/jpeg;base64,";
         return base64ImagePrefix + imageData;
+    }
+
+    public boolean isImageSelected(){
+        return this.imageSelected;
     }
 
     public interface ImagePickerListener {

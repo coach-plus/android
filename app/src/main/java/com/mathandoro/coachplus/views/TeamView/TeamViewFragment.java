@@ -38,6 +38,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.mathandoro.coachplus.views.TeamView.TeamViewActivity.EDIT_TEAM_REQUEST;
+
 
 public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_MEMBERSHIP = "MEMBERSHIP";
@@ -241,6 +243,6 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         closeActionMenu();
         Intent intent = new Intent(this.getActivity(), TeamRegistrationActivity.class);
         intent.putExtra(TeamRegistrationActivity.INTENT_PARAM_TEAM, membership.getTeam());
-        startActivity(intent);
+        getActivity().startActivityForResult(intent, EDIT_TEAM_REQUEST);
     }
 }

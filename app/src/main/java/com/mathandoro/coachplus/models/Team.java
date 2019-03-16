@@ -15,11 +15,11 @@ public class Team implements Parcelable{
     protected int memberCount;
 
 
-    public Team(String _id, String name, boolean isPublic, int memberCount) {
+    public Team(String _id, String name, boolean isPublic, String image) {
         this._id = _id;
         this.name = name;
         this.isPublic = isPublic;
-        this.memberCount = memberCount;
+        this.image = image;
     }
 
     protected Team(Parcel in) {

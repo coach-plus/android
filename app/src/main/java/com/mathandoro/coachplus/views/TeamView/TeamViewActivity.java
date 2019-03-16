@@ -61,9 +61,12 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     private SwipeRefreshLayout membershipsSwipeRefreshLayout;
     private TeamViewFragment teamViewFragment;
 
-    static int CREATE_TEAM_REQUEST = 1;
+    public static int CREATE_TEAM_REQUEST = 1;
+    public static final int EDIT_TEAM_REQUEST = 2;
+
 
     String TAG = "coach";
+    private Membership currentMembership;
 
 
     @Override
@@ -138,10 +141,18 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         this.dataLayer.getMyMembershipsV2(false).subscribe(myMembershipsResponse -> {
             membershipsSwipeRefreshLayout.setRefreshing(false);
             memberships = myMembershipsResponse.getMemberships();
+            Membership updatedMembership = null;
+            if(joinedMembership != null){
+                for (Membership membership : memberships) {
+                    if (membership.getTeam().get_id().equals(joinedMembership.getTeam().get_id())) {
+                        updatedMembership = membership;
+                    }
+                }
+            }
             myMembershipsAdapter.setMemberships(myMembershipsResponse.getMemberships());
             String activeTeamId = settings.getActiveTeamId();
-            if(joinedMembership != null){
-                switchTeamContext(joinedMembership);
+            if(updatedMembership != null){
+                switchTeamContext(updatedMembership);
             }
             else if(memberships.size() > 0 && activeTeamId == null){
                 switchTeamContext(memberships.get(0));
@@ -184,6 +195,9 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
             myMembershipsAdapter.setMemberships(memberships);
             switchTeamContext(newMembership);
         }
+        else if(requestCode == EDIT_TEAM_REQUEST && resultCode == RESULT_OK){
+            loadMemberships(currentMembership);
+        }
     }
 
     private void loadMembershipsRecyclerView(){
@@ -215,6 +229,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     }
 
     public void switchTeamContext(Membership membership) {
+        currentMembership = membership;
         toolbarFragment.setTeam(membership.getTeam());
         this.settings.setActiveTeamId(membership.getTeam().get_id());
         teamViewFragment = TeamViewFragment.newInstance(membership);
