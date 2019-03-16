@@ -15,9 +15,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
+import com.mathandoro.coachplus.helpers.Navigation;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.views.UserProfile.ConfirmationBottomSheet;
 import com.mathandoro.coachplus.views.layout.ImagePickerView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -109,6 +111,27 @@ public class TeamRegistrationActivity extends AppCompatActivity
         imagePickerView.setImage(teamImageUrl);
 
         radioGroup.check(editableTeam.isPublic() ? registerTeamPublicToggleButton.getId() : registerTeamPrivateToggleButton.getId());
+
+        deleteTeamButton.setOnClickListener(view -> {
+            final ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(),
+                    getString(R.string.delete_team_confirmation, editableTeam.getName()), true);
+            bottomSheet.setListener(new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
+                @Override
+                public void onConfirm() {
+                    dataLayer.deleteTeam(editableTeam.get_id()).subscribe(data -> {
+                        bottomSheet.dismiss();
+                        Navigation.navigateToMembership(TeamRegistrationActivity.this, null);
+                    }, error -> {
+                        bottomSheet.dismiss();
+                    });
+                }
+
+                @Override
+                public void onDecline() {
+                    bottomSheet.dismiss();
+                }
+            });
+        });
     }
 
     private void createTeam(String teamName, boolean isPublic, String teamImageBase64){

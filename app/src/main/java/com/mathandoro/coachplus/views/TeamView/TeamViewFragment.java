@@ -125,11 +125,12 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         inviteToTeamFab.setOnClickListener((View v) -> inviteToTeam());
 
         if(!membership.getRole().equals(Role.COACH)){
+            addEventFab.setVisibility(View.GONE);
+            editTeamFab.setVisibility(View.GONE);
+
             if(!membership.getTeam().isPublic()){
+                inviteToTeamFab.setVisibility(View.GONE);
                 floatingActionsMenu.setVisibility(View.GONE);
-            }
-            else{
-                addEventFab.setVisibility(View.GONE);
             }
         }
 

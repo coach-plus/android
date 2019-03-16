@@ -2,27 +2,33 @@ package com.mathandoro.coachplus.views.UserProfile;
 
 import android.app.Dialog;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.Role;
+
+import androidx.fragment.app.FragmentManager;
 
 
-public class ComfirmationBottomSheet extends BottomSheetDialogFragment {
+public class ConfirmationBottomSheet extends BottomSheetDialogFragment {
 
     private IComfirmationBottomSheetListener listener;
     private String confirmationText;
     private boolean danger;
 
 
-    public ComfirmationBottomSheet(){
+    public ConfirmationBottomSheet(){
     }
 
-    public static ComfirmationBottomSheet newInstance(String confirmationText, boolean danger) {
-        ComfirmationBottomSheet fragment = new ComfirmationBottomSheet();
+    public static ConfirmationBottomSheet show(FragmentManager fragmentManager, String confirmationText, boolean danger){
+        ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.newInstance(confirmationText, danger);
+        bottomSheet.show(fragmentManager, bottomSheet.getTag());
+        return bottomSheet;
+    }
+
+    public static ConfirmationBottomSheet newInstance(String confirmationText, boolean danger) {
+        ConfirmationBottomSheet fragment = new ConfirmationBottomSheet();
         fragment.init(confirmationText, danger);
         return fragment;
     }

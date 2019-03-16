@@ -25,8 +25,8 @@
 
     <string name="make_user">make user</string>
     <string name="make_coach">make coach</string>
-    <string name="join_team_confirmation">Do you really want to join the team?</string>
-    <string name="leave_team_confirmation">Do you really want to leave the team? This can\'t be undone</string>
+    <string name="join_team_confirmation">Do you really want to join %1$s?</string>
+    <string name="leave_team_confirmation">Do you really want to leave %1$s? This can\'t be undone</string>
     <string name="title_activity_user_settings">UserSettings</string>
     <string name="change_password">change password</string>
     <string name="save_user_information">save user information</string>
@@ -36,5 +36,6 @@
     <string name="error_occurred">an error occurred</string>
     <string name="user_is_no_longer_coach">%1$s is no longer a coach</string>
     <string name="user_is_now_coach">%1$s is now a coach</string>
+    <string name="delete_team_confirmation">Do you really want to delete %1$s ?</string>
 
 </resources>

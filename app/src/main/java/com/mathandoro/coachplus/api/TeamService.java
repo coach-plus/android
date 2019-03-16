@@ -39,6 +39,9 @@ public interface TeamService {
     @GET("teams/{teamId}/members")
     Call<ApiResponse<TeamMembersResponse>> getTeamMembers(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
 
+    @DELETE("teams/{teamId}")
+    Call<ApiResponse<Object>> deleteTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
+
     @GET("teams/{teamId}/events")
     Call<ApiResponse<EventsResponse>> getEventsOfTeam(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId);
 

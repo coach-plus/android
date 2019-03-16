@@ -122,6 +122,12 @@ public class DataLayer {
         return this.apiCall(apiResponseCall, false);
     }
 
+    public Observable<Object> deleteTeam(String teamId){
+        Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.deleteTeam(settings.getToken(), teamId);
+        return this.apiCall(apiResponseCall, false);
+    }
+
+
    @Deprecated
     public Observable<Object> promoteUser(String teamId, String userId){
         Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.promoteUser(settings.getToken(), teamId, userId);
@@ -249,5 +255,6 @@ public class DataLayer {
             }
         });
     }
+
 
 }

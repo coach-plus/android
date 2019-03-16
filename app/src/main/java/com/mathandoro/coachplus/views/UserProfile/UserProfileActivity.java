@@ -8,20 +8,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
-import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.helpers.Navigation;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
-import com.mathandoro.coachplus.views.TeamView.TeamViewBottomSheet;
 import com.mathandoro.coachplus.views.UserSettingsActivity;
-import com.mathandoro.coachplus.views.WebViewActivity;
 import com.mathandoro.coachplus.views.layout.ImagePickerView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import com.mathandoro.coachplus.views.viewHolders.MembershipViewHolder;
@@ -144,19 +141,14 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         }
     }
 
-    // todo confirmation dialog
-
     public void navigateToMembership(Membership membership) {
-        Intent intent = new Intent(this, TeamViewActivity.class);
-        intent.putExtra(TeamViewActivity.PARAM_MEMBERSHIP, membership);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        Navigation.navigateToMembership(this, membership);
     }
 
     @Override
     public void joinTeam(Team team) {
-        final ComfirmationBottomSheet bottomSheet = this.showConfirmationBottomSheet(getString(R.string.join_team_confirmation), false);
-        bottomSheet.setListener(new ComfirmationBottomSheet.IComfirmationBottomSheetListener() {
+        final ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(),getString(R.string.join_team_confirmation), false);
+        bottomSheet.setListener(new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
             @Override
             public void onConfirm() {
                 bottomSheet.dismiss();
@@ -176,14 +168,14 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
     @Override
     public void leaveTeam(Team team) {
-        ComfirmationBottomSheet bottomSheet = this.showConfirmationBottomSheet(getString(R.string.leave_team_confirmation), true);
-        bottomSheet.setListener( new ComfirmationBottomSheet.IComfirmationBottomSheetListener() {
+        ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(),
+                getString(R.string.leave_team_confirmation, team.getName()), true);
+        bottomSheet.setListener( new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
             @Override
             public void onConfirm() {
                 bottomSheet.dismiss();
                 dataLayer.leaveTeam(team.get_id()).subscribe(membership -> {
                     if(team.get_id().equals(settings.getActiveTeamId())){
-                        settings.setActiveTeamId(null);
                         UserProfileActivity.this.navigateToMembership(null);
                     }else {
                         UserProfileActivity.this.loadMemberships();
@@ -198,9 +190,4 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         });
     }
 
-    private ComfirmationBottomSheet showConfirmationBottomSheet(String confirmationText, boolean danger){
-        ComfirmationBottomSheet bottomSheet = ComfirmationBottomSheet.newInstance(confirmationText, danger);
-        bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
-        return bottomSheet;
-    }
 }
