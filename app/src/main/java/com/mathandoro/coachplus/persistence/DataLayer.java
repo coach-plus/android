@@ -102,6 +102,11 @@ public class DataLayer {
         return this.apiCall(apiResponseCall, false);
     }
 
+    public Observable<Object> removeUserFromTeam(String membershipId){
+        Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().membershipService.deleteMembership(settings.getToken(), membershipId);
+        return this.apiCall(apiResponseCall, false);
+    }
+
     public Observable<Membership> joinPrivateTeam(String invitationToken) {
         Call<ApiResponse<Membership>> apiResponseCall = ApiClient.instance().teamService.joinPrivateTeam(settings.getToken(), invitationToken);
         return this.apiCall(apiResponseCall, false);

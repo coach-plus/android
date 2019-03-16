@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.mathandoro.coachplus.R;
@@ -28,6 +29,8 @@ import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.ReducedUser;
+import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.views.SplashScreenActivity;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
@@ -250,26 +253,46 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         this.loadMemberships(null);
     }
 
-    public void showBottomSheet(String membershipId, String currentRole){
+    public void showBottomSheet(TeamMember member){
 
-        String newRole = currentRole.equals(Role.COACH) ? Role.USER : Role.COACH;
+        String newRole = member.getRole().equals(Role.COACH) ? Role.USER : Role.COACH;
         TeamViewBottomSheet bottomSheet = TeamViewBottomSheet.newInstance(newRole);
 
         bottomSheet.setListener(new TeamViewBottomSheet.ITeamViewBottomSheetEvent() {
             @Override
             public void onKickUser() {
+                dataLayer.removeUserFromTeam(member.get_id()).subscribe(
+                        (response) -> {
+                            teamViewFragment.reloadMembers();
+                            showNotification(getString(R.string.user_removed_sucessfully, member.getUser().getFirstname()));
+                        },
+                        error -> showError());
                 bottomSheet.dismiss();
             }
 
             @Override
             public void onChangeRole(String newRole) {
-                dataLayer.updateRole(membershipId, newRole).subscribe(result -> {
+                dataLayer.updateRole(member.get_id(), newRole)
+                        .subscribe(result -> {
                     teamViewFragment.reloadMembers();
                     bottomSheet.dismiss();
+                    String notificationText = getString(R.string.user_is_no_longer_coach, member.getUser().getFirstname());
+                    if(newRole.equals(Role.COACH)){
+                        notificationText = getString(R.string.user_is_now_coach, member.getUser().getFirstname());
+                    }
+                    showNotification(notificationText);
                 }, error -> bottomSheet.dismiss());
             }
         });
         bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
+    }
+
+    private void showError(){
+        Snackbar.make(teamViewFragment.getView(), getString(R.string.error_occurred), Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void showNotification(String text){
+        Snackbar.make(teamViewFragment.getView(), text, Snackbar.LENGTH_SHORT).show();
     }
 }
 

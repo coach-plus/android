@@ -88,7 +88,7 @@ public class TeamRegistrationActivity extends AppCompatActivity
         }
         else {
             deleteTeamButton.setVisibility(View.INVISIBLE);
-            toolbarFragment.setTitle("New Team");
+            toolbarFragment.setTitle(getString(R.string.new_team_title));
         }
 
         registerTeamButton.setOnClickListener((View v) -> {

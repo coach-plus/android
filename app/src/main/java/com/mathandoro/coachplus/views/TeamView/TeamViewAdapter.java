@@ -179,8 +179,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 TeamMemberViewHolder memberViewHolder = (TeamMemberViewHolder)holder;
                 final TeamMember teamMember = getMember(position);
                 memberViewHolder.bindTeamViewMode(teamMember, myUser,
-                        () -> mainActivity.showBottomSheet(teamMember.get_id(),
-                                teamMember.getRole()), myUsersMembership.isCoach());
+                        () -> mainActivity.showBottomSheet(teamMember), myUsersMembership.isCoach());
                 memberViewHolder.itemView.setOnClickListener((View view) ->
                     teamFeedFragment.navigateToUserProfile(teamMember.getUser()));
                 break;

@@ -152,7 +152,8 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public void reloadMembers(){
         dataLayer.getTeamMembersV2(membership.getTeam(), false)
-                .subscribe(teamMembersResponse -> teamViewAdapter.setMembers(teamMembersResponse.getMembers()));
+                .subscribe(teamMembersResponse -> teamViewAdapter.setMembers(teamMembersResponse.getMembers()),
+                        error -> {});
     }
 
     @Override

@@ -31,6 +31,10 @@
     <string name="change_password">change password</string>
     <string name="save_user_information">save user information</string>
     <string name="user_settings_title">User Settings</string>
-
+    <string name="new_team_title">New Team</string>
+    <string name="user_removed_sucessfully">%1$s was removed from your team</string>
+    <string name="error_occurred">an error occurred</string>
+    <string name="user_is_no_longer_coach">%1$s is no longer a coach</string>
+    <string name="user_is_now_coach">%1$s is now a coach</string>
 
 </resources>

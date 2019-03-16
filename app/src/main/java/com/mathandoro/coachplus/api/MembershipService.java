@@ -6,6 +6,7 @@ import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.PUT;
@@ -18,6 +19,9 @@ import retrofit2.http.Path;
 public interface MembershipService {
     @GET("memberships/my")
     Call<ApiResponse<MyMembershipsResponse>> getMyMemberships(@Header("X-ACCESS-TOKEN") String accessToken);
+
+    @DELETE("memberships/{membershipId}")
+    Call<ApiResponse<Object>> deleteMembership(@Header("X-ACCESS-TOKEN") String accessToken, @Path("membershipId") String membershipId);
 
     @PUT("memberships/{membershipId}/role")
     Call<ApiResponse<Object>> setRole(@Header("X-ACCESS-TOKEN") String accessToken, @Path("membershipId") String membershipId, @Body UpdateRoleRequest body);
