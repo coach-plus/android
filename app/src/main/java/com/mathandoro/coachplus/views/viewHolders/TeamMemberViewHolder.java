@@ -63,7 +63,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
 
         colorRed = ResourcesCompat.getColor(context.getResources(), R.color.colorRed, null);
         colorGreen = ResourcesCompat.getColor(context.getResources(), R.color.colorGreen, null);
-        colorBlue = ResourcesCompat.getColor(context.getResources(), R.color.colorPrimary, null);
+        colorBlue = ResourcesCompat.getColor(context.getResources(), R.color.colorAccent, null);
         colorOrange = ResourcesCompat.getColor(context.getResources(), R.color.colorOrange, null);
     }
 

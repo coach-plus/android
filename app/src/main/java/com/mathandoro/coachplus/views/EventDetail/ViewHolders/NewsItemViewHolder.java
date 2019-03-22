@@ -5,7 +5,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
+import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.helpers.Formatter;
 import com.mathandoro.coachplus.models.News;
 import com.squareup.picasso.Picasso;
@@ -30,7 +33,13 @@ public class NewsItemViewHolder extends RecyclerView.ViewHolder {
     public void bind(News news){
         this.authorName.setText(Formatter.formatUserName(news.getAuthor()));
         if(news.getAuthor().getImage() != null){
-            Picasso.with(this.itemView.getContext()).load(news.getAuthor().getImage()).placeholder(R.drawable.circle);
+            String imageUrl = BuildConfig.BASE_URL + "/uploads/" + news.getAuthor().getImage();
+            Picasso.with(itemContainer.getContext())
+                    .load(imageUrl)
+                    .resize(Settings.TEAM_ICON_SIZE, Settings.TEAM_ICON_SIZE)
+                    .placeholder(R.drawable.circle)
+                    .transform(new CircleTransform())
+                    .into(authorIcon);
         }
         this.created.setText(Formatter.formatGermanTimestamp(news.getCreated()));
         this.text.setText(news.getText());

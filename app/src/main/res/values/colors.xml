@@ -12,6 +12,7 @@
     <color name="colorRed">#e61118</color>
     <color name="appBackground">#FFFFFF</color>
     <color name="white">#FFFFFF</color>
+    <color name="light_gray">#AAAAAA</color>
 
     <color name="danger">@color/colorRed</color>
 </resources>
