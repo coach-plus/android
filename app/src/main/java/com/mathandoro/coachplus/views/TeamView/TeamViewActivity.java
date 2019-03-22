@@ -198,7 +198,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
             switchTeamContext(newMembership);
         }
         else if(requestCode == EDIT_TEAM_REQUEST && resultCode == RESULT_OK){
-            loadMemberships(currentMembership, false);
+            loadMemberships(currentMembership, true);
         }
     }
 
