@@ -191,16 +191,18 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
     private CharSequence formatDate(Calendar calendar){
         return DateFormat.format("EEE, dd. MMMM yyyy", calendar.getTime());
         //return DateFormat.getLongDateFormat(getApplicationContext()).format(calendar.getTime());
-
     }
 
     private String formatTime(Calendar calendar){
         return DateFormat.getTimeFormat(getApplicationContext()).format(calendar.getTime());
     }
 
-    private String format2Decimals(int number){
-        String prefix = (number < 10) ? "0" : "";
-        return prefix + number;
+    private boolean isValid(){
+        if(nameInput.getText().toString().trim().equals("")){
+            nameInput.setError(getString(R.string.name_is_required_error));
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -208,6 +210,10 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         if(view == this.createEventButton){
             Date startDate = eventStartCalendar.getTime();
             Date endDate = eventEndCalendar.getTime();
+
+            if(!this.isValid()){
+                return;
+            }
 
             // todo location (google maps picker?)
             Location location = new Location(locationInput.getText().toString(), 0, 0);

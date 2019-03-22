@@ -41,5 +41,6 @@
     <string name="no_upcoming_events">no upcoming events</string>
     <string name="create_event_title">new event</string>
     <string name="edit_event_title">edit event</string>
+    <string name="name_is_required_error">name is required</string>
 
 </resources>
