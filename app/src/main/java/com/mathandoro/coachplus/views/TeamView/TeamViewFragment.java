@@ -43,6 +43,7 @@ import static com.mathandoro.coachplus.views.TeamView.TeamViewActivity.EDIT_TEAM
 
 public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_MEMBERSHIP = "MEMBERSHIP";
+    private static final int REQUEST_SHOW_EVENT_DETAILS = 1;
     private Settings settings;
     private Membership membership;
     private OnFragmentInteractionListener mListener;
@@ -139,6 +140,15 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         loadData();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_SHOW_EVENT_DETAILS){
+            reloadEvents();
+        }
+    }
+
     private void loadData(){
         boolean useCache = false;
         // todo reload team image / membership
@@ -159,6 +169,11 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
                         error -> {});
     }
 
+    public void reloadEvents(){
+        dataLayer.getEvents(membership.getTeam(), false)
+                .subscribe(response -> teamViewAdapter.setUpcomingEvents(response.getEvents()), error -> {});
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -170,15 +185,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         loadData();
     }
 
-    public void navigateToEvent(Event event) {
-        Intent intent = new Intent(getActivity(), EventDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(EventDetailActivity.EXTRA_EVENT, event);
-        bundle.putParcelable(EventDetailActivity.EXTRA_TEAM, membership.getTeam());
-        bundle.putParcelable(EventDetailActivity.EXTRA_MEMBERSHIP, membership);
-        intent.putExtra(EventDetailActivity.EXTRA_BUNDLE, bundle);
-        startActivity(intent);
-    }
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -192,6 +199,16 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         bundle.putParcelable(EventListActivity.EXTRA_MEMBERSHIP, membership);
         intent.putExtra(EventListActivity.EXTRA_BUNDLE, bundle);
         startActivity(intent);
+    }
+
+    public void navigateToEvent(Event event) {
+        Intent intent = new Intent(getContext(), EventDetailActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EventDetailActivity.EXTRA_EVENT, event);
+        bundle.putParcelable(EventDetailActivity.EXTRA_TEAM, membership.getTeam());
+        bundle.putParcelable(EventDetailActivity.EXTRA_MEMBERSHIP, membership);
+        intent.putExtra(EventDetailActivity.EXTRA_BUNDLE, bundle);
+        startActivityForResult(intent, REQUEST_SHOW_EVENT_DETAILS);
     }
 
     public void navigateToUserProfile(ReducedUser user) {

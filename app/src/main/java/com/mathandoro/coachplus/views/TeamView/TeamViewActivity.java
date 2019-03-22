@@ -28,9 +28,11 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
+import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
 import com.mathandoro.coachplus.views.SplashScreenActivity;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
@@ -47,6 +49,7 @@ import io.reactivex.Observable;
 
 public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
         ToolbarFragment.ToolbarFragmentListener, SwipeRefreshLayout.OnRefreshListener {
+
 
     public static final String PARAM_MEMBERSHIP = "membership";
     private Settings settings;

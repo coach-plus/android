@@ -1,6 +1,5 @@
 package com.mathandoro.coachplus.views.TeamView;
 
-import android.app.Activity;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -33,9 +32,6 @@ public class NoTeamsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
     }
 
     @Override
@@ -53,16 +49,10 @@ public class NoTeamsFragment extends Fragment {
     }
 
 
-
     @Override
     public void onDetach() {
         super.onDetach();
         listener = null;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
     }
 
     public interface NoTeamsFragmentListener {

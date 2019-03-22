@@ -37,6 +37,9 @@ import static com.mathandoro.coachplus.views.EventDetail.EventDetailActivity.EXT
 public class EventListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String PARAM_TEAM = "TEAM";
     private static final String PARAM_MEMBERSHIP = "MEMBERSHIP";
+
+    public static final int REQUEST_SHOW_EVENT_DETAILS = 1;
+
     private Team team;
     private Membership membership;
     private OnFragmentInteractionListener mListener;
@@ -97,6 +100,15 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         mRecyclerView.setAdapter(eventListAdapter);
 
         this.loadEvents(true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_SHOW_EVENT_DETAILS){
+            this.loadEvents(false);
+        }
     }
 
     private Consumer<EventsResponse> eventsLoaded = eventsResponse -> {
@@ -161,7 +173,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         bundle.putParcelable(EXTRA_EVENT, event);
         bundle.putParcelable(EXTRA_MEMBERSHIP, membership);
         intent.putExtra(EXTRA_BUNDLE, bundle);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_SHOW_EVENT_DETAILS);
     }
 
 
