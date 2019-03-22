@@ -1,6 +1,8 @@
 package com.mathandoro.coachplus.views.viewHolders;
 
 import android.graphics.Color;
+
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +26,8 @@ public class MembershipViewHolder extends RecyclerView.ViewHolder {
     public View containerView;
     public TextView rightIconView;
 
+    private Settings settings;
+
     public interface MembershipViewHolderListener {
         void navigateToMembership(Membership membership);
         void joinTeam(Team team);
@@ -40,12 +44,19 @@ public class MembershipViewHolder extends RecyclerView.ViewHolder {
         privateTeamImageView = view.findViewById(R.id.team_item_private_icon);
         privateTeamImageBackgroundView = view.findViewById(R.id.team_item_private_icon_background);
         rightIconView = view.findViewById(R.id.team_item_right_icon);
-
         teamMembers = view.findViewById(R.id.team_item_members);
+
+        settings = new Settings(view.getContext());
     }
 
-    public void bind(Membership membership, boolean showActions, boolean isMyUser, MembershipViewHolderListener listener){
+    public void bind(Membership membership, boolean showActions, boolean isMyUser, boolean highlightCurrentTeam, MembershipViewHolderListener listener){
         this.listener = listener;
+        if(highlightCurrentTeam && membership.getTeam().get_id().equals(settings.getActiveTeamId())){
+            containerView.setBackgroundColor(ContextCompat.getColor(this.containerView.getContext(), R.color.colorAccent));
+        }
+        else {
+            containerView.setBackgroundColor(Color.TRANSPARENT);
+        }
         teamNameTextView.setText(membership.getTeam().getName());
         if(membership.getTeam().isPublic()){
             privateTeamImageView.setVisibility(View.INVISIBLE);

@@ -229,6 +229,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     }
 
     public void switchTeamContext(Membership membership) {
+        reloadMembershipsView();
         currentMembership = membership;
         toolbarFragment.setTeam(membership.getTeam());
         this.settings.setActiveTeamId(membership.getTeam().get_id());
@@ -239,6 +240,11 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
                 .commit();
 
         drawer.closeDrawer(GravityCompat.START);
+    }
+
+    private void reloadMembershipsView(){
+        // reload by reapplying adapter
+        mRecyclerView.setAdapter(myMembershipsAdapter);
     }
 
     @Override
