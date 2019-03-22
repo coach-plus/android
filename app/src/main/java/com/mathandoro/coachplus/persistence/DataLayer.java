@@ -133,8 +133,6 @@ public class DataLayer {
         return this.apiCall(apiResponseCall, false);
     }
 
-
-
    @Deprecated
     public Observable<Object> promoteUser(String teamId, String userId){
         Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.promoteUser(settings.getToken(), teamId, userId);

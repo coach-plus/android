@@ -39,5 +39,7 @@
     <string name="delete_team_confirmation">Do you really want to delete %1$s ?</string>
     <string name="no_past_events">no past events</string>
     <string name="no_upcoming_events">no upcoming events</string>
+    <string name="create_event_title">new event</string>
+    <string name="edit_event_title">edit event</string>
 
 </resources>
