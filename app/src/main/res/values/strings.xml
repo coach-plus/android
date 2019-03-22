@@ -36,11 +36,15 @@
     <string name="error_occurred">an error occurred</string>
     <string name="user_is_no_longer_coach">%1$s is no longer a coach</string>
     <string name="user_is_now_coach">%1$s is now a coach</string>
-    <string name="delete_team_confirmation">Do you really want to delete %1$s ?</string>
+    <string name="delete_team_confirmation">Do you really want to delete %1$s?</string>
     <string name="no_past_events">no past events</string>
     <string name="no_upcoming_events">no upcoming events</string>
     <string name="create_event_title">new event</string>
     <string name="edit_event_title">edit event</string>
     <string name="name_is_required_error">name is required</string>
+    <string name="update_event">update event</string>
+    <string name="create_event">create event</string>
+    <string name="delete_event">delete event</string>
+    <string name="delete_event_confirmation">do you really want to delete event %1$s?</string>
 
 </resources>

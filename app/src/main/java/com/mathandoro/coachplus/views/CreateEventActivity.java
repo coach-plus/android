@@ -15,10 +15,12 @@ import android.widget.Button;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.helpers.Navigation;
 import com.mathandoro.coachplus.models.Location;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
+import com.mathandoro.coachplus.views.UserProfile.ConfirmationBottomSheet;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.Calendar;
@@ -51,6 +53,7 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
     private Button endDate;
     private Button endTime;
     private Button deleteEventButton;
+    private Button saveEventButton;
 
     private Calendar eventStartCalendar = Calendar.getInstance();
     private Calendar eventEndCalendar = Calendar.getInstance();
@@ -61,7 +64,6 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
     private Team team;
     private Event event;
 
-    private FloatingActionButton saveEventButton;
     private ToolbarFragment toolbarFragment;
     private int DEFAULT_EVENT_DURATION = 90; // minutes
 
@@ -109,19 +111,20 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
         endTime = findViewById(R.id.create_event_end_time_picker_button);
         endTime.setOnClickListener(view -> showTimePicker(eventEndCalendar));
 
-        saveEventButton = findViewById(R.id.create_event_create_button);
+        saveEventButton = findViewById(R.id.create_event_save_button);
         saveEventButton.setOnClickListener(view -> save());
 
         deleteEventButton = findViewById(R.id.create_event_delete_button);
         deleteEventButton.setOnClickListener((view) -> this.deleteEvent());
 
         if(editMode){
+            saveEventButton.setText(getString(R.string.update_event));
             toolbarFragment.setTitle(getString(R.string.edit_event_title));
             fillFormWithExistingEvent();
         }
         else{
+            saveEventButton.setText(getString(R.string.create_event));
             toolbarFragment.setTitle(getString(R.string.create_event_title));
-
             deleteEventButton.setVisibility(View.GONE);
             updateDateAndTimeUI();
         }
@@ -129,7 +132,9 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
 
     private void fillFormWithExistingEvent(){
         nameInput.setText(event.getName());
-        locationInput.setText(event.getLocation().getName());
+        if(event.getLocation() != null){
+            locationInput.setText(event.getLocation().getName());
+        }
         descriptionInput.setText(event.getDescription());
         eventStartCalendar.setTime(event.getStart());
         eventEndCalendar.setTime(event.getEnd());
@@ -273,9 +278,27 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
     }
 
     private void deleteEvent(){
-        dataLayer.deleteEvent(team.get_id(), event.get_id())
-                .subscribe((res) -> success(ACTION_DELETED, null),
-                        (error) -> handleApiCallError(error));
+        final ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(),
+                getString(R.string.delete_event_confirmation, event.getName()), true);
+        bottomSheet.setListener(new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
+            @Override
+            public void onConfirm() {
+                dataLayer.deleteEvent(team.get_id(), event.get_id())
+                        .subscribe((res) -> {
+                            success(ACTION_DELETED, null);
+                            bottomSheet.dismiss();
+                        }, (error) -> {
+                            handleApiCallError(error);
+                            bottomSheet.dismiss();
+                        });
+            }
+
+            @Override
+            public void onDecline() {
+                bottomSheet.dismiss();
+            }
+        });
+
     }
 
     private void handleApiCallError(Throwable error){

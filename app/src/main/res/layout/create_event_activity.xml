@@ -1,253 +1,257 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+     android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-    <fragment
-        android:id="@+id/create_event_activity_toolbar"
-        class="com.mathandoro.coachplus.views.layout.ToolbarFragment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout="@layout/fragment_toolbar"></fragment>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_event_event_title"
-        style="@style/DefaultButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:hint="Name"
-        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/create_event_activity_toolbar">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/create_event_event_title_text_input"
-            android:layout_width="match_parent"
+        <fragment
+            android:id="@+id/create_event_activity_toolbar"
+            class="com.mathandoro.coachplus.views.layout.ToolbarFragment"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="text" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout="@layout/fragment_toolbar"></fragment>
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_event_event_location"
-        style="@style/DefaultButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
-        android:hint="Location"
-        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/create_event_event_title">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/create_event_event_location_text_input"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/create_event_event_title"
+            style="@style/DefaultButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:inputType="text" />
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:hint="Name"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/create_event_activity_toolbar">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/create_event_event_title_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_event_event_description"
-        style="@style/DefaultButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
-        android:hint="Description"
-        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/create_event_event_location">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/create_event_event_description_text_input"
-            android:layout_width="match_parent"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/create_event_event_location"
+            style="@style/DefaultButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="top|left"
-            android:inputType="textMultiLine"
-            android:lines="4"
-            android:minLines="4" />
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:hint="Location"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/create_event_event_title">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/create_event_event_location_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/leftGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/rightGuideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/create_event_event_description"
+            style="@style/DefaultButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="16dp"
+            android:hint="Description"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/create_event_event_location">
 
-    <Button
-        android:id="@+id/create_event_start_date_picker_button"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginLeft="26dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:gravity="left|center_vertical"
-        android:text="Mo., 15. Februar, 2019"
-        app:layout_constraintEnd_toStartOf="@+id/create_event_start_time_picker_button"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/create_event_beginning" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/create_event_event_description_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|left"
+                android:inputType="textMultiLine"
+                android:lines="4"
+                android:minLines="4" />
 
-    <Button
-        android:id="@+id/create_event_end_date_picker_button"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginLeft="26dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:gravity="left|center_vertical"
-        android:text="Mi. 15. Februar, 2019"
-        app:layout_constraintEnd_toStartOf="@+id/create_event_end_time_picker_button"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.mathandoro.coachplus.views.layout.FontAwesomeView
-        android:id="@+id/fontAwesomeView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/fa_hourglass_start"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/create_event_event_description" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/leftGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
 
-    <Button
-        android:id="@+id/create_event_start_time_picker_button"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="11:00"
-        app:layout_constraintBottom_toBottomOf="@+id/create_event_start_date_picker_button"
-        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
-        app:layout_constraintTop_toTopOf="@+id/create_event_start_date_picker_button" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/rightGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
 
-    <Button
-        android:id="@+id/create_event_end_time_picker_button"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="11:00"
-        app:layout_constraintBottom_toBottomOf="@+id/create_event_end_date_picker_button"
-        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
-        app:layout_constraintTop_toTopOf="@+id/create_event_end_date_picker_button" />
+        <Button
+            android:id="@+id/create_event_start_date_picker_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="26dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="left|center_vertical"
+            android:text="Mo., 15. Februar, 2019"
+            app:layout_constraintEnd_toStartOf="@+id/create_event_start_time_picker_button"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/create_event_beginning" />
 
+        <Button
+            android:id="@+id/create_event_end_date_picker_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="26dp"
+            android:layout_marginLeft="26dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="left|center_vertical"
+            android:text="Mi. 15. Februar, 2019"
+            app:layout_constraintEnd_toStartOf="@+id/create_event_end_time_picker_button"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/create_event_create_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="16dp"
-        app:fab_colorNormal="@color/colorPrimary"
-        app:fab_colorPressed="@color/colorPrimaryLight"
-        app:fab_icon="@drawable/ic_check_black_24dp"
-        app:fab_size="normal"
-        app:fab_title="create news"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <com.mathandoro.coachplus.views.layout.FontAwesomeView
+            android:id="@+id/fontAwesomeView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/fa_hourglass_start"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/create_event_event_description" />
 
-    <Button
-        android:id="@+id/create_event_delete_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="delete"
-        app:backgroundTint="@color/colorRed"
-        app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/create_event_end_date_picker_button" />
+        <Button
+            android:id="@+id/create_event_start_time_picker_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="11:00"
+            app:layout_constraintBottom_toBottomOf="@+id/create_event_start_date_picker_button"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            app:layout_constraintTop_toTopOf="@+id/create_event_start_date_picker_button" />
 
-    <TextView
-        android:id="@+id/create_event_beginning"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:text="beginning"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fontAwesomeView4"
-        app:layout_constraintStart_toEndOf="@+id/fontAwesomeView4"
-        app:layout_constraintTop_toTopOf="@+id/fontAwesomeView4" />
-
-    <com.mathandoro.coachplus.views.layout.FontAwesomeView
-        android:id="@+id/ending"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/fa_hourglass_end"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toBottomOf="@+id/create_event_start_date_picker_button" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:text="ending"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/ending"
-        app:layout_constraintStart_toEndOf="@+id/ending"
-        app:layout_constraintTop_toTopOf="@+id/ending" />
-
-    <com.mathandoro.coachplus.views.layout.FontAwesomeView
-        android:id="@+id/fontAwesomeView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:text="@string/fa_edit"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toTopOf="@+id/create_event_event_title" />
-
-    <com.mathandoro.coachplus.views.layout.FontAwesomeView
-        android:id="@+id/fontAwesomeView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:text="@string/fa_map_marker_alt"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toTopOf="@+id/create_event_event_location" />
-
-    <com.mathandoro.coachplus.views.layout.FontAwesomeView
-        android:id="@+id/fontAwesomeView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:text="@string/fa_bars"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/leftGuideline"
-        app:layout_constraintTop_toTopOf="@+id/create_event_event_description" />
+        <Button
+            android:id="@+id/create_event_end_time_picker_button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="11:00"
+            app:layout_constraintBottom_toBottomOf="@+id/create_event_end_date_picker_button"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            app:layout_constraintTop_toTopOf="@+id/create_event_end_date_picker_button" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/create_event_delete_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="delete event"
+            app:backgroundTint="@color/colorRed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/create_event_save_button" />
+
+        <TextView
+            android:id="@+id/create_event_beginning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="beginning"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/fontAwesomeView4"
+            app:layout_constraintStart_toEndOf="@+id/fontAwesomeView4"
+            app:layout_constraintTop_toTopOf="@+id/fontAwesomeView4" />
+
+        <com.mathandoro.coachplus.views.layout.FontAwesomeView
+            android:id="@+id/ending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/fa_hourglass_end"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/create_event_start_date_picker_button" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="ending"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ending"
+            app:layout_constraintStart_toEndOf="@+id/ending"
+            app:layout_constraintTop_toTopOf="@+id/ending" />
+
+        <com.mathandoro.coachplus.views.layout.FontAwesomeView
+            android:id="@+id/fontAwesomeView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/fa_edit"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toTopOf="@+id/create_event_event_title" />
+
+        <com.mathandoro.coachplus.views.layout.FontAwesomeView
+            android:id="@+id/fontAwesomeView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/fa_map_marker_alt"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toTopOf="@+id/create_event_event_location" />
+
+        <com.mathandoro.coachplus.views.layout.FontAwesomeView
+            android:id="@+id/fontAwesomeView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:text="@string/fa_bars"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toTopOf="@+id/create_event_event_description" />
+
+        <Button
+            android:id="@+id/create_event_save_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="create event"
+            app:layout_constraintEnd_toStartOf="@+id/rightGuideline"
+            app:layout_constraintStart_toStartOf="@+id/leftGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/create_event_end_date_picker_button" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
