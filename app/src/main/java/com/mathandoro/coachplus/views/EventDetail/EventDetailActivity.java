@@ -1,7 +1,10 @@
 package com.mathandoro.coachplus.views.EventDetail;
 
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +23,7 @@ import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.views.CreateEventActivity;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.ArrayList;
@@ -33,6 +37,8 @@ public class EventDetailActivity extends AppCompatActivity {
     public static final String EXTRA_TEAM = "team";
     public static final String EXTRA_EVENT = "event";
     public static final String EXTRA_MEMBERSHIP = "membership";
+
+    public static final int EDIT_EVENT_REQUEST = 1;
 
     private RecyclerView eventDetailRecyclerView;
     private EventDetailAdapter eventDetailAdapter;
@@ -79,14 +85,40 @@ public class EventDetailActivity extends AppCompatActivity {
         createNewsFab = findViewById(R.id.event_detail_create_news_fab);
         createNewsFab.setOnClickListener(view -> this.showCreateNewsDialog());
         editEventFab = findViewById(R.id.fab);
-        editEventFab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        editEventFab.setOnClickListener(view -> editEvent());
 
         if(!membership.isCoach()){
             floatingActionsMenu.setVisibility(View.GONE);
         }
         loadEventDetailRecyclerView();
         loadData();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != RESULT_OK){
+            return;
+        }
+        if(requestCode == EDIT_EVENT_REQUEST && data != null){
+            String action = data.getExtras().getString(CreateEventActivity.RETURN_INTENT_PARAM_ACTION);
+            if(action.equals(CreateEventActivity.ACTION_UPDATED)){
+                Event event = data.getExtras().getParcelable(CreateEventActivity.RETURN_INTENT_PARAM_EVENT);
+                eventDetailAdapter.setEvent(event);
+            }
+            else if(action.equals(CreateEventActivity.ACTION_DELETED)){
+                finish();
+                // TODO reload list in event list or upcoming 3 events
+            }
+        }
+    }
+
+    private void editEvent(){
+        Intent intent = new Intent(this, CreateEventActivity.class);
+        intent.putExtra(CreateEventActivity.INTENT_PARAM_EVENT, event);
+        intent.putExtra(CreateEventActivity.INTENT_PARAM_TEAM, team);
+        startActivityForResult(intent, EDIT_EVENT_REQUEST);
+        floatingActionsMenu.collapse();
     }
 
     private void showCreateNewsDialog(){

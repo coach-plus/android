@@ -51,6 +51,12 @@ public interface TeamService {
     @POST("teams/{teamId}/events")
     Call<ApiResponse<CreateEventResponse>> createEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Body Event event);
 
+    @PUT("teams/{teamId}/events/{eventId}")
+    Call<ApiResponse<CreateEventResponse>> updateEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Body Event event);
+
+    @DELETE("teams/{teamId}/events/{eventId}")
+    Call<ApiResponse<Object>> deleteEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId);
+
     @GET("teams/{teamId}/events/{eventId}/participation")
     Call<ApiResponse<ParticipationResponse>> getParticipationOfEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId);
 

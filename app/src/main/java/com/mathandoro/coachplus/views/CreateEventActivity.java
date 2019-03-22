@@ -3,6 +3,9 @@ package com.mathandoro.coachplus.views;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import io.reactivex.disposables.Disposable;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -14,7 +17,6 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.models.Location;
 import com.mathandoro.coachplus.persistence.DataLayer;
-import com.mathandoro.coachplus.persistence.DataLayerCallback;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -22,37 +24,55 @@ import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CreateEventActivity extends AppCompatActivity implements  View.OnClickListener, ToolbarFragment.ToolbarFragmentListener {
+public class CreateEventActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
 
     public static final String INTENT_PARAM_TEAM = "team";
     public static final String INTENT_PARAM_EVENT = "event";
+    public static final String RETURN_INTENT_PARAM_ACTION = "action";
+    public static final String RETURN_INTENT_PARAM_EVENT = "event";
 
-    DatePickerDialog datePickerDialog = null;
-    TimePickerDialog timePickerDialog = null;
+
+    public static final String ACTION_CREATED = "created";
+    public static final String ACTION_UPDATED = "updated";
+    public static final String ACTION_DELETED = "deleted";
+
+
+
+    private DatePickerDialog datePickerDialog = null;
+    private TimePickerDialog timePickerDialog = null;
     private DataLayer dataLayer;
 
-    TextInputEditText nameInput;
-    TextInputEditText locationInput;
-    TextInputEditText descriptionInput;
+    private TextInputEditText nameInput;
+    private TextInputEditText locationInput;
+    private TextInputEditText descriptionInput;
 
-    Button startDate;
-    Button startTime;
-    Button endDate;
-    Button endTime;
-    Button deleteEventButton;
+    private Button startDate;
+    private Button startTime;
+    private Button endDate;
+    private Button endTime;
+    private Button deleteEventButton;
 
-    Calendar eventStartCalendar = Calendar.getInstance();
-    Calendar eventEndCalendar = Calendar.getInstance();
+    private Calendar eventStartCalendar = Calendar.getInstance();
+    private Calendar eventEndCalendar = Calendar.getInstance();
 
     private boolean initialChange = true;
+    private boolean editMode = false;
 
-    Team team;
-    Event event;
+    private Team team;
+    private Event event;
 
-    boolean editMode = false;
-
-    FloatingActionButton createEventButton;
+    private FloatingActionButton saveEventButton;
     private ToolbarFragment toolbarFragment;
+    private int DEFAULT_EVENT_DURATION = 90; // minutes
+
+
+    @Override
+    public void onLeftIconPressed() {
+        finish();
+    }
+
+    @Override
+    public void onRightIconPressed() { }
 
 
     @Override
@@ -82,23 +102,22 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         startDate = findViewById(R.id.create_event_start_date_picker_button);
         startDate.setOnClickListener(view -> showDatePicker((Button)view, eventStartCalendar));
         startTime = findViewById(R.id.create_event_start_time_picker_button);
-        startTime.setOnClickListener(view -> showTimePicker(startTime, eventStartCalendar));
+        startTime.setOnClickListener(view -> showTimePicker(eventStartCalendar));
 
         endDate = findViewById(R.id.create_event_end_date_picker_button);
         endDate.setOnClickListener(view -> showDatePicker((Button)view, eventEndCalendar));
         endTime = findViewById(R.id.create_event_end_time_picker_button);
-        endTime.setOnClickListener(view -> showTimePicker(endTime, eventEndCalendar));
+        endTime.setOnClickListener(view -> showTimePicker(eventEndCalendar));
 
-        createEventButton = findViewById(R.id.create_event_create_button);
-        createEventButton.setOnClickListener(this);
+        saveEventButton = findViewById(R.id.create_event_create_button);
+        saveEventButton.setOnClickListener(view -> save());
 
         deleteEventButton = findViewById(R.id.create_event_delete_button);
-        // todo delete event
+        deleteEventButton.setOnClickListener((view) -> this.deleteEvent());
 
         if(editMode){
             toolbarFragment.setTitle(getString(R.string.edit_event_title));
-
-            // createEventButton.// todo load data
+            fillFormWithExistingEvent();
         }
         else{
             toolbarFragment.setTitle(getString(R.string.create_event_title));
@@ -108,7 +127,16 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         }
     }
 
-    void showDatePicker(final Button dateSelectionButton, final Calendar calendar){
+    private void fillFormWithExistingEvent(){
+        nameInput.setText(event.getName());
+        locationInput.setText(event.getLocation().getName());
+        descriptionInput.setText(event.getDescription());
+        eventStartCalendar.setTime(event.getStart());
+        eventEndCalendar.setTime(event.getEnd());
+        updateDateAndTimeUI();
+    }
+
+    private void showDatePicker(final Button dateSelectionButton, final Calendar calendar){
         Calendar currentDateCalendar = Calendar.getInstance();
         int currentYear = currentDateCalendar.get(Calendar.YEAR);
         int currentMonth = currentDateCalendar.get(Calendar.MONTH);
@@ -125,7 +153,7 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         datePickerDialog.show();
     }
 
-    void showTimePicker(final Button timeSelectionButton, final Calendar calendar){
+    private void showTimePicker(final Calendar calendar){
         Calendar currentDate = Calendar.getInstance();
         int currentMinute = currentDate.get(Calendar.MINUTE);
         int currentHour = currentDate.get(Calendar.HOUR);
@@ -144,25 +172,24 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         if(changedCalendar == eventStartCalendar && initialChange){
             initialChange = false;
             copyCalendar(eventEndCalendar, eventStartCalendar);
-            eventEndCalendar.add(Calendar.MINUTE, 90);
+            eventEndCalendar.add(Calendar.MINUTE, DEFAULT_EVENT_DURATION);
             updateDateAndTimeUI();
         }
         else if(changedCalendar == eventStartCalendar && eventEndCalendar.before(eventStartCalendar)){
             copyCalendar(eventEndCalendar, eventStartCalendar);
-            eventEndCalendar.add(Calendar.MINUTE, 90);
+            eventEndCalendar.add(Calendar.MINUTE, DEFAULT_EVENT_DURATION);
             updateDateAndTimeUI();
         }
         else if(changedCalendar == eventEndCalendar && eventEndCalendar.before(eventStartCalendar)){
             copyCalendar( eventStartCalendar, eventEndCalendar);
 
-            eventStartCalendar.add(Calendar.MINUTE, -90);
+            eventStartCalendar.add(Calendar.MINUTE, -DEFAULT_EVENT_DURATION);
             updateDateAndTimeUI();
         }
     }
 
     private void copyCalendar(Calendar target, Calendar source){
-        target.set(
-                source.get(Calendar.YEAR),
+        target.set(source.get(Calendar.YEAR),
                 source.get(Calendar.MONTH),
                 source.get(Calendar.DATE),
                 source.get(Calendar.HOUR_OF_DAY),
@@ -190,7 +217,6 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
 
     private CharSequence formatDate(Calendar calendar){
         return DateFormat.format("EEE, dd. MMMM yyyy", calendar.getTime());
-        //return DateFormat.getLongDateFormat(getApplicationContext()).format(calendar.getTime());
     }
 
     private String formatTime(Calendar calendar){
@@ -205,44 +231,62 @@ public class CreateEventActivity extends AppCompatActivity implements  View.OnCl
         return true;
     }
 
-    @Override
-    public void onClick(View view) {
-        if(view == this.createEventButton){
-            Date startDate = eventStartCalendar.getTime();
-            Date endDate = eventEndCalendar.getTime();
+    private Event getEventFromForm(){
+        Date startDate = eventStartCalendar.getTime();
+        Date endDate = eventEndCalendar.getTime();
 
-            if(!this.isValid()){
-                return;
-            }
+        if(!this.isValid()){
+            return null;
+        }
 
-            // todo location (google maps picker?)
-            Location location = new Location(locationInput.getText().toString(), 0, 0);
-            Event newEvent = new Event(null, this.nameInput.getText().toString(),
-                    this.descriptionInput.getText().toString(), startDate, endDate, location);
+        Location location = new Location(locationInput.getText().toString(), 0, 0);
+        String eventId = editMode ? event.get_id() : null;
+        Event newEvent = new Event(eventId, this.nameInput.getText().toString(),
+                this.descriptionInput.getText().toString(), startDate, endDate, location);
+        return newEvent;
+    }
 
-            // todo use observable
-            dataLayer.createEvent(team, newEvent, new DataLayerCallback<Event>() {
-                @Override
-                public void dataChanged(Event data) {
-                    Log.i("create Event", "done");
-                    finish();
-                }
-
-                @Override
-                public void error() {
-                    Log.i("create Event", "fail");
-                }
-            });
+    private void save(){
+        Event event = getEventFromForm();
+        if(event == null){
+            return;
+        }
+        if(editMode){
+            this.updateEvent(event);
+        }
+        else {
+            this.createEvent(event);
         }
     }
 
-    @Override
-    public void onLeftIconPressed() {
-        finish();
+    private void createEvent(Event newEvent){
+        // todo location (google maps picker?)
+        dataLayer.createEvent(team.get_id(), newEvent)
+                .subscribe((res) -> success(ACTION_CREATED, res.getEvent()),
+                        (error) -> handleApiCallError(error));
     }
 
-    @Override
-    public void onRightIconPressed() {
+    private void updateEvent(Event updatedEvent){
+        dataLayer.updateEvent(team.get_id(), updatedEvent)
+                .subscribe((res) -> success(ACTION_UPDATED, res.getEvent()),
+                        (error) -> handleApiCallError(error));
+    }
 
+    private void deleteEvent(){
+        dataLayer.deleteEvent(team.get_id(), event.get_id())
+                .subscribe((res) -> success(ACTION_DELETED, null),
+                        (error) -> handleApiCallError(error));
+    }
+
+    private void handleApiCallError(Throwable error){
+        Log.i("create Event", "fail");
+    }
+
+    private void success(String action, Event event){
+        Intent result = new Intent();
+        result.putExtra(RETURN_INTENT_PARAM_ACTION, action);
+        result.putExtra(RETURN_INTENT_PARAM_EVENT, event);
+        setResult(RESULT_OK, result);
+        finish();
     }
 }

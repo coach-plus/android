@@ -17,9 +17,9 @@ import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.UpdateUserInformationResponse;
-import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
+import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.RegisterTeam;
@@ -197,6 +197,21 @@ public class DataLayer {
         return this.apiCall(eventsOfTeam, useCache);
     }
 
+    public Observable<Object> deleteEvent(String teamId, String eventId){
+        Call<ApiResponse<Object>> apiCall = ApiClient.instance().teamService.deleteEvent(settings.getToken(), teamId, eventId);
+        return this.apiCall(apiCall, false);
+    }
+
+    public Observable<CreateEventResponse> createEvent(String teamId, Event event){
+        Call<ApiResponse<CreateEventResponse>> apiCall = ApiClient.instance().teamService.createEvent(settings.getToken(), teamId, event);
+        return this.apiCall(apiCall, false);
+    }
+
+    public Observable<CreateEventResponse> updateEvent(String teamId, Event event){
+        Call<ApiResponse<CreateEventResponse>> apiCall = ApiClient.instance().teamService.updateEvent(settings.getToken(), teamId, event.get_id(), event);
+        return this.apiCall(apiCall, false);
+    }
+
     public Observable<Membership> registerTeam(String teamName, boolean isPublic, String teamImageBase64){
         RegisterTeam team = new RegisterTeam(teamName, isPublic, teamImageBase64);
         String token = settings.getToken();
@@ -236,7 +251,7 @@ public class DataLayer {
     }
 
 
-    public void createEvent(Team team, Event event, final DataLayerCallback<Event> callback){
+/*    public void createEvent(Team team, Event event, final DataLayerCallback<Event> callback){
         final String CREATE_EVENT = "createEvent";
         ApiClient.instance().teamService.createEvent(settings.getToken(), team.get_id(), event)
                 .enqueue(new Callback<ApiResponse<CreateEventResponse>>() {
@@ -259,7 +274,7 @@ public class DataLayer {
                 callback.error();
             }
         });
-    }
+    }*/
 
 
 }
