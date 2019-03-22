@@ -15,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,7 +117,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
     private void loadNavigationDrawer(){
         ImageView registerTeamImage = findViewById(R.id.registerTeam);
-        TextView logoutView = findViewById(R.id.logout_text_view);
+        Button logoutView = findViewById(R.id.team_view_logout_button);
         registerTeamImage.setOnClickListener((View v) ->
                 TeamViewActivity.this.navigateToCreateTeamActivity()
         );
