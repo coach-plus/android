@@ -88,7 +88,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
         this.loadNavigationDrawer();
         this.loadMembershipsRecyclerView();
-        this.loadMemberships(getIntent().getParcelableExtra(PARAM_MEMBERSHIP));
+        this.loadMemberships(getIntent().getParcelableExtra(PARAM_MEMBERSHIP), true);
         this.loadMyUser();
 
         // todo initFirebase();
@@ -97,24 +97,20 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
     private void initFirebase(){
         FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
-                        //    String deviceId = task.getResult().getId(); ?correct ?
-
-                        // Log and toast
-                        // todo use String msg = getString(R.string.msg_token_fmt, token);
-                        Log.d(TAG, token);
-                        Toast.makeText(TeamViewActivity.this, token, Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.w(TAG, "getInstanceId failed", task.getException());
+                        return;
                     }
 
+                    // Get new Instance ID token
+                    String token = task.getResult().getToken();
+                    //    String deviceId = task.getResult().getId(); ?correct ?
+
+                    // Log and toast
+                    // todo use String msg = getString(R.string.msg_token_fmt, token);
+                    Log.d(TAG, token);
+                    Toast.makeText(TeamViewActivity.this, token, Toast.LENGTH_SHORT).show();
                 });
     }
 
@@ -140,11 +136,14 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         startActivity(logoutIntent);
     }
 
-    private void loadMemberships(Membership joinedMembership){
+    private void loadMemberships(Membership joinedMembership, boolean switchTeam){
         this.dataLayer.getMyMembershipsV2(false).subscribe(myMembershipsResponse -> {
             membershipsSwipeRefreshLayout.setRefreshing(false);
             memberships = myMembershipsResponse.getMemberships();
             Membership updatedMembership = null;
+            if(!switchTeam){
+                return;
+            }
             if(joinedMembership != null){
                 for (Membership membership : memberships) {
                     if (membership.getTeam().get_id().equals(joinedMembership.getTeam().get_id())) {
@@ -199,7 +198,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
             switchTeamContext(newMembership);
         }
         else if(requestCode == EDIT_TEAM_REQUEST && resultCode == RESULT_OK){
-            loadMemberships(currentMembership);
+            loadMemberships(currentMembership, false);
         }
     }
 
@@ -274,7 +273,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
     @Override
     public void onRefresh() {
-        this.loadMemberships(null);
+        this.loadMemberships(currentMembership, false);
     }
 
     public void showBottomSheet(TeamMember member){
