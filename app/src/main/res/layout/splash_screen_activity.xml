@@ -10,11 +10,11 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="310dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="23dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/round_button"
         android:onClick="login"
         android:text="Sign In"
@@ -28,11 +28,11 @@
 
     <Button
         android:id="@+id/registerButton"
-        android:layout_width="311dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="45dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/round_button"
         android:onClick="register"
         android:text="Sign Up"
@@ -42,8 +42,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="563dp" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <ImageView
         android:id="@+id/imageView3"

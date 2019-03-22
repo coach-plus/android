@@ -8,6 +8,7 @@
     tools:context="com.mathandoro.coachplus.views.LoginActivity">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout"
         style="@style/LoginInputFields"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -24,11 +25,11 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/loginPasswordEditText"
-            android:textColor="@color/white"
-
             android:layout_width="match_parent"
+
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@color/white" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,30 +54,31 @@
             android:id="@+id/loginEmailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
             android:textColor="@color/white"
             tools:text="user@email.com" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/loginButton"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="8dp"
         android:onClick="login"
         android:text="Sign In"
         android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/login_activity_register_button"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/logo_width"
         android:layout_height="@dimen/logo_height"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
@@ -87,6 +89,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/login_activity_register_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="register" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="I forgot my password"
+        android:textColor="@color/design_default_color_primary"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
@@ -22,12 +23,11 @@ import retrofit2.Response;
 
 public class UserRegistrationActivity extends AppCompatActivity implements Callback<ApiResponse<RegistrationResponse>> {
 
-
-    EditText firstnameEditText;
-    EditText lastnameEditText;
-    EditText emailEditText;
-    EditText passwordEditText;
-    EditText passwordRepeatEditText;
+    TextInputEditText firstnameEditText;
+    TextInputEditText lastnameEditText;
+    TextInputEditText emailEditText;
+    TextInputEditText passwordEditText;
+    TextInputEditText passwordRepeatEditText;
     Settings settings;
 
     String firstname;
@@ -42,11 +42,11 @@ public class UserRegistrationActivity extends AppCompatActivity implements Callb
 
         this.settings = new Settings(this);
 
-        firstnameEditText = findViewById(R.id.firstnameEditText);
-        lastnameEditText = findViewById(R.id.lastnameEditText);
-        emailEditText = findViewById(R.id.emailEditText);
-        passwordEditText = findViewById(R.id.passwordEditText);
-        passwordRepeatEditText = findViewById(R.id.repeatPasswordEditText);
+        firstnameEditText = findViewById(R.id.user_registration_firstname_input);
+        lastnameEditText = findViewById(R.id.user_registration_lastname_input);
+        emailEditText = findViewById(R.id.user_registration_email_input);
+        passwordEditText = findViewById(R.id.user_registration_password_input);
+        passwordRepeatEditText = findViewById(R.id.user_registration_password_repeat_input);
     }
 
     public void registerUser(View view){
