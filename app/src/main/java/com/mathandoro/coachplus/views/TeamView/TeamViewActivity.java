@@ -92,8 +92,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         this.loadMemberships(getIntent().getParcelableExtra(PARAM_MEMBERSHIP), true);
         this.loadMyUser();
 
-        // todo initFirebase();
-
+        initFirebase();
     }
 
     private void initFirebase(){
@@ -105,13 +104,13 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
                     }
 
                     // Get new Instance ID token
-                    String token = task.getResult().getToken();
-                    //    String deviceId = task.getResult().getId(); ?correct ?
+                    String pushToken = task.getResult().getToken();
+                    String deviceId = task.getResult().getId();
+                    settings.setDeviceId(deviceId);
 
-                    // Log and toast
-                    // todo use String msg = getString(R.string.msg_token_fmt, token);
-                    Log.d(TAG, token);
-                    Toast.makeText(TeamViewActivity.this, token, Toast.LENGTH_SHORT).show();
+                    dataLayer.registerOrUpdateDevice(deviceId, pushToken).subscribe(data -> {}, error -> {});
+
+                    Toast.makeText(TeamViewActivity.this, "firebase initialized", Toast.LENGTH_SHORT).show();
                 });
     }
 

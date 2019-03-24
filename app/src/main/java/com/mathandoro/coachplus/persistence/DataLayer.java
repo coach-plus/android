@@ -19,6 +19,7 @@ import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.UpdateUserInformationResponse;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
+import com.mathandoro.coachplus.models.Device;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.Participation;
@@ -178,6 +179,12 @@ public class DataLayer {
                 callback.error();
             }
         });
+    }
+
+    public Observable<Object> registerOrUpdateDevice(String deviceId, String pushId){
+        Device device = new Device(pushId, "android", deviceId);
+        Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().userService.registerOrUpdateDevice(settings.getToken(), settings.getUser().get_id(), device);
+        return apiCall(apiResponseCall, false);
     }
 
     public Observable<MyUserResponse> getMyUserV2(boolean useCache){

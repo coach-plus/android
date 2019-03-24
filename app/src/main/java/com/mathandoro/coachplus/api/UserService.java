@@ -7,6 +7,7 @@ import com.mathandoro.coachplus.api.Response.LoginResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.api.Response.UpdateUserInformationResponse;
+import com.mathandoro.coachplus.models.Device;
 import com.mathandoro.coachplus.models.LoginUser;
 import com.mathandoro.coachplus.models.RegisterUser;
 import com.mathandoro.coachplus.api.Response.RegistrationResponse;
@@ -49,4 +50,7 @@ public interface UserService {
 
     @GET("users/{userId}/memberships")
     Call<ApiResponse<MyMembershipsResponse>> getMembershipsOfUser(@Header("X-ACCESS-TOKEN") String accessToken, @Path("userId") String userId);
+
+    @POST("users/{userId}/devices")
+    Call<ApiResponse<Object>> registerOrUpdateDevice(@Header("X-ACCESS-TOKEN") String accessToken, @Path("userId") String userId, @Body Device device);
 }

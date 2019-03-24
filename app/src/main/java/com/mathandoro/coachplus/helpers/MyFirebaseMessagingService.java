@@ -22,22 +22,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String TAG = "coach";
     String DEFAULT_CHANNEL_ID = "DEFAULT";
 
+    public MyFirebaseMessagingService(){
+
+    }
 
     @Override
-    public void onNewToken(String token) {
-        Log.d(TAG, "Refreshed token: " + token);
-
-        Settings settings = new Settings(getApplicationContext());
-        String s  = settings.getToken();
+    public void onNewToken(String newToken) {
         DataLayer dataLayer = new DataLayer(getApplicationContext());
-        dataLayer.getMyUserV2(false).subscribe(user -> {
-            Log.d(TAG, "Refreshed token: " + token);
-        });
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
-        // todo sendRegistrationToServer(token);  /users/[suerid]/devices { deviceId, pushId, system, ...}
+        Settings settings = new Settings(getApplicationContext());
+        Log.d(TAG, "Refreshed token: " + newToken);
+        String deviceId = settings.getDeviceId();
+        if(deviceId == null){
+            // initial registration will be handled by first login
+            return;
+        }
+        dataLayer.registerOrUpdateDevice(deviceId, newToken).subscribe(data -> {}, error -> {});
     }
 
     @Override

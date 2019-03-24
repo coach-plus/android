@@ -26,6 +26,7 @@ public class Settings {
     protected String LASTNAME = "LASTNAME";
     protected String USER = "USER";
     protected String ACTIVE_TEAM_ID = "ACTIVE_TEAM_ID";
+    protected String DEVICE_ID = "DEVICE_ID";
 
     protected SharedPreferences preferences;
 
@@ -50,6 +51,14 @@ public class Settings {
 
     public void setToken(String token) {
         this.setString(TOKEN, token);
+    }
+
+    public String getDeviceId() {
+        return this.getString(DEVICE_ID);
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.setString(DEVICE_ID, deviceId);
     }
 
     public String getEmail() {
