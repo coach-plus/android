@@ -57,6 +57,10 @@ public interface TeamService {
     @DELETE("teams/{teamId}/events/{eventId}")
     Call<ApiResponse<Object>> deleteEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId);
 
+    @POST("teams/{teamId}/events/{eventId}/reminder")
+    Call<ApiResponse<Object>> createReminder(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId);
+
+
     @GET("teams/{teamId}/events/{eventId}/participation")
     Call<ApiResponse<ParticipationResponse>> getParticipationOfEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId);
 

@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.mathandoro.coachplus.models.MyReducedUser;
+import com.mathandoro.coachplus.models.getMyUser;
 import com.mathandoro.coachplus.models.ReducedUser;
 
 /**
@@ -20,13 +20,10 @@ public class Settings {
     public static int TEAM_ICON_LARGE = 512;
 
     protected String TOKEN = "TOKEN";
-    protected String EMAIL = "EMAIL";
-    protected String PASSWORD = "PASSWORD";
-    protected String FIRSTNAME = "FIRSTNAME";
-    protected String LASTNAME = "LASTNAME";
     protected String USER = "USER";
     protected String ACTIVE_TEAM_ID = "ACTIVE_TEAM_ID";
     protected String DEVICE_ID = "DEVICE_ID";
+    protected String EMAIL_VERIFICATION = "EMAIL_VERIFICATION";
 
     protected SharedPreferences preferences;
 
@@ -37,44 +34,14 @@ public class Settings {
                 context.getPackageName(), Context.MODE_PRIVATE);
     }
 
-    protected void setString(String name, String value){
-        this.preferences.edit().putString(name, value).apply();
+    public void startSession(String token, ReducedUser user, boolean emailConfirmationRequired){
+        this.setToken(token);
+        this.setMyUser(user);
+        this.setEmailVerificationRequired(emailConfirmationRequired);
     }
 
-    protected String getString(String name){
-        return preferences.getString(name, null);
-    }
-
-    public String getToken(){
-        return this.getString(TOKEN);
-    }
-
-    public void setToken(String token) {
-        this.setString(TOKEN, token);
-    }
-
-    public String getDeviceId() {
-        return this.getString(DEVICE_ID);
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.setString(DEVICE_ID, deviceId);
-    }
-
-    public String getEmail() {
-        return this.getString(EMAIL);
-    }
-
-    public void setEmail(String email) {
-        this.setString(EMAIL, email);
-    }
-
-    public String getPassword() {
-        return this.getString(PASSWORD);
-    }
-
-    public void setPassword(String password) {
-        this.setString(PASSWORD, password);
+    public void confirmEmailVerification() {
+        this.setEmailVerificationRequired(false);
     }
 
     public void setActiveTeamId(String teamId){
@@ -89,12 +56,52 @@ public class Settings {
         this.preferences.edit().clear().apply();
     }
 
-    public void setUser(ReducedUser user){
+    public void setMyUser(ReducedUser user){
         this.setObject(USER, user);
     }
 
-    public MyReducedUser getUser(){
-        return this.getObject(USER, MyReducedUser.class);
+    public getMyUser getUser(){
+        return this.getObject(USER, getMyUser.class);
+    }
+
+    public String getToken(){
+        return this.getString(TOKEN);
+    }
+
+    public boolean isEmailVerificationRequired(){
+        return this.getBoolean(EMAIL_VERIFICATION, false);
+    }
+
+    public String getDeviceId() {
+        return this.getString(DEVICE_ID);
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.setString(DEVICE_ID, deviceId);
+    }
+
+    protected void setEmailVerificationRequired(boolean required){
+        this.setBoolean(EMAIL_VERIFICATION, required);
+    }
+
+    protected void setBoolean(String name, boolean value){
+        this.preferences.edit().putBoolean(name, value).apply();
+    }
+
+    protected void setString(String name, String value){
+        this.preferences.edit().putString(name, value).apply();
+    }
+
+    protected String getString(String name) {
+        return preferences.getString(name, null);
+    }
+
+    protected boolean getBoolean(String name, boolean defaultValue) {
+        return preferences.getBoolean(name, defaultValue);
+    }
+
+    private void setToken(String token) {
+        this.setString(TOKEN, token);
     }
 
     private void setObject(String name, Object object){
@@ -108,4 +115,5 @@ public class Settings {
         Gson gson = new Gson();
         return gson.fromJson(json, clazz);
     }
+
 }

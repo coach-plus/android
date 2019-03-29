@@ -2,15 +2,15 @@ package com.mathandoro.coachplus.models;
 
 import android.os.Parcel;
 
-public class MyReducedUser extends ReducedUser {
+public class getMyUser extends ReducedUser {
     private String email;
 
-    public MyReducedUser(String firstname, String lastname, String _id, String image, String email) {
+    public getMyUser(String firstname, String lastname, String _id, String image, String email) {
         super(firstname, lastname, _id, image);
         this.email = email;
     }
 
-    protected MyReducedUser(Parcel in) {
+    protected getMyUser(Parcel in) {
         super(in);
         this.email = in.readString();
     }

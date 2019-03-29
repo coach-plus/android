@@ -30,12 +30,19 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         this.settings = new Settings(this);
 
-        if(settings.getToken() != null){
+        if(settings.isEmailVerificationRequired()){
+            this.navigateToEmailVerificationActivity();
+        }
+        else if(settings.getToken() != null){
             this.navigateToMainActivity();
         }
     }
 
-
+    private void navigateToEmailVerificationActivity(){
+        Intent intent = new Intent(this, EmailVerificationActivity.class);
+        startActivity(intent);
+        finish();
+    }
 
     private void navigateToMainActivity(){
         Intent intent = new Intent(this, TeamViewActivity.class);

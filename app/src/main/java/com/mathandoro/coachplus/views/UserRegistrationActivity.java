@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -28,6 +29,8 @@ public class UserRegistrationActivity extends AppCompatActivity implements Callb
     TextInputEditText emailEditText;
     TextInputEditText passwordEditText;
     TextInputEditText passwordRepeatEditText;
+    Button registrationButton;
+
     Settings settings;
 
     String firstname;
@@ -47,9 +50,12 @@ public class UserRegistrationActivity extends AppCompatActivity implements Callb
         emailEditText = findViewById(R.id.user_registration_email_input);
         passwordEditText = findViewById(R.id.user_registration_password_input);
         passwordRepeatEditText = findViewById(R.id.user_registration_password_repeat_input);
+        registrationButton = findViewById(R.id.user_registration_register_button);
+
+        registrationButton.setOnClickListener(view -> registerUser());
     }
 
-    public void registerUser(View view){
+    public void registerUser(){
         firstname = firstnameEditText.getText().toString();
         lastname = lastnameEditText.getText().toString();
         email = emailEditText.getText().toString();
@@ -91,10 +97,7 @@ public class UserRegistrationActivity extends AppCompatActivity implements Callb
     @Override
     public void onResponse(Call<ApiResponse<RegistrationResponse>> call, Response<ApiResponse<RegistrationResponse>> response) {
         if(response.code() == 201 && response.body().success){
-            this.settings.setToken(response.body().content.token);
-            this.settings.setEmail(this.email);
-            this.settings.setPassword(this.password);
-
+            this.settings.startSession(response.body().content.token, response.body().content.user, true );
             Intent intent = new Intent(this, EmailVerificationActivity.class);
             startActivity(intent);
             finish();

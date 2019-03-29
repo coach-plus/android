@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
@@ -19,11 +20,14 @@ import retrofit2.Response;
 public class EmailVerificationActivity extends AppCompatActivity implements Callback<ApiResponse<Object>> {
 
     private Call<ApiResponse<Object>> verifyEmailCall;
+    private Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.email_verification_activity);
+
+        settings = new Settings(this);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -43,6 +47,7 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
     public void onResponse(Call<ApiResponse<Object>> call, Response<ApiResponse<Object>> response) {
         if(call == this.verifyEmailCall){
             if(response.code() == 200) {
+                settings.confirmEmailVerification();
                 Intent intent = new Intent(this, TeamViewActivity.class);
                 startActivity(intent);
                 finish();

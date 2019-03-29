@@ -1,7 +1,7 @@
 package com.mathandoro.coachplus.api.Response;
 
-import com.mathandoro.coachplus.models.MyReducedUser;
+import com.mathandoro.coachplus.models.getMyUser;
 
 public class UpdateUserInformationResponse {
-    public MyReducedUser user;
+    public getMyUser user;
 }

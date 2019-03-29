@@ -11,7 +11,7 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Request.UpdatePasswordRequest;
 import com.mathandoro.coachplus.api.Request.UpdateUserRequest;
-import com.mathandoro.coachplus.models.MyReducedUser;
+import com.mathandoro.coachplus.models.getMyUser;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
@@ -52,7 +52,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
 
         saveUserInformationButton.setOnClickListener((View view) -> this.saveUserInformation());
 
-        MyReducedUser user = settings.getUser();
+        getMyUser user = settings.getUser();
         firstnameInput.setText(user.getFirstname());
         lastnameInput.setText(user.getLastname());
         emailInput.setText(user.getEmail());
@@ -141,7 +141,6 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
                 newPasswordInput.getText().toString(), newPasswordRepeatInput.getText().toString());
         dataLayer.updatePassword(updatePasswordRequest).subscribe( (data) -> {
             Snackbar.make(oldPasswordInput, "password changed successfully", Snackbar.LENGTH_SHORT).show();
-            settings.setPassword(newPasswordInput.getText().toString());
         }, (error) -> showError());
 
     }
@@ -155,7 +154,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
 
         dataLayer.updateUserInformation(updateUserRequest).subscribe( (data) -> {
             Snackbar.make(oldPasswordInput, "user information changed successfully", Snackbar.LENGTH_SHORT).show();
-            settings.setUser(data.user);
+            settings.setMyUser(data.user);
         }, (error) -> showError());
     }
 

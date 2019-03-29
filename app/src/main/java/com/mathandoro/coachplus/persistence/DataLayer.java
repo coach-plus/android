@@ -76,6 +76,12 @@ public class DataLayer {
         return this.apiCall(updateUserInformation, false);
     }
 
+    public Observable<Object> sendReminder(String teamId, String eventId){
+        // todo error: response contains author as userId instead of reduced user (in CreateNewsResponse)
+        Call<ApiResponse<Object>> sendReminder = ApiClient.instance().teamService.createReminder(settings.getToken(), teamId, eventId);
+        return this.apiCall(sendReminder, false);
+    }
+
     public Observable<Object> createNews(String teamId, String eventId, String title, String text){
         // todo error: response contains author as userId instead of reduced user (in CreateNewsResponse)
         Call<ApiResponse<Object>> news1 = ApiClient.instance().teamService.createNews(settings.getToken(), teamId, eventId, new CreateNewsRequest(title, text));

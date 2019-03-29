@@ -108,9 +108,14 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
                     String deviceId = task.getResult().getId();
                     settings.setDeviceId(deviceId);
 
-                    dataLayer.registerOrUpdateDevice(deviceId, pushToken).subscribe(data -> {}, error -> {});
+                    dataLayer.registerOrUpdateDevice(deviceId, pushToken).subscribe(data -> {
+                        Toast.makeText(TeamViewActivity.this, "firebase initialized", Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(TeamViewActivity.this, "firebase initialized", Toast.LENGTH_SHORT).show();
+                    }, error -> {
+                        Toast.makeText(TeamViewActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+
+                    });
+
                 });
     }
 

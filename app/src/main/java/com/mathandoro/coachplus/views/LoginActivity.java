@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
@@ -14,7 +13,6 @@ import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.LoginResponse;
 import com.mathandoro.coachplus.models.LoginUser;
-import com.mathandoro.coachplus.models.RegisterUser;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
 import retrofit2.Call;
@@ -64,11 +62,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
     @Override
     public void onResponse(Call<ApiResponse<LoginResponse>> call, Response<ApiResponse<LoginResponse>> response) {
         if(call == this.loginResponseCall && response.code() == 200 && response.body().success){
-
-            this.settings.setPassword(this.password);
-            this.settings.setToken(response.body().content.token);
-            this.settings.setUser(response.body().content.user);
-
+            this.settings.startSession(response.body().content.token, response.body().content.user, false);
             this.navigateToMainActivity();
         }
     }

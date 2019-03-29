@@ -46,5 +46,9 @@
     <string name="create_event">create event</string>
     <string name="delete_event">delete event</string>
     <string name="delete_event_confirmation">do you really want to delete event %1$s?</string>
+    <string name="reminder_was_send_snackbar_text">reminder was send</string>
+    <string name="action_send_reminder">send reminder</string>
+    <string name="action_edit_event">edit event</string>
+    <string name="action_create_news">create news</string>
 
 </resources>

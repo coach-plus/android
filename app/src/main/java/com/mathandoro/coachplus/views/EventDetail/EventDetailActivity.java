@@ -2,7 +2,6 @@ package com.mathandoro.coachplus.views.EventDetail;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +12,7 @@ import android.widget.EditText;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.material.snackbar.Snackbar;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
@@ -46,6 +46,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
     private FloatingActionButton createNewsFab;
     private FloatingActionButton editEventFab;
+    private FloatingActionButton reminderFab;
     private FloatingActionsMenu floatingActionsMenu;
 
     Map<String, ParticipationItem> map = new HashMap<>();
@@ -70,7 +71,6 @@ public class EventDetailActivity extends AppCompatActivity {
             }
         });
 
-
         Bundle bundle = getIntent().getExtras().getBundle(EXTRA_BUNDLE);
 
         team = bundle.getParcelable(EXTRA_TEAM);
@@ -78,14 +78,18 @@ public class EventDetailActivity extends AppCompatActivity {
         membership = bundle.getParcelable(EXTRA_MEMBERSHIP);
 
         toolbar.setTitle(event.getName());
-
         dataLayer = DataLayer.getInstance(this);
 
         floatingActionsMenu = findViewById(R.id.event_detail_fab_menu);
+
         createNewsFab = findViewById(R.id.event_detail_create_news_fab);
         createNewsFab.setOnClickListener(view -> this.showCreateNewsDialog());
-        editEventFab = findViewById(R.id.fab);
+
+        editEventFab = findViewById(R.id.event_detail_edit_button);
         editEventFab.setOnClickListener(view -> editEvent());
+
+        reminderFab = findViewById(R.id.event_detail_reminder_button);
+        reminderFab.setOnClickListener(view -> sendReminder());
 
         if(!membership.isCoach()){
             floatingActionsMenu.setVisibility(View.GONE);
@@ -119,6 +123,12 @@ public class EventDetailActivity extends AppCompatActivity {
         intent.putExtra(CreateEventActivity.INTENT_PARAM_TEAM, team);
         startActivityForResult(intent, EDIT_EVENT_REQUEST);
         floatingActionsMenu.collapse();
+    }
+
+    private void sendReminder(){
+        dataLayer.sendReminder(team.get_id(), event.get_id()).subscribe(o -> {
+            Snackbar.make(reminderFab, getString(R.string.reminder_was_send_snackbar_text), Snackbar.LENGTH_SHORT).show();
+        }, throwable -> {});
     }
 
     private void showCreateNewsDialog(){
