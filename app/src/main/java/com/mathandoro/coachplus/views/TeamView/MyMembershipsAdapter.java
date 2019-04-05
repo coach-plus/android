@@ -42,6 +42,9 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
         if(this.memberships.size() == 0){
             this.viewStack.updateSection(NO_TEAMS_ITEM, 1);
         }
+        else {
+            this.viewStack.updateSection(NO_TEAMS_ITEM, 0);
+        }
         this.notifyDataSetChanged();
     }
 
