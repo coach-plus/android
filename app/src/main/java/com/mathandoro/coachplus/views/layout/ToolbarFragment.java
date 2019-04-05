@@ -17,8 +17,8 @@ import com.mathandoro.coachplus.models.Team;
 
 public class ToolbarFragment extends Fragment {
     private Toolbar toolbar;
-    private ImageView leftIcon;
-    private ImageView rightIcon;
+    private TextView leftIcon;
+    private TextView rightIcon;
     private TextView title;
 
     private ToolbarFragmentListener toolbarFragmentListener;
@@ -28,22 +28,21 @@ public class ToolbarFragment extends Fragment {
     }
 
     public void showMenuButton(){
-        this.leftIcon.setImageResource(R.drawable.ic_dehaze_white_24dp);
+        this.leftIcon.setText(R.string.fa_tshirt);
     }
 
     public void showBackButton(){
-        this.leftIcon.setImageResource(R.drawable.ic_arrow_back_white_24dp);
-
+        this.leftIcon.setText(R.string.fa_arrow_left);
     }
 
     public void showUserIcon(){
         this.rightIcon.setVisibility(View.VISIBLE);
-        this.rightIcon.setImageResource(R.drawable.ic_account_circle_white_36dp);
+        this.rightIcon.setText(R.string.fa_user);
     }
 
     public void showSettings(){
         this.rightIcon.setVisibility(View.VISIBLE);
-        this.rightIcon.setImageResource(R.drawable.ic_settings_white_24dp);
+        this.rightIcon.setText(R.string.fa_cog);
     }
 
     public void setTeam(Team team){
