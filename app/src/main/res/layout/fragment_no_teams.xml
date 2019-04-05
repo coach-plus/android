@@ -8,6 +8,7 @@ app:layout_behavior="@string/appbar_scrolling_view_behavior"
 tools:context="com.mathandoro.coachplus.views.TeamView.NoTeamsFragment">
 
     <TextView
+        android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Why so lonely?\nCreate a team and invite your buddies!"
@@ -26,10 +27,25 @@ tools:context="com.mathandoro.coachplus.views.TeamView.NoTeamsFragment">
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/round_button_blue"
-        android:text="create team"
+        android:text="@string/create_team_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
+    <com.mathandoro.coachplus.views.layout.FontAwesomeView
+        android:id="@+id/fontAwesomeView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/fa_life_ring"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@string/fa_life_ring" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

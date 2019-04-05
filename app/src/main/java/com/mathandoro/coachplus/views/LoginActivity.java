@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
@@ -29,9 +30,6 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
     String email;
     String password;
 
-    Button registrationButton;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +37,37 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
 
         this.settings = new Settings(this);
 
+        if(settings.isEmailVerificationRequired()){
+            this.navigateToEmailVerificationActivity();
+        }
+        else if(settings.getToken() != null){
+            this.navigateToMainActivity();
+        }
+
         emailEditText = findViewById(R.id.loginEmailEditText);
         passwordEditText = findViewById(R.id.loginPasswordEditText);
-
-        registrationButton = findViewById(R.id.login_activity_register_button);
-        registrationButton.setOnClickListener((view -> navigateToRegistration()));
     }
 
-    private void navigateToRegistration(){
+
+    private void navigateToEmailVerificationActivity(){
+        Intent intent = new Intent(this, EmailVerificationActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void navigateToMainActivity(){
+        Intent intent = new Intent(this, TeamViewActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void navigateToRegistration(View view){
         Intent intent = new Intent(this, UserRegistrationActivity.class);
+        startActivity(intent);
+    }
+
+    public void navigateToPasswordReset(View view){
+        Intent intent = new Intent(this, PasswordResetActivity.class);
         startActivity(intent);
     }
 
@@ -65,12 +85,6 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
             this.settings.startSession(response.body().content.token, response.body().content.user, false);
             this.navigateToMainActivity();
         }
-    }
-
-    protected void navigateToMainActivity(){
-        Intent intent = new Intent(this, TeamViewActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     @Override

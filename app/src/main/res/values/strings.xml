@@ -50,5 +50,13 @@
     <string name="action_send_reminder">send reminder</string>
     <string name="action_edit_event">edit event</string>
     <string name="action_create_news">create news</string>
+    <string name="create_team_button_text">create team</string>
+    <string name="sign_in">Sign In</string>
+    <string name="i_forgot_my_password">I forgot my password</string>
+    <string name="register">register</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="title_activity_password_reset">PasswordResetActivity</string>
+    <string name="reset_password">send new password</string>
+    <string name="reset_password_description" >We will send a new password to your email address</string>
 
 </resources>

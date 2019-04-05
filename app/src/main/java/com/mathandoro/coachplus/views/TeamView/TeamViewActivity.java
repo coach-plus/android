@@ -3,13 +3,11 @@ package com.mathandoro.coachplus.views.TeamView;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.core.view.GravityCompat;
@@ -17,24 +15,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
-import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.JWTUser;
-import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.models.TeamMember;
-import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
-import com.mathandoro.coachplus.views.SplashScreenActivity;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
