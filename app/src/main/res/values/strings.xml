@@ -58,5 +58,7 @@
     <string name="title_activity_password_reset">PasswordResetActivity</string>
     <string name="reset_password">send new password</string>
     <string name="reset_password_description" >We will send a new password to your email address</string>
+    <string name="why_so_lonely_text">Why so lonely? Create a team and invite your buddies!</string>
+    <string name="no_team_text_memberships">Why so lonely? Create a team by clicking the plus icon in the upper right corner!</string>
 
 </resources>

@@ -4,10 +4,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mathandoro.coachplus.R;
+import com.mathandoro.coachplus.helpers.RecycleViewStack;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.views.viewHolders.MembershipViewHolder;
+import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,22 +23,31 @@ import java.util.List;
 public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final TeamViewActivity mainActivity;
     private List<Membership> memberships;
+    private RecycleViewStack viewStack;
 
     final int TEAM_ITEM = 0;
+    final int NO_TEAMS_ITEM = 1;
 
     public MyMembershipsAdapter(TeamViewActivity mainActivity) {
         this.memberships = new ArrayList<>();
         this.mainActivity = mainActivity;
+        this.viewStack = new RecycleViewStack();
+        this.viewStack.addSection(TEAM_ITEM, 0);
+        this.viewStack.addSection(NO_TEAMS_ITEM, 0);
     }
 
     public void setMemberships(List<Membership> memberships){
         this.memberships = memberships;
+        this.viewStack.updateSection(TEAM_ITEM, memberships.size());
+        if(this.memberships.size() == 0){
+            this.viewStack.updateSection(NO_TEAMS_ITEM, 1);
+        }
         this.notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return TEAM_ITEM;
+        return viewStack.getSectionIdAt(position);
     }
 
     @Override
@@ -49,8 +61,14 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .inflate(R.layout.team_item, parent, false);
                 viewHolder = new MembershipViewHolder(view);
                 break;
+            case NO_TEAMS_ITEM:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.fragment_no_teams, parent, false);
+                view.findViewById(R.id.no_teams_create_team_button).setVisibility(View.INVISIBLE);
+                ((TextView)(view.findViewById(R.id.no_teams_text))).setText(R.string.no_team_text_memberships);
+                viewHolder = new StaticViewHolder(view);
+                break;
         }
-
         return viewHolder;
     }
 
@@ -64,11 +82,14 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
                     mainActivity.switchTeamContext(membership);
                 });
                 teamViewHolder.bind(membership, false,true, true, null); // todo dont show icons here
+                break;
+            case NO_TEAMS_ITEM:
+                return;
         }
     }
 
     @Override
     public int getItemCount() {
-        return memberships.size() ;
+        return viewStack.size() ;
     }
 }
