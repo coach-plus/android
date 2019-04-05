@@ -23,6 +23,7 @@ import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.ReducedUser;
+import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
@@ -78,6 +79,8 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.settings = new Settings(this.getActivity());
+
+        AppState.myUserChanged$.subscribe(user -> reloadMembers());
 
         dataLayer = DataLayer.getInstance(this.getActivity());
         if (getArguments() != null) {

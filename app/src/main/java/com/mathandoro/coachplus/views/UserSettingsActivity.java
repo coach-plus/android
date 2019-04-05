@@ -11,7 +11,8 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Request.UpdatePasswordRequest;
 import com.mathandoro.coachplus.api.Request.UpdateUserRequest;
-import com.mathandoro.coachplus.models.getMyUser;
+import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
@@ -52,7 +53,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
 
         saveUserInformationButton.setOnClickListener((View view) -> this.saveUserInformation());
 
-        getMyUser user = settings.getUser();
+        JWTUser user = settings.getUser();
         firstnameInput.setText(user.getFirstname());
         lastnameInput.setText(user.getLastname());
         emailInput.setText(user.getEmail());
@@ -155,6 +156,8 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         dataLayer.updateUserInformation(updateUserRequest).subscribe( (data) -> {
             Snackbar.make(oldPasswordInput, "user information changed successfully", Snackbar.LENGTH_SHORT).show();
             settings.setMyUser(data.user);
+            AppState.myUserChanged$.onNext(data.user);
+
         }, (error) -> showError());
     }
 

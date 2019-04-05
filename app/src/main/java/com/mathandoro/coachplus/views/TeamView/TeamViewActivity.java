@@ -7,6 +7,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Debug;
 import android.util.Log;
 import android.view.View;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -25,6 +26,7 @@ import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -68,6 +70,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         super.onCreate(savedInstanceState);
         this.settings = new Settings(this);
         setContentView(R.layout.team_view_activity);
+
 
         dataLayer = DataLayer.getInstance(this);
 
@@ -135,21 +138,21 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         this.dataLayer.getMyMembershipsV2(false).subscribe(myMembershipsResponse -> {
             membershipsSwipeRefreshLayout.setRefreshing(false);
             memberships = myMembershipsResponse.getMemberships();
-            Membership updatedMembership = null;
+            myMembershipsAdapter.setMemberships(myMembershipsResponse.getMemberships());
+            Membership switchedMembership = null;
             if(!switchTeam){
                 return;
             }
             if(joinedMembership != null){
                 for (Membership membership : memberships) {
                     if (membership.getTeam().get_id().equals(joinedMembership.getTeam().get_id())) {
-                        updatedMembership = membership;
+                        switchedMembership = membership;
                     }
                 }
             }
-            myMembershipsAdapter.setMemberships(myMembershipsResponse.getMemberships());
             String activeTeamId = settings.getActiveTeamId();
-            if(updatedMembership != null){
-                switchTeamContext(updatedMembership);
+            if(switchedMembership != null){
+                switchTeamContext(switchedMembership);
             }
             else if(memberships.size() > 0 && activeTeamId == null){
                 switchTeamContext(memberships.get(0));
