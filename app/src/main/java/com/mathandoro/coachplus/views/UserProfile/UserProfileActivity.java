@@ -32,10 +32,9 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
     public final static String INTENT_PARAM_USER = "user";
 
-    protected ToolbarFragment toolbarFragment;
+    private ToolbarFragment toolbarFragment;
     private RecyclerView recyclerView;
     private DataLayer dataLayer;
-
     private ReducedUser user;
     private boolean isMyUser = false;
     private UserProfileAdapter adapter;
@@ -147,7 +146,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
     @Override
     public void joinTeam(Team team) {
-        final ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(),getString(R.string.join_team_confirmation), false);
+        final ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(), getString(R.string.join_team_confirmation, team.getName()), false);
         bottomSheet.setListener(new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
             @Override
             public void onConfirm() {
