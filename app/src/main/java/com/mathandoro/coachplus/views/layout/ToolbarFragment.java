@@ -45,8 +45,8 @@ public class ToolbarFragment extends Fragment {
         this.rightIcon.setText(R.string.fa_cog);
     }
 
-    public void setTeam(Team team){
-       title.setText(team.getName());
+    public void setTeamName(String teamName){
+       title.setText(teamName);
     }
 
     public void setTitle(String titleText){

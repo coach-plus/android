@@ -1,6 +1,8 @@
 package com.mathandoro.coachplus.views.TeamView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,9 @@ import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamImageItemViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.UpcomingEventsHeaderViewHolder;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -144,15 +148,15 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         switch (holder.getItemViewType()) {
             case TEAM_IMAGE_ITEM:
-                String image = this.teamFeedFragment.getCurrentMembership().getTeam().getImage();
+                String image = myUsersMembership.getTeam().getImage(); // this.teamFeedFragment.getCurrentMembership().getTeam().getImage();
                 TeamImageItemViewHolder teamImageItemViewHolder = (TeamImageItemViewHolder) holder;
                 if(image != null){
                     String imageUrl = BuildConfig.BASE_URL + "/uploads/" + image;
-                    Picasso.with(teamImageItemViewHolder.itemView.getContext())
+                     Picasso.with(teamImageItemViewHolder.itemView.getContext())
                             .load(imageUrl)
+                            .placeholder(teamImageItemViewHolder.teamImage.getDrawable())
                             .resize(Settings.TEAM_ICON_LARGE, Settings.TEAM_ICON_LARGE)
-                            .placeholder(R.drawable.circle)
-                            .into(teamImageItemViewHolder.teamImage);
+                             .into(teamImageItemViewHolder.teamImage);
                 }
                 else{
                     teamImageItemViewHolder.teamImage.setImageResource(R.drawable.circle);
@@ -211,5 +215,10 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemCount() {
         return viewStack.size();
+    }
+
+    public void setMembership(Membership updatedMembership) {
+        this.myUsersMembership = updatedMembership;
+        notifyDataSetChanged();
     }
 }

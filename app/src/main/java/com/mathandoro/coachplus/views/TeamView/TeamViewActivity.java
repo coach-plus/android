@@ -7,7 +7,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Debug;
 import android.util.Log;
 import android.view.View;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -26,7 +25,6 @@ import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.models.TeamMember;
-import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -38,6 +36,7 @@ import com.mathandoro.coachplus.views.LoginActivity;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 
 public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
@@ -134,13 +133,16 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         startActivity(logoutIntent);
     }
 
-    private void loadMemberships(Membership joinedMembership, boolean switchTeam){
+    private Observable<List<Membership>> loadMemberships(Membership joinedMembership, boolean switchTeam){
+        PublishSubject subject = PublishSubject.create();
         this.dataLayer.getMyMembershipsV2(false).subscribe(myMembershipsResponse -> {
             membershipsSwipeRefreshLayout.setRefreshing(false);
             memberships = myMembershipsResponse.getMemberships();
             myMembershipsAdapter.setMemberships(myMembershipsResponse.getMemberships());
             Membership switchedMembership = null;
             if(!switchTeam){
+                subject.onNext(memberships);
+                subject.onComplete();
                 return;
             }
             if(joinedMembership != null){
@@ -161,7 +163,10 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
             else {
                 loadActiveTeam();
             }
+            subject.onNext(memberships);
+            subject.onComplete();
         });
+        return subject;
     }
 
     private void loadActiveTeam(){
@@ -231,7 +236,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     public void switchTeamContext(Membership membership) {
         reloadMembershipsView();
         currentMembership = membership;
-        toolbarFragment.setTeam(membership.getTeam());
+        toolbarFragment.setTeamName(membership.getTeam().getName());
         this.settings.setActiveTeamId(membership.getTeam().get_id());
         teamViewFragment = TeamViewFragment.newInstance(membership);
         getSupportFragmentManager()
@@ -271,7 +276,19 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
     @Override
     public void onRefresh() {
-        this.loadMemberships(currentMembership, false);
+        this.reload();
+    }
+
+    public void reload(){
+        Observable<List<Membership>> listObservable = this.loadMemberships(currentMembership, false);
+        listObservable.subscribe(memberships1 -> {
+            for (Membership membership : memberships1) {
+                if(membership.getTeam().get_id().equals(settings.getActiveTeamId())){
+                    teamViewFragment.onMembershipRefreshed(membership);
+                    toolbarFragment.setTeamName(membership.getTeam().getName());
+                }
+            };
+        });
     }
 
     public void showBottomSheet(TeamMember member){

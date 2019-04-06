@@ -47,7 +47,6 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     private static final int REQUEST_SHOW_EVENT_DETAILS = 1;
     private Settings settings;
     private Membership membership;
-    private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private TeamViewAdapter teamViewAdapter;
@@ -66,6 +65,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     public Membership getCurrentMembership(){
         return this.membership;
     }
+    TeamViewActivity teamViewActivity;
 
     public static TeamViewFragment newInstance(Membership membership) {
         TeamViewFragment fragment = new TeamViewFragment();
@@ -78,9 +78,10 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        teamViewActivity = (TeamViewActivity) getActivity();
         this.settings = new Settings(this.getActivity());
 
-        AppState.myUserChanged$.subscribe(user -> reloadMembers());
+        AppState.myUserChanged$.subscribe(user -> reloadMembers().subscribe());
 
         dataLayer = DataLayer.getInstance(this.getActivity());
         if (getArguments() != null) {
@@ -130,6 +131,12 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         inviteToTeamFab = view.findViewById(R.id.team_feed_invite_fab);
         inviteToTeamFab.setOnClickListener((View v) -> inviteToTeam());
 
+        applyRole();
+
+        loadData();
+    }
+
+    private void applyRole(){
         if(!membership.getRole().equals(Role.COACH)){
             addEventFab.setVisibility(View.GONE);
             editTeamFab.setVisibility(View.GONE);
@@ -139,8 +146,12 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
                 floatingActionsMenu.setVisibility(View.GONE);
             }
         }
-
-        loadData();
+        else {
+            addEventFab.setVisibility(View.VISIBLE);
+            editTeamFab.setVisibility(View.VISIBLE);
+            inviteToTeamFab.setVisibility(View.VISIBLE);
+            floatingActionsMenu.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -148,13 +159,13 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == REQUEST_SHOW_EVENT_DETAILS){
-            reloadEvents();
+            reloadEvents().subscribe();
         }
     }
 
     private void loadData(){
         boolean useCache = false;
-        // todo reload team image / membership
+
         Observable<TeamMembersResponse> teamMembersV2 = dataLayer.getTeamMembersV2(membership.getTeam(), useCache);
         Observable<EventsResponse> eventsV2 = dataLayer.getEvents(membership.getTeam(), useCache);
 
@@ -166,33 +177,43 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         }).subscribe();
     }
 
-    public void reloadMembers(){
-        dataLayer.getTeamMembersV2(membership.getTeam(), false)
-                .subscribe(teamMembersResponse -> teamViewAdapter.setMembers(teamMembersResponse.getMembers()),
-                        error -> {});
+    public Observable<TeamMembersResponse> reloadMembers(){
+        return dataLayer.getTeamMembersV2(membership.getTeam(), false)
+                .map(teamMembersResponse -> {
+                    teamViewAdapter.setMembers(teamMembersResponse.getMembers());
+                    return teamMembersResponse;
+                });
     }
 
-    public void reloadEvents(){
-        dataLayer.getEvents(membership.getTeam(), false)
-                .subscribe(response -> teamViewAdapter.setUpcomingEvents(response.getEvents()), error -> {});
+    public Observable<EventsResponse> reloadEvents(){
+        return dataLayer.getEvents(membership.getTeam(), false)
+                .map(response -> {
+                    teamViewAdapter.setUpcomingEvents(response.getEvents());
+                    return response;
+                });
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     @Override
     public void onRefresh() {
-        loadData();
+        reloadMemberships();
     }
 
+    private void reloadMemberships(){
+         teamViewActivity.reload();
+    }
 
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public void onMembershipRefreshed(Membership updatedMembership) {
+        teamViewAdapter.setMembership(updatedMembership);
+        applyRole();
+        Observable.zip(reloadEvents(), reloadMembers(), (events, members) -> {
+            swipeRefreshLayout.setRefreshing(false);
+            return true;
+        }).subscribe();
     }
 
     public void navigateToAllEvents() {
