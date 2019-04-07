@@ -1,12 +1,13 @@
 package com.mathandoro.coachplus.views;
 
 import android.content.Intent;
+
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
@@ -85,10 +86,21 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
             this.settings.startSession(response.body().content.token, response.body().content.user, false);
             this.navigateToMainActivity();
         }
+        else if(response.code() == 400) {
+            showError(R.string.login_failed_wrong_input);
+        }
+        else {
+            showError(R.string.api_call_failed_server_issues);
+        }
     }
 
     @Override
     public void onFailure(Call<ApiResponse<LoginResponse>> call, Throwable t) {
-
+        showError(R.string.api_call_failed_network_issues);
     }
+
+    private void showError(@StringRes() int error){
+        Snackbar.make(emailEditText, error, Snackbar.LENGTH_SHORT).show();
+    }
+
 }

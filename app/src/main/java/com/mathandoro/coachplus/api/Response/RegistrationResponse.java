@@ -1,6 +1,6 @@
 package com.mathandoro.coachplus.api.Response;
 
-import com.mathandoro.coachplus.models.ReducedUser;
+import com.mathandoro.coachplus.models.JWTUser;
 
 /**
  * Created by dominik on 26.03.17.
@@ -8,5 +8,5 @@ import com.mathandoro.coachplus.models.ReducedUser;
 
 public class RegistrationResponse {
     public String token;
-    public ReducedUser user;
+    public JWTUser user;
 }
