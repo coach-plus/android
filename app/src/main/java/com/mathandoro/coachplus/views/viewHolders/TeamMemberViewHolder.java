@@ -34,6 +34,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     ImageButton dontAttend;
     TextView attendenceStatus;
     View rightPlacehoder;
+    View rightInflatedView;
 
     public final int MAX_NAME_LENGTH = 14;
     Context context;
@@ -65,6 +66,11 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         colorGreen = ResourcesCompat.getColor(context.getResources(), R.color.colorGreen, null);
         colorBlue = ResourcesCompat.getColor(context.getResources(), R.color.colorAccent, null);
         colorOrange = ResourcesCompat.getColor(context.getResources(), R.color.colorOrange, null);
+    }
+
+    public TeamMemberViewHolder(View view, View rightInflatedView)  {
+        this(view);
+        this.rightInflatedView = rightInflatedView;
     }
 
     public void bindReadMode(JWTUser myUser, Event event, EventDetailAdapter.ItemState itemState,
@@ -141,7 +147,11 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     public void bindTeamViewMode(TeamMember teamMember, JWTUser myUser, ITeamMemberItemListener listener, boolean isCoach){
         this.listener = listener;
         this.bindGeneralInformation(teamMember, myUser);
-        if(isCoach){
+        if(isCoach && this.isMyUser(teamMember, myUser)){
+            this.rightInflatedView.setVisibility(View.GONE);
+        }
+        else if(isCoach){
+            this.rightInflatedView.setVisibility(View.VISIBLE);
             this.rightPlacehoder.setOnClickListener((View view) -> listener.onOptionsClick());
         }
     }

@@ -133,10 +133,11 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return new StaticViewHolder(view);
             case MEMBERS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
+                View rightView = null;
                 if(myUsersMembership.isCoach()){
-                    View.inflate(view.getContext(), R.layout.member_item_actions_indicator, view.findViewById(R.id.member_item_right_container));
+                    rightView = View.inflate(view.getContext(), R.layout.member_item_actions_indicator, view.findViewById(R.id.member_item_right_container));
                 }
-                return new TeamMemberViewHolder(view);
+                return new TeamMemberViewHolder(view, rightView);
             case FOOTER:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer, parent, false);
                 return new StaticViewHolder(view);
