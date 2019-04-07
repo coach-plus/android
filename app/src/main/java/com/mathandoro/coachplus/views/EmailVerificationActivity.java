@@ -4,6 +4,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
@@ -48,9 +49,7 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
         if(call == this.verifyEmailCall){
             if(response.code() == 200) {
                 settings.confirmEmailVerification();
-                Intent intent = new Intent(this, TeamViewActivity.class);
-                startActivity(intent);
-                finish();
+                navigateToTeamView();
             }
         }
     }
@@ -59,5 +58,15 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
     public void onFailure(Call<ApiResponse<Object>> call, Throwable t) {
         Log.d("coach", t.toString());
         // todo show API failures in UI (e.g. email already used)
+    }
+
+    public void continueToTeamView(View view) {
+        navigateToTeamView();
+    }
+
+    private void navigateToTeamView(){
+        Intent intent = new Intent(this, TeamViewActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

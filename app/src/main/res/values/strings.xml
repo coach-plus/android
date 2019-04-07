@@ -60,5 +60,8 @@
     <string name="reset_password_description" >We will send a new password to your email address</string>
     <string name="why_so_lonely_text">Why so lonely? Create a team and invite your buddies!</string>
     <string name="no_team_text_memberships">Why so lonely? Create a team by clicking the plus icon in the upper right corner!</string>
+    <string name="can_t_find_the_mail_trigger_a_new_email_in_the_user_settings">Can\'t find the mail? Trigger a new email in the user settings</string>
+    <string name="continue_button_text">continue</string>
+    <string name="please_check_your_mails_and_verify_your_email_address">Please check your mails and verify your email address</string>
 
 </resources>
