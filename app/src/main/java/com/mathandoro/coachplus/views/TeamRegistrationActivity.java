@@ -5,6 +5,7 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -40,7 +41,9 @@ public class TeamRegistrationActivity extends AppCompatActivity
     RadioButton registerTeamPrivateToggleButton;
     TextInputEditText teamNameEditText;
 
-    MaterialButton deleteTeamButton;
+    Button deleteTeamButton;
+    Button saveTeamButton;
+
     boolean editMode = false;
     Team editableTeam;
 
@@ -62,7 +65,6 @@ public class TeamRegistrationActivity extends AppCompatActivity
         toolbarFragment.showBackButton();
 
 
-        FloatingActionButton registerTeamButton = findViewById(R.id.team_editor_save_button);
         imagePickerView = findViewById(R.id.team_editor_image_view);
         imagePickerView.setEditable(true);
         imagePickerView.setListener(this);
@@ -72,7 +74,9 @@ public class TeamRegistrationActivity extends AppCompatActivity
         radioGroup = findViewById(R.id.team_editor_visibility);
         registerTeamPublicToggleButton = findViewById(R.id.team_editor_public_radio_button);
         registerTeamPrivateToggleButton = findViewById(R.id.team_editor_private_radio_button);
+
         deleteTeamButton = findViewById(R.id.team_editor_delete_button);
+        saveTeamButton = findViewById(R.id.team_editor_save_button);
 
         final TextView registerTeamVisibilityDescription = findViewById(R.id.registerTeamVisibilityDescription);
 
@@ -87,13 +91,14 @@ public class TeamRegistrationActivity extends AppCompatActivity
 
         if(editMode){
             loadExistingTeam();
+            saveTeamButton.setText(R.string.register_team_update_button_text);
         }
         else {
             deleteTeamButton.setVisibility(View.INVISIBLE);
             toolbarFragment.setTitle(getString(R.string.new_team_title));
         }
 
-        registerTeamButton.setOnClickListener((View v) -> {
+        saveTeamButton.setOnClickListener((View v) -> {
             boolean isPublic = radioGroup.getCheckedRadioButtonId() == registerTeamPublicToggleButton.getId() ? true : false;
             if(editMode){
                 updateTeam(editableTeam.get_id(), teamNameEditText.getText().toString(), isPublic, imagePickerView.getSelectedImageBase64());

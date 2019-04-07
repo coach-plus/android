@@ -66,5 +66,6 @@
     <string name="login_failed_wrong_input">invalid email and password combination</string>
     <string name="api_call_failed_network_issues">could not connect to server. Please try again</string>
     <string name="api_call_failed_server_issues">Looks like we have some issues on the server. Please try again later.</string>
+    <string name="register_team_update_button_text">save</string>
 
 </resources>
