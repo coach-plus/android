@@ -2,6 +2,7 @@ package com.mathandoro.coachplus.views.viewHolders;
 
 import android.content.Context;
 
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
@@ -27,7 +28,7 @@ import java.util.Date;
 
 public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
     TextView name;
-    ImageView icon;
+    AppCompatImageView icon;
     ImageView whistle;
     ImageView whistleBackground;
     ImageButton attend;
@@ -183,11 +184,11 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
                     .load(imageUrl)
                     .resize(Settings.USER_ICON_SIZE, Settings.USER_ICON_SIZE)
                     .transform(new CircleTransform())
-                    .placeholder(R.drawable.circle)
+                    .placeholder(R.drawable.ic_user_black)
                     .into(icon);
         }
         else{
-            icon.setImageResource(R.drawable.circle);
+            icon.setImageResource(R.drawable.ic_user_black);
         }
     }
 

@@ -68,18 +68,6 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         toolbarFragment.showBackButton();
         toolbarFragment.setTitle("");
 
-        // parallax scroll effect
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                View view = recyclerView.getChildAt(0);
-                if(view != null && recyclerView.getChildAdapterPosition(view) == 0){
-                    View userImageView = view.findViewById(R.id.user_profile_image);
-                    userImageView.setTranslationY(-view.getTop()/2);
-                }
-            }
-        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         this.loadUser();

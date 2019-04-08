@@ -57,7 +57,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                               int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
-        View view = null;
+        View view;
         switch(viewType){
             case TEAM_ITEM:
                 view = LayoutInflater.from(parent.getContext())

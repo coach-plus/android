@@ -73,12 +73,12 @@ public class MembershipViewHolder extends RecyclerView.ViewHolder {
             Picasso.with(teamImageView.getContext())
                     .load(imageUrl)
                     .resize(Settings.TEAM_ICON_SIZE, Settings.TEAM_ICON_SIZE)
-                    .placeholder(R.drawable.circle)
+                    .placeholder(R.drawable.ic_users_solid)
                     .transform(new CircleTransform())
                     .into(teamImageView);
         }
         else {
-            teamImageView.setImageResource(R.drawable.circle);
+            teamImageView.setImageResource(R.drawable.ic_users_solid);
         }
         if(showActions){
             if(isMyUser){

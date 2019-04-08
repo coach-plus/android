@@ -51,7 +51,7 @@ public class ImagePickerView extends ConstraintLayout {
     private Target target = new Target() {
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                ImagePickerView.this.bitmap = bitmap;
+            ImagePickerView.this.bitmap = bitmap;
             bitmapObservableEmitter.onNext(bitmap);
         }
 

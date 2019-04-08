@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
@@ -152,6 +153,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 String image = myUsersMembership.getTeam().getImage(); // this.teamFeedFragment.getCurrentMembership().getTeam().getImage();
                 TeamImageItemViewHolder teamImageItemViewHolder = (TeamImageItemViewHolder) holder;
                 if(image != null){
+                    teamImageItemViewHolder.teamImage.setScaleX(1f);
+                    teamImageItemViewHolder.teamImage.setScaleY(1f);
+                    teamImageItemViewHolder.teamImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     String imageUrl = BuildConfig.BASE_URL + "/uploads/" + image;
                      Picasso.with(teamImageItemViewHolder.itemView.getContext())
                             .load(imageUrl)
@@ -160,7 +164,11 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                              .into(teamImageItemViewHolder.teamImage);
                 }
                 else{
-                    teamImageItemViewHolder.teamImage.setImageResource(R.drawable.circle);
+                    teamImageItemViewHolder.teamImage.setImageResource(R.drawable.ic_tshirt_solid);
+                    teamImageItemViewHolder.teamImage.setScaleX(.8f);
+                    teamImageItemViewHolder.teamImage.setScaleY(.8f);
+                    teamImageItemViewHolder.teamImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
                 }
 
                 break;
