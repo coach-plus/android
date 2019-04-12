@@ -53,12 +53,13 @@ public class EventDetailActivity extends AppCompatActivity {
     Event event;
     Team team;
     Membership membership;
+    ToolbarFragment toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_detail_activity);
-        ToolbarFragment toolbar = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.create_event_activity_toolbar);
+        toolbar = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.create_event_activity_toolbar);
         toolbar.showBackButton();
         toolbar.setListener(new ToolbarFragment.ToolbarFragmentListener() {
             @Override
@@ -109,6 +110,8 @@ public class EventDetailActivity extends AppCompatActivity {
             if(action.equals(CreateEventActivity.ACTION_UPDATED)){
                 Event event = data.getExtras().getParcelable(CreateEventActivity.RETURN_INTENT_PARAM_EVENT);
                 eventDetailAdapter.setEvent(event);
+                toolbar.setTitle(event.getName());
+
             }
             else if(action.equals(CreateEventActivity.ACTION_DELETED)){
                 finish();
