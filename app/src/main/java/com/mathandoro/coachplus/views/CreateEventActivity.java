@@ -151,7 +151,7 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
             handleCalendarOverlaps(calendar);
             datePickerDialog.hide();
         }, currentYear, currentMonth, currentDay);
-        String title = calendar == eventStartCalendar ? "select start date" : "select end date";
+        String title = calendar == eventStartCalendar ? getString(R.string.select_start_date) : getString(R.string.select_end_date);
         datePickerDialog.setTitle(title);
         datePickerDialog.show();
     }
@@ -166,7 +166,7 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
             handleCalendarOverlaps(calendar);
             timePickerDialog.hide();
         }, currentHour, currentMinute, true);
-        String title = calendar == eventStartCalendar ? "select start time" : "select end time";
+        String title = calendar == eventStartCalendar ? getString(R.string.select_start_time) : getString(R.string.select_end_time);
         timePickerDialog.setTitle(title);
         timePickerDialog.show();
     }

@@ -68,5 +68,9 @@
     <string name="api_call_failed_server_issues">Looks like we have some issues on the server. Please try again later.</string>
     <string name="register_team_update_button_text">save</string>
     <string name="news_title">News</string>
+    <string name="select_start_date">select start date</string>
+    <string name="select_end_date">select end date</string>
+    <string name="select_start_time">select start time</string>
+    <string name="select_end_time">select end time</string>
 
 </resources>
