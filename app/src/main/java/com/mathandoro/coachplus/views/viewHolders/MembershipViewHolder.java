@@ -23,6 +23,7 @@ public class MembershipViewHolder extends RecyclerView.ViewHolder {
     public ImageView teamImageView;
     public ImageView privateTeamImageView;
     public ImageView privateTeamImageBackgroundView;
+    public ImageView teamImageBackground;
     public View containerView;
     public TextView rightIconView;
 
@@ -41,6 +42,7 @@ public class MembershipViewHolder extends RecyclerView.ViewHolder {
         containerView = view;
         teamNameTextView = view.findViewById(R.id.team_item_team_name);
         teamImageView = view.findViewById(R.id.team_item_team_icon);
+        teamImageBackground = view.findViewById(R.id.team_item_team_icon_background);
         privateTeamImageView = view.findViewById(R.id.team_item_private_icon);
         privateTeamImageBackgroundView = view.findViewById(R.id.team_item_private_icon_background);
         rightIconView = view.findViewById(R.id.team_item_right_icon);
@@ -51,12 +53,14 @@ public class MembershipViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(Membership membership, boolean showActions, boolean isMyUser, boolean highlightCurrentTeam, MembershipViewHolderListener listener){
         this.listener = listener;
-        if(highlightCurrentTeam && membership.getTeam().get_id().equals(settings.getActiveTeamId())){
-            containerView.setBackgroundColor(ContextCompat.getColor(this.containerView.getContext(), R.color.colorAccent));
+        boolean isSelected = highlightCurrentTeam && membership.getTeam().get_id().equals(settings.getActiveTeamId());
+        if(isSelected){
+            teamImageBackground.setVisibility(View.VISIBLE);
         }
         else {
-            containerView.setBackgroundColor(Color.TRANSPARENT);
+            teamImageBackground.setVisibility(View.INVISIBLE);
         }
+
         teamNameTextView.setText(membership.getTeam().getName());
         if(membership.getTeam().isPublic()){
             privateTeamImageView.setVisibility(View.INVISIBLE);
@@ -69,12 +73,14 @@ public class MembershipViewHolder extends RecyclerView.ViewHolder {
         String numMembersSuffix = membership.getTeam().getMemberCount() == 1 ? itemView.getResources().getString(R.string.member) : itemView.getResources().getString(R.string.members);
         teamMembers.setText(membership.getTeam().getMemberCount() + " " + numMembersSuffix);
         if(membership.getTeam().getImage() != null){
+            CircleTransform circleTransform = new CircleTransform();
+
             String imageUrl = BuildConfig.BASE_URL + "/uploads/" + membership.getTeam().getImage();
             Picasso.with(teamImageView.getContext())
                     .load(imageUrl)
                     .resize(Settings.TEAM_ICON_SIZE, Settings.TEAM_ICON_SIZE)
                     .placeholder(R.drawable.ic_users_solid)
-                    .transform(new CircleTransform())
+                    .transform(circleTransform)
                     .into(teamImageView);
         }
         else {

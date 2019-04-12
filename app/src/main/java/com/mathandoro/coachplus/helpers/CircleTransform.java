@@ -7,11 +7,26 @@ package com.mathandoro.coachplus.helpers;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.squareup.picasso.Transformation;
 
 public class CircleTransform implements Transformation {
+
+    private boolean hasBorder = false;
+    private int borderColor;
+    private int borderWidth;
+
+    public CircleTransform(int borderColor, int borderWidth){
+        this.borderColor = borderColor;
+        this.borderWidth = borderWidth;
+        hasBorder = true;
+    }
+
+    public CircleTransform(){
+    }
+
     @Override
     public Bitmap transform(Bitmap source) {
         int size = Math.min(source.getWidth(), source.getHeight());
@@ -35,6 +50,17 @@ public class CircleTransform implements Transformation {
 
         float r = size / 2f;
         canvas.drawCircle(r, r, r, paint);
+
+        if(hasBorder){
+            int strokeWidth = borderWidth;
+            Paint paint2 = new Paint();
+            paint2.setColor(borderColor);
+            paint2.setStyle(Paint.Style.STROKE);
+            paint2.setAntiAlias(true);
+            paint2.setStrokeWidth(strokeWidth);
+            canvas.drawCircle(r,r, r-(strokeWidth/2f), paint2);
+        }
+
 
         squaredBitmap.recycle();
         return bitmap;

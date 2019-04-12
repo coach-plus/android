@@ -21,11 +21,25 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
-        app:srcCompat="@drawable/ic_users_solid"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.512"></androidx.appcompat.widget.AppCompatImageView>
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/ic_users_solid">
+
+    </androidx.appcompat.widget.AppCompatImageView>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/team_item_team_icon_background"
+        android:layout_width="53dp"
+        android:layout_height="53dp"
+        app:layout_constraintBottom_toBottomOf="@+id/team_item_team_icon"
+        app:layout_constraintEnd_toEndOf="@+id/team_item_team_icon"
+        app:layout_constraintStart_toStartOf="@+id/team_item_team_icon"
+        app:layout_constraintTop_toTopOf="@+id/team_item_team_icon"
+        app:srcCompat="@drawable/selected_team_image_background">
+
+    </androidx.appcompat.widget.AppCompatImageView>
 
     <TextView
         android:id="@+id/team_item_members"
