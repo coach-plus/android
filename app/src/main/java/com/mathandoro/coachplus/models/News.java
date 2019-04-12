@@ -3,6 +3,7 @@ package com.mathandoro.coachplus.models;
 import java.util.Date;
 
 public class News {
+    private String _id;
     private String event;
     private ReducedUser author;
     private Date created;
@@ -35,5 +36,9 @@ public class News {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getId() {
+        return _id;
     }
 }

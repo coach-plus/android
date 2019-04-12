@@ -16,6 +16,7 @@ import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.EventDetail.ViewHolders.AttendanceHeadingViewHolder;
 import com.mathandoro.coachplus.views.EventDetail.ViewHolders.EventDetailHeaderViewHolder;
 import com.mathandoro.coachplus.views.EventDetail.ViewHolders.NewsItemViewHolder;
+import com.mathandoro.coachplus.views.UserProfile.ConfirmationBottomSheet;
 import com.mathandoro.coachplus.views.viewHolders.SectionHeaderViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
@@ -203,6 +204,11 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 News news = getNewsItem(position);
                 NewsItemViewHolder newsItemViewHolder = (NewsItemViewHolder)holder;
                 newsItemViewHolder.bind(news);
+                if(myUsersMembership.getRole().equals(Role.COACH)){
+                    newsItemViewHolder.makeDeleteable(() -> {
+                        mainActivity.showNewsDeletionConfirmation(news);
+                    });
+                }
                 break;
             case ATTENDANCE_HEADING: {
                 AttendanceHeadingViewHolder eventItemViewHolder = (AttendanceHeadingViewHolder) holder;

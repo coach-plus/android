@@ -42,4 +42,15 @@ public class NewsItemViewHolder extends RecyclerView.ViewHolder {
         this.text.setText(news.getText());
     }
 
+    public void makeDeleteable(INewsItemViewHolderListener listener){
+        itemContainer.setOnLongClickListener(view -> {
+            listener.onLongPress();
+            return true;
+        });
+    }
+
+    public interface INewsItemViewHolderListener {
+        void onLongPress();
+    }
+
 }

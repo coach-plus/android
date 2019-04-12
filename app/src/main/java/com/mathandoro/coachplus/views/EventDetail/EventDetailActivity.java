@@ -18,12 +18,14 @@ import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
 import com.mathandoro.coachplus.helpers.CustomDialog;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.models.News;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.views.CreateEventActivity;
+import com.mathandoro.coachplus.views.UserProfile.ConfirmationBottomSheet;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.ArrayList;
@@ -217,5 +219,25 @@ public class EventDetailActivity extends AppCompatActivity {
             });
         });
         bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
+    }
+
+    public void showNewsDeletionConfirmation(News news){
+        ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(), "do you want to delete the messsage?", true);
+        bottomSheet.setListener(new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
+            @Override
+            public void onConfirm() {
+                dataLayer.deleteNews(team.get_id(), event.get_id(), news.getId()).subscribe(news -> {
+                    loadNews();
+                    bottomSheet.dismiss();
+                });
+                bottomSheet.dismiss();
+            }
+
+            @Override
+            public void onDecline() {
+                bottomSheet.dismiss();
+            }
+        });
+
     }
 }
