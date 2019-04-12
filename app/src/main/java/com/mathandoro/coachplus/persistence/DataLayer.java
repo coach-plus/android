@@ -13,6 +13,7 @@ import com.mathandoro.coachplus.api.Request.UpdateUserRequest;
 import com.mathandoro.coachplus.api.Request.WillAttendRequest;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.CreateEventResponse;
+import com.mathandoro.coachplus.api.Response.GetEventResponse;
 import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
@@ -208,6 +209,11 @@ public class DataLayer {
     public Observable<EventsResponse> getEvents(final Team team, boolean useCache) {
         Call<ApiResponse<EventsResponse>> eventsOfTeam = ApiClient.instance().teamService.getEventsOfTeam(settings.getToken(), team.get_id());
         return this.apiCall(eventsOfTeam, useCache);
+    }
+
+    public Observable<GetEventResponse> getEvent(String teamId, String eventId, boolean useCache) {
+        Call<ApiResponse<GetEventResponse>> eventRequest = ApiClient.instance().teamService.getEvent(settings.getToken(), teamId, eventId);
+        return this.apiCall(eventRequest, useCache);
     }
 
     public Observable<Object> deleteEvent(String teamId, String eventId){

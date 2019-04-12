@@ -4,6 +4,7 @@ import com.mathandoro.coachplus.api.Request.CreateNewsRequest;
 import com.mathandoro.coachplus.api.Request.DidAttendRequest;
 import com.mathandoro.coachplus.api.Request.WillAttendRequest;
 import com.mathandoro.coachplus.api.Response.CreateNewsResponse;
+import com.mathandoro.coachplus.api.Response.GetEventResponse;
 import com.mathandoro.coachplus.api.Response.GetNewsResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.models.Membership;
@@ -50,6 +51,9 @@ public interface TeamService {
 
     @POST("teams/{teamId}/events")
     Call<ApiResponse<CreateEventResponse>> createEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Body Event event);
+
+    @GET("teams/{teamId}/events/{eventId}")
+    Call<ApiResponse<GetEventResponse>> getEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId);
 
     @PUT("teams/{teamId}/events/{eventId}")
     Call<ApiResponse<CreateEventResponse>> updateEvent(@Header("X-ACCESS-TOKEN") String accessToken, @Path("teamId") String teamId, @Path("eventId") String eventId, @Body Event event);

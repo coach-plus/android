@@ -32,9 +32,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.reactivex.Observable;
 
-public class EventDetailActivity extends AppCompatActivity {
+public class EventDetailActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     public static final String EXTRA_BUNDLE = "bundle";
     public static final String EXTRA_TEAM = "team";
     public static final String EXTRA_EVENT = "event";
@@ -50,6 +51,9 @@ public class EventDetailActivity extends AppCompatActivity {
     private FloatingActionButton editEventFab;
     private FloatingActionButton reminderFab;
     private FloatingActionsMenu floatingActionsMenu;
+
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     Map<String, ParticipationItem> map = new HashMap<>();
     Event event;
@@ -73,6 +77,9 @@ public class EventDetailActivity extends AppCompatActivity {
             public void onRightIconPressed() {
             }
         });
+
+        swipeRefreshLayout = findViewById(R.id.eventDetailSwipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         Bundle bundle = getIntent().getExtras().getBundle(EXTRA_BUNDLE);
 
@@ -111,8 +118,7 @@ public class EventDetailActivity extends AppCompatActivity {
             String action = data.getExtras().getString(CreateEventActivity.RETURN_INTENT_PARAM_ACTION);
             if(action.equals(CreateEventActivity.ACTION_UPDATED)){
                 Event event = data.getExtras().getParcelable(CreateEventActivity.RETURN_INTENT_PARAM_EVENT);
-                eventDetailAdapter.setEvent(event);
-                toolbar.setTitle(event.getName());
+                applyUpdatedEvent(event);
 
             }
             else if(action.equals(CreateEventActivity.ACTION_DELETED)){
@@ -120,6 +126,12 @@ public class EventDetailActivity extends AppCompatActivity {
                 // TODO reload list in event list or upcoming 3 events
             }
         }
+    }
+
+    private void applyUpdatedEvent(Event event){
+        this.event = event;
+        this.eventDetailAdapter.setEvent(event);
+        toolbar.setTitle(event.getName());
     }
 
     private void editEvent(){
@@ -239,5 +251,15 @@ public class EventDetailActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onRefresh() {
+        dataLayer.getEvent(this.team.get_id(), this.event.get_id(), false).subscribe(response -> {
+            applyUpdatedEvent(response.getEvent());
+            swipeRefreshLayout.setRefreshing(false);
+        }, error -> {
+            swipeRefreshLayout.setRefreshing(false);
+        });
     }
 }
