@@ -9,13 +9,15 @@
         android:id="@+id/news_item_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="this is a very very very very y very very y very very very very long announcment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/news_item_author_name"
-        app:layout_constraintTop_toBottomOf="@+id/news_item_author_name" />
+        app:layout_constraintStart_toEndOf="@+id/news_item_author_icon"
+        app:layout_constraintTop_toTopOf="@+id/news_item_author_icon" />
 
     <ImageView
         android:id="@+id/news_item_author_icon"
@@ -28,27 +30,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/circle" />
 
-    <TextView
-        android:id="@+id/news_item_author_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="Max Mustermann"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/news_item_author_icon"
-        app:layout_constraintTop_toTopOf="@+id/news_item_author_icon" />
 
     <TextView
         android:id="@+id/news_item_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="16dp"
-        android:text="11.12.2018 13:12Uhr"
+        android:layout_marginBottom="8dp"
+        android:text="Firstname Lastname | 11.12.2018 13:12Uhr"
         android:textColor="@color/light_gray"
-        android:textSize="12sp"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/news_item_author_name"
+        app:layout_constraintStart_toStartOf="@+id/news_item_text"
         app:layout_constraintTop_toBottomOf="@+id/news_item_text" />
 </androidx.constraintlayout.widget.ConstraintLayout>

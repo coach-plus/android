@@ -16,7 +16,6 @@ import com.squareup.picasso.Picasso;
 public class NewsItemViewHolder extends RecyclerView.ViewHolder {
 
     public TextView text;
-    public TextView authorName;
     public ImageView authorIcon;
     public TextView created;
     public View itemContainer;
@@ -25,23 +24,21 @@ public class NewsItemViewHolder extends RecyclerView.ViewHolder {
         super(view);
         this.itemContainer = view;
         this.text = view.findViewById(R.id.news_item_text);
-        this.authorName = view.findViewById(R.id.news_item_author_name);
         this.authorIcon = view.findViewById(R.id.news_item_author_icon);
         this.created = view.findViewById(R.id.news_item_date);
     }
 
     public void bind(News news){
-        this.authorName.setText(Formatter.formatUserName(news.getAuthor()));
         if(news.getAuthor().getImage() != null){
             String imageUrl = BuildConfig.BASE_URL + "/uploads/" + news.getAuthor().getImage();
             Picasso.with(itemContainer.getContext())
                     .load(imageUrl)
                     .resize(Settings.TEAM_ICON_SIZE, Settings.TEAM_ICON_SIZE)
-                    .placeholder(R.drawable.circle)
+                    .placeholder(R.drawable.ic_user_black)
                     .transform(new CircleTransform())
                     .into(authorIcon);
         }
-        this.created.setText(Formatter.formatGermanTimestamp(news.getCreated()));
+        this.created.setText(Formatter.formatUserName(news.getAuthor()) + " | " +Formatter.formatGermanTimestamp(news.getCreated()));
         this.text.setText(news.getText());
     }
 
