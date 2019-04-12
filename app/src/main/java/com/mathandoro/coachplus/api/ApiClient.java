@@ -1,5 +1,7 @@
 package com.mathandoro.coachplus.api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mathandoro.coachplus.BuildConfig;
 
 import java.security.cert.CertificateException;
@@ -31,10 +33,15 @@ public class ApiClient {
 
 
     private ApiClient(){
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX") // add timezone (XXX)
+                .create();
+
         this.baseUrl = BuildConfig.BASE_URL + "/api/";
         this.retrofit = new Retrofit.Builder()
                 .baseUrl(this.baseUrl)
-                .addConverterFactory(GsonConverterFactory.create()).build();
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
         this.userService = retrofit.create(UserService.class);
         this.membershipService = retrofit.create(MembershipService.class);
         this.teamService = retrofit.create(TeamService.class);

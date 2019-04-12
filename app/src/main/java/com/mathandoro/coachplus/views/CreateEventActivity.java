@@ -25,6 +25,7 @@ import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class CreateEventActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
 
@@ -33,12 +34,9 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
     public static final String RETURN_INTENT_PARAM_ACTION = "action";
     public static final String RETURN_INTENT_PARAM_EVENT = "event";
 
-
     public static final String ACTION_CREATED = "created";
     public static final String ACTION_UPDATED = "updated";
     public static final String ACTION_DELETED = "deleted";
-
-
 
     private DatePickerDialog datePickerDialog = null;
     private TimePickerDialog timePickerDialog = null;

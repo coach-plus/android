@@ -47,7 +47,7 @@ android {
             dimension 'tier'
             manifestPlaceholders = [appName: "Coach+ (Dev)"]
             applicationId "com.mathandoro.coachplus.dev"
-            buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
+            buildConfigField "String", "BASE_URL", '"http://192.168.0.115:4000"' //'"https://dev.coach.plus"'
         }
         beta {
             dimension 'tier'
