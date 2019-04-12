@@ -45,6 +45,11 @@ import static com.mathandoro.coachplus.views.TeamView.TeamViewActivity.EDIT_TEAM
 public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_MEMBERSHIP = "MEMBERSHIP";
     private static final int REQUEST_SHOW_EVENT_DETAILS = 1;
+    private static final int REQUEST_SHOW_ALL_EVENTS = 2;
+    private static final int REQUEST_SHOW_USER_PROFILE = 3;
+    private static final int REQUEST_CREATE_EVENT = 4;
+
+
     private Settings settings;
     private Membership membership;
     private RecyclerView mRecyclerView;
@@ -62,9 +67,6 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         // Required empty public constructor
     }
 
-    public Membership getCurrentMembership(){
-        return this.membership;
-    }
     TeamViewActivity teamViewActivity;
 
     public static TeamViewFragment newInstance(Membership membership) {
@@ -158,9 +160,8 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_SHOW_EVENT_DETAILS){
-            reloadEvents().subscribe();
-        }
+        reloadEvents().subscribe();
+        reloadMembers().subscribe();
     }
 
     private void loadData(){
@@ -222,7 +223,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         bundle.putParcelable(EventListActivity.EXTRA_TEAM, membership.getTeam());
         bundle.putParcelable(EventListActivity.EXTRA_MEMBERSHIP, membership);
         intent.putExtra(EventListActivity.EXTRA_BUNDLE, bundle);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_SHOW_ALL_EVENTS);
     }
 
     public void navigateToEvent(Event event) {
@@ -238,7 +239,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void navigateToUserProfile(ReducedUser user) {
         Intent intent = new Intent(getActivity(), UserProfileActivity.class);
         intent.putExtra(UserProfileActivity.INTENT_PARAM_USER, user);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_SHOW_USER_PROFILE);
     }
 
     void closeActionMenu(){
@@ -277,7 +278,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         closeActionMenu();
         Intent intent = new Intent(this.getActivity(), CreateEventActivity.class);
         intent.putExtra("team", membership.getTeam());
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CREATE_EVENT);
     }
 
     void editTeam(){
