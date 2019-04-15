@@ -1,7 +1,7 @@
 package com.mathandoro.coachplus.persistence;
 
-import com.mathandoro.coachplus.models.JWTUser;
-import io.reactivex.subjects.BehaviorSubject;
+import com.mathandoro.coachplus.models.MyReducedUser;
+
 import io.reactivex.subjects.PublishSubject;
 
 /**
@@ -12,7 +12,7 @@ import io.reactivex.subjects.PublishSubject;
 
 public class AppState {
 
-    public static PublishSubject<JWTUser> myUserChanged$ = PublishSubject.create();
+    public static PublishSubject<MyReducedUser> myUserChanged$ = PublishSubject.create();
 
 
 }

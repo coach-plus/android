@@ -23,7 +23,7 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
-import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
@@ -52,7 +52,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     private DrawerLayout drawer;
     protected ToolbarFragment toolbarFragment;
     protected List<Membership> memberships;
-    protected JWTUser myUser;
+    protected MyReducedUser myUser;
     private SwipeRefreshLayout membershipsSwipeRefreshLayout;
     private TeamViewFragment teamViewFragment;
 

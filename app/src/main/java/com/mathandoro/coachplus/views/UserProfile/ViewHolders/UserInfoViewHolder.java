@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.mathandoro.coachplus.BuildConfig;
 import com.mathandoro.coachplus.R;
-import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.views.layout.ImagePickerView;
 
@@ -44,7 +44,7 @@ public class UserInfoViewHolder extends RecyclerView.ViewHolder {
         imagePickerView.setEditable(isMyUser);
 
         if(isMyUser){
-            emailText.setText(((JWTUser) user).getEmail());
+            emailText.setText(((MyReducedUser) user).getEmail());
         }
         else{
             emailText.setVisibility(View.GONE);

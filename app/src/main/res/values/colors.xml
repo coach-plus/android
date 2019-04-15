@@ -15,4 +15,5 @@
     <color name="light_gray">#AAAAAA</color>
 
     <color name="danger">@color/colorRed</color>
+    <color name="colorWarning">#FFDD00</color>
 </resources>

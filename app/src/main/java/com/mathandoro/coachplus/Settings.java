@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.ReducedUser;
 
 /**
@@ -60,8 +60,8 @@ public class Settings {
         this.setObject(USER, user);
     }
 
-    public JWTUser getUser(){
-        return this.getObject(USER, JWTUser.class);
+    public MyReducedUser getUser(){
+        return this.getObject(USER, MyReducedUser.class);
     }
 
     public String getToken(){

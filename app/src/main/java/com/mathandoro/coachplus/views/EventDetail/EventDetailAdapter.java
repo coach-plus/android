@@ -9,14 +9,13 @@ import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.RecycleViewStack;
 import com.mathandoro.coachplus.models.Event;
-import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.News;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.EventDetail.ViewHolders.AttendanceHeadingViewHolder;
 import com.mathandoro.coachplus.views.EventDetail.ViewHolders.EventDetailHeaderViewHolder;
 import com.mathandoro.coachplus.views.EventDetail.ViewHolders.NewsItemViewHolder;
-import com.mathandoro.coachplus.views.UserProfile.ConfirmationBottomSheet;
 import com.mathandoro.coachplus.views.viewHolders.SectionHeaderViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
@@ -24,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import io.reactivex.Observable;
 
 /**
@@ -37,7 +35,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<News> news;
     private Event event;
     private DataLayer dataLayer;
-    private JWTUser myUser;
+    private MyReducedUser myUser;
     private TeamMember myUsersMembership;
 
     final int EVENT_DETAIL_HEADER = 0;
@@ -114,7 +112,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         myUserV2.subscribe((response) -> this.onMyUserChanged(response.user));
     }
 
-    private void onMyUserChanged(JWTUser myUser){
+    private void onMyUserChanged(MyReducedUser myUser){
         this.myUser = myUser;
         this.notifyDataSetChanged();
     }

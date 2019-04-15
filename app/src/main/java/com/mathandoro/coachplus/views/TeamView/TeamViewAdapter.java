@@ -2,7 +2,6 @@ package com.mathandoro.coachplus.views.TeamView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,7 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.RecycleViewStack;
 import com.mathandoro.coachplus.models.Event;
-import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.persistence.DataLayer;
@@ -23,9 +22,7 @@ import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamImageItemViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.UpcomingEventsHeaderViewHolder;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +40,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final TeamViewFragment teamFeedFragment;
     private List<TeamMember> members;
     private List<Event> visibleEvents;
-    private JWTUser myUser;
+    private MyReducedUser myUser;
     private Membership myUsersMembership;
     private DataLayer dataLayer;
     private RecycleViewStack viewStack;
@@ -83,7 +80,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         myUserV2.subscribe((response) -> this.onMyUserChanged(response.user));
     }
 
-    private void onMyUserChanged(JWTUser myUser){
+    private void onMyUserChanged(MyReducedUser myUser){
         this.myUser = myUser;
         this.notifyDataSetChanged();
     }

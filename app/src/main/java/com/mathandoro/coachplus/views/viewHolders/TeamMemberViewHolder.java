@@ -16,7 +16,7 @@ import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.helpers.CircleTransform;
 import com.mathandoro.coachplus.models.Event;
-import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.Participation;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.models.TeamMember;
@@ -74,7 +74,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         this.rightInflatedView = rightInflatedView;
     }
 
-    public void bindReadMode(JWTUser myUser, Event event, EventDetailAdapter.ItemState itemState,
+    public void bindReadMode(MyReducedUser myUser, Event event, EventDetailAdapter.ItemState itemState,
                              ParticipationItem item, IAttendenceStateChange didAttendChange){
         this.bindGeneralInformation(item.getTeamMember(), myUser);
 
@@ -141,11 +141,11 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private boolean isMyUser(TeamMember teamMember, JWTUser myUser){
+    private boolean isMyUser(TeamMember teamMember, MyReducedUser myUser){
         return myUser != null && myUser.get_id().equals(teamMember.getUser().get_id());
     }
 
-    public void bindTeamViewMode(TeamMember teamMember, JWTUser myUser, ITeamMemberItemListener listener, boolean isCoach){
+    public void bindTeamViewMode(TeamMember teamMember, MyReducedUser myUser, ITeamMemberItemListener listener, boolean isCoach){
         this.listener = listener;
         this.bindGeneralInformation(teamMember, myUser);
         if(isCoach && this.isMyUser(teamMember, myUser)){
@@ -157,7 +157,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void bindGeneralInformation(TeamMember teamMember, JWTUser myUser){
+    private void bindGeneralInformation(TeamMember teamMember, MyReducedUser myUser){
         ReducedUser user = teamMember.getUser();
         String username = user.getFirstname() + " " + user.getLastname();
         if(username.length() > MAX_NAME_LENGTH){
@@ -192,7 +192,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void bindSetMode(ParticipationItem item, JWTUser myUser, IAttendenceStateChange attendenceChange){
+    public void bindSetMode(ParticipationItem item, MyReducedUser myUser, IAttendenceStateChange attendenceChange){
         this.bindGeneralInformation(item.getTeamMember(), myUser);
 
         attend.setOnClickListener(view -> {

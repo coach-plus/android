@@ -6,13 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
 
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.Navigation;
-import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.models.Team;
@@ -42,7 +41,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
     private UserProfileAdapter adapter;
     private Settings settings;
     private ReducedUser userParam;
-    private JWTUser myUser;
+    private MyReducedUser myUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

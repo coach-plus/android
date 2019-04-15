@@ -1,7 +1,7 @@
 package com.mathandoro.coachplus.api.Response;
 
-import com.mathandoro.coachplus.models.JWTUser;
+import com.mathandoro.coachplus.models.MyReducedUser;
 
 public class UpdateUserInformationResponse {
-    public JWTUser user;
+    public MyReducedUser user;
 }
