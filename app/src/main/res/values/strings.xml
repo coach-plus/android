@@ -73,5 +73,9 @@
     <string name="select_start_time">select start time</string>
     <string name="select_end_time">select end time</string>
     <string name="password_reset_was_successfull">You will receive a new password via email</string>
+    <string name="field_cant_be_empty">can\'t be empty</string>
+    <string name="passwords_do_not_match">doesn\'t match your new password</string>
+    <string name="password_change_successfull">password changed successfully</string>
+    <string name="user_profile_changed_successful">user information changed successfully</string>
 
 </resources>

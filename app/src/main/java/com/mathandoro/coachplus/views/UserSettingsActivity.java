@@ -11,6 +11,7 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.Request.UpdatePasswordRequest;
 import com.mathandoro.coachplus.api.Request.UpdateUserRequest;
+import com.mathandoro.coachplus.helpers.SnackbarHelper;
 import com.mathandoro.coachplus.models.JWTUser;
 import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.persistence.DataLayer;
@@ -107,14 +108,14 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         };
 
         newPasswordInput.setOnFocusChangeListener((view, focused) -> {
-            if(!focused && newPasswordInput.equals("")){
-                newPasswordInput.setError("can't be empty");
+            if(!focused && newPasswordInput.getText().equals("")){
+                newPasswordInput.setError(getString(R.string.field_cant_be_empty));
             }
         });
 
         newPasswordRepeatInput.setOnFocusChangeListener((view, focused) -> {
-            if(!focused && !newPasswordInput.equals(newPasswordRepeatInput)){
-                newPasswordRepeatInput.setError("doesn't match your new password");
+            if(!focused && !newPasswordInput.getText().equals(newPasswordRepeatInput.getText())){
+                newPasswordRepeatInput.setError(getString(R.string.passwords_do_not_match));
             }
         });
 
@@ -140,10 +141,26 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
     private void changePassword() {
         UpdatePasswordRequest updatePasswordRequest = new UpdatePasswordRequest(oldPasswordInput.getText().toString(),
                 newPasswordInput.getText().toString(), newPasswordRepeatInput.getText().toString());
-        dataLayer.updatePassword(updatePasswordRequest).subscribe( (data) -> {
-            Snackbar.make(oldPasswordInput, "password changed successfully", Snackbar.LENGTH_SHORT).show();
-        }, (error) -> showError());
+        dataLayer.updatePassword(updatePasswordRequest).subscribe(
+                (data) -> passwordChangeSuccessful(),
+                (error) -> showError());
+    }
 
+    private void passwordChangeSuccessful(){
+        SnackbarHelper.showText(oldPasswordInput, R.string.password_change_successfull);
+        oldPasswordInput.setText("");
+        newPasswordInput.setText("");
+        newPasswordRepeatInput.setText("");
+
+        oldPasswordInput.clearFocus();
+        newPasswordInput.clearFocus();
+        newPasswordRepeatInput.clearFocus();
+
+        oldPasswordInput.setError(null);
+        newPasswordInput.setError(null);
+        newPasswordRepeatInput.setError(null);
+
+        changePasswordButton.setEnabled(false);
     }
 
 
@@ -154,7 +171,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
 
 
         dataLayer.updateUserInformation(updateUserRequest).subscribe( (data) -> {
-            Snackbar.make(oldPasswordInput, "user information changed successfully", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(oldPasswordInput, getString(R.string.user_profile_changed_successful), Snackbar.LENGTH_SHORT).show();
             settings.setMyUser(data.user);
             AppState.myUserChanged$.onNext(data.user);
 
@@ -162,6 +179,6 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
     }
 
     private void showError(){
-        Snackbar.make(oldPasswordInput, "something went wrong. Try again later.", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(oldPasswordInput, R.string.error_occurred, Snackbar.LENGTH_SHORT).show();
     }
 }
