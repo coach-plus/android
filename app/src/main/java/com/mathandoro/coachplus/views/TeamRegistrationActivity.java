@@ -113,7 +113,7 @@ public class TeamRegistrationActivity extends AppCompatActivity
         teamNameEditText.setText(editableTeam.getName());
         toolbarFragment.setTitle("Edit " + editableTeam.getName());
         String teamImageUrl = BuildConfig.BASE_URL + "/uploads/" + editableTeam.getImage();
-        imagePickerView.setImage(teamImageUrl);
+        imagePickerView.setImage(teamImageUrl, R.drawable.ic_tshirt_solid);
 
         radioGroup.check(editableTeam.isPublic() ? registerTeamPublicToggleButton.getId() : registerTeamPrivateToggleButton.getId());
 

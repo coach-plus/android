@@ -40,7 +40,7 @@ public class UserInfoViewHolder extends RecyclerView.ViewHolder {
         usernameText.setText(user.getFirstname() + " " + user.getLastname());
         String imageUrl = BuildConfig.BASE_URL + "/uploads/" + user.getImage();
 
-        imagePickerView.setImage(imageUrl);
+        imagePickerView.setImage(imageUrl, R.drawable.ic_user_black);
         imagePickerView.setEditable(isMyUser);
 
         if(isMyUser){

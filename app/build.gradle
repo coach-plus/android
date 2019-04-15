@@ -43,17 +43,23 @@ android {
     }
     flavorDimensions 'tier'
     productFlavors {
+        local {
+            dimension 'tier'
+            manifestPlaceholders = [appName: "Coach+ (Local)"]
+            applicationId "com.mathandoro.coachplus.local"
+            buildConfigField "String", "BASE_URL", '"http://192.168.0.115:4000"'
+        }
         dev {
             dimension 'tier'
             manifestPlaceholders = [appName: "Coach+ (Dev)"]
             applicationId "com.mathandoro.coachplus.dev"
-            buildConfigField "String", "BASE_URL", '"http://192.168.0.115:4000"' //'"https://dev.coach.plus"'
+            buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
         }
         beta {
             dimension 'tier'
             manifestPlaceholders = [appName: "Coach+ (Beta)"]
             applicationId "com.mathandoro.coachplus.beta"
-            buildConfigField "String", "BASE_URL", '"https://dev.coach.plus"'
+            buildConfigField "String", "BASE_URL", '"https://beta.coach.plus"'
         }
         prod {
             dimension 'tier'

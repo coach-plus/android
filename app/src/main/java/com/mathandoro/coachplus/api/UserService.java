@@ -1,5 +1,6 @@
 package com.mathandoro.coachplus.api;
 
+import com.mathandoro.coachplus.api.Request.ResetPasswordRequest;
 import com.mathandoro.coachplus.api.Request.UpdatePasswordRequest;
 import com.mathandoro.coachplus.api.Request.UpdateUserRequest;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
@@ -41,6 +42,9 @@ public interface UserService {
 
     @PUT("users/me/information")
     Call<ApiResponse<UpdateUserInformationResponse>> updateUserInformation(@Header("X-ACCESS-TOKEN") String accessToken, @Body UpdateUserRequest imageUpload);
+
+    @PUT("users/password")
+    Call<ApiResponse<Object>> resetPassword(@Header("X-ACCESS-TOKEN") String accessToken, @Body ResetPasswordRequest passwordReset);
 
     @PUT("users/me/password")
     Call<ApiResponse<Object>> updateUserPassword(@Header("X-ACCESS-TOKEN") String accessToken, @Body UpdatePasswordRequest updatePassword);

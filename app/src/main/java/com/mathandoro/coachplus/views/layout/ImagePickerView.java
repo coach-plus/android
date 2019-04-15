@@ -81,13 +81,13 @@ public class ImagePickerView extends ConstraintLayout {
         this.listener = listener;
     }
 
-    public void setImage(String imageUrl){
+    public void setImage(String imageUrl, int placeHolder){
         imageView.setPadding(0,0,0,0);
         imageView.setColorFilter(null   );
         Picasso.with(this.imageView.getContext())
                 .load(imageUrl)
                 .transform(new CircleTransform())
-                .placeholder(R.drawable.circle)
+                .placeholder(placeHolder)
                 .into(this.imageView);
     }
 

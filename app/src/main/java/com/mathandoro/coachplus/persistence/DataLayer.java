@@ -7,6 +7,7 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Request.CreateNewsRequest;
 import com.mathandoro.coachplus.api.Request.DidAttendRequest;
+import com.mathandoro.coachplus.api.Request.ResetPasswordRequest;
 import com.mathandoro.coachplus.api.Request.UpdatePasswordRequest;
 import com.mathandoro.coachplus.api.Request.UpdateRoleRequest;
 import com.mathandoro.coachplus.api.Request.UpdateUserRequest;
@@ -69,6 +70,11 @@ public class DataLayer {
 
     public Observable<Object> updatePassword(UpdatePasswordRequest updatePasswordRequest){
         Call<ApiResponse<Object>> updateUserPassword = ApiClient.instance().userService.updateUserPassword(settings.getToken(), updatePasswordRequest);
+        return this.apiCall(updateUserPassword, false);
+    }
+
+    public Observable<Object> resetPassword(ResetPasswordRequest resetPasswordRequest){
+        Call<ApiResponse<Object>> updateUserPassword = ApiClient.instance().userService.resetPassword(settings.getToken(), resetPasswordRequest);
         return this.apiCall(updateUserPassword, false);
     }
 

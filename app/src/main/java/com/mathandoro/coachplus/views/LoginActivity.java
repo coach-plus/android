@@ -14,6 +14,7 @@ import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.LoginResponse;
+import com.mathandoro.coachplus.helpers.SnackbarHelper;
 import com.mathandoro.coachplus.models.LoginUser;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
@@ -100,7 +101,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
     }
 
     private void showError(@StringRes() int error){
-        Snackbar.make(emailEditText, error, Snackbar.LENGTH_SHORT).show();
+        SnackbarHelper.showError(emailEditText, error);
     }
 
 }

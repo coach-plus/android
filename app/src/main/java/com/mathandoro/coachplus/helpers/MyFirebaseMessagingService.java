@@ -13,6 +13,11 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.persistence.DataLayer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.Map;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -21,6 +26,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     String TAG = "coach";
     String DEFAULT_CHANNEL_ID = "DEFAULT";
+
+    public static final String ACTION_ATTEND_EVENT = "attend_event";
+    public static final String ACTION_DECLINE_EVENT = "decline_event";
+
+    private static final String PAYLOAD_TITLE = "title";
+    private static final String PAYLOAD_SUBTITLE = "subtitle";
+
+    private static final String PAYLOAD_CATEGORY = "category";
+    private static final String PAYLOAD_EVENT_ID = "eventId";
+    private static final String PAYLOAD_TEAM_ID = "teamId";
+    private static final String PAYLOAD_TEAM_NAME = "teamName";
+    private static final String PAYLOAD_CONTENT = "content";
+
+    public static final String EXTRA_TEAM_ID = "teamId";
+    public static final String EXTRA_EVENT_ID = "eventId";
+    public static final String EXTRA_NOTIFICATION_ID = "notificationId";
+
+
+
+    private static final String NOTIFICATION_EVENT_REMINDER = "EVENT_REMINDER";
+
 
     public MyFirebaseMessagingService(){
 
@@ -43,30 +69,55 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+        Map<String, String> payload = remoteMessage.getData();
+        String category = payload.get(PAYLOAD_CATEGORY);
+        switch (category){
+            case NOTIFICATION_EVENT_REMINDER:
+                createReminderNotification(payload.get(PAYLOAD_TEAM_ID), payload.get(PAYLOAD_TEAM_NAME), payload.get(PAYLOAD_EVENT_ID),
+                        payload.get(PAYLOAD_TITLE), payload.get(PAYLOAD_SUBTITLE), payload.get(PAYLOAD_CONTENT));
+        }
         createNotificationChannel();
 
-        Intent acceptIntent = new Intent(this, NotificationActionReceiver.class);
-        acceptIntent.setAction("action_name");
-       // snoozeIntent.putExtra(EXTRA_NOTIFICATION_ID, 0);
-        PendingIntent acceptPendingIntent =
-                PendingIntent.getBroadcast(this, 0, acceptIntent, 0);
+    }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, DEFAULT_CHANNEL_ID) // todo
-                .setSmallIcon(R.drawable.ic_check_black_24dp)
-                .setContentTitle("My notification")
-                .setContentText("Hello World!")
+    private void createReminderNotification(String teamId, String teamName, String eventId, String eventName, String time, String description){
+        int notificationId = createUniqueID();
+
+        Intent acceptIntent = getAttendanceIntent(ACTION_ATTEND_EVENT, teamId, eventId, notificationId);
+        Intent declineIntent = getAttendanceIntent(ACTION_DECLINE_EVENT, teamId, eventId, notificationId);
+
+        PendingIntent acceptPendingIntent = PendingIntent.getBroadcast(this, 0, acceptIntent, 0);
+        PendingIntent declinePendingIntent = PendingIntent.getBroadcast(this, 0, declineIntent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, DEFAULT_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_trillerpfeife_links)
+                .setContentTitle(eventName)
+                .setSubText(teamName)
+                .setContentText(time)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                //.setContentIntent(pendingIntent)
-                .addAction(R.drawable.ic_check_black_24dp, "decline", acceptPendingIntent);
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(description))
+                //.setContentIntent(pendingIntent) // todo switch to team and open event?
+                .addAction(R.drawable.ic_check_black_24dp, "accept", acceptPendingIntent)
+                .addAction(R.drawable.ic_check_black_24dp, "decline", declinePendingIntent); // todo icons
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-        // notificationId is a unique int for each notification that you must define. needed to update message?
-        int notificationId = 0;
-
-        // todo pass notificationId inside intent so it can be deleted
-
         notificationManager.notify(notificationId, builder.build());
+    }
+
+    private Intent getAttendanceIntent(String action, String teamId, String eventId, int notificationId){
+        Intent intent = new Intent(this, NotificationActionReceiver.class);
+
+        intent.setAction(action);
+        intent.putExtra(EXTRA_EVENT_ID, eventId);
+        intent.putExtra(EXTRA_TEAM_ID, teamId);
+        intent.putExtra(EXTRA_NOTIFICATION_ID, notificationId);
+
+        return intent;
+    }
+
+    public int createUniqueID(){
+        return (int)System.currentTimeMillis();
     }
 
     private void createNotificationChannel() {
