@@ -2,12 +2,12 @@ package com.mathandoro.coachplus.views;
 
 import android.content.Intent;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
 
     String email;
     String password;
+
+    public static final int INTENT_RESET_PASSWORD = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
 
     public void navigateToPasswordReset(View view){
         Intent intent = new Intent(this, PasswordResetActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, INTENT_RESET_PASSWORD);
     }
 
     public void login(View view){
@@ -96,12 +98,21 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == INTENT_RESET_PASSWORD && resultCode == RESULT_OK){
+            SnackbarHelper.showText(emailEditText, R.string.password_reset_was_successfull);
+        }
+    }
+
+    @Override
     public void onFailure(Call<ApiResponse<LoginResponse>> call, Throwable t) {
         showError(R.string.api_call_failed_network_issues);
     }
 
     private void showError(@StringRes() int error){
-        SnackbarHelper.showError(emailEditText, error);
+        SnackbarHelper.showText(emailEditText, error);
     }
 
 }

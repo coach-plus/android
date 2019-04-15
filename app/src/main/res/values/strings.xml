@@ -72,5 +72,6 @@
     <string name="select_end_date">select end date</string>
     <string name="select_start_time">select start time</string>
     <string name="select_end_time">select end time</string>
+    <string name="password_reset_was_successfull">You will receive a new password via email</string>
 
 </resources>

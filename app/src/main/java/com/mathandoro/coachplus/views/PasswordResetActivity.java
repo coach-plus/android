@@ -1,10 +1,11 @@
 package com.mathandoro.coachplus.views;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.api.Request.ResetPasswordRequest;
 import com.mathandoro.coachplus.helpers.SnackbarHelper;
@@ -20,6 +21,8 @@ public class PasswordResetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        disableAutoFill();
+
         setContentView(R.layout.reset_password_activity);
         emailTextInput = findViewById(R.id.reset_password_email_text_input);
         dataLayer = new DataLayer(this);
@@ -28,7 +31,17 @@ public class PasswordResetActivity extends AppCompatActivity {
     public void resetPassword(View view) {
         ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest(emailTextInput.getText().toString());
         dataLayer.resetPassword(resetPasswordRequest).subscribe(
-                response -> finish(),
-                error -> SnackbarHelper.showError(emailTextInput, R.string.error_occurred));
+                response -> passwordResetSuccess(),
+                error -> SnackbarHelper.showText(emailTextInput, R.string.error_occurred));
+    }
+
+    private void passwordResetSuccess(){
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @TargetApi(Build.VERSION_CODES.O)
+    private void disableAutoFill() {
+        getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
     }
 }
