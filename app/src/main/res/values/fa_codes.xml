@@ -9,13 +9,10 @@
     <string name="fa_ellipsis_h">&#xf141;</string>
 
     <string name="fa_user">&#xf007;</string>
-    <string name="fa_users">&#xf0c0;</string>
     <string name="fa_key">&#xf084;</string>
-    <string name="fa_kiwi">&#xf535;</string>
     <string name="fa_clock">&#xf017;</string>
 
     <string name="fa_map_marker_alt">&#xf3c5;</string>
-    <string name="fa_location_arrow">&#xf017;</string>
     <string name="fa_bars">&#xf0c9;</string>
 
     <string name="fa_hourglass_start">&#xf251;</string>
@@ -23,11 +20,6 @@
 
     <string name="fa_edit">&#xf044;</string>
     <string name="fa_life_ring">&#xf1cd;</string>
-
-    <string name="fa_runner">&#xf70c;</string>
-    <string name="fa_swimmer">&#xf5c4;</string>
-
-    <string name="fa_level_up_alt">&#xf3bf;</string>
 
     <string name="fa_arrow_left">&#xf060;</string>
     <string name="fa_cog">&#xf013;</string>

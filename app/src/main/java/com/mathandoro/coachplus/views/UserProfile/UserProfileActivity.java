@@ -29,7 +29,8 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 
-public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener, ImagePickerView.ImagePickerListener, MembershipViewHolder.MembershipViewHolderListener {
+public class UserProfileActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener,
+        ImagePickerView.ImagePickerListener, MembershipViewHolder.MembershipViewHolderListener {
 
     public final static String INTENT_PARAM_USER = "visibleUser";
 
@@ -178,7 +179,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
             @Override
             public void onConfirm() {
                 bottomSheet.dismiss();
-                dataLayer.leaveTeam(team.get_id()).subscribe(membership -> {
+                dataLayer.leaveTeam(team.get_id(), recyclerView).subscribe(membership -> {
                     if(team.get_id().equals(settings.getActiveTeamId())){
                         UserProfileActivity.this.navigateToMembership(null);
                     }else {

@@ -1,6 +1,7 @@
 package com.mathandoro.coachplus.persistence;
 
 import android.content.Context;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.mathandoro.coachplus.Settings;
@@ -21,6 +22,9 @@ import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.UpdateUserInformationResponse;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
+import com.mathandoro.coachplus.helpers.ApiErrorResolver;
+import com.mathandoro.coachplus.helpers.ResourceHelper;
+import com.mathandoro.coachplus.helpers.SnackbarHelper;
 import com.mathandoro.coachplus.models.Device;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Membership;
@@ -30,11 +34,15 @@ import com.mathandoro.coachplus.models.Team;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
 import com.mathandoro.coachplus.models.UserImageUpload;
 
+import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 
@@ -131,9 +139,9 @@ public class DataLayer {
         return this.apiCall(apiResponseCall, false);
     }
 
-    public Observable<Object> leaveTeam(String teamId){
+    public Observable<Object> leaveTeam(String teamId, View snackbarContextView){
         Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.leaveTeam(settings.getToken(), teamId);
-        return this.apiCall(apiResponseCall, false);
+        return this.apiCallWithSnackbarError(apiResponseCall, false, snackbarContextView);
     }
 
     public Observable<Object> deleteTeam(String teamId){
@@ -244,30 +252,46 @@ public class DataLayer {
         return this.apiCall(registerTeamCall, false);
     }
 
+    private <T> Observable<T> apiCallWithSnackbarError(Call<ApiResponse<T>> t, boolean useCache, View snackbarContextView) {
+        ApiErrorResolver apiErrorResolver = (errorCode) -> {
+            SnackbarHelper.showText(snackbarContextView, errorCode);
+        };
+        return apiCall(t,useCache, apiErrorResolver);
+    }
+
     private <T> Observable<T> apiCall(Call<ApiResponse<T>> t, boolean useCache){
+        return this.apiCall(t, false, null);
+    }
+
+    private <T> Observable<T> apiCall(Call<ApiResponse<T>> t, boolean useCache, ApiErrorResolver errorResolver){
         Observable<T> resultObservable = Observable.create(emitter -> {
             t.enqueue(new Callback<ApiResponse<T>>() {
                 @Override
                 public void onResponse(Call<ApiResponse<T>> call, Response<ApiResponse<T>> response) {
                     if(response.code() >= 200 && response.code() < 300){
-                    /*
-                    todo cache ?
-                    String serializedResponse = DataLayer.this.gson.toJson(response.body().content);
-                    try {
-                        cache.saveList(members, TEAM_MEMBERS, CacheContext.TEAM(finalTeam));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }*/
                         emitter.onNext(response.body().content);
                     }
-                    else {
-                        emitter.onError(new Throwable("API returned code " + response.code()));
+                    else if(response.code() >= 400 && response.code() <= 599) {
+                        Converter<ResponseBody, ApiResponse<String>> converter =
+                                ApiClient.instance().retrofit.responseBodyConverter(ApiResponse.class, new Annotation[0]);
+                        try {
+                            ApiResponse<String> error = converter.convert(response.errorBody());
+                            if(errorResolver != null){
+                                String textResource = ResourceHelper.getStringResourceByName(context, "error_" + error.message);
+                                errorResolver.resolve(textResource == null ? error.message : textResource);
+                            }
+                            else {
+                                emitter.onError(new Throwable(error.message));
+                            }
+                        }catch(IOException ioError){
+                            emitter.onError(new Throwable(""+response.code()));
+                        }
                     }
                 }
 
                 @Override
-                public void onFailure(Call<ApiResponse<T>> call, Throwable t) {
-                    emitter.onError(t);
+                public void onFailure(Call<ApiResponse<T>> call, Throwable throwable) {
+                    emitter.onError(throwable);
                 }
             });
         });

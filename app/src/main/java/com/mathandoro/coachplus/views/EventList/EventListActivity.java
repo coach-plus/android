@@ -67,22 +67,6 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
 
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     public void onLeftIconPressed() {
         finish();

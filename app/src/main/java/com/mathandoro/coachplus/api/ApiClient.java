@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
 
-    protected Retrofit retrofit;
+    public Retrofit retrofit;
     protected String baseUrl;
     public UserService userService;
     public MembershipService membershipService;
