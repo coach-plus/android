@@ -17,11 +17,11 @@ import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.views.TeamView.viewHolders.SeeAllEventsViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.EventItemViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamImageItemViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.TeamMemberViewHolder;
-import com.mathandoro.coachplus.views.viewHolders.UpcomingEventsHeaderViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -51,7 +51,8 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     final int MEMBERS_ITEM = 3;
     final int TEAM_IMAGE_ITEM = 4;
     final int NO_UPCOMING_EVENTS = 5;
-    final int FOOTER = 6;
+    final int SHOW_ALL_EVENTS = 6;
+    final int FOOTER = 7;
 
     private static final int MAX_VISIBLE_EVENTS = 3;
 
@@ -70,6 +71,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         viewStack.addSection(UPCOMING_EVENTS_HEADER, 1);
         viewStack.addSection(UPCOMING_EVENTS_ITEM, 0);
         viewStack.addSection(NO_UPCOMING_EVENTS, 0);
+        viewStack.addSection(SHOW_ALL_EVENTS, 1);
         viewStack.addSection(MEMBERS_HEADER, 1);
         viewStack.addSection(MEMBERS_ITEM, 0);
         viewStack.addSection(FOOTER, 1);
@@ -119,7 +121,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 return new TeamImageItemViewHolder(view);
             case UPCOMING_EVENTS_HEADER:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_upcoming_events_header, parent, false);
-                return new UpcomingEventsHeaderViewHolder(view);
+                return new StaticViewHolder(view);
             case UPCOMING_EVENTS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_item, parent, false);
                 return new EventItemViewHolder(view);
@@ -129,6 +131,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case NO_UPCOMING_EVENTS:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_no_event_item, parent, false);
                 return new StaticViewHolder(view);
+            case SHOW_ALL_EVENTS:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_see_all_events_item, parent, false);
+                return new SeeAllEventsViewHolder(view);
             case MEMBERS_ITEM:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
                 View rightView = null;
@@ -167,13 +172,12 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     teamImageItemViewHolder.teamImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
                 }
-
                 break;
-            case UPCOMING_EVENTS_HEADER:
-                UpcomingEventsHeaderViewHolder upcomingEventsHeaderViewHolder = (UpcomingEventsHeaderViewHolder) holder;
-                upcomingEventsHeaderViewHolder.seeAllEventsButton.setOnClickListener((View view) -> {
-                    teamFeedFragment.navigateToAllEvents();
-                });
+
+            case SHOW_ALL_EVENTS:
+                SeeAllEventsViewHolder seeAllEventsViewHolder = (SeeAllEventsViewHolder) holder;
+                seeAllEventsViewHolder.bind(() -> teamFeedFragment.navigateToAllEvents());
+
                 break;
 
             case UPCOMING_EVENTS_ITEM:
