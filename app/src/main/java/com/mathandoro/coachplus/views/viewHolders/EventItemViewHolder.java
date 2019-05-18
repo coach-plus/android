@@ -13,6 +13,9 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
     public TextView location;
     public TextView time;
     public View itemContainer;
+    public TextView calendarMonth;
+    public TextView calendarDay;
+
 
     public EventItemViewHolder(View view) {
         super(view);
@@ -20,6 +23,8 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
         this.title = view.findViewById(R.id.event_item_event_name);
         this.time = view.findViewById(R.id.event_item_event_start);
         this.location = view.findViewById(R.id.event_item_event_location);
+        this.calendarMonth = view.findViewById(R.id.event_item_calendar_month_text_view);
+        this.calendarDay = view.findViewById(R.id.event_item_calendar_day_text_view);
     }
 
     public void bind(Event event){
@@ -32,6 +37,8 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
         }
         if(event.getStart() != null){
             this.time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd()));
+            this.calendarDay.setText(Formatter.formatMonthDay(event.getStart()));
+            this.calendarMonth.setText(Formatter.formatfullMonthName(event.getStart()));
         }
     }
 

@@ -38,4 +38,14 @@ public class Formatter {
     public static String formatUserName(ReducedUser user){
         return user.getFirstname() + " " + user.getLastname();
     }
+
+    public static String formatMonthDay(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd");
+        return dateFormat.format(date);
+    }
+
+    public static String formatfullMonthName(Date date){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM");
+        return dateFormat.format(date);
+    }
 }
