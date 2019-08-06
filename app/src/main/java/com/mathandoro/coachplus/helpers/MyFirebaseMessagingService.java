@@ -24,6 +24,8 @@ import androidx.core.app.NotificationManagerCompat;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    public static final String SEPERATOR = "::";
+
     String TAG = "coach";
     String DEFAULT_CHANNEL_ID = "DEFAULT";
 
@@ -86,8 +88,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Intent acceptIntent = getAttendanceIntent(ACTION_ATTEND_EVENT, teamId, eventId, notificationId);
         Intent declineIntent = getAttendanceIntent(ACTION_DECLINE_EVENT, teamId, eventId, notificationId);
 
-        PendingIntent acceptPendingIntent = PendingIntent.getBroadcast(this, 0, acceptIntent, 0);
-        PendingIntent declinePendingIntent = PendingIntent.getBroadcast(this, 0, declineIntent, 0);
+        final int acceptRequestCode = 0;
+        final int declineRequestCode = 0;
+
+        PendingIntent acceptPendingIntent = PendingIntent.getBroadcast(this, acceptRequestCode, acceptIntent, 0);
+        PendingIntent declinePendingIntent = PendingIntent.getBroadcast(this, declineRequestCode, declineIntent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, DEFAULT_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_trillerpfeife_links)
@@ -108,7 +113,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private Intent getAttendanceIntent(String action, String teamId, String eventId, int notificationId){
         Intent intent = new Intent(this, NotificationActionReceiver.class);
 
-        intent.setAction(action);
+        intent.setAction(action + SEPERATOR + notificationId);
         intent.putExtra(EXTRA_EVENT_ID, eventId);
         intent.putExtra(EXTRA_TEAM_ID, teamId);
         intent.putExtra(EXTRA_NOTIFICATION_ID, notificationId);

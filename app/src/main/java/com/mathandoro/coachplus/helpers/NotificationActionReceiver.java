@@ -17,14 +17,21 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         Settings settings = new Settings(context);
 
-        switch(intent.getAction()){
+        // actions need to be unique so the pending intents are unique
+        // remove the timestamp to dispatch by the action name
+        String action = intent.getAction();
+        if(action.contains(MyFirebaseMessagingService.SEPERATOR)){
+            action = action.split(MyFirebaseMessagingService.SEPERATOR)[0];
+        }
+
+        switch(action){
             case MyFirebaseMessagingService.ACTION_ATTEND_EVENT:
             case MyFirebaseMessagingService.ACTION_DECLINE_EVENT: {
-                String teamId = intent.getStringExtra("teamId");
-                String eventId = intent.getStringExtra("eventId");
+                String teamId = intent.getStringExtra(MyFirebaseMessagingService.EXTRA_TEAM_ID);
+                String eventId = intent.getStringExtra(MyFirebaseMessagingService.EXTRA_EVENT_ID);
                 int notificationId = intent.getIntExtra(MyFirebaseMessagingService.EXTRA_NOTIFICATION_ID, -1);
                 String userId = settings.getUser().get_id();
-                boolean willAttend = intent.getAction().equals(MyFirebaseMessagingService.ACTION_ATTEND_EVENT) ? true : false;
+                boolean willAttend = action.equals(MyFirebaseMessagingService.ACTION_ATTEND_EVENT) ? true : false;
                 attendEvent(notificationManager, dataLayer, willAttend, notificationId, teamId, eventId, userId);
                 break;
             }
