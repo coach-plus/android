@@ -71,16 +71,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/calendar_container"
-        android:layout_width="70dp"
+        android:layout_width="65dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/event_item"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/event_item_event_location"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/event_item_event_name">
 
         <TextView
             android:id="@+id/event_item_calendar_month_text_view"
@@ -92,8 +90,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="September"
-            android:textSize="11sp"
             android:textAlignment="center"
+            android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
