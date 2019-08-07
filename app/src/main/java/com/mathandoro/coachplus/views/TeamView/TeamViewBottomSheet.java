@@ -40,7 +40,7 @@ public class TeamViewBottomSheet extends BottomSheetDialogFragment {
     public void setupDialog(final Dialog dialog, int style) {
         View contentView = View.inflate(getContext(), R.layout.team_view_bottom_sheet, null);
         dialog.setContentView(contentView);
-        String changeRoleText = newRole.equals(Role.COACH) ? getString(R.string.make_coach) : getString(R.string.make_user);
+        String changeRoleText = newRole.equals(Role.COACH) ? getString(R.string.Make_Coach) : getString(R.string.Make_user);
 
         Button button = dialog.findViewById(R.id.confirmation_bottom_sheet_confirm_button);
         button.setText(changeRoleText);

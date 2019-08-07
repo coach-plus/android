@@ -68,7 +68,7 @@ public class MyMembershipsAdapter extends RecyclerView.Adapter<RecyclerView.View
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.fragment_no_teams, parent, false);
                 view.findViewById(R.id.no_teams_create_team_button).setVisibility(View.INVISIBLE);
-                ((TextView)(view.findViewById(R.id.no_teams_text))).setText(R.string.no_team_text_memberships);
+                ((TextView)(view.findViewById(R.id.no_teams_text))).setText(R.string.You_do_not_have_a_team_yet_Go_ahead_and_create_one_using_the_on_the_top_right);
                 viewHolder = new StaticViewHolder(view);
                 break;
         }

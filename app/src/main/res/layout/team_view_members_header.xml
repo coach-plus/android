@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Members"
+        android:text="@string/Members"
         android:textColor="#211d1d"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

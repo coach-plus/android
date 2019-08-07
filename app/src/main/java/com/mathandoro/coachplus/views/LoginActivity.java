@@ -90,10 +90,12 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
             this.navigateToMainActivity();
         }
         else if(response.code() == 400) {
-            showError(R.string.login_failed_wrong_input);
+            // showError(R.string.login_failed_wrong_input);
+            showError(R.string.Error);
         }
         else {
-            showError(R.string.api_call_failed_server_issues);
+            // showError(R.string.api_call_failed_server_issues);
+            showError(R.string.Error);
         }
     }
 
@@ -102,13 +104,15 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == INTENT_RESET_PASSWORD && resultCode == RESULT_OK){
-            SnackbarHelper.showText(emailEditText, R.string.password_reset_was_successfull);
+            SnackbarHelper.showText(emailEditText, R.string.Successfully_requested_a_new_password);
         }
     }
 
     @Override
     public void onFailure(Call<ApiResponse<LoginResponse>> call, Throwable t) {
-        showError(R.string.api_call_failed_network_issues);
+        // TODO
+        // showError(R.string.api_call_failed_network_issues);
+        showError(R.string.Error);
     }
 
     private void showError(@StringRes() int error){

@@ -73,7 +73,7 @@
             app:fab_colorPressed="@color/colorPrimaryLight"
             app:fab_icon="@drawable/ic_alarm_white_24dp"
             app:fab_size="mini"
-            app:fab_title="@string/action_send_reminder" />
+            app:fab_title="@string/Send_reminder" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/event_detail_edit_button"
@@ -83,7 +83,7 @@
             app:fab_colorPressed="@color/colorPrimaryLight"
             app:fab_icon="@drawable/ic_mode_edit_white_48dp"
             app:fab_size="mini"
-            app:fab_title="@string/action_edit_event" />
+            app:fab_title="@string/Edit_Event" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/event_detail_create_news_fab"
@@ -93,7 +93,7 @@
             app:fab_colorPressed="@color/colorPrimaryLight"
             app:fab_icon="@drawable/ic_insert_comment_white_24dp"
             app:fab_size="mini"
-            app:fab_title="@string/action_create_news" />
+            app:fab_title="@string/Create_News" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

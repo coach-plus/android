@@ -14,7 +14,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
-        android:text="make coach"
+        android:text="@string/Make_Coach"
         app:layout_constraintBottom_toTopOf="@+id/confirmation_bottom_sheet_decline_button"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:background="@android:color/transparent"
-        android:text="kick user"
+        android:text="@string/Make_user"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5" />

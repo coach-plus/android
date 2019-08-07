@@ -198,7 +198,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 break;
             case NEWS_HEADER:
                 SectionHeaderViewHolder sectionHeaderViewHolder = (SectionHeaderViewHolder) holder;
-                sectionHeaderViewHolder.bind(mainActivity.getString(R.string.news_title));
+                sectionHeaderViewHolder.bind(mainActivity.getString(R.string.News));
                 break;
             case NEWS_ITEM:
                 News news = getNewsItem(position);

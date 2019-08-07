@@ -302,7 +302,8 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
                 dataLayer.removeUserFromTeam(member.get_id()).subscribe(
                         (response) -> {
                             teamViewFragment.reloadMembers();
-                            showNotification(getString(R.string.user_removed_sucessfully, member.getUser().getFirstname()));
+                            // showNotification(getString(R.string., member.getUser().getFirstname()));
+                            // todo
                         },
                         error -> showError());
                 bottomSheet.dismiss();
@@ -314,9 +315,11 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
                         .subscribe(result -> {
                     teamViewFragment.reloadMembers();
                     bottomSheet.dismiss();
-                    String notificationText = getString(R.string.user_is_no_longer_coach, member.getUser().getFirstname());
+                   //  String notificationText = getString(R.st, member.getUser().getFirstname());
+                            String notificationText = "user is no longer a coach";
                     if(newRole.equals(Role.COACH)){
-                        notificationText = getString(R.string.user_is_now_coach, member.getUser().getFirstname());
+                        // notificationText = getString("user is now a coach", member.getUser().getFirstname());
+                        notificationText = "user is now a coach";
                     }
                     showNotification(notificationText);
                 }, error -> bottomSheet.dismiss());
@@ -326,7 +329,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     }
 
     private void showError(){
-        Snackbar.make(teamViewFragment.getView(), getString(R.string.error_occurred), Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(teamViewFragment.getView(), getString(R.string.Error), Snackbar.LENGTH_SHORT).show();
     }
 
     private void showNotification(String text){

@@ -16,7 +16,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
-        android:text="@android:string/yes"
+        android:text="@string/Yes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/confirmation_bottom_sheet_decline_button"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
@@ -33,7 +33,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="@android:color/transparent"
-        android:text="@android:string/no"
+        android:text="@string/No"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toEndOf="@+id/confirmation_bottom_sheet_confirm_button"
@@ -62,11 +62,10 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="TextView"
+        android:text="@string/Are_you_sure_that_you_want_to_leave_team_name"
         android:textAlignment="center"
         android:textSize="15dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="@+id/guideline5"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Do you really want to leave teamname?" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

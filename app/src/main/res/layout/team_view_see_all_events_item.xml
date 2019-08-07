@@ -21,7 +21,7 @@
         android:layout_marginBottom="8dp"
         android:minHeight="0dp"
         android:padding="10dp"
-        android:text="see all events"
+        android:text="@string/Show_all_Events"
         android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

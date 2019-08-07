@@ -164,7 +164,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
             username = user.getFirstname() + " " + user.getLastname().substring(0,1) +".";
         }
         if(this.isMyUser(teamMember, myUser)){
-            username += " (" + itemView.getContext().getString(R.string.you) + ")";
+            username += " (" + itemView.getContext().getString(R.string.You) + ")";
         }
         name.setText(username);
 

@@ -152,7 +152,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
     @Override
     public void joinTeam(Team team) {
-        final ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(), getString(R.string.join_team_confirmation, team.getName()), false);
+        final ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(), getString(R.string.Do_really_want_to_join_x, team.getName()), false);
         bottomSheet.setListener(new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
             @Override
             public void onConfirm() {
@@ -174,7 +174,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
     @Override
     public void leaveTeam(Team team) {
         ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(),
-                getString(R.string.leave_team_confirmation, team.getName()), true);
+                getString(R.string.Are_you_sure_that_you_want_to_leave_team_name, team.getName()), true);
         bottomSheet.setListener( new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
             @Override
             public void onConfirm() {

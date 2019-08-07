@@ -61,24 +61,25 @@ public class UserRegistrationActivity extends AppCompatActivity implements Callb
         email = emailEditText.getText().toString();
         password = passwordEditText.getText().toString();
         String repeatPassword = passwordRepeatEditText.getText().toString();
+        String pleaseFillInThisField = getResources().getString(R.string.Please_fill_in_this_field);
 
         if(TextUtils.isEmpty(firstname)){
-            firstnameEditText.setError("please enter your firstname");
+            firstnameEditText.setError(pleaseFillInThisField);
             return;
         }
 
         if(TextUtils.isEmpty(lastname)){
-            lastnameEditText.setError("please enter your lastname");
+            lastnameEditText.setError(pleaseFillInThisField);
             return;
         }
 
         if(!this.isValidEmail(email)){
-            emailEditText.setError("Please enter a valid email address");
+            emailEditText.setError(getResources().getString(R.string.Please_enter_your_email_address));
             return;
         }
 
         if(!password.equals(repeatPassword)){
-            passwordRepeatEditText.setError("passwords do not match");
+            passwordRepeatEditText.setError(pleaseFillInThisField);
             return;
         }
 

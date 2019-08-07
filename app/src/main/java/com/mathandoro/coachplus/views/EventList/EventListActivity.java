@@ -44,7 +44,7 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
-        toolbarFragment.setTitle(getString(R.string.events_of)+" "+ this.team.getName());
+        toolbarFragment.setTitle(getString(R.string.Event_Name));
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
@@ -102,8 +102,6 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_events, container, false);
-            TextView textView = (rootView.findViewById(R.id.section_label));
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
@@ -132,9 +130,9 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return getString(R.string.upcoming);
+                    return getString(R.string.Future_Events);
                 case 1:
-                    return getString(R.string.past);
+                    return getString(R.string.Past_Events);
             }
             return null;
         }

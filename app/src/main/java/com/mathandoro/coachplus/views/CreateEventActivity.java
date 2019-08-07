@@ -116,13 +116,13 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
         deleteEventButton.setOnClickListener((view) -> this.deleteEvent());
 
         if(editMode){
-            saveEventButton.setText(getString(R.string.update_event));
-            toolbarFragment.setTitle(getString(R.string.edit_event_title));
+            saveEventButton.setText(getString(R.string.Update_Event));
+            toolbarFragment.setTitle(getString(R.string.Update_Event));
             fillFormWithExistingEvent();
         }
         else{
-            saveEventButton.setText(getString(R.string.create_event));
-            toolbarFragment.setTitle(getString(R.string.create_event_title));
+            saveEventButton.setText(getString(R.string.Create_Event));
+            toolbarFragment.setTitle(getString(R.string.Create_Event));
             deleteEventButton.setVisibility(View.GONE);
             updateDateAndTimeUI();
         }
@@ -151,7 +151,7 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
             handleCalendarOverlaps(calendar);
             datePickerDialog.hide();
         }, currentYear, currentMonth, currentDay);
-        String title = calendar == eventStartCalendar ? getString(R.string.select_start_date) : getString(R.string.select_end_date);
+        String title = calendar == eventStartCalendar ? getString(R.string.Select_beginning_date) : getString(R.string.Select_end_date);
         datePickerDialog.setTitle(title);
         datePickerDialog.show();
     }
@@ -166,7 +166,7 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
             handleCalendarOverlaps(calendar);
             timePickerDialog.hide();
         }, currentHour, currentMinute, true);
-        String title = calendar == eventStartCalendar ? getString(R.string.select_start_time) : getString(R.string.select_end_time);
+        String title = calendar == eventStartCalendar ? getString(R.string.Select_beginning_time) : getString(R.string.Select_end_time);
         timePickerDialog.setTitle(title);
         timePickerDialog.show();
     }
@@ -228,7 +228,7 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
 
     private boolean isValid(){
         if(nameInput.getText().toString().trim().equals("")){
-            nameInput.setError(getString(R.string.name_is_required_error));
+            nameInput.setError(getString(R.string.Error));
             return false;
         }
         return true;
@@ -277,7 +277,7 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
 
     private void deleteEvent(){
         final ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(),
-                getString(R.string.delete_event_confirmation, event.getName()), true);
+                getString(R.string.Do_you_really_want_to_delete_this_event), true);
         bottomSheet.setListener(new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
             @Override
             public void onConfirm() {
@@ -300,6 +300,7 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
     }
 
     private void handleApiCallError(Throwable error){
+        // TODO
         Log.i("create Event", "fail");
     }
 

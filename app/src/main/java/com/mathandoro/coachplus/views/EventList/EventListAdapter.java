@@ -72,10 +72,10 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_no_event_item, parent, false);
                 TextView textView = view.findViewById(R.id.event_no_event_item_text);
                 if(futureEvents){
-                    textView.setText(R.string.no_upcoming_events);
+                    textView.setText(R.string.No_Events_found);
                 }
                 else {
-                    textView.setText(R.string.no_past_events);
+                    textView.setText(R.string.No_Events_found);
                 }
                 viewHolder = new StaticViewHolder(view);
                 break;

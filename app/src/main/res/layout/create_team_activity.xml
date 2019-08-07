@@ -46,7 +46,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
-        android:hint="Team Name"
+        android:hint="@string/Team_Name"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="parent">
@@ -80,14 +80,14 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
 
-            android:text="private" />
+            android:text="@string/Private_Team" />
 
         <RadioButton
             android:id="@+id/team_editor_public_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="public" />
+            android:text="@string/Public_Team" />
     </RadioGroup>
 
     <TextView
@@ -95,7 +95,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/team_description_private"
+        android:text="@string/Your_team_is_private_and_you_can_invite_people"
         android:textAlignment="center"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"

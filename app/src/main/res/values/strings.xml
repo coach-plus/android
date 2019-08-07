@@ -1,70 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="Events">"Events"</string>
+    <string name="Members">"Members"</string>
 
-    <string name="section_format">Hello World from section: %1$d</string>
+    <!-- Fuzzy -->
+    <string name="Make_user">"Make user"</string>
 
-    <string name="you">you</string>
-    <string name="attendance">Attendance</string>
-    <string name="events_of">Events of</string>
-    <string name="upcoming">Upcoming</string>
-    <string name="past">Past</string>
-    <string name="members">Members</string>
-    <string name="member">Member</string>
-    <string name="logout">Logout</string>
-    <string name="team_description_public">Your team will be open for anyone to join</string>
-    <string name="team_description_private">Only invited people can join your team</string>
+    <!-- Fuzzy -->
+    <string name="Remove_from_team">"Remove from team"</string>
+    <string name="Cancel">"Cancel"</string>
+    <string name="Teams">"Teams"</string>
 
-    <string name="make_user">make user</string>
-    <string name="make_coach">make coach</string>
-    <string name="join_team_confirmation">Do you really want to join %1$s?</string>
-    <string name="leave_team_confirmation">Do you really want to leave %1$s? This can\'t be undone</string>
-    <string name="title_activity_user_settings">UserSettings</string>
-    <string name="change_password">change password</string>
-    <string name="save_user_information">save user information</string>
-    <string name="user_settings_title">User Settings</string>
-    <string name="new_team_title">New Team</string>
-    <string name="user_removed_sucessfully">%1$s was removed from your team</string>
-    <string name="error_occurred">an error occurred</string>
-    <string name="user_is_no_longer_coach">%1$s is no longer a coach</string>
-    <string name="user_is_now_coach">%1$s is now a coach</string>
-    <string name="delete_team_confirmation">Do you really want to delete %1$s?</string>
-    <string name="no_past_events">no past events</string>
-    <string name="no_upcoming_events">no upcoming events</string>
-    <string name="create_event_title">new event</string>
-    <string name="edit_event_title">edit event</string>
-    <string name="name_is_required_error">name is required</string>
-    <string name="update_event">update event</string>
-    <string name="create_event">create event</string>
-    <string name="delete_event_confirmation">do you really want to delete event %1$s?</string>
-    <string name="reminder_was_send_snackbar_text">reminder was send</string>
-    <string name="action_send_reminder">send reminder</string>
-    <string name="action_edit_event">edit event</string>
-    <string name="action_create_news">create news</string>
-    <string name="create_team_button_text">create team</string>
-    <string name="sign_in">Sign In</string>
-    <string name="i_forgot_my_password">I forgot my password</string>
-    <string name="register">register</string>
-    <string name="sign_up">Sign Up</string>
-    <string name="title_activity_password_reset">PasswordResetActivity</string>
-    <string name="reset_password">send new password</string>
-    <string name="reset_password_description" >We will send a new password to your email address</string>
-    <string name="why_so_lonely_text">Why so lonely? Create a team and invite your buddies!</string>
-    <string name="no_team_text_memberships">Why so lonely? Create a team by clicking the plus icon in the upper right corner!</string>
-    <string name="can_t_find_the_mail_trigger_a_new_email_in_the_user_settings">Can\'t find the mail? Trigger a new email in the user settings</string>
-    <string name="continue_button_text">continue</string>
-    <string name="please_check_your_mails_and_verify_your_email_address">Please check your mails and verify your email address</string>
-    <string name="login_failed_wrong_input">invalid email and password combination</string>
-    <string name="api_call_failed_network_issues">could not connect to server. Please try again</string>
-    <string name="api_call_failed_server_issues">Looks like we have some issues on the server. Please try again later.</string>
-    <string name="register_team_update_button_text">save</string>
-    <string name="news_title">News</string>
-    <string name="select_start_date">select start date</string>
-    <string name="select_end_date">select end date</string>
-    <string name="select_start_time">select start time</string>
-    <string name="select_end_time">select end time</string>
-    <string name="password_reset_was_successfull">You will receive a new password via email</string>
-    <string name="field_cant_be_empty">can\'t be empty</string>
-    <string name="passwords_do_not_match">doesn\'t match your new password</string>
-    <string name="password_change_successfull">password changed successfully</string>
-    <string name="user_profile_changed_successful">user information changed successfully</string>
+    <!-- 1 Member -->
+    <!-- Fuzzy -->
+    <string name="one_Member">"1 Member"</string>
 
+    <!-- Multiple Members -->
+    <!-- Fuzzy -->
+    <string name="x_Members">"%d Members"</string>
+    <string name="Logout">"Logout"</string>
+
+    <!-- Fuzzy -->
+    <string name="New_Team">"New Team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Team_Name">"Team Name"</string>
+
+    <!-- Fuzzy -->
+    <string name="Private_Team">"Private Team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Public_Team">"Public Team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Your_team_is_public_and_everyone_can_join_it">"Your team is public and everyone can join it"</string>
+
+    <!-- Fuzzy -->
+    <string name="Your_team_is_private_and_you_can_invite_people">"Your team is private and you can invite people"</string>
+
+    <!-- Fuzzy -->
+    <string name="Create_Team">"Create Team"</string>
+
+    <!-- Fuzzy -->
+    <string name="You_are_in_the_following_Teams">"You are in the following Teams"</string>
+
+    <!-- Fuzzy -->
+    <string name="player_is_in_the_following_Teams">"%s is in the following Teams"</string>
+
+    <!-- Fuzzy -->
+    <string name="Leave_Team">"Leave Team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Are_you_sure_that_you_want_to_leave_team_name">"Are you sure that you want to leave %s?"</string>
+
+    <!-- Fuzzy -->
+    <string name="User_Settings">"User Settings"</string>
+
+    <!-- Fuzzy -->
+    <string name="Personal_Settings">"Personal Settings"</string>
+    <string name="Password">"Password"</string>
+
+    <!-- Fuzzy -->
+    <string name="Change_Password">"Change Password"</string>
+
+    <!-- Fuzzy -->
+    <string name="Old_Password">"Old Password"</string>
+
+    <!-- Fuzzy -->
+    <string name="New_Password">"New Password"</string>
+
+    <!-- Fuzzy -->
+    <string name="Repeat_new_Password">"Repeat new Password"</string>
+
+    <!-- Fuzzy -->
+    <string name="You_are_not_verified">"You are not verified"</string>
+
+    <!-- Fuzzy -->
+    <string name="Resend_E_Mail">"Resend E-Mail"</string>
+    <string name="Firstname">"Firstname"</string>
+    <string name="Lastname">"Lastname"</string>
+    <string name="Email">"Email"</string>
+    <string name="Save">"Save"</string>
+
+    <!-- Fuzzy -->
+    <string name="Create_Event">"Create Event"</string>
+    <string name="Start">"Start"</string>
+    <string name="End">"End"</string>
+
+    <!-- Fuzzy -->
+    <string name="Event_Name">"Event Name"</string>
+    <string name="Location">"Location"</string>
+    <string name="Description">"Description"</string>
+
+    <!-- Fuzzy -->
+    <string name="Show_all_Events">"Show all Events"</string>
+
+    <!-- Fuzzy -->
+    <string name="There_are_no_planned_events">"There are no planned events"</string>
+
+    <!-- Fuzzy -->
+    <string name="Future_Events">"Planned Events"</string>
+
+    <!-- Fuzzy -->
+    <string name="Past_Events">"Past Events"</string>
+
+    <!-- Fuzzy -->
+    <string name="No_Events_found">"No Events found"</string>
+
+    <!-- Fuzzy -->
+    <string name="No_Location">"No Location"</string>
+    <string name="News">"News"</string>
+    <string name="Actions">"Actions"</string>
+    <string name="Edit">"Edit"</string>
+
+    <!-- Fuzzy -->
+    <string name="Please_select_an_action">"Please select an action"</string>
+
+    <!-- Fuzzy -->
+    <string name="New_News">"New News"</string>
+    <string name="Message">"Message"</string>
+
+    <!-- Fuzzy -->
+    <string name="Create_News">"Create news"</string>
+    <string name="Participation">"Participation"</string>
+
+    <!-- Fuzzy -->
+    <string name="You_can_now_select_who_participated">"You can now select who participated"</string>
+
+    <!-- Fuzzy -->
+    <string name="Please_set_participation">"Please set participation"</string>
+    <string name="Login">"Login"</string>
+
+    <!-- Fuzzy -->
+    <string name="Forgot_Password">"Forgot Password"</string>
+    <string name="Register">"Register"</string>
+
+    <!-- Fuzzy -->
+    <string name="Please_fill_in_your_email_address_and_we_will_send_you_a_new_password">"Please fill in your email address and we will send you a new Password"</string>
+
+    <!-- Fuzzy -->
+    <string name="Request_new_Password">"Request new Password"</string>
+
+    <!-- Fuzzy -->
+    <string name="Join_this_public_team">"Join this public team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Join_this_private_team">"Join this private team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Confirmation_email_sent">"Confirmation email sent"</string>
+    <string name="Continue">"Continue"</string>
+
+    <!-- Fuzzy -->
+    <string name="You_do_not_have_a_team_yet">"You do not have a team yet"</string>
+
+    <!-- Fuzzy -->
+    <string name="You_do_not_have_a_team_yet_Go_ahead_and_create_one_using_the_on_the_top_right">"You do not have a team yet. Go ahead and create one using the '+' on the top right."</string>
+
+    <!-- Fuzzy -->
+    <string name="Repeat_Password">"Repeat Password"</string>
+    <string name="Done">"Done"</string>
+
+    <!-- Fuzzy -->
+    <string name="Set_Attendance">"Set Attendance"</string>
+
+    <!-- Fuzzy -->
+    <string name="Did_attend">"Did attend"</string>
+
+    <!-- Fuzzy -->
+    <string name="Did_not_attend">"Did not attend"</string>
+    <string name="Back">"Back"</string>
+
+    <!-- Fuzzy -->
+    <string name="No_Description">"No Description"</string>
+
+    <!-- Fuzzy -->
+    <string name="Please_enter_your_email_address">"Please enter your email address"</string>
+
+    <!-- Fuzzy -->
+    <string name="Requesting_new_Password">"Requesting new Password"</string>
+
+    <!-- Fuzzy -->
+    <string name="Successfully_requested_a_new_password">"Successfully requested a new password"</string>
+    <string name="Loading">"Loading"</string>
+    <string name="Saved">"Saved"</string>
+
+    <!-- Fuzzy -->
+    <string name="Passwords_must_match">"Passwords must match"</string>
+
+    <!-- Fuzzy -->
+    <string name="Please_fill_in_this_field">"Please fill in this field"</string>
+
+    <!-- Fuzzy -->
+    <string name="Join_Team">"Join Team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Do_really_want_to_join_x">"Do really want to join %s?"</string>
+
+    <!-- Fuzzy -->
+    <string name="Successfully_joined_x">"Successfully joined %s"</string>
+
+    <!-- Fuzzy -->
+    <string name="Successfully_left_team_x">"Successfully left team %s"</string>
+
+    <!-- Fuzzy -->
+    <string name="Send_reminder">"Send reminder"</string>
+
+    <!-- Fuzzy -->
+    <string name="Update_Event">"Update Event"</string>
+
+    <!-- EventCreate -->
+    <!-- Fuzzy -->
+    <string name="Please_enter_a_name">"Please enter a name"</string>
+
+    <!-- EventCreate -->
+    <!-- Fuzzy -->
+    <string name="Please_enter_a_start_date">"Please enter a start date"</string>
+
+    <!-- EventCreate -->
+    <!-- Fuzzy -->
+    <string name="Please_enter_an_end_date">"Please enter an end date"</string>
+
+    <!-- EventCreate -->
+    <!-- Fuzzy -->
+    <string name="Please_enter_a_location">"Please enter a location"</string>
+
+    <!-- EventCreate -->
+    <!-- Fuzzy -->
+    <string name="End_date_must_be_after_start_date">"End date must be after start date"</string>
+
+    <!-- Fuzzy -->
+    <string name="Delete_Event">"Delete Event"</string>
+
+    <!-- Fuzzy -->
+    <string name="Do_you_really_want_to_delete_this_event">"Do you really want to delete this event?"</string>
+    <string name="Yes">"Yes"</string>
+    <string name="No">"No"</string>
+
+    <!-- Fuzzy -->
+    <string name="No_News">"No News"</string>
+
+    <!-- Fuzzy -->
+    <string name="Delete">"Delete"</string>
+
+    <!-- Fuzzy -->
+    <string name="Make_Coach">"Make Coach"</string>
+
+    <!-- Fuzzy -->
+    <string name="This_team_is_not_available">"This team is not available"</string>
+
+    <!-- Fuzzy -->
+    <string name="There_was_an_error_loading_this_team">"There was an error loading this team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Delete_Team">"Delete Team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Do_you_really_want_to_delete_x">"Do you really want to delete %s?"</string>
+
+    <!-- Fuzzy -->
+    <string name="Team_deleted">"Team deleted"</string>
+
+    <!-- Fuzzy -->
+    <string name="Edit_Team">"Edit Team"</string>
+
+    <!-- Fuzzy -->
+    <string name="The_teams_name_must_be_at_least_three_characters_long">"The team's name must be at least 3 characters long"</string>
+
+    <!-- Fuzzy -->
+    <string name="Please_enter_a_team_name">"Please enter a team name"</string>
+
+    <!-- Fuzzy -->
+    <string name="You_are_now_verified">"You are now verified"</string>
+
+    <!-- Fuzzy -->
+    <string name="Verification_failed">"Verification failed"</string>
+    <string name="Error">"Error"</string>
+    <string name="Success">"Success"</string>
+
+    <!-- Fuzzy -->
+    <string name="No_images_found">"No images found"</string>
+
+    <!-- Fuzzy -->
+    <string name="Participate_yes">"I will attend"</string>
+
+    <!-- Fuzzy -->
+    <string name="Participate_no">"I will not attend"</string>
+
+    <!-- EventDetail -->
+    <string name="to">"to"</string>
+
+    <!-- Fuzzy -->
+    <string name="Select_Team">"Select Team"</string>
+
+    <!-- Fuzzy -->
+    <string name="Awesome">"Awesome!"</string>
+
+    <!-- Fuzzy -->
+    <string name="You_already_have_teams_Go_ahead_and_select_one">"You already have teams. Go ahead and select one."</string>
+    <string name="do_you_want_to_delete_the_messsage">"Do you want to delete the messsage?"</string>
+    <string name="reminder_sent">"Successfully sent a reminder"</string>
+    <string name="Name_is_required">"Name is required"</string>
+    <string name="Select_beginning_date">"Select beginning date"</string>
+    <string name="Select_beginning_time">"Select beginning time"</string>
+    <string name="Select_end_time">"Select end time"</string>
+    <string name="Select_end_date">"Select end date"</string>
+    <string name="Update_Team">"Update Team"</string>
+    <string name="User_Profile_was_updated_successfully">"User Profile was updated successfully"</string>
+    <string name="Please_check_your_mails_and_verify_your_email_address">"Please check your emails and verify your email address"</string>
+    <string name="Can_t_find_the_mail_trigger_a_new_email_in_the_user_settings">"Can't find the email? Trigger a new email in the user settings"</string>
+    <string name="Edit_Event">"Edit Event"</string>
+    <string name="Trying_to_join_team">"Trying to join team..."</string>
+    <string name="Invite_to_team">"Invite to team"</string>
+    <string name="Update_Profile">"Update Profile"</string>
+    <string name="Member">"Member"</string>
+    <string name="You">"You"</string>
 </resources>

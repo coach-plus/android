@@ -43,7 +43,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.user_settings_toolbar);
         toolbarFragment.setListener(this);
         toolbarFragment.showBackButton();
-        toolbarFragment.setTitle(getString(R.string.user_settings_title));
+        toolbarFragment.setTitle(getString(R.string.User_Settings));
 
         settings = new Settings(getApplicationContext());
 
@@ -109,13 +109,13 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
 
         newPasswordInput.setOnFocusChangeListener((view, focused) -> {
             if(!focused && newPasswordInput.getText().equals("")){
-                newPasswordInput.setError(getString(R.string.field_cant_be_empty));
+                newPasswordInput.setError(getString(R.string.Please_fill_in_this_field));
             }
         });
 
         newPasswordRepeatInput.setOnFocusChangeListener((view, focused) -> {
             if(!focused && !newPasswordInput.getText().equals(newPasswordRepeatInput.getText())){
-                newPasswordRepeatInput.setError(getString(R.string.passwords_do_not_match));
+                newPasswordRepeatInput.setError(getString(R.string.Passwords_must_match));
             }
         });
 
@@ -147,7 +147,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
     }
 
     private void passwordChangeSuccessful(){
-        SnackbarHelper.showText(oldPasswordInput, R.string.password_change_successfull);
+        SnackbarHelper.showText(oldPasswordInput, R.string.Success);
         oldPasswordInput.setText("");
         newPasswordInput.setText("");
         newPasswordRepeatInput.setText("");
@@ -169,7 +169,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
                 lastnameInput.getText().toString(), emailInput.getText().toString());
 
         dataLayer.updateUserInformation(updateUserRequest).subscribe( (data) -> {
-            Snackbar.make(oldPasswordInput, getString(R.string.user_profile_changed_successful), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(oldPasswordInput, getString(R.string.User_Profile_was_updated_successfully), Snackbar.LENGTH_SHORT).show();
             settings.setMyUser(data.user);
             AppState.myUserChanged$.onNext(data.user);
 
@@ -177,6 +177,6 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
     }
 
     private void showError(){
-        Snackbar.make(oldPasswordInput, R.string.error_occurred, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(oldPasswordInput, R.string.Error, Snackbar.LENGTH_SHORT).show();
     }
 }

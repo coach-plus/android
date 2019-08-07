@@ -70,7 +70,7 @@ public class MembershipViewHolder extends RecyclerView.ViewHolder {
             privateTeamImageView.setVisibility(View.VISIBLE);
             privateTeamImageBackgroundView.setVisibility(View.VISIBLE);
         }
-        String numMembersSuffix = membership.getTeam().getMemberCount() == 1 ? itemView.getResources().getString(R.string.member) : itemView.getResources().getString(R.string.members);
+        String numMembersSuffix = membership.getTeam().getMemberCount() == 1 ? itemView.getResources().getString(R.string.Member) : itemView.getResources().getString(R.string.Members);
         teamMembers.setText(membership.getTeam().getMemberCount() + " " + numMembersSuffix);
         if(membership.getTeam().getImage() != null){
             CircleTransform circleTransform = new CircleTransform();

@@ -46,7 +46,7 @@
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_icon="@drawable/ic_mode_edit_white_48dp"
             fab:fab_size="mini"
-            fab:fab_title="edit team"
+            fab:fab_title="@string/Edit_Team"
             fab:fab_colorPressed="@color/colorPrimaryLight"/>
 
 
@@ -55,7 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorPrimary"
-            fab:fab_title="invite"
+            fab:fab_title="@string/Invite_to_team"
             fab:fab_icon="@drawable/ic_person_add_white_48dp"
             fab:backgroundTintMode="multiply"
             fab:backgroundTint="#c4000000"
@@ -69,7 +69,7 @@
             fab:fab_colorNormal="@color/colorPrimary"
             fab:fab_icon="@drawable/ic_today_white_48dp"
             fab:fab_size="mini"
-            fab:fab_title="add event"
+            fab:fab_title="@string/Create_Event"
             fab:fab_colorPressed="@color/colorPrimaryLight"/>
 
 

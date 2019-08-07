@@ -17,10 +17,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".views.PasswordResetActivity"
-            android:label="@string/title_activity_password_reset"></activity>
+            android:label="@string/Change_Password"></activity>
         <activity
             android:name=".views.UserSettingsActivity"
-            android:label="@string/title_activity_user_settings" />
+            android:label="@string/User_Settings" />
 
         <receiver android:name=".helpers.NotificationActionReceiver" />
 

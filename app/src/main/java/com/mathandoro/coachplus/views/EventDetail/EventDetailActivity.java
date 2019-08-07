@@ -144,7 +144,7 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
 
     private void sendReminder(){
         dataLayer.sendReminder(team.get_id(), event.get_id()).subscribe(o -> {
-            Snackbar.make(reminderFab, getString(R.string.reminder_was_send_snackbar_text), Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(reminderFab, getString(R.string.reminder_sent), Snackbar.LENGTH_SHORT).show();
         }, throwable -> {});
     }
 
@@ -234,7 +234,8 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
     }
 
     public void showNewsDeletionConfirmation(News news){
-        ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(), "do you want to delete the messsage?", true);
+        String wantDeleteMessage = getResources().getString(R.string.do_you_want_to_delete_the_messsage);
+        ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(), wantDeleteMessage, true);
         bottomSheet.setListener(new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
             @Override
             public void onConfirm() {

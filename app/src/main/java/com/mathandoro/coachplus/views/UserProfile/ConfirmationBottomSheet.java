@@ -18,8 +18,7 @@ public class ConfirmationBottomSheet extends BottomSheetDialogFragment {
     private boolean danger;
 
 
-    public ConfirmationBottomSheet(){
-    }
+    public ConfirmationBottomSheet(){ }
 
     public static ConfirmationBottomSheet show(FragmentManager fragmentManager, String confirmationText, boolean danger){
         ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.newInstance(confirmationText, danger);

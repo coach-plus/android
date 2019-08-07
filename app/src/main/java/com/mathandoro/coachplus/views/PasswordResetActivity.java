@@ -32,7 +32,7 @@ public class PasswordResetActivity extends AppCompatActivity {
         ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest(emailTextInput.getText().toString());
         dataLayer.resetPassword(resetPasswordRequest).subscribe(
                 response -> passwordResetSuccess(),
-                error -> SnackbarHelper.showText(emailTextInput, R.string.error_occurred));
+                error -> SnackbarHelper.showText(emailTextInput, R.string.Error));
     }
 
     private void passwordResetSuccess(){

@@ -82,20 +82,20 @@ public class TeamRegistrationActivity extends AppCompatActivity
 
         radioGroup.setOnCheckedChangeListener((radioGroup1, selectedId) -> {
             if(selectedId == registerTeamPublicToggleButton.getId()){
-                registerTeamVisibilityDescription.setText(R.string.team_description_public);
+                registerTeamVisibilityDescription.setText(R.string.Your_team_is_public_and_everyone_can_join_it);
             }
             else{
-                registerTeamVisibilityDescription.setText(R.string.team_description_private);
+                registerTeamVisibilityDescription.setText(R.string.Your_team_is_private_and_you_can_invite_people);
             }
         });
 
         if(editMode){
             loadExistingTeam();
-            saveTeamButton.setText(R.string.register_team_update_button_text);
+            saveTeamButton.setText(R.string.Update_Team);
         }
         else {
             deleteTeamButton.setVisibility(View.INVISIBLE);
-            toolbarFragment.setTitle(getString(R.string.new_team_title));
+            toolbarFragment.setTitle(getString(R.string.Create_Team));
         }
 
         saveTeamButton.setOnClickListener((View v) -> {
@@ -119,7 +119,7 @@ public class TeamRegistrationActivity extends AppCompatActivity
 
         deleteTeamButton.setOnClickListener(view -> {
             final ConfirmationBottomSheet bottomSheet = ConfirmationBottomSheet.show(getSupportFragmentManager(),
-                    getString(R.string.delete_team_confirmation, editableTeam.getName()), true);
+                    getString(R.string.Do_you_really_want_to_delete_x, editableTeam.getName()), true);
             bottomSheet.setListener(new ConfirmationBottomSheet.IComfirmationBottomSheetListener() {
                 @Override
                 public void onConfirm() {
