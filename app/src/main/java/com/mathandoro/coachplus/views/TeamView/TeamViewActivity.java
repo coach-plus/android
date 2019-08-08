@@ -1,5 +1,6 @@
 package com.mathandoro.coachplus.views.TeamView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -71,7 +72,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         setContentView(R.layout.team_view_activity);
 
 
-        dataLayer = DataLayer.getInstance(this);
+        dataLayer = new DataLayer(TeamViewActivity.this);
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.main_activity_fragment_toolbar);
         toolbarFragment.setListener(this);

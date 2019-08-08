@@ -63,7 +63,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.visibleEvents = new ArrayList<>();
         this.teamFeedFragment = teamFeedFragment;
         this.mainActivity = mainActivity;
-        this.dataLayer = DataLayer.getInstance(mainActivity);
+        this.dataLayer = new DataLayer(mainActivity);
         this.loadMyUser();
 
         viewStack = new RecycleViewStack();

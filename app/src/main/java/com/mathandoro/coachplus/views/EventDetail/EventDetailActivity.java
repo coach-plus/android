@@ -88,7 +88,7 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
         membership = bundle.getParcelable(EXTRA_MEMBERSHIP);
 
         toolbar.setTitle(event.getName());
-        dataLayer = DataLayer.getInstance(this);
+        dataLayer = new DataLayer(this);
 
         floatingActionsMenu = findViewById(R.id.event_detail_fab_menu);
 
@@ -160,7 +160,7 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
             dataLayer.createNews(team.get_id(), event.get_id(), "title", newsText.getText().toString()).subscribe(response ->{
                 // todo update list instead
                 loadNews(); // workaround: load all news again
-            });
+            }, throwable -> {});
         });
         customDialog.findViewById(R.id.create_news_dialog_cancel_button).setOnClickListener(view -> {
             customDialog.hide();
@@ -188,12 +188,12 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
             return map.values();
         }).subscribe(entries -> {
             eventDetailAdapter.setParticipationItems(new ArrayList<>(entries));
-       });
+       }, throwable -> {});
        this.loadNews();
     }
 
     private void loadNews(){
-        this.dataLayer.getNews(team.get_id(), event.get_id()).subscribe(newsResponse -> eventDetailAdapter.setNews(newsResponse.getNews()));
+        this.dataLayer.getNews(team.get_id(), event.get_id()).subscribe(newsResponse -> eventDetailAdapter.setNews(newsResponse.getNews()), throwable -> {});
     }
 
     private Observable<TeamMembersResponse> loadTeamMembers(){
@@ -208,13 +208,13 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
     public void onUpdateWillAttend(String userId, boolean willAttend) {
         this.dataLayer.setWillAttend(this.team.get_id(), this.event.get_id(), userId, willAttend).subscribe(participation -> {
             this.updateParticipation(participation);
-        });
+        }, throwable -> {});
     }
 
     public void onUpdateDidAttend(String userId, boolean didAttend) {
         this.dataLayer.setDidAttend(this.team.get_id(), this.event.get_id(), userId, didAttend).subscribe(participation -> {
             this.updateParticipation(participation);
-        });
+        }, throwable -> {});
     }
 
     private void updateParticipation(Participation participation){
@@ -228,7 +228,7 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
             this.dataLayer.setDidAttend(team.get_id(), event.get_id(), userId, didAttend).subscribe(participation -> {
                 updateParticipation(participation);
                 bottomSheet.dismiss();
-            });
+            }, throwable -> {});
         });
         bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
     }
@@ -242,7 +242,7 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
                 dataLayer.deleteNews(team.get_id(), event.get_id(), news.getId()).subscribe(news -> {
                     loadNews();
                     bottomSheet.dismiss();
-                });
+                }, throwable -> {});
                 bottomSheet.dismiss();
             }
 

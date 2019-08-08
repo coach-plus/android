@@ -83,7 +83,7 @@ public class CreateEventActivity extends AppCompatActivity implements ToolbarFra
         eventStartCalendar.set(Calendar.SECOND, 0);
         eventEndCalendar.set(Calendar.SECOND, 0);
 
-        dataLayer = DataLayer.getInstance(this);
+        dataLayer = new DataLayer(this);
 
         team = getIntent().getExtras().getParcelable(INTENT_PARAM_TEAM);
         event = getIntent().getExtras().getParcelable(INTENT_PARAM_EVENT);

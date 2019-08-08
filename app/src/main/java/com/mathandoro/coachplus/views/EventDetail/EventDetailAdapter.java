@@ -62,7 +62,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.initViewStack();
         this.participationItems = new ArrayList<>();
         this.news = new ArrayList<>();
-        this.dataLayer = DataLayer.getInstance(mainActivity);
+        this.dataLayer = new DataLayer(mainActivity);
         this.event = event;
         this.mainActivity = mainActivity;
         this.loadMyUser();
@@ -204,7 +204,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 News news = getNewsItem(position);
                 NewsItemViewHolder newsItemViewHolder = (NewsItemViewHolder)holder;
                 newsItemViewHolder.bind(news);
-                if(myUsersMembership.getRole().equals(Role.COACH)){
+                if(myUsersMembership != null && myUsersMembership.getRole().equals(Role.COACH)){
                     newsItemViewHolder.makeDeleteable(() -> {
                         mainActivity.showNewsDeletionConfirmation(news);
                     });

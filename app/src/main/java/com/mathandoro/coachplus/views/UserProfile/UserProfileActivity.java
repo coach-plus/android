@@ -53,7 +53,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
         AppState.myUserChanged$.subscribe(user -> this.loadMyUser());
 
         this.settings = new Settings(this);
-        dataLayer = DataLayer.getInstance(this);
+        dataLayer = new DataLayer(this);
 
         userParam = getIntent().getExtras().getParcelable(INTENT_PARAM_USER);
 
@@ -179,7 +179,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
             @Override
             public void onConfirm() {
                 bottomSheet.dismiss();
-                dataLayer.leaveTeam(team.get_id(), recyclerView).subscribe(membership -> {
+                dataLayer.leaveTeam(team.get_id()).subscribe(membership -> {
                     if(team.get_id().equals(settings.getActiveTeamId())){
                         UserProfileActivity.this.navigateToMembership(null);
                     }else {

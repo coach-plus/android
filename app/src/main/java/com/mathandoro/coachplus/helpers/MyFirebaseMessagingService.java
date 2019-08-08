@@ -56,7 +56,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String newToken) {
-        DataLayer dataLayer = new DataLayer(getApplicationContext());
+        DataLayer dataLayer = new DataLayer(this.getApplication());
         Settings settings = new Settings(getApplicationContext());
         Log.d(TAG, "Refreshed token: " + newToken);
         String deviceId = settings.getDeviceId();

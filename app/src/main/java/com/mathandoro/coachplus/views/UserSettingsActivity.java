@@ -38,7 +38,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_settings_activity);
 
-        dataLayer = new DataLayer(getApplicationContext());
+        dataLayer = new DataLayer(this);
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.user_settings_toolbar);
         toolbarFragment.setListener(this);

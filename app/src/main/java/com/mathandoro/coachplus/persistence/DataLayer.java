@@ -1,7 +1,10 @@
 package com.mathandoro.coachplus.persistence;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+
+import androidx.core.app.ActivityCompat;
 
 import com.google.gson.Gson;
 import com.mathandoro.coachplus.Settings;
@@ -55,20 +58,29 @@ public class DataLayer {
     final String MY_MEMBERSHIPS = "myMemberships";
     final String EVENTS = "events";
     private Gson gson;
+    private View rootView;
 
 
-    public DataLayer(Context context){
+    private DataLayer(Activity contextActivity, Context context){
         this.context = context;
+        try{
+            this.rootView = contextActivity.getWindow().getDecorView().findViewById(android.R.id.content);
+        }
+        catch(Error error){
+            this.rootView = null;
+        }
         this.settings = new Settings(this.context);
         this.cache = new Cache(this.context);
         this.gson = new Gson();
     }
 
-    public static DataLayer getInstance(Context context){
-        if(instance == null){
-            instance = new DataLayer(context.getApplicationContext());
-        }
-        return instance;
+
+    public DataLayer(Activity contextActivity){
+       this(contextActivity, contextActivity.getApplicationContext());
+    }
+
+    public DataLayer(Context context){
+        this(null, context);
     }
 
     public Observable<GetNewsResponse> getNews(String teamId, String eventId){
@@ -139,9 +151,9 @@ public class DataLayer {
         return this.apiCall(apiResponseCall, false);
     }
 
-    public Observable<Object> leaveTeam(String teamId, View snackbarContextView){
+    public Observable<Object> leaveTeam(String teamId){
         Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.leaveTeam(settings.getToken(), teamId);
-        return this.apiCallWithSnackbarError(apiResponseCall, false, snackbarContextView);
+        return this.apiCallWithSnackbar(apiResponseCall, false);
     }
 
     public Observable<Object> deleteTeam(String teamId){
@@ -252,15 +264,22 @@ public class DataLayer {
         return this.apiCall(registerTeamCall, false);
     }
 
-    private <T> Observable<T> apiCallWithSnackbarError(Call<ApiResponse<T>> t, boolean useCache, View snackbarContextView) {
-        ApiErrorResolver apiErrorResolver = (errorCode) -> {
-            SnackbarHelper.showText(snackbarContextView, errorCode);
-        };
-        return apiCall(t,useCache, apiErrorResolver);
-    }
+
 
     private <T> Observable<T> apiCall(Call<ApiResponse<T>> t, boolean useCache){
         return this.apiCall(t, false, null);
+    }
+
+
+    private <T> Observable<T> apiCallWithSnackbar(Call<ApiResponse<T>> t, boolean useCache) {
+        ApiErrorResolver apiErrorResolver = (errorCode) -> {
+            SnackbarHelper.showText(rootView, errorCode);
+        };
+        if(rootView == null){
+            // snackbar needs a rootView! Not possible in background tasks e.g. broadcast receiver
+            return apiCall(t, useCache);
+        }
+        return apiCall(t,useCache, apiErrorResolver);
     }
 
     private <T> Observable<T> apiCall(Call<ApiResponse<T>> t, boolean useCache, ApiErrorResolver errorResolver){
@@ -277,7 +296,7 @@ public class DataLayer {
                         try {
                             ApiResponse<String> error = converter.convert(response.errorBody());
                             if(errorResolver != null){
-                                String textResource = ResourceHelper.getStringResourceByName(context, "error_" + error.message);
+                                String textResource = ResourceHelper.getStringResourceByName(context, error.message);
                                 errorResolver.resolve(textResource == null ? error.message : textResource);
                             }
                             else {
@@ -291,39 +310,15 @@ public class DataLayer {
 
                 @Override
                 public void onFailure(Call<ApiResponse<T>> call, Throwable throwable) {
-                    emitter.onError(throwable);
+                    if(errorResolver != null){
+                        errorResolver.resolve(throwable.getMessage());
+                    }
+                    if(emitter != null){
+                        emitter.onError(throwable);
+                    }
                 }
             });
         });
-
         return resultObservable;
     }
-
-
-/*    public void createEvent(Team team, Event event, final DataLayerCallback<Event> callback){
-        final String CREATE_EVENT = "createEvent";
-        ApiClient.instance().teamService.createEvent(settings.getToken(), team.get_id(), event)
-                .enqueue(new Callback<ApiResponse<CreateEventResponse>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<CreateEventResponse>> call, Response<ApiResponse<CreateEventResponse>> response) {
-                if(response.code() == 201){
-                    if(callback != null){
-                        callback.dataChanged(response.body().content.getEvent());
-                    }
-                }
-                else{
-                    if(callback != null){
-                        callback.error();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<CreateEventResponse>> call, Throwable t) {
-                callback.error();
-            }
-        });
-    }*/
-
-
 }

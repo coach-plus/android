@@ -72,7 +72,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataLayer = DataLayer.getInstance(this.getActivity());
+        dataLayer = new DataLayer(this.getActivity());
         if (getArguments() != null) {
             team = getArguments().getParcelable(PARAM_TEAM);
             membership = getArguments().getParcelable(PARAM_MEMBERSHIP);

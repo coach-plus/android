@@ -85,7 +85,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         AppState.myUserChanged$.subscribe(user -> reloadMembers().subscribe());
 
-        dataLayer = DataLayer.getInstance(this.getActivity());
+        dataLayer = new DataLayer(this.getActivity());
         if (getArguments() != null) {
             membership = getArguments().getParcelable(ARG_MEMBERSHIP);
         }
