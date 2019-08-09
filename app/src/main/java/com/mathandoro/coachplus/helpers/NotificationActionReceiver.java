@@ -43,7 +43,9 @@ public class NotificationActionReceiver extends BroadcastReceiver {
         dataLayer.setWillAttend(teamId, eventId, userId, willAttend).subscribe(participation -> {
             notificationManager.cancel(notificationId);
         }, error -> {
-            // todo
+           if(error.getMessage().equals("The_Event_has_already_started")){
+               notificationManager.cancel(notificationId);
+           }
         });
     }
 }

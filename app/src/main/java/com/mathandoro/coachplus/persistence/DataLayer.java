@@ -66,7 +66,7 @@ public class DataLayer {
         try{
             this.rootView = contextActivity.getWindow().getDecorView().findViewById(android.R.id.content);
         }
-        catch(Error error){
+        catch(Exception error){
             this.rootView = null;
         }
         this.settings = new Settings(this.context);
