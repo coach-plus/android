@@ -49,10 +49,11 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     final int UPCOMING_EVENTS_ITEM = 1;
     final int MEMBERS_HEADER = 2;
     final int MEMBERS_ITEM = 3;
-    final int TEAM_IMAGE_ITEM = 4;
-    final int NO_UPCOMING_EVENTS = 5;
-    final int SHOW_ALL_EVENTS = 6;
-    final int FOOTER = 7;
+    final int MEMBER_ITEM_ADMIN_MODE = 4; // special case
+    final int TEAM_IMAGE_ITEM = 5;
+    final int NO_UPCOMING_EVENTS = 6;
+    final int SHOW_ALL_EVENTS = 7;
+    final int FOOTER = 8;
 
     private static final int MAX_VISIBLE_EVENTS = 3;
 
@@ -108,7 +109,11 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        return viewStack.getSectionIdAt(position);
+        int viewType = viewStack.getSectionIdAt(position);
+        if(viewType == MEMBERS_ITEM && myUsersMembership != null && myUsersMembership.isCoach()){
+            return MEMBER_ITEM_ADMIN_MODE;
+        }
+        return viewType;
     }
 
     @Override
@@ -135,6 +140,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_view_see_all_events_item, parent, false);
                 return new SeeAllEventsViewHolder(view);
             case MEMBERS_ITEM:
+            case MEMBER_ITEM_ADMIN_MODE:
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.member_item, parent, false);
                 View rightView = null;
                 if(myUsersMembership.isCoach()){
@@ -188,8 +194,8 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     teamFeedFragment.navigateToEvent(event)
                 );
                 break;
-
             case MEMBERS_ITEM:
+            case MEMBER_ITEM_ADMIN_MODE:
                 TeamMemberViewHolder memberViewHolder = (TeamMemberViewHolder)holder;
                 final TeamMember teamMember = getMember(position);
                 memberViewHolder.bindTeamViewMode(teamMember, myUser,
