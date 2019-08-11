@@ -47,6 +47,7 @@ public class TeamViewBottomSheet extends BottomSheetDialogFragment {
         button.setOnClickListener(view -> listener.onChangeRole(newRole));
 
         Button kickButton = dialog.findViewById(R.id.confirmation_bottom_sheet_decline_button);
+        kickButton.setText(R.string.Remove_from_team);
         kickButton.setOnClickListener(view -> listener.onKickUser());
     }
 }
