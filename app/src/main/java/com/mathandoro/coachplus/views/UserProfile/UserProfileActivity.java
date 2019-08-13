@@ -182,6 +182,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
                 dataLayer.leaveTeam(team.get_id()).subscribe(membership -> {
                     if(team.get_id().equals(settings.getActiveTeamId())){
                         UserProfileActivity.this.navigateToMembership(null);
+                        finish();
                     }else {
                         UserProfileActivity.this.loadMemberships();
                     }
