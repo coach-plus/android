@@ -171,7 +171,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         dataLayer.updateUserInformation(updateUserRequest).subscribe( (data) -> {
             Snackbar.make(oldPasswordInput, getString(R.string.User_Profile_was_updated_successfully), Snackbar.LENGTH_SHORT).show();
             settings.setMyUser(data.user);
-            AppState.myUserChanged$.onNext(data.user);
+            AppState.instance().myUserChanged$.onNext(data.user);
 
         }, (error) -> showError());
     }

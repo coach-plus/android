@@ -167,12 +167,6 @@ public class DataLayer {
         return this.apiCall(apiResponseCall, false);
     }
 
-   @Deprecated
-    public Observable<Object> promoteUser(String teamId, String userId){
-        Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().teamService.promoteUser(settings.getToken(), teamId, userId);
-        return this.apiCall(apiResponseCall, false);
-    }
-
     public Observable<Object> updateRole( String membershipId, String role){
         Call<ApiResponse<Object>> apiResponseCall = ApiClient.instance().membershipService.setRole(settings.getToken(), membershipId, new UpdateRoleRequest((role)));
         return this.apiCall(apiResponseCall, false);

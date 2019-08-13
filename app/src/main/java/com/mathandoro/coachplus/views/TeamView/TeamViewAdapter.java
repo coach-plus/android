@@ -16,6 +16,7 @@ import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.TeamView.viewHolders.SeeAllEventsViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.EventItemViewHolder;
@@ -76,6 +77,29 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         viewStack.addSection(MEMBERS_HEADER, 1);
         viewStack.addSection(MEMBERS_ITEM, 0);
         viewStack.addSection(FOOTER, 1);
+
+        subscribeData();
+    }
+
+    private void subscribeData(){
+        AppState.instance().members$.subscribe(teamMembers -> {
+            this.members = teamMembers;
+            this.viewStack.updateSection(MEMBERS_ITEM, members.size());
+            this.notifyDataSetChanged();
+        });
+
+        AppState.instance().events$.subscribe(events -> {
+            this.visibleEvents = this.filterVisibleEvents(events);
+            if(this.visibleEvents.size() == 0){
+                this.viewStack.updateSection(NO_UPCOMING_EVENTS, 1);
+                this.viewStack.updateSection(UPCOMING_EVENTS_ITEM, 0);
+            }
+            else{
+                this.viewStack.updateSection(NO_UPCOMING_EVENTS, 0);
+                this.viewStack.updateSection(UPCOMING_EVENTS_ITEM, this.visibleEvents.size());
+            }
+            this.notifyDataSetChanged();
+        });
     }
 
     private void loadMyUser(){
@@ -88,11 +112,13 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.notifyDataSetChanged();
     }
 
+    /*
     public void setMembers(List<TeamMember> members){
         this.members = members;
         this.viewStack.updateSection(MEMBERS_ITEM, members.size());
         this.notifyDataSetChanged();
     }
+
 
     public void setUpcomingEvents(List<Event> events){
         this.visibleEvents = this.filterVisibleEvents(events);
@@ -106,6 +132,8 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         this.notifyDataSetChanged();
     }
+
+    */
 
     @Override
     public int getItemViewType(int position) {

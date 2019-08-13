@@ -55,16 +55,14 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
         FloatingActionButton createEventFab = findViewById(R.id.create_event_fab);
         if(membership.isCoach()){
             createEventFab.setOnClickListener((View view) -> {
-
                 Intent intent = new Intent(EventListActivity.this, CreateEventActivity.class);
                 intent.putExtra(CreateEventActivity.INTENT_PARAM_TEAM, team);
                 startActivity(intent);
             });
         }
-        else{
+        else {
             createEventFab.hide();
         }
-
     }
 
     @Override
@@ -75,36 +73,6 @@ public class EventListActivity extends AppCompatActivity implements ToolbarFragm
     @Override
     public void onRightIconPressed() { }
 
-
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_events, container, false);
-            return rootView;
-        }
-    }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 

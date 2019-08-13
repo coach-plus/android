@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.models.Membership;
+import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.persistence.DataLayer;
@@ -113,8 +114,8 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
 
     private Consumer<EventsResponse> eventsLoaded = eventsResponse -> {
         List<Event> events = eventsResponse.getEvents();
-        List<Event> visibleEvents = this.filterVisibleEvents(events);
-        eventListAdapter.setEvents(visibleEvents);
+        AppState.instance().setEvents(events);
+
         swipeRefreshLayout.setRefreshing(false);
     };
 
@@ -122,34 +123,7 @@ public class EventListFragment extends Fragment implements SwipeRefreshLayout.On
         swipeRefreshLayout.setRefreshing(false);
     };
 
-    private List<Event> filterVisibleEvents(List<Event> events){
-        if(showUpcomingEvents){
-            return this.filterUpcomingEvents(events);
-        }
-        return this.filterPastEvents(events);
-    }
 
-    private List<Event> filterUpcomingEvents(List<Event> events){
-        List<Event> upcomingEvents = new ArrayList<Event>();
-        for(Event event: events){
-            if(event.getEnd().after(new Date())){
-                upcomingEvents.add(event);
-            }
-        }
-        Collections.sort(upcomingEvents, (eventA, eventB) -> eventA.getStart().compareTo(eventB.getStart()));
-        return upcomingEvents;
-    }
-
-    private List<Event> filterPastEvents(List<Event> events){
-        List<Event> pastEvents = new ArrayList<Event>();
-        for(Event event: events){
-            if(event.getEnd().before(new Date())){
-                pastEvents.add(event);
-            }
-        }
-        Collections.sort(pastEvents, (eventA, eventB) -> eventA.getEnd().compareTo(eventB.getEnd()) * -1);
-        return pastEvents;
-    }
 
     @Override
     public void onDetach() {

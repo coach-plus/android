@@ -1,6 +1,5 @@
 package com.mathandoro.coachplus.views.TeamView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -102,13 +101,10 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
                     settings.setDeviceId(deviceId);
 
                     dataLayer.registerOrUpdateDevice(deviceId, pushToken).subscribe(data -> {
-                        Toast.makeText(TeamViewActivity.this, "firebase initialized", Toast.LENGTH_SHORT).show();
-
+                        Log.d( "firebase", "firebase initialized");
                     }, error -> {
-                        Toast.makeText(TeamViewActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-
+                        Log.d( "firebase", "firebase init error");
                     });
-
                 });
     }
 
@@ -288,7 +284,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
                     teamViewFragment.onMembershipRefreshed(membership);
                     toolbarFragment.setTeamName(membership.getTeam().getName());
                 }
-            };
+            }
         });
     }
 
@@ -314,7 +310,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
             public void onChangeRole(String newRole) {
                 dataLayer.updateRole(member.get_id(), newRole)
                         .subscribe(result -> {
-                    teamViewFragment.reloadMembers();
+                    teamViewFragment.reloadMembers().subscribe();
                     bottomSheet.dismiss();
                    //  String notificationText = getString(R.st, member.getUser().getFirstname());
                             String notificationText = "user is no longer a coach";

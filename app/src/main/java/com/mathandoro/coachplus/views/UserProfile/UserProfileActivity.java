@@ -50,7 +50,7 @@ public class UserProfileActivity extends AppCompatActivity implements ToolbarFra
 
         setContentView(R.layout.user_profile_activity);
 
-        AppState.myUserChanged$.subscribe(user -> this.loadMyUser());
+        AppState.instance().myUserChanged$.subscribe(user -> this.loadMyUser());
 
         this.settings = new Settings(this);
         dataLayer = new DataLayer(this);

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -83,7 +84,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         teamViewActivity = (TeamViewActivity) getActivity();
         this.settings = new Settings(this.getActivity());
 
-        AppState.myUserChanged$.subscribe(user -> reloadMembers().subscribe());
+        AppState.instance().myUserChanged$.subscribe(user -> reloadMembers().subscribe());
 
         dataLayer = new DataLayer(this.getActivity());
         if (getArguments() != null) {
@@ -171,8 +172,11 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
         Observable<EventsResponse> eventsV2 = dataLayer.getEvents(membership.getTeam(), useCache);
 
         Observable.zip(teamMembersV2, eventsV2, (teamMembersResponse, eventsResponse) -> {
-            teamViewAdapter.setMembers(teamMembersResponse.getMembers());
-            teamViewAdapter.setUpcomingEvents(eventsResponse.getEvents());
+            AppState.instance().setEvents(eventsResponse.getEvents());
+            AppState.instance().setMembers(teamMembersResponse.getMembers());
+
+            // teamViewAdapter.setMembers(teamMembersResponse.getMembers());
+            // teamViewAdapter.setUpcomingEvents(eventsResponse.getEvents());
             swipeRefreshLayout.setRefreshing(false);
             return true;
         }).subscribe();
@@ -181,7 +185,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     public Observable<TeamMembersResponse> reloadMembers(){
         return dataLayer.getTeamMembersV2(membership.getTeam(), false)
                 .map(teamMembersResponse -> {
-                    teamViewAdapter.setMembers(teamMembersResponse.getMembers());
+                    AppState.instance().setMembers(teamMembersResponse.getMembers());
                     return teamMembersResponse;
                 });
     }
@@ -189,7 +193,7 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
     public Observable<EventsResponse> reloadEvents(){
         return dataLayer.getEvents(membership.getTeam(), false)
                 .map(response -> {
-                    teamViewAdapter.setUpcomingEvents(response.getEvents());
+                    AppState.instance().setEvents(response.getEvents());
                     return response;
                 });
     }

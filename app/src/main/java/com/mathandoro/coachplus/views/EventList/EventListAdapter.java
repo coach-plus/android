@@ -9,10 +9,13 @@ import android.widget.TextView;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.helpers.RecycleViewStack;
 import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.views.viewHolders.EventItemViewHolder;
 import com.mathandoro.coachplus.views.viewHolders.StaticViewHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -20,7 +23,7 @@ import java.util.List;
 public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final EventListActivity eventListActivity;
     private final EventListFragment eventListFragment;
-    private List<Event> events;
+    private List<Event> visibleEvents;
 
     RecycleViewStack viewStack;
 
@@ -30,7 +33,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     boolean futureEvents;
 
     public EventListAdapter(EventListActivity eventListActivity, EventListFragment eventListFragment, boolean futureEvents) {
-        this.events = new ArrayList<>();
+        this.visibleEvents = new ArrayList<>();
         this.eventListFragment = eventListFragment;
         this.eventListActivity = eventListActivity;
         this.futureEvents = futureEvents;
@@ -38,18 +41,51 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         viewStack.addSection(EVENT_ITEM, 0);
         viewStack.addSection(NO_EVENTS_ITEM, 0);
         viewStack.addSection(FOOTER, 1);
+
+        this.subscribeData();
     }
 
-    public void setEvents(List<Event> events){
-        this.events = events;
-        viewStack.updateSection(EVENT_ITEM, events.size());
-        if(events.size() == 0){
-            viewStack.updateSection(NO_EVENTS_ITEM, 1);
+    public void subscribeData(){
+        AppState.instance().events$.subscribe(events -> {
+            this.visibleEvents = filterVisibleEvents(events);
+            viewStack.updateSection(EVENT_ITEM, visibleEvents.size());
+            if(events.size() == 0){
+                viewStack.updateSection(NO_EVENTS_ITEM, 1);
+            }
+            else {
+                viewStack.updateSection(NO_EVENTS_ITEM, 0);
+            }
+            this.notifyDataSetChanged();
+        });
+    }
+
+    private List<Event> filterVisibleEvents(List<Event> events){
+        if(futureEvents){
+            return this.filterUpcomingEvents(events);
         }
-        else {
-            viewStack.updateSection(NO_EVENTS_ITEM, 0);
+        return this.filterPastEvents(events);
+    }
+
+    private List<Event> filterUpcomingEvents(List<Event> events){
+        List<Event> upcomingEvents = new ArrayList<Event>();
+        for(Event event: events){
+            if(event.getEnd().after(new Date())){
+                upcomingEvents.add(event);
+            }
         }
-        this.notifyDataSetChanged();
+        Collections.sort(upcomingEvents, (eventA, eventB) -> eventA.getStart().compareTo(eventB.getStart()));
+        return upcomingEvents;
+    }
+
+    private List<Event> filterPastEvents(List<Event> events){
+        List<Event> pastEvents = new ArrayList<Event>();
+        for(Event event: events){
+            if(event.getEnd().before(new Date())){
+                pastEvents.add(event);
+            }
+        }
+        Collections.sort(pastEvents, (eventA, eventB) -> eventA.getEnd().compareTo(eventB.getEnd()) * -1);
+        return pastEvents;
     }
 
     @Override
@@ -101,7 +137,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     protected Event getEvent(int position){
-        return this.events.get(viewStack.positionInSection(EVENT_ITEM, position));
+        return this.visibleEvents.get(viewStack.positionInSection(EVENT_ITEM, position));
     }
 
     @Override

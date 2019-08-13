@@ -20,6 +20,7 @@ import com.mathandoro.coachplus.helpers.CustomDialog;
 import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.News;
 import com.mathandoro.coachplus.models.Participation;
+import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.Team;
@@ -130,6 +131,7 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
 
     private void applyUpdatedEvent(Event event){
         this.event = event;
+        AppState.instance().setEvent(event);
         this.eventDetailAdapter.setEvent(event);
         toolbar.setTitle(event.getName());
     }
