@@ -24,9 +24,11 @@ public class EventDetailHeaderViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(Event event){
         name.setText(event.getName());
-        if(event.getLocation() != null){
+        if(event.getLocation() == null || event.getLocation().getName().equals("")) {
+            location.setText(R.string.No_Location);
+        }
+        else {
             location.setText(event.getLocation().getName());
-            // todo location google maps link!
         }
         if(event.getStart() != null){
             time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd(), itemView.getContext()));

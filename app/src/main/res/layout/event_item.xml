@@ -14,19 +14,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         android:text="Event Name"
         android:textColor="#4a4a4a"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/calendar_container"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/calendar_container" />
 
     <TextView
         android:id="@+id/event_item_event_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="1dp"
         android:text="31.03.17 - 18:00 Uhr"
         android:textColor=" #9b9b9b"
         android:textSize="12sp"
@@ -38,11 +38,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:layout_marginBottom="8dp"
         android:text="Location"
         android:textColor="#3481b8"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintStart_toStartOf="@+id/event_item_event_name"
         app:layout_constraintTop_toBottomOf="@+id/event_item_event_start" />
 
@@ -75,10 +73,12 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/event_item"
-        app:layout_constraintBottom_toBottomOf="@+id/event_item_event_location"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/event_item_event_name">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/event_item_calendar_month_text_view"

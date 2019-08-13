@@ -27,26 +27,23 @@
         android:id="@+id/event_detail_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
         android:text="21.03.17 - 18:00"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fontAwesomeView10"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/fontAwesomeView10"
-        app:layout_constraintTop_toTopOf="@+id/fontAwesomeView10" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/event_detail_location"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
         android:text="Turmhalle Am Weiher"
+        android:textColor="@color/colorPrimaryLight"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/fontAwesomeView11"
-        app:layout_constraintStart_toEndOf="@+id/fontAwesomeView10"
-        app:layout_constraintTop_toTopOf="@+id/fontAwesomeView11" />
+        app:layout_constraintStart_toStartOf="@+id/event_detail_time"
+        app:layout_constraintTop_toBottomOf="@+id/event_detail_time" />
 
     <TextView
         android:id="@+id/event_detail_description"
@@ -64,26 +61,5 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/event_detail_location"
         app:layout_constraintVertical_bias="0.0" />
-
-    <com.mathandoro.coachplus.views.layout.FontAwesomeView
-        android:id="@+id/fontAwesomeView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:text="@string/fa_clock"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.mathandoro.coachplus.views.layout.FontAwesomeView
-        android:id="@+id/fontAwesomeView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/fa_map_marker_alt"
-        app:layout_constraintEnd_toEndOf="@+id/fontAwesomeView10"
-        app:layout_constraintStart_toStartOf="@+id/fontAwesomeView10"
-        app:layout_constraintTop_toBottomOf="@+id/fontAwesomeView10" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

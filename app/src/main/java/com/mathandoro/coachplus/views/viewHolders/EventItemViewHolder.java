@@ -29,11 +29,11 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(Event event){
         this.title.setText(event.getName());
-        if(event.getLocation() != null){
+        if(event.getLocation() != null && !event.getLocation().getName().equals((""))){
             this.location.setText(event.getLocation().getName());
         }
         else{
-            location.setText("");
+            location.setText(R.string.No_Location);
         }
         if(event.getStart() != null){
             this.time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd(), itemContainer.getContext()));
