@@ -36,7 +36,7 @@ public class EventItemViewHolder extends RecyclerView.ViewHolder {
             location.setText("");
         }
         if(event.getStart() != null){
-            this.time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd()));
+            this.time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd(), itemContainer.getContext()));
             this.calendarDay.setText(Formatter.formatMonthDay(event.getStart()));
             this.calendarMonth.setText(Formatter.formatfullMonthName(event.getStart()));
         }

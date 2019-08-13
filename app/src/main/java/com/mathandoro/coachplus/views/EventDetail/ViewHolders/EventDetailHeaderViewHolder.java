@@ -29,7 +29,7 @@ public class EventDetailHeaderViewHolder extends RecyclerView.ViewHolder {
             // todo location google maps link!
         }
         if(event.getStart() != null){
-            time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd()));
+            time.setText(Formatter.formatGermanTimestamp(event.getStart(), event.getEnd(), itemView.getContext()));
         }
         description.setText(event.getDescription());
     }

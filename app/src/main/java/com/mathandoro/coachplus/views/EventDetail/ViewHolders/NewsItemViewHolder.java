@@ -38,7 +38,7 @@ public class NewsItemViewHolder extends RecyclerView.ViewHolder {
                     .transform(new CircleTransform())
                     .into(authorIcon);
         }
-        this.created.setText(Formatter.formatUserName(news.getAuthor()) + " | " +Formatter.formatGermanTimestamp(news.getCreated()));
+        this.created.setText(Formatter.formatUserName(news.getAuthor()) + " | " +Formatter.formatGermanTimestamp(news.getCreated(), itemView.getContext()));
         this.text.setText(news.getText());
     }
 
