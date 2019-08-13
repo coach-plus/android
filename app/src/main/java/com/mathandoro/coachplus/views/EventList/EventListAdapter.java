@@ -49,7 +49,7 @@ public class EventListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         AppState.instance().events$.subscribe(events -> {
             this.visibleEvents = filterVisibleEvents(events);
             viewStack.updateSection(EVENT_ITEM, visibleEvents.size());
-            if(events.size() == 0){
+            if(visibleEvents.size() == 0){
                 viewStack.updateSection(NO_EVENTS_ITEM, 1);
             }
             else {
