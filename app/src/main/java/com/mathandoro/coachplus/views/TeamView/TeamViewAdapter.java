@@ -111,30 +111,7 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.myUser = myUser;
         this.notifyDataSetChanged();
     }
-
-    /*
-    public void setMembers(List<TeamMember> members){
-        this.members = members;
-        this.viewStack.updateSection(MEMBERS_ITEM, members.size());
-        this.notifyDataSetChanged();
-    }
-
-
-    public void setUpcomingEvents(List<Event> events){
-        this.visibleEvents = this.filterVisibleEvents(events);
-        if(this.visibleEvents.size() == 0){
-            this.viewStack.updateSection(NO_UPCOMING_EVENTS, 1);
-            this.viewStack.updateSection(UPCOMING_EVENTS_ITEM, 0);
-        }
-        else{
-            this.viewStack.updateSection(NO_UPCOMING_EVENTS, 0);
-            this.viewStack.updateSection(UPCOMING_EVENTS_ITEM, this.visibleEvents.size());
-        }
-        this.notifyDataSetChanged();
-    }
-
-    */
-
+    
     @Override
     public int getItemViewType(int position) {
         int viewType = viewStack.getSectionIdAt(position);

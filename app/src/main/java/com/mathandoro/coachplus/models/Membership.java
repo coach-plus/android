@@ -10,6 +10,7 @@ import com.mathandoro.coachplus.Role;
  */
 
 public class Membership implements Parcelable {
+    protected String _id;
     protected String role;
     protected Team team;
     protected String user;
@@ -31,6 +32,7 @@ public class Membership implements Parcelable {
     }
 
     protected Membership(Parcel in) {
+        _id = in.readString();
         role = in.readString();
         team = in.readParcelable(Team.class.getClassLoader());
         user = in.readString();
@@ -40,6 +42,7 @@ public class Membership implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
         dest.writeString(role);
         dest.writeParcelable(team, flags);
         dest.writeString(user);
@@ -93,5 +96,9 @@ public class Membership implements Parcelable {
 
     public boolean isCoach(){
         return this.role.equals(Role.COACH);
+    }
+
+    public String getId() {
+        return _id;
     }
 }

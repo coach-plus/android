@@ -2,6 +2,8 @@ package com.mathandoro.coachplus.persistence;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Debug;
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.app.ActivityCompat;
@@ -20,12 +22,14 @@ import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.CreateEventResponse;
 import com.mathandoro.coachplus.api.Response.GetEventResponse;
 import com.mathandoro.coachplus.api.Response.GetNewsResponse;
+import com.mathandoro.coachplus.api.Response.MembershipResponse;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.api.Response.ParticipationResponse;
 import com.mathandoro.coachplus.api.Response.UpdateUserInformationResponse;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
 import com.mathandoro.coachplus.helpers.ApiErrorResolver;
+import com.mathandoro.coachplus.helpers.Navigation;
 import com.mathandoro.coachplus.helpers.ResourceHelper;
 import com.mathandoro.coachplus.helpers.SnackbarHelper;
 import com.mathandoro.coachplus.models.Device;
@@ -59,9 +63,11 @@ public class DataLayer {
     final String EVENTS = "events";
     private Gson gson;
     private View rootView;
+    private Activity contextActivity;
 
 
     private DataLayer(Activity contextActivity, Context context){
+        this.contextActivity = contextActivity;
         this.context = context;
         try{
             this.rootView = contextActivity.getWindow().getDecorView().findViewById(android.R.id.content);
@@ -219,6 +225,11 @@ public class DataLayer {
         return this.apiCall(myUserCall, useCache);
     }
 
+    public Observable<MembershipResponse> getMyMembership(String membershipId, boolean useCache){
+        Call<ApiResponse<MembershipResponse>> membership = ApiClient.instance().membershipService.getMembership(settings.getToken(), membershipId);
+        return this.apiCall(membership, useCache);
+    }
+
     public Observable<TeamMembersResponse> getTeamMembersV2(Team team, boolean useCache){
         String token = settings.getToken();
         Call<ApiResponse<TeamMembersResponse>> teamMembersCall = ApiClient.instance()
@@ -285,6 +296,11 @@ public class DataLayer {
                         emitter.onNext(response.body().content);
                     }
                     else if(response.code() >= 400 && response.code() <= 599) {
+                        if(response.code() == 403 && contextActivity != null){
+                            Navigation.navigateToMembership(contextActivity, null);
+                            contextActivity.finish();
+                            return;
+                        }
                         Converter<ResponseBody, ApiResponse<String>> converter =
                                 ApiClient.instance().retrofit.responseBodyConverter(ApiResponse.class, new Annotation[0]);
                         try {
@@ -294,7 +310,12 @@ public class DataLayer {
                                 errorResolver.resolve(textResource == null ? error.message : textResource);
                             }
                             else {
-                                emitter.onError(new Throwable(error.message));
+                                try{
+                                    emitter.onError(new Throwable(error.message));
+                                }
+                                catch(Exception e){
+                                    Log.d("error", "unhandled error: " + e.toString());
+                                }
                             }
                         }catch(IOException ioError){
                             emitter.onError(new Throwable(""+response.code()));
@@ -308,7 +329,12 @@ public class DataLayer {
                         errorResolver.resolve(throwable.getMessage());
                     }
                     if(emitter != null){
-                        emitter.onError(throwable);
+                        try{
+                            emitter.onError(throwable);
+                        }
+                        catch(Exception e){
+                            Log.d("error", "unhandled error: " + e.toString());
+                        }
                     }
                 }
             });

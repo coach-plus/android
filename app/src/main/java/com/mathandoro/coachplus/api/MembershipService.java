@@ -2,7 +2,9 @@ package com.mathandoro.coachplus.api;
 
 import com.mathandoro.coachplus.api.Request.UpdateRoleRequest;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
+import com.mathandoro.coachplus.api.Response.MembershipResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
+import com.mathandoro.coachplus.api.Response.MyUserResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -25,4 +27,7 @@ public interface MembershipService {
 
     @PUT("memberships/{membershipId}/role")
     Call<ApiResponse<Object>> setRole(@Header("X-ACCESS-TOKEN") String accessToken, @Path("membershipId") String membershipId, @Body UpdateRoleRequest body);
+
+    @GET("memberships/{membershipId}")
+    Call<ApiResponse<MembershipResponse>> getMembership(@Header("X-ACCESS-TOKEN") String accessToken, @Path("membershipId") String membershipId);
 }

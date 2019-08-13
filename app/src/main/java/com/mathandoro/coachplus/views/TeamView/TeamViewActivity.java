@@ -42,7 +42,6 @@ import io.reactivex.subjects.PublishSubject;
 public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
         ToolbarFragment.ToolbarFragmentListener, SwipeRefreshLayout.OnRefreshListener {
 
-
     public static final String PARAM_MEMBERSHIP = "membership";
     private Settings settings;
     private MyMembershipsAdapter myMembershipsAdapter;
@@ -59,7 +58,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     public static int CREATE_TEAM_REQUEST = 1;
     public static final int EDIT_TEAM_REQUEST = 2;
 
-
     String TAG = "coach";
     private Membership currentMembership;
 
@@ -69,7 +67,6 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         super.onCreate(savedInstanceState);
         this.settings = new Settings(this);
         setContentView(R.layout.team_view_activity);
-
 
         dataLayer = new DataLayer(TeamViewActivity.this);
 

@@ -1,9 +1,11 @@
 package com.mathandoro.coachplus.persistence;
 
 import com.mathandoro.coachplus.models.Event;
+import com.mathandoro.coachplus.models.Membership;
 import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.TeamMember;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 import io.reactivex.subjects.PublishSubject;
@@ -19,9 +21,11 @@ public class AppState {
     private static AppState instance = null;
 
     public final PublishSubject<MyReducedUser> myUserChanged$ = PublishSubject.create();
+    public final PublishSubject<Membership> currentMembership$ = PublishSubject.create();
     public final PublishSubject<List<Event>> events$ = PublishSubject.create();
     public final PublishSubject<Event> selectedEvent$ = PublishSubject.create();
     public final PublishSubject<List<TeamMember>> members$ = PublishSubject.create();
+
 
     private List<Event> events;
     private List<TeamMember> members;
@@ -55,6 +59,10 @@ public class AppState {
             }
         }
         this.setEvents(events);
+    }
+
+    public void setCurrentMembership(Membership membership){
+        currentMembership$.onNext(membership);
     }
 
 }
