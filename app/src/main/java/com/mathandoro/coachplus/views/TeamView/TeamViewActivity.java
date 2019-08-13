@@ -66,6 +66,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.settings = new Settings(this);
+
         setContentView(R.layout.team_view_activity);
 
         dataLayer = new DataLayer(TeamViewActivity.this);
@@ -82,6 +83,14 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         this.loadMyUser();
 
         initFirebase();
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+        // todo check if authenticated
+        // todo switch to team, open event
+        // getIntent().getExtras().getString("eventId");
     }
 
     private void initFirebase(){
