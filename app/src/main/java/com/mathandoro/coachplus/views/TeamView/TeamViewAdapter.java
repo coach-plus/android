@@ -177,9 +177,9 @@ public class TeamViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                              .into(teamImageItemViewHolder.teamImage);
                 }
                 else{
-                    teamImageItemViewHolder.teamImage.setImageResource(R.drawable.ic_tshirt_solid);
-                    teamImageItemViewHolder.teamImage.setScaleX(.8f);
-                    teamImageItemViewHolder.teamImage.setScaleY(.8f);
+                    teamImageItemViewHolder.teamImage.setImageResource(R.drawable.app_icon);
+                    teamImageItemViewHolder.teamImage.setScaleX(1.5f);
+                    teamImageItemViewHolder.teamImage.setScaleY(1.5f);
                     teamImageItemViewHolder.teamImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
                 }
