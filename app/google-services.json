@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "235141336750",
+    "firebase_url": "https://coach-plus-e257e.firebaseio.com",
+    "project_id": "coach-plus-e257e",
+    "storage_bucket": "coach-plus-e257e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235141336750:android:d3ef86e52b8c8fac",
+        "android_client_info": {
+          "package_name": "com.mathandoro.coachplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235141336750-3uifgj16pvmqdn16lqomvb3bdtntf85b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQBJjN2QtH7mpsa1xIbUwZ4phC3BLAE1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235141336750-3uifgj16pvmqdn16lqomvb3bdtntf85b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235141336750:android:2887da170076b15e",
+        "android_client_info": {
+          "package_name": "com.mathandoro.coachplus.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235141336750-3uifgj16pvmqdn16lqomvb3bdtntf85b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQBJjN2QtH7mpsa1xIbUwZ4phC3BLAE1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235141336750-3uifgj16pvmqdn16lqomvb3bdtntf85b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235141336750:android:8509a9ff9d75d502",
+        "android_client_info": {
+          "package_name": "com.mathandoro.coachplus.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235141336750-3uifgj16pvmqdn16lqomvb3bdtntf85b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQBJjN2QtH7mpsa1xIbUwZ4phC3BLAE1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235141336750-3uifgj16pvmqdn16lqomvb3bdtntf85b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
