@@ -13,7 +13,7 @@ jobs:
       env: 
         ci_cd_secret_key: ${{ secrets.ci_cd_secret_key }}
       run: |
-        apt-get install -y openssl 
+        # apt-get install -y openssl 
         openssl version
         openssl enc -aes-256-cbc -d -in secrets.tar.enc -out secrets.tar -k $ci_cd_secret_key
         tar xvf secrets.tar
