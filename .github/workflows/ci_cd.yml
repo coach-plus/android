@@ -12,7 +12,7 @@ jobs:
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
-      with: 
+      env: 
         ci_cd_secret_key: ${{ secrets.ci_cd_secret_key }}
       run: |
         sudo apt-get install -y openssl
