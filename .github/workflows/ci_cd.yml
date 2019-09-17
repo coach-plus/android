@@ -11,11 +11,11 @@ jobs:
     - uses: actions/checkout@v1
     - name: Run a one-line script
       run: echo Hello, world!
-    - name: Run a multi-line script
+    - name: Build 
       env: 
         ci_cd_secret_key: ${{ secrets.ci_cd_secret_key }}
       run: |
-        sudo apt-get install -y openssl
+        openssl version
         openssl enc -aes-256-cbc -d -in secrets.tar.enc -out secrets.tar -k $ci_cd_secret_key
         tar xvf secrets.tar
         rvm install 2.1
