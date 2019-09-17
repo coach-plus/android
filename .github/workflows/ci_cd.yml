@@ -1,0 +1,25 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a one-line script
+      run: echo Hello, world!
+    - name: Run a multi-line script
+      run: |
+        sudo apt-get install -y openssl
+        openssl aes-256-cbc -K $encrypted_8909454dee1d_key -iv $encrypted_8909454dee1d_iv -in secrets.tar.enc -out secrets.tar -d
+        tar xvf secrets.tar
+        rvm install 2.1
+        gem install fastlane
+        echo y | android update sdk --no-ui --all --filter "tool,extra-android-m2repository,extra-android-support,extra-google-google_play_services,extra-google-m2repository"
+        echo y | $ANDROID_HOME/tools/bin/sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+    - name: Publish
+      run: fastlane build_beta
+
