@@ -5,15 +5,19 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     
     steps:
     - uses: actions/checkout@v1
     - name: Build
       env: 
         ci_cd_secret_key: ${{ secrets.ci_cd_secret_key }}
+        test: ${{ secrets.test }}
       run: |
         # apt-get install -y openssl 
+        echo $test > test
+        cat ./test
+        echo "hello"
         openssl version
         openssl enc -aes-256-cbc -d -in secrets.tar.enc -out secrets.tar -k $ci_cd_secret_key
         tar xvf secrets.tar
