@@ -17,6 +17,7 @@ jobs:
         # apt-get install -y openssl 
         echo $test > test
         cat ./test
+        echo "hello"
         openssl version
         openssl enc -aes-256-cbc -d -in secrets.tar.enc -out secrets.tar -k $ci_cd_secret_key
         tar xvf secrets.tar
