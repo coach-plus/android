@@ -15,7 +15,8 @@ jobs:
       uses: docker://ubuntu
       env: 
         ci_cd_secret_key: ${{ secrets.ci_cd_secret_key }}
-      run: openssl enc -aes-256-cbc -d -in secrets.tar.enc -out secrets.tar -k $ci_cd_secret_key
+      with: 
+        entrypoint: openssl enc -aes-256-cbc -d -in secrets.tar.enc -out secrets.tar -k $ci_cd_secret_key
     - name: Build
       run: |
         tar xvf secrets.tar
