@@ -12,6 +12,8 @@ jobs:
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
+      with: 
+        ci_cd_secret_key: ${{ secrets.ci_cd_secret_key }}
       run: |
         sudo apt-get install -y openssl
         openssl enc -aes-256-cbc -d -in secrets.tar.enc -out secrets.tar -k $ci_cd_secret_key
