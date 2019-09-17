@@ -17,7 +17,9 @@ jobs:
         # apt-get install -y openssl 
         sudo apt-add-repository -y ppa:rael-gc/rvm
         sudo apt-get update
-        sudo apt-get install -y rvm
+        # install rvm
+        rm -rf ~/.rvm
+        curl -L https://get.rvm.io | bash -s stable
         # sudo apt-get install -y ruby
         gpg --quiet --batch --yes --decrypt --passphrase="$ci_cd_secret_key" --output secrets.tar secrets.tar.gpg
         tar xvf secrets.tar
