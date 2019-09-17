@@ -15,7 +15,7 @@ jobs:
         test: ${{ secrets.test }}
       run: |
         # apt-get install -y openssl 
-        apt-get install -y ruby
+        sudo apt-get install -y ruby
         gpg --quiet --batch --yes --decrypt --passphrase="$ci_cd_secret_key" --output secrets.tar secrets.tar.gpg
         tar xvf secrets.tar
         rvm install 2.1
