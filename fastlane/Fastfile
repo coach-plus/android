@@ -29,7 +29,7 @@ lane :upload_beta do
   # )
 end
 
-lane :upload_beta do
+lane :upload_prod do
   supply(track: "production", package_name: "com.mathandoro.coachplus", apk: "app/build/outputs/apk/app-prod-release.apk")
   # slack(
   #   slack_url: "https://hooks.slack.com/services/IDS"
