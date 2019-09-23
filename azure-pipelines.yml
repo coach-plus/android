@@ -38,3 +38,9 @@ steps:
     PathtoPublish: './app/build'
     ArtifactName: 'build'
     publishLocation: 'Container'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: './fastlane'
+    ArtifactName: 'fastlane'
+    publishLocation: 'Container'
