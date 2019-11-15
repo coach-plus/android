@@ -61,9 +61,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/Icon.png" />
-                                      <entry key="foregroundLayerName" value="ic_launcher_foreground" />
-                                      <entry key="outputName" value="ic_launcher_prod" />
+                                      <entry key="foregroundImage" value="$USER_HOME$/Downloads/devIcon.png" />
+                                      <entry key="outputName" value="ic_launcher_dev" />
                                     </map>
                                   </option>
                                 </PersistentState>
