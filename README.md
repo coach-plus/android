@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/coach-plus/android.svg?branch=master)](https://travis-ci.org/coach-plus/android)
+[![Build Status](https://dev.azure.com/mathandoro/CoachPlus/_apis/build/status/coach-plus.android?branchName=master)](https://dev.azure.com/mathandoro/CoachPlus/_build/latest?definitionId=6&branchName=master)
 
 # android
 Coach+ Android App
