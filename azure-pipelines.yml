@@ -63,7 +63,7 @@ jobs:
     vmImage: 'macos-latest'
   steps:
   - task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: './fastlane'
-    ArtifactName: 'fastlane'
-    publishLocation: 'Container'
+    inputs:
+      PathtoPublish: './fastlane'
+      ArtifactName: 'fastlane'
+      publishLocation: 'Container'
