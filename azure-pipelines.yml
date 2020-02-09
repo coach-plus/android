@@ -2,7 +2,7 @@ trigger:
 - master
 
 jobs:
-- job: Build Beta
+- job: Build_Beta
   pool:
     vmImage: 'macos-latest'
   steps:
@@ -30,7 +30,7 @@ jobs:
       ArtifactName: 'build-beta'
       publishLocation: 'Container'
 
-- job: Build Production
+- job: Build_Production
   pool:
     vmImage: 'macos-latest'
   steps:
@@ -58,7 +58,7 @@ jobs:
       ArtifactName: 'build-prod'
       publishLocation: 'Container'
 
-- job: Fastlane Metadata
+- job: Fastlane_Metadata
   pool:
     vmImage: 'macos-latest'
   steps:
