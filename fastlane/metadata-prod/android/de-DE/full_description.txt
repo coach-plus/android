@@ -1,1 +1,15 @@
-Coach+ ist eine
+Coach+ ist eine Plattform zum Verwalten von Sportvereinen, Freundeskreisen oder Freizeitgruppen.
+
+- Eure WhatsApp Gruppe ist zu unübersichtlich um Zu- und Absagen zu verwalten?
+- Du als Trainer möchtest dein nächstes Training planen, weißt aber nicht wieviele Personen teilnehmen werden?
+- Es haben bisher nur wenige Teamkameraden Rückmeldung gegeben, ob sie am nächsten Spiel teilnehmen können?  
+- Sind genügend Spieler für das nächste Auswärtsspiel verfügbar?
+
+Kein Problem - Erstellt ganz einfach euer eigenes Team auf Coach+ um jederzeit den Überblick zu behalten.
+
+Unsere Funktionen
+* Erstelle dein eigenes Team und lade deine Teamkameraden oder Freunde ein
+* Verwaltet eure Events wie Trainingseinheiten, Spieltage oder auch Bandproben 
+* Fordere Feedback von noch unentschlossenen Teilnehmern per Push Benachrichtigung an
+* Einfache Zu- oder Absage per Push Benachrichtigung, auch auf deiner Android Watch!
+* Erstelle öffentliche Gruppen um neue Sportgruppen oder Trainingspartner zu finden
