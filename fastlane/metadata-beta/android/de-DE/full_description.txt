@@ -1,1 +1,2 @@
-Coach+ Early Access
+Diese Version steht zum Testen von neusten Funktionalitäten und Ideen zur Verfügung.
+Es ist mögliche diese Version parallel zur produktiven Coach+ App zu installieren.
