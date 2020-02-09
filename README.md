@@ -11,7 +11,7 @@ Coach+ Android App
 New features can be tested using the Coach+ Early Access version. Note that you can't access productive data when using Coach+ Early Access. 
 
 ## Create new Release (Owners only)
-Make sure that you increment the versionCode and versionName for every release. 
+Make sure that you increment the versionCode and versionName in `/app/build.gradle` for every release. 
 Otherwise the upload to Google Play will fail. 
 ```
 versionCode 13

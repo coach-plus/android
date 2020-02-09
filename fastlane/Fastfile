@@ -25,7 +25,7 @@ end
 lane :upload_beta do
   supply(track: "beta", 
     package_name: "com.mathandoro.coachplus.beta", 
-    metadata_path: "fastlane/metadata-beta/",
+    metadata_path: "fastlane/metadata-beta/android/",
     apk: "app/build/outputs/apk/beta/release/app-beta-release.apk")
   # slack(
   #   slack_url: "https://hooks.slack.com/services/IDS"
@@ -35,7 +35,7 @@ end
 lane :upload_prod do
   supply(track: "alpha", 
     package_name: "com.mathandoro.coachplus", 
-    metadata_path: "fastlane/metadata-prod/",
+    metadata_path: "fastlane/metadata-prod/android/",
     apk: "app/build/outputs/apk/prod/release/app-prod-release.apk")
   # slack(
   #   slack_url: "https://hooks.slack.com/services/IDS"
