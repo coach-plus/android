@@ -1,37 +1,68 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'macos-latest'
+jobs:
+- job: Build Beta
+  pool:
+    vmImage: 'macos-latest'
+  steps:
+  - task: DownloadSecureFile@1
+    name: keystore_properties
+    inputs:
+      secureFile: 'keystore.properties'
 
-steps:
+  - task: DownloadSecureFile@1
+    name: mathandoro_jks
+    inputs:
+      secureFile: 'mathandoro.jks'
 
-- task: DownloadSecureFile@1
-  name: keystore_properties
-  inputs:
-    secureFile: 'keystore.properties'
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        cp $(keystore_properties.secureFilePath) .
+        cp $(mathandoro_jks.secureFilePath) .
+        gem install fastlane
+        fastlane build_beta
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: './app/build/outputs/apk/beta/release'
+      ArtifactName: 'build-beta'
+      publishLocation: 'Container'
 
-- task: DownloadSecureFile@1
-  name: mathandoro_jks
-  inputs:
-    secureFile: 'mathandoro.jks'
+- job: Build Production
+  pool:
+    vmImage: 'macos-latest'
+  steps:
+  - task: DownloadSecureFile@1
+    name: keystore_properties
+    inputs:
+      secureFile: 'keystore.properties'
 
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      cp $(keystore_properties.secureFilePath) .
-      cp $(mathandoro_jks.secureFilePath) .
-      gem install fastlane
-      fastlane build_beta
-      fastlane build_prod
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: './app/build'
-    ArtifactName: 'build'
-    publishLocation: 'Container'
+  - task: DownloadSecureFile@1
+    name: mathandoro_jks
+    inputs:
+      secureFile: 'mathandoro.jks'
 
-- task: PublishBuildArtifacts@1
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |
+        cp $(keystore_properties.secureFilePath) .
+        cp $(mathandoro_jks.secureFilePath) .
+        gem install fastlane
+        fastlane build_prod
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: './app/build/outputs/apk/prod/release'
+      ArtifactName: 'build-prod'
+      publishLocation: 'Container'
+
+- job: Fastlane Metadata
+  pool:
+    vmImage: 'macos-latest'
+  steps:
+  - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: './fastlane'
     ArtifactName: 'fastlane'
