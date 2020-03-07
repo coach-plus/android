@@ -23,6 +23,7 @@ jobs:
         cp $(keystore_properties.secureFilePath) .
         cp $(mathandoro_jks.secureFilePath) .
         gem install fastlane
+        fastlane versioning
         fastlane build_beta
   - task: PublishBuildArtifacts@1
     inputs:

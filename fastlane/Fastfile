@@ -14,6 +14,14 @@ default_platform :android
 # don't worry, fastlane will prompt you for required
 # info which you can add here later
 
+lane :versioning do
+  increment_version_code(
+          gradle_file_path: "app/build.gradle",
+          #ext_constant_name: "test"
+          #app_folder_name:"app"
+    )
+end
+
 lane :build_beta do
   gradle(task: "assemble", build_type: "Release", flavor: "beta")
 end
