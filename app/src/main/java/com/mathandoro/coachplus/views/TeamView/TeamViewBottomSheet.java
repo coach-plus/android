@@ -14,7 +14,7 @@ public class TeamViewBottomSheet extends BottomSheetDialogFragment {
     String newRole;
 
 
-    public TeamViewBottomSheet(){
+    private TeamViewBottomSheet(){
     }
 
     public static TeamViewBottomSheet newInstance(String newRole) {

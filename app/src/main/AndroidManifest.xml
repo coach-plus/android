@@ -43,14 +43,13 @@
 
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:host="dev.coach.plus" />
+                <data android:host="${hostname}" />
                 <data android:pathPattern="/app/verification/.*" />
             </intent-filter>
         </activity>
         <activity android:name=".views.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -74,7 +73,7 @@
 
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:host="dev.coach.plus" />
+                <data android:host="${hostname}" />
                 <data android:pathPattern="/app/teams/.*/join/.*" />
             </intent-filter>
         </activity>

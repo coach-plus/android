@@ -1,8 +1,10 @@
 package com.mathandoro.coachplus.views.TeamView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,16 +17,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.api.Response.MyUserResponse;
+import com.mathandoro.coachplus.helpers.MyCustomTabsHelper;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
+import com.mathandoro.coachplus.helpers.SnackbarHelper;
 import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.TeamMember;
+import com.mathandoro.coachplus.views.EventDetail.AppInfoBottomSheet;
 import com.mathandoro.coachplus.views.TeamRegistrationActivity;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
@@ -37,10 +42,12 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
+import saschpe.android.customtabs.CustomTabsHelper;
+import saschpe.android.customtabs.WebViewFallback;
 
 
 public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragment.NoTeamsFragmentListener,
-        ToolbarFragment.ToolbarFragmentListener, SwipeRefreshLayout.OnRefreshListener {
+        ToolbarFragment.ToolbarFragmentListener, SwipeRefreshLayout.OnRefreshListener, AppInfoBottomSheet.IAppInfoBottomSheetListener {
 
     public static final String PARAM_MEMBERSHIP = "membership";
     private Settings settings;
@@ -54,6 +61,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     protected MyReducedUser myUser;
     private SwipeRefreshLayout membershipsSwipeRefreshLayout;
     private TeamViewFragment teamViewFragment;
+    private CustomTabsIntent customTabsIntent;
 
     public static int CREATE_TEAM_REQUEST = 1;
     public static final int EDIT_TEAM_REQUEST = 2;
@@ -66,6 +74,7 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.settings = new Settings(this);
+        this.customTabsIntent = MyCustomTabsHelper.newIntent(this);
 
         setContentView(R.layout.team_view_activity);
 
@@ -116,10 +125,16 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
     private void loadNavigationDrawer(){
         ImageView registerTeamImage = findViewById(R.id.registerTeam);
+        ImageView infoButton = findViewById(R.id.info);
         Button logoutView = findViewById(R.id.team_view_logout_button);
+
         registerTeamImage.setOnClickListener((View v) ->
                 TeamViewActivity.this.navigateToCreateTeamActivity()
         );
+        infoButton.setOnClickListener((View v) -> {
+            AppInfoBottomSheet appInfoBottomSheet = new AppInfoBottomSheet(this);
+            appInfoBottomSheet.show(getSupportFragmentManager(), appInfoBottomSheet.getTag());
+        });
         logoutView.setOnClickListener((View v) -> logout());
     }
 
@@ -337,6 +352,32 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
 
     private void showNotification(String text){
         Snackbar.make(teamViewFragment.getView(), text, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onShowThirdPartyLicenses() {
+        startActivity(new Intent(this, OssLicensesMenuActivity.class));
+    }
+
+    @Override
+    public void onShowImpressum() {
+        CustomTabsHelper.openCustomTab(this, customTabsIntent,
+                Uri.parse("https://coach.plus/impressum"),
+                new WebViewFallback());
+    }
+
+    @Override
+    public void onShowDataPrivacyStatement() {
+        CustomTabsHelper.openCustomTab(this, customTabsIntent,
+                Uri.parse("https://coach.plus/data-privacy"),
+                new WebViewFallback());
+    }
+
+    @Override
+    public void onShowTermsOfUse() {
+        CustomTabsHelper.openCustomTab(this, customTabsIntent,
+                Uri.parse("https://coach.plus/terms-of-use"),
+                new WebViewFallback());
     }
 }
 

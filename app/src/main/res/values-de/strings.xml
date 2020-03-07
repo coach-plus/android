@@ -73,7 +73,7 @@
     <string name="Repeat_new_Password">"Neues Passwort wiederholen"</string>
 
     <!-- Fuzzy -->
-    <string name="You_are_not_verified">"Du bist nun verifiziert"</string>
+    <string name="You_are_not_verified">"Du bist noch nicht verifiziert"</string>
 
     <!-- Fuzzy -->
     <string name="Resend_E_Mail">"E-Mail erneut senden"</string>
@@ -358,4 +358,8 @@
     <string name="I_agree_to_the_dataprivacy_policy">"Ich stimme den Datenschutzbestimmungen zu"</string>
     <string name="You_must_agree_to_the_terms_and_conditions">"Du musst den Nutzungsbeindungen zustimmen um die App zu benutzen."</string>
     <string name="You_must_agree_to_the_dataprivacy_policy">"Du musst den Datenschutzbestimmungen zustimmen um die App zu benutzen."</string>
+    <string name="Terms_of_Use">"Nutzungsbedingungen"</string>
+    <string name="Legal">"Impressum"</string>
+    <string name="Dataprivacy">"Datenschutz"</string>
+    <string name="Third_party_licences">"Lizenzen"</string>
 </resources>

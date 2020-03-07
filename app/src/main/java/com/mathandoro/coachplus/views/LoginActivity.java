@@ -39,6 +39,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.login_activity);
 
         this.settings = new Settings(this);

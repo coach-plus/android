@@ -358,4 +358,8 @@
     <string name="I_agree_to_the_dataprivacy_policy">"I agree to the dataprivacy policy"</string>
     <string name="You_must_agree_to_the_terms_and_conditions">"You have to agree to the terms and conditions to use this app."</string>
     <string name="You_must_agree_to_the_dataprivacy_policy">"You have to agree to the dataprivacy policy to use this app."</string>
+    <string name="Terms_of_Use">"Terms of Use"</string>
+    <string name="Legal">"Legal Information"</string>
+    <string name="Dataprivacy">"Data Privacy"</string>
+    <string name="Third_party_licences">"3rd Party Libraries Licenses"</string>
 </resources>
