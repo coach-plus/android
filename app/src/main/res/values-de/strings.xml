@@ -362,4 +362,5 @@
     <string name="Legal">"Impressum"</string>
     <string name="Dataprivacy">"Datenschutz"</string>
     <string name="Third_party_licences">"Lizenzen"</string>
+    <string name="You_are_invited_to_join_team">"Du wurdest in das Team %s auf Coach+ eingeladen. Klicke hier zum Beitreten: %s"</string>
 </resources>

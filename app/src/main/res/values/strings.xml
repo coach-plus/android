@@ -362,4 +362,5 @@
     <string name="Legal">"Legal Information"</string>
     <string name="Dataprivacy">"Data Privacy"</string>
     <string name="Third_party_licences">"3rd Party Libraries Licenses"</string>
+    <string name="You_are_invited_to_join_team">"You are invited to join the %s team on Coach+. Click here to join: %s"</string>
 </resources>

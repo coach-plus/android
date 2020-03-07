@@ -18,10 +18,13 @@ import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Role;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.api.ApiError;
+import com.mathandoro.coachplus.api.ApiErrorUtils;
 import com.mathandoro.coachplus.api.Response.EventsResponse;
 import com.mathandoro.coachplus.api.Response.MembershipResponse;
 import com.mathandoro.coachplus.api.Response.MyMembershipsResponse;
 import com.mathandoro.coachplus.api.Response.TeamMembersResponse;
+import com.mathandoro.coachplus.helpers.SnackbarHelper;
 import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.ReducedUser;
 import com.mathandoro.coachplus.persistence.AppState;
@@ -257,19 +260,26 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     void inviteToTeam(){
         final ProgressDialog dialog = ProgressDialog.show(this.getActivity(), "",
-                "Creating invitation link...", true);
+                "...", true);
         dialog.show();
 
         Call<ApiResponse<InvitationResponse>> invitationUrl = ApiClient.instance().teamService.createInvitationUrl(settings.getToken(), membership.getTeam().get_id());
         invitationUrl.enqueue(new Callback<ApiResponse<InvitationResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<InvitationResponse>> call, Response<ApiResponse<InvitationResponse>> response) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, "hey, join " +  membership.getTeam().getName() +  " on coach+  "  + response.body().content.getUrl());
-                sendIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sendIntent, "Invite new team members"));
-                dialog.hide();
+                if(response.isSuccessful()){
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    String invitationText = getResources().getString(R.string.You_are_invited_to_join_team,  membership.getTeam().getName(), response.body().content.getUrl());
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, invitationText);
+                    sendIntent.setType("text/plain");
+                    startActivity(Intent.createChooser(sendIntent,  getResources().getString(R.string.Invite_to_team)));
+                    dialog.hide();
+                }
+                else {
+                    ApiError apiError = ApiErrorUtils.parseErrorResponse(response);
+                    SnackbarHelper.showError(mRecyclerView, apiError.getMessage());
+                }
             }
 
             @Override
