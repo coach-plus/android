@@ -284,13 +284,11 @@ public class TeamViewFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             @Override
             public void onFailure(Call<ApiResponse<InvitationResponse>> call, Throwable t) {
-                // todo show error (snackbar?)
+                SnackbarHelper.showText(mRecyclerView, R.string.Internal_server_error);
                 dialog.hide();
             }
         });
-
         closeActionMenu();
-
     }
 
     void createEvent(){

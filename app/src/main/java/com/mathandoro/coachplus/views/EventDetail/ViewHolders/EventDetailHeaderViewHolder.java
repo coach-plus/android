@@ -16,7 +16,7 @@ public class EventDetailHeaderViewHolder extends RecyclerView.ViewHolder {
 
     public EventDetailHeaderViewHolder(View view) {
         super(view);
-        name = view.findViewById(R.id.event_detail_attendance_header_text);
+        name = view.findViewById(R.id.event_detail_attendance_sub_header_text);
         location = view.findViewById(R.id.event_detail_location);
         time = view.findViewById(R.id.event_detail_time);
         description = view.findViewById(R.id.event_detail_description);

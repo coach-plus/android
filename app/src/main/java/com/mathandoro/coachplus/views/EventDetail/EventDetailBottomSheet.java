@@ -13,7 +13,8 @@ public class EventDetailBottomSheet extends BottomSheetDialogFragment {
     IEventDetailBottomSheetEvent listener;
 
     public interface IEventDetailBottomSheetEvent {
-        void onchangeDidAttendState();
+        void onSetDidAttend();
+        void onSetDidNotAttend();
     }
 
     public void setListener(IEventDetailBottomSheetEvent listener){
@@ -25,10 +26,10 @@ public class EventDetailBottomSheet extends BottomSheetDialogFragment {
         View contentView = View.inflate(getContext(), R.layout.event_detail_bottom_sheet, null);
         dialog.setContentView(contentView);
 
-        Button button = dialog.findViewById(R.id.changeDidAttendButton);
-        button.setOnClickListener(view -> {
-            // change state
-            listener.onchangeDidAttendState();
-        });
+        Button didAttendButton = dialog.findViewById(R.id.changeDidAttendButton);
+        Button didNotAttendButton = dialog.findViewById(R.id.changeDidNotAttendButton);
+
+        didAttendButton.setOnClickListener(view -> listener.onSetDidAttend());
+        didNotAttendButton.setOnClickListener(v -> listener.onSetDidNotAttend());
     }
 }

@@ -40,6 +40,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     final int EVENT_DETAIL_HEADER = 0;
     final int ATTENDANCE_HEADING = 1;
+    final int ATTENDANCE_SUB_HEADING = 8;
     final int ATTENDANCE_ITEM_ACTIVE = 2;
     final int ATTENDANCE_ITEM_PASSIVE = 3;
     final int ATTENDANCE_ITEM = 4;
@@ -63,7 +64,7 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.participationItems = new ArrayList<>();
         this.news = new ArrayList<>();
         this.dataLayer = new DataLayer(mainActivity);
-        this.event = event;
+        this.setEvent(event);
         this.mainActivity = mainActivity;
         this.loadMyUser();
     }
@@ -74,12 +75,17 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.viewStack.addSection(NEWS_HEADER, 0);
         this.viewStack.addSection(NEWS_ITEM, 0);
         this.viewStack.addSection(ATTENDANCE_HEADING, 1);
+        this.viewStack.addSection(ATTENDANCE_SUB_HEADING, 0);
         this.viewStack.addSection(ATTENDANCE_ITEM, 0);
         this.viewStack.addSection(FOOTER, 1);
     }
 
     public void setEvent(Event event) {
         this.event = event;
+        this.viewStack.updateSection(ATTENDANCE_SUB_HEADING, 0);
+        if(this.event.getStart().before(new Date())){
+            this.viewStack.updateSection(ATTENDANCE_SUB_HEADING, 1);
+        }
         this.notifyDataSetChanged();
     }
 
@@ -169,6 +175,10 @@ public class EventDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             case ATTENDANCE_HEADING:
                 view = layoutInflater.inflate(R.layout.event_detail_attendance_header, parent, false);
                 viewHolder = new AttendanceHeadingViewHolder(view);
+                break;
+            case ATTENDANCE_SUB_HEADING:
+                view = layoutInflater.inflate(R.layout.event_detail_attendance_sub_header, parent, false);
+                viewHolder = new StaticViewHolder(view);
                 break;
             case ATTENDANCE_ITEM_ACTIVE:
             case ATTENDANCE_ITEM_PASSIVE:

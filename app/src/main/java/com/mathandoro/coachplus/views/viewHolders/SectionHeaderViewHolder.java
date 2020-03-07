@@ -15,7 +15,7 @@ public class SectionHeaderViewHolder extends RecyclerView.ViewHolder {
 
     public SectionHeaderViewHolder(View view) {
         super(view);
-        sectionHeaderText = view.findViewById(R.id.event_detail_attendance_header_text);
+        sectionHeaderText = view.findViewById(R.id.event_detail_attendance_sub_header_text);
     }
 
     public void bind(String sectionName){

@@ -226,11 +226,22 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
 
     public void showBottomSheet(String userId, final boolean didAttend){
         EventDetailBottomSheet bottomSheet = new EventDetailBottomSheet();
-        bottomSheet.setListener(() -> {
-            this.dataLayer.setDidAttend(team.get_id(), event.get_id(), userId, didAttend).subscribe(participation -> {
-                updateParticipation(participation);
-                bottomSheet.dismiss();
-            }, throwable -> {});
+        bottomSheet.setListener(new EventDetailBottomSheet.IEventDetailBottomSheetEvent() {
+            @Override
+            public void onSetDidAttend() {
+                dataLayer.setDidAttend(team.get_id(), event.get_id(), userId, true).subscribe(participation -> {
+                    updateParticipation(participation);
+                    bottomSheet.dismiss();
+                }, throwable -> {});
+            }
+
+            @Override
+            public void onSetDidNotAttend() {
+                dataLayer.setDidAttend(team.get_id(), event.get_id(), userId, false).subscribe(participation -> {
+                    updateParticipation(participation);
+                    bottomSheet.dismiss();
+                }, throwable -> {});
+            }
         });
         bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
     }

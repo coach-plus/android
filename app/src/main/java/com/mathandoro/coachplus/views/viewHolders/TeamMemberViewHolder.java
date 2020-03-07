@@ -129,7 +129,7 @@ public class TeamMemberViewHolder extends RecyclerView.ViewHolder {
         else{
             int color = colorBlue;
             int text = R.string.fa_question_circle;
-            if(item.getParticipation() == null){
+            if(item.getParticipation() == null ||  item.getParticipation().WillAttend() == null){
                 text = R.string.fa_question_circle;
             }
             else {
