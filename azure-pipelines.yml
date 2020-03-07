@@ -6,6 +6,8 @@ jobs:
   pool:
     vmImage: 'macos-latest'
   steps:
+  - checkout: self
+    persistCredentials: true
   - task: DownloadSecureFile@1
     name: keystore_properties
     inputs:
