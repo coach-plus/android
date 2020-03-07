@@ -1,4 +1,4 @@
-Coach+ ist eine Plattform zum Verwalten von Sportvereinen, Freundeskreisen oder Freizeitgruppen.
+Coach+ ist eine Plattform zum Verwalten von Sportvereinen und Freizeitgruppen.
 
 - Eure WhatsApp Gruppe ist zu unübersichtlich um Zu- und Absagen zu verwalten?
 - Du als Trainer möchtest dein nächstes Training planen, weißt aber nicht wieviele Personen teilnehmen werden?

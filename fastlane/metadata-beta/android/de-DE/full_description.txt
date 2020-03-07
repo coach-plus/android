@@ -1,2 +1,2 @@
-Diese Version steht zum Testen von neusten Funktionalitäten und Ideen zur Verfügung.
+Diese Version steht zum Testen von neusten Funktionalitäten zur Verfügung.
 Es ist möglich diese Version parallel zur produktiven Coach+ App zu installieren.

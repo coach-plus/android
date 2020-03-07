@@ -1,1 +1,1 @@
-Vorabversion von Coach+ zum Testen neuster Funktionalitäten
+Diese Version steht zum Testen von neusten Funktionalitäten zur Verfügung.
