@@ -1,5 +1,6 @@
 package com.mathandoro.coachplus.helpers;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,12 +13,15 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.views.EventDetail.EventDetailActivity;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
 import java.util.Map;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -94,7 +98,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent declinePendingIntent = PendingIntent.getBroadcast(this, declineRequestCode, declineIntent, 0);
 
         Intent openEventIntent = new Intent(this, TeamViewActivity.class);
-        openEventIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        openEventIntent.putExtra("TEAM_ID",  teamId);
+        openEventIntent.putExtra("EVENT_ID",  eventId);
+        openEventIntent.putExtra("NOTIFICATION_ID", notificationId);
+
+        openEventIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent openEvent = PendingIntent.getActivity(this, OPEN_EVENT_CODE, openEventIntent, 0);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, DEFAULT_CHANNEL_ID)
@@ -105,6 +113,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(description))
                 .setContentIntent(openEvent)
+                .setAutoCancel(true)
                 .addAction(R.drawable.ic_check_black_24dp, "accept", acceptPendingIntent)
                 .addAction(R.drawable.ic_check_black_24dp, "decline", declinePendingIntent); // todo icons
 

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,7 @@ import com.mathandoro.coachplus.api.Response.MyUserResponse;
 import com.mathandoro.coachplus.helpers.MyCustomTabsHelper;
 import com.mathandoro.coachplus.helpers.PreloadLayoutManager;
 import com.mathandoro.coachplus.helpers.SnackbarHelper;
+import com.mathandoro.coachplus.models.Event;
 import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.models.TeamMember;
 import com.mathandoro.coachplus.views.EventDetail.AppInfoBottomSheet;
@@ -92,14 +94,61 @@ public class TeamViewActivity extends AppCompatActivity implements NoTeamsFragme
         this.loadMyUser();
 
         initFirebase();
+
+
+        Intent intent = getIntent();
+        if(intent == null || intent.getExtras() == null){
+            return;
+        }
+
+        String eventId = intent.getExtras().getString("EVENT_ID");
+        if(eventId  !=  null){
+            forwardNotificationIntentToEventDetails(intent);
+        }
     }
 
     @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        super.startActivityForResult(intent, requestCode);
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if(intent == null || intent.getExtras() == null){
+            return;
+        }
+
+        String eventId = intent.getExtras().getString("EVENT_ID");
+        if(eventId  !=  null){
+            forwardNotificationIntentToEventDetails(intent);
+        }
+    }
+
+    private void forwardNotificationIntentToEventDetails(Intent intent) {
         // todo check if authenticated
         // todo switch to team, open event
-        // getIntent().getExtras().getString("eventId");
+        String eventId = intent.getExtras().getString("EVENT_ID");
+        String teamId =  intent.getExtras().getString("TEAM_ID");
+       // int notificationId = intent.getExtras().getInt("NOTIFICATION_ID");
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+      //  notificationManager.cancel(notificationId);
+
+        this.dataLayer.getMyMembershipsV2(false).subscribe(myMembershipsResponse -> {
+            for (Membership membership : myMembershipsResponse.getMemberships()) {
+                if(membership.getTeam().get_id().equals(teamId)){
+                    switchTeamContext(membership);
+                    this.dataLayer.getEvents(membership.getTeam(), false).subscribe(eventsResponse -> {
+                        for (Event event : eventsResponse.getEvents()) {
+                            if(event.get_id().equals(eventId)){
+                                teamViewFragment.navigateToEvent(event);
+                                break;
+                            }
+                        }
+                    }, throwable -> showError());
+                    break;
+                }
+            }
+        }, throwable -> showError());
+        // todo load event?
+        // todo open event details
     }
 
     private void initFirebase(){

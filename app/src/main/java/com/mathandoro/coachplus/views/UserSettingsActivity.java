@@ -159,8 +159,6 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         emailInput.setText(myUser.getEmail());
     }
 
-
-
     @Override
     public void onLeftIconPressed() {
         finish();
