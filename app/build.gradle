@@ -29,7 +29,7 @@ android {
         applicationId "com.mathandoro.coachplus"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 15
+        versionCode 16
         versionName "1.1.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [appName: "Coach+"]
