@@ -1,6 +1,8 @@
 trigger:
 - master
 
+pr: none
+
 jobs:
 - job: Build_Beta
   pool:

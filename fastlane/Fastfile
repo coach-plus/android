@@ -20,7 +20,9 @@ lane :versioning do
     )
   git_commit(path: "./app/build.gradle", message: "Version Bump")
   push_to_git_remote(
-    remote: "origin"
+    remote: "origin",
+    local_branch: "master",
+    remote_branch: "master",
   )
 end
 
