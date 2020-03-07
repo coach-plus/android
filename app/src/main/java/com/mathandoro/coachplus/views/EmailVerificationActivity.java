@@ -9,7 +9,11 @@ import android.view.View;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.api.ApiError;
+import com.mathandoro.coachplus.api.ApiErrorUtils;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
+import com.mathandoro.coachplus.helpers.SnackbarHelper;
+import com.mathandoro.coachplus.persistence.DataLayer;
 import com.mathandoro.coachplus.views.TeamView.TeamViewActivity;
 
 import java.util.List;
@@ -22,6 +26,7 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
 
     private Call<ApiResponse<Object>> verifyEmailCall;
     private Settings settings;
+    private DataLayer dataLayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,7 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
         setContentView(R.layout.email_verification_activity);
 
         settings = new Settings(this);
+        dataLayer = new DataLayer(this);
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -46,10 +52,20 @@ public class EmailVerificationActivity extends AppCompatActivity implements Call
 
     @Override
     public void onResponse(Call<ApiResponse<Object>> call, Response<ApiResponse<Object>> response) {
+        View someView = findViewById(R.id.email_verification_icon);
         if(call == this.verifyEmailCall){
-            if(response.code() == 200) {
+            if(response.isSuccessful()) {
                 settings.confirmEmailVerification();
-                navigateToTeamView();
+                dataLayer.getMyUserV2(false).subscribe(myUserResponse -> {
+                    settings.setMyUser(myUserResponse.user);
+                    navigateToTeamView();
+                }, throwable -> {
+                    SnackbarHelper.showText(someView, R.string.Internal_server_error);
+                });
+            }
+            else{
+                ApiError apiError = ApiErrorUtils.parseErrorResponse(response);
+                SnackbarHelper.showError(someView, apiError.getMessage());
             }
         }
     }

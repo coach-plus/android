@@ -5,6 +5,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
@@ -15,6 +18,7 @@ import com.mathandoro.coachplus.helpers.SnackbarHelper;
 import com.mathandoro.coachplus.models.MyReducedUser;
 import com.mathandoro.coachplus.persistence.AppState;
 import com.mathandoro.coachplus.persistence.DataLayer;
+import com.mathandoro.coachplus.views.layout.FontAwesomeView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +36,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
     private Settings settings;
     private Button saveUserInformationButton;
     private Button changePasswordButton;
+    private Button resendEmailButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,18 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         newPasswordRepeatInput = findViewById(R.id.user_settings_new_password_repeat_text_input);
         changePasswordButton = findViewById(R.id.user_settings_update_password_button);
 
+        resendEmailButton = findViewById(R.id.user_settings_resend_email_button);
+        TextView resendEmailTextView = findViewById(R.id.user_settings_resend_email_text);
+        ImageView resendEmailBackground = findViewById(R.id.user_settings_resend_verification_email_background);
+        FontAwesomeView resendEmailWarningIcon = findViewById(R.id.user_settings_resend_email_icon);
+
+        if(user.isEmailVerified()){
+            resendEmailButton.setVisibility(View.GONE);
+            resendEmailTextView.setVisibility(View.GONE);
+            resendEmailBackground.setVisibility(View.GONE);
+            resendEmailWarningIcon.setVisibility(View.GONE);
+        }
+
         TextWatcher passwordChangeWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -124,6 +141,8 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         newPasswordRepeatInput.addTextChangedListener(passwordChangeWatcher);
 
         changePasswordButton.setOnClickListener((View view) -> this.changePassword());
+
+        resendEmailButton.setOnClickListener(v -> this.resendVerificationEmail());
     }
 
 
@@ -136,6 +155,12 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
     @Override
     public void onRightIconPressed() {
 
+    }
+
+    private void resendVerificationEmail(){
+        dataLayer.resendEmailVerification().subscribe(
+                (data) -> SnackbarHelper.showText(firstnameInput, R.string.Success),
+                (error) -> showError());
     }
 
     private void changePassword() {

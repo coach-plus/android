@@ -245,7 +245,7 @@
             android:text="@string/fa_user"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/left_guideline"
-            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+            app:layout_constraintTop_toBottomOf="@+id/user_settings_resend_verification_email_background" />
 
         <com.mathandoro.coachplus.views.layout.FontAwesomeView
             android:id="@+id/fontAwesomeView2"
@@ -260,9 +260,9 @@
             app:layout_constraintTop_toBottomOf="@+id/user_settings_save_user_information_button" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/user_settings_resend_verification_email_background"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="100dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
@@ -271,11 +271,12 @@
             android:background="@drawable/rect"
             android:tint="@color/colorWarning"
             app:layout_constraintEnd_toStartOf="@+id/right_Guideline"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/left_guideline"
             app:layout_constraintTop_toBottomOf="@+id/user_settings_toolbar" />
 
         <com.mathandoro.coachplus.views.layout.FontAwesomeView
-            android:id="@+id/fontAwesomeView9"
+            android:id="@+id/user_settings_resend_email_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -287,11 +288,11 @@
             android:text="@string/fa_exclamation_circle"
             android:textColor="@color/colorWarning"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/imageView3"
-            app:layout_constraintTop_toTopOf="@+id/imageView3" />
+            app:layout_constraintStart_toStartOf="@+id/user_settings_resend_verification_email_background"
+            app:layout_constraintTop_toTopOf="@+id/user_settings_resend_verification_email_background" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/user_settings_resend_email_button"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -301,24 +302,24 @@
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:text="@string/Resend_E_Mail"
-            app:layout_constraintEnd_toEndOf="@+id/imageView3"
-            app:layout_constraintStart_toStartOf="@+id/imageView3"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintEnd_toEndOf="@+id/user_settings_resend_verification_email_background"
+            app:layout_constraintStart_toStartOf="@+id/user_settings_resend_verification_email_background"
+            app:layout_constraintTop_toBottomOf="@+id/user_settings_resend_email_text" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/user_settings_resend_email_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
+            android:text="@string/You_are_not_verified"
             android:textAlignment="center"
-            android:text="@string/Please_check_your_mails_and_verify_your_email_address"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/imageView3"
-            app:layout_constraintStart_toEndOf="@+id/fontAwesomeView9"
-            app:layout_constraintTop_toTopOf="@+id/fontAwesomeView9" />
+            app:layout_constraintEnd_toEndOf="@+id/user_settings_resend_verification_email_background"
+            app:layout_constraintStart_toEndOf="@+id/user_settings_resend_email_icon"
+            app:layout_constraintTop_toTopOf="@+id/user_settings_resend_email_icon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

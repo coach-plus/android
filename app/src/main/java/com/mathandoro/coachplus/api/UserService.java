@@ -49,6 +49,9 @@ public interface UserService {
     @PUT("users/me/password")
     Call<ApiResponse<Object>> updateUserPassword(@Header("X-ACCESS-TOKEN") String accessToken, @Body UpdatePasswordRequest updatePassword);
 
+   @POST("users/me/verification")
+   Call<ApiResponse<Object>> resendVerificationEmail(@Header("X-ACCESS-TOKEN") String accessToken);
+
     @POST("users/verification/{token}")
     Call<ApiResponse<Object>> verifyEmail(@Path("token") String token);
 

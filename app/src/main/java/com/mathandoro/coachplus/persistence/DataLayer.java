@@ -104,6 +104,11 @@ public class DataLayer {
         return this.apiCall(updateUserPassword, false);
     }
 
+    public Observable<Object> resendEmailVerification(){
+        Call<ApiResponse<Object>> apiCall = ApiClient.instance().userService.resendVerificationEmail(settings.getToken());
+        return this.apiCall(apiCall, false);
+    }
+
     public Observable<UpdateUserInformationResponse> updateUserInformation(UpdateUserRequest updateUserInformationRequest){
         Call<ApiResponse<UpdateUserInformationResponse>> updateUserInformation = ApiClient.instance().userService.updateUserInformation(settings.getToken(), updateUserInformationRequest);
         return this.apiCall(updateUserInformation, false);
@@ -292,10 +297,10 @@ public class DataLayer {
             t.enqueue(new Callback<ApiResponse<T>>() {
                 @Override
                 public void onResponse(Call<ApiResponse<T>> call, Response<ApiResponse<T>> response) {
-                    if(response.code() >= 200 && response.code() < 300){
+                    if(response.isSuccessful()){
                         emitter.onNext(response.body().content);
                     }
-                    else if(response.code() >= 400 && response.code() <= 599) {
+                    else {
                         if(response.code() == 403 && contextActivity != null){
                             Navigation.navigateToMembership(contextActivity, null);
                             contextActivity.finish();
