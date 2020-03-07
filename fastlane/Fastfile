@@ -17,9 +17,8 @@ default_platform :android
 lane :versioning do
   increment_version_code(
           gradle_file_path: "app/build.gradle",
-          #ext_constant_name: "test"
-          #app_folder_name:"app"
     )
+  git_commit(path: "./app/build.gradle", message: "Version Bump")
 end
 
 lane :build_beta do
