@@ -18,7 +18,7 @@ lane :versioning do
   increment_version_code(
           gradle_file_path: "app/build.gradle",
     )
-  git_commit(path: "./app/build.gradle", message: "Version Bump")
+  git_commit(path: "./app/build.gradle", message: "***NO_CI*** Version Bump")
   push_to_git_remote(
     remote: "origin",
     remote_branch: "master"
