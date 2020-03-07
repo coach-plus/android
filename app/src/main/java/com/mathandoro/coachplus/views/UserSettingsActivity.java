@@ -22,8 +22,9 @@ import com.mathandoro.coachplus.views.layout.FontAwesomeView;
 import com.mathandoro.coachplus.views.layout.ToolbarFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-public class UserSettingsActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener {
+public class UserSettingsActivity extends AppCompatActivity implements ToolbarFragment.ToolbarFragmentListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ToolbarFragment toolbarFragment;
     private DataLayer dataLayer;
@@ -37,6 +38,12 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
     private Button saveUserInformationButton;
     private Button changePasswordButton;
     private Button resendEmailButton;
+    private MyReducedUser myUser;
+    private TextView resendEmailTextView ;
+    private ImageView resendEmailBackground;
+    private FontAwesomeView resendEmailWarningIcon;
+
+    private SwipeRefreshLayout  swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,9 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         setContentView(R.layout.user_settings_activity);
 
         dataLayer = new DataLayer(this);
+
+        swipeRefreshLayout = findViewById(R.id.user_settings_swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         toolbarFragment = (ToolbarFragment) getSupportFragmentManager().findFragmentById(R.id.user_settings_toolbar);
         toolbarFragment.setListener(this);
@@ -59,10 +69,7 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
 
         saveUserInformationButton.setOnClickListener((View view) -> this.saveUserInformation());
 
-        MyReducedUser user = settings.getUser();
-        firstnameInput.setText(user.getFirstname());
-        lastnameInput.setText(user.getLastname());
-        emailInput.setText(user.getEmail());
+        myUser = settings.getUser();
 
         TextWatcher userInformationChangedWatcher = new TextWatcher() {
             @Override
@@ -93,16 +100,9 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         changePasswordButton = findViewById(R.id.user_settings_update_password_button);
 
         resendEmailButton = findViewById(R.id.user_settings_resend_email_button);
-        TextView resendEmailTextView = findViewById(R.id.user_settings_resend_email_text);
-        ImageView resendEmailBackground = findViewById(R.id.user_settings_resend_verification_email_background);
-        FontAwesomeView resendEmailWarningIcon = findViewById(R.id.user_settings_resend_email_icon);
-
-        if(user.isEmailVerified()){
-            resendEmailButton.setVisibility(View.GONE);
-            resendEmailTextView.setVisibility(View.GONE);
-            resendEmailBackground.setVisibility(View.GONE);
-            resendEmailWarningIcon.setVisibility(View.GONE);
-        }
+        resendEmailTextView = findViewById(R.id.user_settings_resend_email_text);
+        resendEmailBackground = findViewById(R.id.user_settings_resend_verification_email_background);
+        resendEmailWarningIcon = findViewById(R.id.user_settings_resend_email_icon);
 
         TextWatcher passwordChangeWatcher = new TextWatcher() {
             @Override
@@ -141,8 +141,22 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
         newPasswordRepeatInput.addTextChangedListener(passwordChangeWatcher);
 
         changePasswordButton.setOnClickListener((View view) -> this.changePassword());
-
         resendEmailButton.setOnClickListener(v -> this.resendVerificationEmail());
+
+        initView();
+    }
+
+    private void initView(){
+        if(myUser.isEmailVerified()){
+            resendEmailButton.setVisibility(View.GONE);
+            resendEmailTextView.setVisibility(View.GONE);
+            resendEmailBackground.setVisibility(View.GONE);
+            resendEmailWarningIcon.setVisibility(View.GONE);
+        }
+
+        firstnameInput.setText(myUser.getFirstname());
+        lastnameInput.setText(myUser.getLastname());
+        emailInput.setText(myUser.getEmail());
     }
 
 
@@ -192,16 +206,27 @@ public class UserSettingsActivity extends AppCompatActivity implements ToolbarFr
     private void saveUserInformation(){
         UpdateUserRequest updateUserRequest = new UpdateUserRequest(firstnameInput.getText().toString(),
                 lastnameInput.getText().toString(), emailInput.getText().toString());
-
-        dataLayer.updateUserInformation(updateUserRequest).subscribe( (data) -> {
-            Snackbar.make(oldPasswordInput, getString(R.string.User_Profile_was_updated_successfully), Snackbar.LENGTH_SHORT).show();
-            settings.setMyUser(data.user);
-            AppState.instance().myUserChanged$.onNext(data.user);
-
-        }, (error) -> showError());
+                dataLayer.updateUserInformation(updateUserRequest).subscribe( (data) -> {
+                    Snackbar.make(oldPasswordInput, getString(R.string.User_Profile_was_updated_successfully), Snackbar.LENGTH_SHORT).show();
+                    notifyUserChanged(data.user);
+                }, (error) -> showError());
     }
 
     private void showError(){
         Snackbar.make(oldPasswordInput, R.string.Error, Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void notifyUserChanged(MyReducedUser user){
+        settings.setMyUser(user);
+        AppState.instance().myUserChanged$.onNext(user);
+        initView();
+    }
+
+    @Override
+    public void onRefresh() {
+        dataLayer.getMyUserV2(false).subscribe(myUserResponse -> {
+            notifyUserChanged(myUserResponse.user);
+            swipeRefreshLayout.setRefreshing(false);
+        },  throwable ->  showError());
     }
 }
