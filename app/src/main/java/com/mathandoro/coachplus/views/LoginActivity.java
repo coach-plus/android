@@ -12,6 +12,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.mathandoro.coachplus.R;
 import com.mathandoro.coachplus.Settings;
 import com.mathandoro.coachplus.api.ApiClient;
+import com.mathandoro.coachplus.api.ApiError;
+import com.mathandoro.coachplus.api.ApiErrorUtils;
 import com.mathandoro.coachplus.api.Response.ApiResponse;
 import com.mathandoro.coachplus.api.Response.LoginResponse;
 import com.mathandoro.coachplus.helpers.SnackbarHelper;
@@ -85,17 +87,15 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
 
     @Override
     public void onResponse(Call<ApiResponse<LoginResponse>> call, Response<ApiResponse<LoginResponse>> response) {
-        if(call == this.loginResponseCall && response.code() == 200 && response.body().success){
-            this.settings.startSession(response.body().content.token, response.body().content.user, false);
-            this.navigateToMainActivity();
-        }
-        else if(response.code() == 400) {
-            // showError(R.string.login_failed_wrong_input);
-            showError(R.string.Error);
-        }
-        else {
-            // showError(R.string.api_call_failed_server_issues);
-            showError(R.string.Error);
+        if(call == this.loginResponseCall){
+            if(response.isSuccessful()){
+                this.settings.startSession(response.body().content.token, response.body().content.user, false);
+                this.navigateToMainActivity();
+            }
+            else {
+                ApiError apiError = ApiErrorUtils.parseErrorResponse(response);
+                showError(apiError.getMessage());
+            }
         }
     }
 
@@ -119,4 +119,7 @@ public class LoginActivity extends AppCompatActivity implements Callback<ApiResp
         SnackbarHelper.showText(emailEditText, error);
     }
 
+    private void showError(String error){
+        SnackbarHelper.showError(emailEditText, error);
+    }
 }
