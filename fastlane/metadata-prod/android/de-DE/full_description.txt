@@ -1,9 +1,9 @@
 Coach+ ist eine Plattform zum Verwalten von Sportvereinen und Freizeitgruppen.
 
-- Eure WhatsApp Gruppe ist zu unübersichtlich um Zu- und Absagen zu verwalten?
-- Du als Trainer möchtest dein nächstes Training planen, weißt aber nicht wieviele Personen teilnehmen werden?
-- Es haben bisher nur wenige Teamkameraden Rückmeldung gegeben, ob sie am nächsten Spiel teilnehmen können?  
-- Sind genügend Spieler für das nächste Auswärtsspiel verfügbar?
+* Eure WhatsApp Gruppe ist zu unübersichtlich um Zu- und Absagen zu verwalten?
+* Du als Trainer möchtest dein nächstes Training planen, weißt aber nicht wieviele Personen teilnehmen werden?
+* Es haben bisher nur wenige Teamkameraden Rückmeldung gegeben, ob sie am nächsten Spiel teilnehmen können?
+* Sind genügend Spieler für das nächste Auswärtsspiel verfügbar?
 
 Kein Problem - Erstellt ganz einfach euer eigenes Team auf Coach+ um jederzeit den Überblick zu behalten.
 
