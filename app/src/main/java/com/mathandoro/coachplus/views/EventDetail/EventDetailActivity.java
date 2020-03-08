@@ -164,10 +164,6 @@ public class EventDetailActivity extends AppCompatActivity implements SwipeRefre
                 loadNews(); // workaround: load all news again
             }, throwable -> {});
         });
-        customDialog.findViewById(R.id.create_news_dialog_cancel_button).setOnClickListener(view -> {
-            customDialog.hide();
-        });
-
     }
 
     private void loadEventDetailRecyclerView(){
