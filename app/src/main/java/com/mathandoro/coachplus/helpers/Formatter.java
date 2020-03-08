@@ -18,7 +18,7 @@ public class Formatter {
     public static String formatGermanTimestamp(Date startDate, Date endDate, Context context)
     {
         String dateString;
-        String longFormat = "EE., dd.MM.yy - HH:mm";
+        String longFormat = "EE, dd.MM.yy - HH:mm";
         String shortFormat = "HH:mm";
         SimpleDateFormat formatedStartDate = new SimpleDateFormat(longFormat);
         Calendar startCalendar = Calendar.getInstance();
